@@ -1,0 +1,59 @@
+﻿body {
+    font-family: 'Open Sans', sans-serif;
+    background: url(../../Imagenes/Fondo/Kuup.jpeg) no-repeat 0px 0px;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
+}
+
+#Calendario {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.ContenedorCalendario {
+    background: #080f19;
+    opacity: 65%;
+}
+
+.margin404 {
+    margin-top: 50px;
+}
+
+.jumbotron-notfund {
+    background: #080f19;
+    opacity: 65%;
+}
+
+.from-group-margin {
+    padding-bottom: 15px;
+}
+
+.Oculto {
+    display: none;
+}
+
+.custom-switch-padding {
+    padding-left: 3rem !important;
+}
+form label {
+    color: #333333;
+}
+.form-row-site {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+/*.container-form {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}*/

@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>Pagina no econtrada</title>
+    <link href="~/Content/Styles/Site/Site.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Styles/Account/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/Content/Librerias/JQuery/JQuery-3.5.1.slim.js"></script>
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.js"></script>
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.bundle.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component margin404">
+                    <div class="jumbotron jumbotron-notfund">
+                        <h1 class="display-3">Error 404</h1>
+                        <p class="lead">Página no encontrada, la ruta a la que se hace referencia no existe dentro del directorio, consultar a tu proveedor, si el problema persiste.</p>
+                        <hr class="my-4" />
+                        <p>Da click en el botón siguiente para salir y regresar al inicio.</p>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "Account")" role="button">Regresar a la página de inicio</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
