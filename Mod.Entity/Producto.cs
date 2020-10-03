@@ -30,13 +30,14 @@ namespace Mod.Entity
         public string PRO_NOM_PRODUCTO { get; set; }
         public string PRO_DESCRIPCION { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
-        public decimal PRO_CVE_CORREO_SURTIDO { get; set; }
+        public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }
         public Nullable<byte> PRO_NUM_PROVEEDOR { get; set; }
         public decimal PRO_PRECIO_UNITARIO { get; set; }
-        public byte PRO_CVE_ESTATUS { get; set; }
-        public Nullable<byte> PRO_CVE_APLICA_MAYOREO { get; set; }
+        public byte PRO_CVE_APLICA_MAYOREO { get; set; }
         public Nullable<short> PRO_CAT_MINIMA_MAYOREO { get; set; }
+        public Nullable<decimal> PRO_PRECIO_MAYOREO { get; set; }
+        public byte PRO_CVE_ESTATUS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Surtido> Surtido { get; set; }

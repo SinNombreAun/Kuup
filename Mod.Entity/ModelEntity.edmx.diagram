@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="DBKuupModel.PantallaPerfil" Width="1.5" PointX="11" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Parametro" Width="1.5" PointX="7.75" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Perfil" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="3" PointY="18" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Proveedor" Width="1.5" PointX="3" PointY="23.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Surtido" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Usuario" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
@@ -49,14 +48,15 @@
         <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Pantalla" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Perfil" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_UsuarioPerfil_Perfil" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_Surtido_Proveedor" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_UsuarioPerfil_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_VentaTotal_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_Venta_VentaTotal" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="3" PointY="17.375" />
         <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="16.375" PointY="17.75" />
-      </Diagram>
+        <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" />
+        <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

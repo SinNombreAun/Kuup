@@ -20,7 +20,7 @@ namespace Mod.Entity
         public short VEN_CANT_PRODUCTO { get; set; }
         public decimal VEN_IMPORTE_PRODUCTO { get; set; }
     
-        public virtual Producto Producto { get; set; }
         public virtual VentaTotal VentaTotal { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }
