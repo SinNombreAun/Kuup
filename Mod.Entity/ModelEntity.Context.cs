@@ -35,7 +35,6 @@ namespace Mod.Entity
         public virtual DbSet<PantallaPerfil> PantallaPerfil { get; set; }
         public virtual DbSet<Parametro> Parametro { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
-        public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Surtido> Surtido { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
@@ -60,6 +59,7 @@ namespace Mod.Entity
         public virtual DbSet<ViUsuarioPerfil> ViUsuarioPerfil { get; set; }
         public virtual DbSet<ViVenta> ViVenta { get; set; }
         public virtual DbSet<ViVentaTotal> ViVentaTotal { get; set; }
+        public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ViProducto> ViProducto { get; set; }
     }
 }
