@@ -53,6 +53,7 @@
     <Compile Include="Clases\ClsIPRegistradas.cs" />
     <Compile Include="Clases\ClsMenu.cs" />
     <Compile Include="Clases\ClsPantallasPerfil.cs" />
+    <Compile Include="Clases\ClsParametros.cs" />
     <Compile Include="Clases\ClsPerfiles.cs" />
     <Compile Include="Clases\ClsProductos.cs" />
     <Compile Include="Clases\ClsUsuarios.cs" />
