@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/Agenda/ClsAgenda.js"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-11 ContenedorCalendario">
+            <div id="Calendario"></div>
+        </div>
+    </div>
+</div>
+<div id="AgregaEvento" class="Oculto">
+    <form id="formAltaAgenda">
+        <fieldset>
+            <div class="from-group row from-group-margin">
+                <label from="fFechaDeInicioDeEvento" class="col-sm-5 col-form-label">Fecha de Inicio</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control datetimepicker" id="fFechaDeInicioDeEvento" />
+                </div>
+            </div>
+            <div class="from-group row from-group-margin">
+                <div class="custom-control custom-switch custom-switch-padding todo">
+                    <input type="checkbox" class="custom-control-input" id="fTodoElDia" onchange="ClsAgenda.ShowHideFechaFinDeEvento();">
+                    <label class="custom-control-label" for="fTodoElDia">Todo el día</label>
+                </div>
+            </div>
+            <div class="from-group row from-group-margin">
+                <label from="fFechaDeFinDeEvento" class="col-sm-5 col-form-label">Fecha de Fin</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control datetimepicker" id="fFechaDeFinDeEvento" />
+                </div>
+            </div>
+            <div class="from-group row from-group-margin">
+                <label from="fCveDeNotifica" class="col-sm-5 col-form-label">Notificar</label>
+                <div class="col-sm-7">
+                    <select class="form-control" id="fCveDeNotifica">
+                        <option value="">SELECCIONE</option>
+                        <option value="1">NO</option>
+                        <option value="2">SI</option>
+                    </select>
+                </div>
+            </div>
+            <div class="from-group row from-group-margin">
+                <label from="fDescripcion" class="col-sm-5 col-form-label">Descripcion del Evento</label>
+                <div class="col-sm-7">
+                    <textarea class="form-control" rows="3" id="fDescripcion"></textarea>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    let ClsAgenda;
+    $(function () {
+        ClsAgenda = Objeto.Constructor({
+            URLAltaAgenda: '@Url.Action("AltaAgenda","Home")',
+            URLGetAgenda: '@Url.Action("GetAgenda", "Home")',
+            URLDeleteAgenda: '@Url.Action("EliminaAgenda", "Home")'
+    });
+    ClsAgenda.Inicio();
+    });
+</script>
