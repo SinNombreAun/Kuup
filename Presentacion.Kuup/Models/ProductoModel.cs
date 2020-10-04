@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.EnterpriseServices.Internal;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
+using System.Web.Management;
 
 namespace Presentacion.Kuup.Models
 {
@@ -83,7 +85,6 @@ namespace Presentacion.Kuup.Models
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }
         }
-        [Required]
         [Display(Name = "Descripción")]
         public String fDescripcion
         {
@@ -110,6 +111,75 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.CantidadMinima; }
             set { this.CantidadMinima = value; }
+        }
+        [Display(Name = "Proveedor")]
+        public Nullable<byte> fNumeroDeProveedor
+        {
+            get { return this.NumeroDeProveedor; }
+            set { this.NumeroDeProveedor = value; }
+        }
+        [Required]
+        [Display(Name = "Precio unitario")]
+        public decimal fPrecioUnitario
+        {
+            get { return this.PrecioUnitario; }
+            set { this.PrecioUnitario = value; }
+        }
+        [Required]
+        [Display(Name = "Aplica Mayoreo")]
+        public byte fCveAplicaMayoreo
+        {
+            get { return this.CveAplicaMayoreo; }
+            set { this.CveAplicaMayoreo = value; }
+        }
+        [Display(Name = "Cantidad minima para aplicar mayoreo")]
+        public Nullable<short> fCantidadMinimaMayoreo
+        {
+            get { return this.CantidadMinimaMayoreo; }
+            set { this.CantidadMinimaMayoreo = value; }
+        }
+        [Display(Name = "Precio al mayoreo")]
+        public Nullable<decimal> fPrecioMayoreo
+        {
+            get { return this.PrecioMayoreo; }
+            set { this.PrecioMayoreo = value; }
+        }
+        [Required]
+        [Display(Name = "Estatus")]
+        public byte fCveEstatus
+        {
+            get { return this.CveEstatus; }
+            set { this.CveEstatus = value; }
+        }
+        [Display(Name = "Aviso de Surtido")]
+        public String fTextoAviso
+        {
+            get { return this.TextoAviso; }
+            set { this.TextoAviso = value; }
+        }
+        [Display(Name = "Notificar Surtido por Correo")]
+        public String fTextoCorreoSurtido
+        {
+            get { return this.TextoCorreoSurtido; }
+            set { this.TextoCorreoSurtido = value; }
+        }
+        [Display(Name = "Proveedor")]
+        public String fNombreDeProveedor
+        {
+            get { return this.NombreDeProveedor; }
+            set { this.NombreDeProveedor = value; }
+        }
+        [Display(Name = "Aplica Mayoreo")]
+        public String fTextoAplicaMayoreo
+        {
+            get { return this.TextoAplicaMayoreo; }
+            set { this.TextoAplicaMayoreo = value; }
+        }
+        [Display(Name = "Estatus")]
+        public String fTextoEstatus
+        {
+            get { return this.TextoEstatus; }
+            set { this.TextoEstatus = value; }
         }
     }
 }

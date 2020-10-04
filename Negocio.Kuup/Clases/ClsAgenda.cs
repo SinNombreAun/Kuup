@@ -100,6 +100,7 @@ namespace Negocio.Kuup.Clases
                     db.SaveChanges();
                     if ((from q in db.Agenda where q.AGN_NUM_AGENDA == Agenda.AGN_NUM_AGENDA select q).Count() != 0)
                     {
+                        this.NumeroDeAgenda = Agenda.AGN_NUM_AGENDA;
                         return true;
                     }
                     return false;

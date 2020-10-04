@@ -133,7 +133,9 @@
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
+    <Content Include="Scripts\General\ClsResultado.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
+    <Content Include="Scripts\Producto\ClsProducto.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -142,6 +144,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -151,6 +154,7 @@
     <Compile Include="Models\ParametroModel.cs" />
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
+    <Compile Include="Nucleo\Motores\ClsEnumerables.cs" />
     <Compile Include="Nucleo\Motores\MoSesion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -176,6 +180,8 @@
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Alta.cshtml" />
+    <Content Include="Views\Producto\Alta.cshtml" />
+    <Content Include="Views\Producto\Detalle.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

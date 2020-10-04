@@ -50,6 +50,15 @@ form label {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
+.captura-requerida {
+    color: #333333 !important;
+    font-weight: bold !important;
+}
+.TituloPagina {
+    text-align: center;
+    color:black;
+    font-weight: bold;
+}
 /*.container-form {
     width: 100%;
     padding-right: 15px;

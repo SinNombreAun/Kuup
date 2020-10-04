@@ -28,6 +28,7 @@
     <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-addon.js"></script>
     <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-es.js"></script>
     <script src="~/Content/Librerias/JQuery.UI/jquery.ui.datepicker-es.js"></script>
+    <script src="~/Scripts/General/ClsResultado.js"></script>
     @{ Html.RenderAction("MenuBar", "Home"); }
     <div>
         @RenderBody()
@@ -36,6 +37,11 @@
         $(function () {
             $('.nav-link').trigger("click");
             $(".nav-link").blur();
+
+            let Resltado = Objeto.Constructor({
+                Funcionalidad: '@ViewBag.Resultado'
+            });
+            ClsProducto.GeneraMensaje();
         });
     </script>
 </body>
