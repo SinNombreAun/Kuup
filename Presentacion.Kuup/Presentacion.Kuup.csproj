@@ -152,6 +152,7 @@
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Nucleo\Motores\MoSesion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\ProvvedorModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -230,6 +231,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
