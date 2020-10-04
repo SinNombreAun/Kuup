@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.ComponentModel;
+using System.Web.Mvc;
+using Mod.Entity;
 
 namespace Funciones.Kuup.Adicionales
 {
@@ -109,6 +109,25 @@ namespace Funciones.Kuup.Adicionales
                 _Resultado = Resultado;
                 _Mensaje = Mensaje;
                 _Adicional = Adicional;
+            }
+        }
+
+        public class ClsCargaCombo
+        {
+            public static List<SelectListItem> CargaComboClave(byte NumeroDeClave, String ValorPorDefecto)
+            {
+                byte ValorPorDefectoN = Convert<byte>(ValorPorDefecto);
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    return (from q in db.Claves where q.CVE_NUM_CLAVE == NumeroDeClave select new SelectListItem { Text = q.CVE_NUM_SEC_CLAVE.ToString() + " / " + q.CVE_NOM_CLAVE, Value = q.CVE_NUM_SEC_CLAVE.ToString(), Selected = q.CVE_NUM_SEC_CLAVE == ValorPorDefectoN }).ToList();
+                }
+            }
+            public static List<SelectListItem> CargaComboProveedor(Nullable<byte> NumeroDeProveedor)
+            {
+                using(DBKuupEntities db = new DBKuupEntities())
+                {
+                    return (from q in db.Proveedor where q.PRV_NUM_PROVEEDOR == NumeroDeProveedor select new SelectListItem { Text = q.PRV_NUM_PROVEEDOR.ToString() + " / " + q.PRV_NOM_PROVEEDOR, Value = q.PRV_NUM_PROVEEDOR.ToString(), Selected = q.PRV_NUM_PROVEEDOR == NumeroDeProveedor }).ToList();
+                }
             }
         }
     }
