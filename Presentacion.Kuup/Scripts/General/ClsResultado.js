@@ -2,7 +2,7 @@
     let Resultado = (function () {
         let _Nucleo = function () {
             let ObjetoResultado = '';
-            let _ObjetoResultado = function (ObjetoResultadoSer) {
+            let _ObjetoResultado = function (ObjetoResultadoSet) {
                 if (typeof (ObjetoResultadoSet) != 'undefined') {
                     ObjetoResultado = ObjetoResultadoSet;
                 } else {
@@ -11,12 +11,12 @@
             };
             let _GeneraMensaje = function () {
                 if (ParseaJson()) {
-                    if (ObjetoResultado.Adicional != '') {
+                    if (ObjetoResultado.Adicional != null) {
                         alertify.log(ObjetoResultado.Mensaje);
                     } else if (ObjetoResultado.Resultado != true) {
-                        alertify.success(ObjetoResultado.Mensaje);
+                        alertify.error(ObjetoResultado.Mensaje,0);
                     } else {
-                        alertify.error(ObjetoResultado.Mensaje);
+                        alertify.success(ObjetoResultado.Mensaje);
                     }
                 }
             };
@@ -50,5 +50,5 @@
             Constructor: _Constructor
         }
     })();
-    window.Objeto = Resultado;
+    window.ObjetoResult = Resultado;
 })(window, document);
