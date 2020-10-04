@@ -5,6 +5,7 @@ using System.Net;
 using System.ComponentModel;
 using System.Web.Mvc;
 using Mod.Entity;
+using Newtonsoft.Json;
 
 namespace Funciones.Kuup.Adicionales
 {
@@ -109,6 +110,11 @@ namespace Funciones.Kuup.Adicionales
                 _Resultado = Resultado;
                 _Mensaje = Mensaje;
                 _Adicional = Adicional;
+            }
+            public string MensajeController()
+            {
+                String JsonResultado = JsonConvert.SerializeObject(this);
+                return JsonResultado;
             }
         }
 

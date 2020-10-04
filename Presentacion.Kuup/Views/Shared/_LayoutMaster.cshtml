@@ -38,10 +38,10 @@
             $('.nav-link').trigger("click");
             $(".nav-link").blur();
 
-            let Resltado = Objeto.Constructor({
-                Funcionalidad: '@ViewBag.Resultado'
+            let Resultado = ObjetoResult.Constructor({
+                ObjetoResultado: '@Html.Raw(ViewBag.Resultado)'
             });
-            ClsProducto.GeneraMensaje();
+            Resultado.GeneraMensaje();
         });
     </script>
 </body>

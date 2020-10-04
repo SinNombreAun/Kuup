@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Funciones.Kuup.Adicionales;
 using Negocio.Kuup.Clases;
@@ -65,7 +63,7 @@ namespace Presentacion.Kuup.Controllers
                 Resultado.Mensaje = "Campos incorrectos";
             }
             this.CargaCombos(RegistroCapturado);
-            ViewBag.Resultado = Resultado;
+            ViewBag.Resultado = Resultado.MensajeController();
             return View(RegistroCapturado);
         }
         [HttpGet]
