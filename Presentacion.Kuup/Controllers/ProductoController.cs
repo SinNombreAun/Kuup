@@ -33,6 +33,10 @@ namespace Presentacion.Kuup.Controllers
         [HttpPost]
         public ActionResult Alta(ProductoModel RegistroCapturado)
         {
+            if (!ValidaSesion())
+            {
+                return RedirectToAction("LoginOut", "Account");
+            }
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado();
             if (ModelState.IsValid)
             {
