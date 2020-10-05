@@ -149,7 +149,10 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
     <Compile Include="Models\ProductoModel.cs" />
+    <Compile Include="Models\SurtidoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
+    <Compile Include="Models\VentaModel.cs" />
+    <Compile Include="Models\VentaTotalModel.cs" />
     <Compile Include="Nucleo\Motores\MoSesion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
