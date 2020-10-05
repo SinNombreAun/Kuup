@@ -10,6 +10,10 @@
     <h2 class="TituloPagina">DETALLE DE PRODUCTO</h2>
     <fieldset>
         <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fFechaDeRegistro, new { @class = "col-sm-3 col-form-label"})
+            @Html.TextBoxFor(model => model.fFechaDeRegistro, "{0:yyyy-MM-dd}", new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
             @Html.LabelFor(model => model.fCodigoDeBarras, new { @class = "col-sm-3 col-form-label" })
             @Html.TextBoxFor(model => model.fCodigoDeBarras, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
         </div>
@@ -57,7 +61,12 @@
             @Html.LabelFor(model => model.fPrecioMayoreo, new { @class = "col-sm-3 col-form-label" })
             @Html.TextBoxFor(model => model.fPrecioMayoreo, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
         </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCveEstatus, new { @class = "col-sm-3 col-form-label"})
+            @Html.DropDownListFor(model => model.fCveEstatus, (IEnumerable<SelectListItem>)ViewBag.CveEstatus, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly"})
+        </div>
     </fieldset>
+
     <br />
     <br />
     <br />
