@@ -1,0 +1,82 @@
+﻿@model Presentacion.Kuup.Models.ProductoModel
+
+@{
+    ViewBag.Title = "Detalle";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String TextoComboRequerido = "--SELECCIONE--";
+}
+<script src="~/Scripts/Producto/ClsProducto.js"></script>
+<div class="container">
+    <h2 class="TituloPagina">DETALLE DE PRODUCTO</h2>
+    <fieldset>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fFechaDeRegistro, new { @class = "col-sm-3 col-form-label"})
+            @Html.TextBoxFor(model => model.fFechaDeRegistro, "{0:yyyy-MM-dd}", new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCodigoDeBarras, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fCodigoDeBarras, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fNombreDeProducto, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fNombreDeProducto, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fDescripcion, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextAreaFor(model => model.fDescripcion, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCantidadDeProductoTotal, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fCantidadDeProductoTotal, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fPrecioUnitario, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fPrecioUnitario, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCveAviso, new { @class = "col-sm-3 col-form-label" })
+            @Html.DropDownListFor(model => model.fCveAviso, (IEnumerable<SelectListItem>)ViewBag.CveAviso, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCveCorreoSurtido, new { @class = "col-sm-3 col-form-label" })
+            @Html.DropDownListFor(model => model.fCveCorreoSurtido, (IEnumerable<SelectListItem>)ViewBag.CveCorreoSurtido, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fNumeroDeProveedor, new { @class = "col-sm-3 col-form-label" })
+            @Html.DropDownListFor(model => model.fNumeroDeProveedor, (IEnumerable<SelectListItem>)ViewBag.NumeroDeProveedor, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCantidadMinima, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fCantidadMinima, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCveAplicaMayoreo, new { @class = "col-sm-3 col-form-label" })
+            @Html.DropDownListFor(model => model.fCveAplicaMayoreo, (IEnumerable<SelectListItem>)ViewBag.CveAplicaMayoreo, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCantidadMinimaMayoreo, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fCantidadMinimaMayoreo, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fPrecioMayoreo, new { @class = "col-sm-3 col-form-label" })
+            @Html.TextBoxFor(model => model.fPrecioMayoreo, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="from-group from-group-margin">
+            @Html.LabelFor(model => model.fCveEstatus, new { @class = "col-sm-3 col-form-label"})
+            @Html.DropDownListFor(model => model.fCveEstatus, (IEnumerable<SelectListItem>)ViewBag.CveEstatus, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly"})
+        </div>
+    </fieldset>
+
+    <br />
+    <br />
+    <br />
+</div>
+<script type="text/javascript">
+    let ClsProducto;
+    $(function () {
+        ClsProducto = Objeto.Constructor({
+            Funcionalidad: 'DETALLE'
+        });
+        ClsProducto.Inicio();
+    });
+</script>

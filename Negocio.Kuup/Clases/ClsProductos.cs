@@ -123,6 +123,28 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_TXT_ESTATUS; }
             set { Producto.PRO_TXT_ESTATUS = value; }
         }
+        public bool Existe()
+        {
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    else if ((from q in db.Producto where q.PRO_NOM_PRODUCTO.Trim() == Producto.PRO_NOM_PRODUCTO.Trim() select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
         public bool Insert()
         {
             try
@@ -134,6 +156,7 @@ namespace Negocio.Kuup.Clases
                     db.SaveChanges();
                     if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
                     {
+                        this.NumeroDeProducto = Producto.PRO_NUM_PRODUCTO;
                         return true;
                     }
                     return false;
