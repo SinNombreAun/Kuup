@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Funciones.Kuup.Adicionales;
+using Funciones.Kuup.CodigoDeBarras;
 using Negocio.Kuup.Clases;
 using Presentacion.Kuup.Models;
 using Presentacion.Kuup.Nucleo.Motores;
@@ -31,7 +32,7 @@ namespace Presentacion.Kuup.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Alta(ProductoModel RegistroCapturado)
+        public ActionResult Alta(ProductoModel RegistroCapturado, byte fGeneraCodigoDeBarras)
         {
             if (!ValidaSesion())
             {
@@ -47,7 +48,19 @@ namespace Presentacion.Kuup.Controllers
                 {
                     if (RegistroCapturado.Insert())
                     {
-                        return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto });
+                        if (fGeneraCodigoDeBarras == 2)
+                        {
+                            var ResultadoCodigo = MoCodigoDeBarras.GeneraCodigoDeBarras(RegistroCapturado.NumeroDeProducto, "Kuup");
+                            if (!String.IsNullOrEmpty(ResultadoCodigo.Mensaje))
+                            {
+                                RegistroCapturado.CodigoDeBarras = ResultadoCodigo.Mensaje;
+                                if (RegistroCapturado.Update()) 
+                                {
+
+                                }
+                            }
+                        }
+                        return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto, CodigoBarras = "" });
                     }
                     else
                     {
@@ -84,6 +97,13 @@ namespace Presentacion.Kuup.Controllers
             }
             this.CargaCombos(Producto);
             return View(Producto);
+        }
+        public JsonResult GeneraCodigoDeBarras(short NumeroDeProducto)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado();
+            var ResultadoCodigo = MoCodigoDeBarras.GeneraCodigoDeBarras(NumeroDeProducto, "Kuup");
+            Resultado.Adicional = new { CodigoDeBarras = ResultadoCodigo.Mensaje, CodigoDeBarrasImagen = Resultado.Adicional };
+            return Json(new { ola = "" }, JsonRequestBehavior.AllowGet);
         }
         private void CargaCombos(ProductoModel Entidad)
         {
