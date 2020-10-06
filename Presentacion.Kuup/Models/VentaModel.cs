@@ -14,7 +14,7 @@ namespace Presentacion.Kuup.Models
             this.FolioDeOperacion = Venta.FolioDeOperacion;
             this.NumeroDeProducto = Venta.NumeroDeProducto;
             this.CodigoDeBarras = Venta.CodigoDeBarras;
-            this.CatProducto = Venta.CatProducto;
+            this.CantidadDeProducto = Venta.CantidadDeProducto;
             this.ImporteDeProducto = Venta.ImporteDeProducto;
             this.NombreDeProducto = Venta.NombreDeProducto;
         }
@@ -41,10 +41,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Catidad De Producto")]
-        public short fCatProducto
+        public short fCantidadDeProducto
         {
-            get { return this.CatProducto; }
-            set { this.CatProducto = value; }
+            get { return this.CantidadDeProducto; }
+            set { this.CantidadDeProducto = value; }
         }
         [Required]
         [Display(Name = "Importe De Producto")]

@@ -12,31 +12,31 @@ namespace Negocio.Kuup.Clases
 {
         public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
     {
-        ViFuncionalidad Funcionalidadd = new ViFuncionalidad();
+        ViFuncionalidad Funcionalidad = new ViFuncionalidad();
         public short NumeroDePantalla
         {
-            get { return Funcionalidadd.FUN_NUM_PANTALLA; }
-            set { Funcionalidadd.FUN_NUM_PANTALLA = value; }
+            get { return Funcionalidad.FUN_NUM_PANTALLA; }
+            set { Funcionalidad.FUN_NUM_PANTALLA = value; }
         }
         public byte NumeroDeFuncionalidad
         {
-            get { return Funcionalidadd.FUN_NUM_FUNCIONALIDAD; }
-            set { Funcionalidadd.FUN_NUM_FUNCIONALIDAD = value; }
+            get { return Funcionalidad.FUN_NUM_FUNCIONALIDAD; }
+            set { Funcionalidad.FUN_NUM_FUNCIONALIDAD = value; }
         }
         public string NombreDeFuncionalidad
         {
-            get { return Funcionalidadd.FUN_NOM_FUNCIONALIDAD; }
-            set { Funcionalidadd.FUN_NOM_FUNCIONALIDAD = value; }
+            get { return Funcionalidad.FUN_NOM_FUNCIONALIDAD; }
+            set { Funcionalidad.FUN_NOM_FUNCIONALIDAD = value; }
         }
         public byte CveEstatus
         {
-            get { return Funcionalidadd.FUN_CVE_ESTATUS; }
-            set { Funcionalidadd.FUN_CVE_ESTATUS = value; }
+            get { return Funcionalidad.FUN_CVE_ESTATUS; }
+            set { Funcionalidad.FUN_CVE_ESTATUS = value; }
         }
-        public string TextoEstatis
+        public string TextoEstatus
         {
-            get { return Funcionalidadd.FUN_TXT_ESTATIS; }
-            set { Funcionalidadd.FUN_TXT_ESTATIS = value; }
+            get { return Funcionalidad.FUN_TXT_ESTATIS; }
+            set { Funcionalidad.FUN_TXT_ESTATIS = value; }
         }
         public bool Insert()
         {
@@ -44,10 +44,10 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    Funcionalidad Funcionalidadd = this.ToTable();
-                    db.Funcionalidadd.Add(Funcionalidadd);
+                    Funcionalidad Funcionalidad = this.ToTable();
+                    db.Funcionalidad.Add(Funcionalidad);
                     db.SaveChanges();
-                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidadd.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidadd.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
+                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
                     {
                         return true;
                     }
@@ -65,9 +65,9 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    db.Funcionalidadd.Add(Funcionalidadd);
+                    db.Funcionalidad.Add((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).FirstOrDefault());
                     db.SaveChanges();
-                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidadd.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidadd.FUN_NUM_FUNCIONALIDAD && q.FUN_NUM_PERFIL == Funcionalidadd.FUN_NUM_PERFIL select q).Count() != 0)
+                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD  select q).Count() != 0)
                     {
                         return false;
                     }
@@ -107,7 +107,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeFuncionalidad = q.FUN_NUM_FUNCIONALIDAD,
                                     NombreDeFuncionalidad = q.FUN_NOM_FUNCIONALIDAD,
                                     CveEstatus = q.FUN_CVE_ESTATUS,
-                                    TextoEstatis = q.FUN_TXT_ESTATIS
+                                    TextoEstatus = q.FUN_TXT_ESTATIS
                                 }).ToList();
                     }
                     else

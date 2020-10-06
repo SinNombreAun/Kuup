@@ -12,66 +12,66 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
-        ViVentaTotal VentasTotales = new ViVentaTotal();
+        ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
-            get { return VentasTotales.VET_FOLIO_OPERACION; }
-            set { VentasTotales.VET_FOLIO_OPERACION = value; }
+            get { return VentaTotal.VET_FOLIO_OPERACION; }
+            set { VentaTotal.VET_FOLIO_OPERACION = value; }
         }
         public System.DateTime FechaDeOperacion
         {
-            get { return VentasTotales.VET_FECHA_OPERACION; }
-            set { VentasTotales.VET_FECHA_OPERACION = value; }
+            get { return VentaTotal.VET_FECHA_OPERACION; }
+            set { VentaTotal.VET_FECHA_OPERACION = value; }
         }
         public short NumeroDeUsuario
         {
-            get { return VentasTotales.VET_NUM_USUARIO; }
-            set { VentasTotales.VET_NUM_USUARIO = value; }
+            get { return VentaTotal.VET_NUM_USUARIO; }
+            set { VentaTotal.VET_NUM_USUARIO = value; }
         }
         public string NombreDeCliente
         {
-            get { return VentasTotales.VET_NOM_CLIENTE; }
-            set { VentasTotales.VET_NOM_CLIENTE = value; }
+            get { return VentaTotal.VET_NOM_CLIENTE; }
+            set { VentaTotal.VET_NOM_CLIENTE = value; }
         }
         public decimal ImporteBruto
         {
-            get { return VentasTotales.VET_IMPORTE_BRUTO; }
-            set { VentasTotales.VET_IMPORTE_BRUTO = value; }
+            get { return VentaTotal.VET_IMPORTE_BRUTO; }
+            set { VentaTotal.VET_IMPORTE_BRUTO = value; }
         }
         public Nullable<decimal> IVA
         {
-            get { return VentasTotales.VET_IVA; }
-            set { VentasTotales.VET_IVA = value; }
+            get { return VentaTotal.VET_IVA; }
+            set { VentaTotal.VET_IVA = value; }
         }
         public byte CveAplicaDescuento
         {
-            get { return VentasTotales.VET_CVE_APLICADESCUENTO; }
-            set { VentasTotales.VET_CVE_APLICADESCUENTO = value; }
+            get { return VentaTotal.VET_CVE_APLICADESCUENTO; }
+            set { VentaTotal.VET_CVE_APLICADESCUENTO = value; }
         }
         public string Porcentaje
         {
-            get { return VentasTotales.VET_PORCENTAJE; }
-            set { VentasTotales.VET_PORCENTAJE = value; }
+            get { return VentaTotal.VET_PORCENTAJE; }
+            set { VentaTotal.VET_PORCENTAJE = value; }
         }
         public decimal ImporteNeto
         {
-            get { return VentasTotales.VET_IMPORTE_NETO; }
-            set { VentasTotales.VET_IMPORTE_NETO = value; }
+            get { return VentaTotal.VET_IMPORTE_NETO; }
+            set { VentaTotal.VET_IMPORTE_NETO = value; }
         }
         public byte CveEstatus
         {
-            get { return VentasTotales.VET_CVE_ESTATUS; }
-            set { VentasTotales.VET_CVE_ESTATUS = value; }
+            get { return VentaTotal.VET_CVE_ESTATUS; }
+            set { VentaTotal.VET_CVE_ESTATUS = value; }
         }
         public string AplicaDescuento
         {
-            get { return VentasTotales.VET_TXT_APLICADESCUENTO; }
-            set { VentasTotales.VET_TXT_APLICADESCUENTO = value; }
+            get { return VentaTotal.VET_TXT_APLICADESCUENTO; }
+            set { VentaTotal.VET_TXT_APLICADESCUENTO = value; }
         }
         public string TxtEstatus
         {
-            get { return VentasTotales.VET_TXT_ESTATUS; }
-            set { VentasTotales.VET_TXT_ESTATUS = value; }
+            get { return VentaTotal.VET_TXT_ESTATUS; }
+            set { VentaTotal.VET_TXT_ESTATUS = value; }
         }
         public bool Insert()
         {
@@ -82,7 +82,7 @@ namespace Negocio.Kuup.Clases
                     VentaTotal VentaTotal = this.ToTable();
                     db.VentaTotal.Add(VentaTotal);
                     db.SaveChanges();
-                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == Surtido.VET_FOLIO_OPERACION select q).Count() != 0)
+                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
                     {
                         return true;
                     }
@@ -100,9 +100,9 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    db.VentaTotal.Remove((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == Surtido.VET_FOLIO_OPERACION select q).FirstOrDefault());
+                    db.VentaTotal.Remove((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).FirstOrDefault());
                     db.SaveChanges();
-                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == Surtido.VET_FOLIO_OPERACION select q).Count() != 0)
+                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
                     {
                         return false;
                     }
@@ -160,7 +160,7 @@ namespace Negocio.Kuup.Clases
                     }
                     else
                     {
-                        return (from q in db.ViVentaTotal
+                        return (from q in db.VentaTotal
                                 select new ClsVentasTotales()
                                 {
                                     FolioDeOperacion = q.VET_FOLIO_OPERACION,

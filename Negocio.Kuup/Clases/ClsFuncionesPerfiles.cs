@@ -10,48 +10,48 @@ using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
 {
-        public class ClsFuncionesPerfiles : Interfaces.InterfazGen<ClsFuncionesPerfiles>
+    public class ClsFuncionesPerfiles : Interfaces.InterfazGen<ClsFuncionesPerfiles>
     {
-        ViFuncionPerfil FupFuncionPerfil = new ViFuncionPerfil();
-        public short FupNumeroDePantalla
+        ViFuncionPerfil FuncionPerfil = new ViFuncionPerfil();
+        public short NumeroDePantalla
         {
-            get { return FupFuncionPerfil.FUP_NUM_PANTALLA; }
-            set { FupFuncionPerfil.FUP_NUM_PANTALLA = value; }
+            get { return FuncionPerfil.FUP_NUM_PANTALLA; }
+            set { FuncionPerfil.FUP_NUM_PANTALLA = value; }
         }
-        public byte FupNumeroDeFuncionalidad
+        public byte NumeroDeFuncionalidad
         {
-            get { return FupFuncionPerfil.FUP_NUM_FUNCIONALIDAD; }
-            set { FupFuncionPerfil.FUP_NUM_FUNCIONALIDAD = value; }
+            get { return FuncionPerfil.FUP_NUM_FUNCIONALIDAD; }
+            set { FuncionPerfil.FUP_NUM_FUNCIONALIDAD = value; }
         }
-        public byte FupNumeroDePerfil
+        public byte NumeroDePerfil
         {
-            get { return FupFuncionPerfil.FUP_NUM_PERFIL; }
-            set { FupFuncionPerfil.FUP_NUM_PERFIL = value; }
+            get { return FuncionPerfil.FUP_NUM_PERFIL; }
+            set { FuncionPerfil.FUP_NUM_PERFIL = value; }
         }
-        public byte FupCveEstatus
+        public byte CveEstatus
         {
-            get { return FupFuncionPerfil.FUP_CVE_ESTATUS; }
-            set { FupFuncionPerfil.FUP_CVE_ESTATUS = value; }
+            get { return FuncionPerfil.FUP_CVE_ESTATUS; }
+            set { FuncionPerfil.FUP_CVE_ESTATUS = value; }
         }
-        public short FupNombreDePantalla
+        public short NombreDePantalla
         {
-            get { return FupFuncionPerfil.FUP_NOM_PANTALLA; }
-            set { FupFuncionPerfil.FUP_NOM_PANTALLA = value; }
+            get { return FuncionPerfil.FUP_NOM_PANTALLA; }
+            set { FuncionPerfil.FUP_NOM_PANTALLA = value; }
         }
-        public string FupNombreDeFuncionalidad
+        public string NombreDeFuncionalidad
         {
-            get { return FupFuncionPerfil.FUP_NOM_FUNCIONALIDAD; }
-            set { FupFuncionPerfil.FUP_NOM_FUNCIONALIDAD = value; }
+            get { return FuncionPerfil.FUP_NOM_FUNCIONALIDAD; }
+            set { FuncionPerfil.FUP_NOM_FUNCIONALIDAD = value; }
         }
-        public string FupNombreDePerfil
+        public string NombreDePerfil
         {
-            get { return FupFuncionPerfil.FUP_NOM_PERFIL; }
-            set { FupFuncionPerfil.FUP_NOM_PERFIL = value; }
+            get { return FuncionPerfil.FUP_NOM_PERFIL; }
+            set { FuncionPerfil.FUP_NOM_PERFIL = value; }
         }
-        public string FupTxtEstatus
+        public string TxtEstatus
         {
-            get { return FupFuncionPerfil.FUP_TXT_ESTATUS; }
-            set { FupFuncionPerfil.FUP_TXT_ESTATUS = value; }
+            get { return FuncionPerfil.FUP_TXT_ESTATUS; }
+            set { FuncionPerfil.FUP_TXT_ESTATUS = value; }
         }
         public bool Insert()
         {
@@ -59,10 +59,10 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    FuncionPerfil FupFuncionPerfil = this.ToTable();
-                    db.FupFuncionPerfil.Add(FupFuncionPerfil);
+                    FuncionPerfil FuncionPerfil = this.ToTable();
+                    db.FuncionPerfil.Add(FuncionPerfil);
                     db.SaveChanges();
-                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FupFuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FupFuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FupFuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
+                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
                     {
                         return true;
                     }
@@ -80,9 +80,9 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    db.FupFuncionPerfil.Remove((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FupFuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FupFuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FupFuncionPerfil.FUP_NUM_PERFIL select q).FirstOrDefault());
+                    db.FuncionPerfil.Remove((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).FirstOrDefault());
                     db.SaveChanges();
-                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FupFuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FupFuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FupFuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
+                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
                     {
                         return false;
                     }
@@ -101,10 +101,10 @@ namespace Negocio.Kuup.Clases
         public FuncionPerfil ToTable()
         {
             FuncionPerfil Tabla = new FuncionPerfil();
-            Tabla.FUP_NUM_PANTALLA = this.FupNumeroDePantalla;
-            Tabla.FUP_NUM_FUNCIONALIDAD = this.FupNumeroDeFuncionalidad;
-            Tabla.FUP_NUM_PERFIL = this.FupNumeroDePerfil;
-            Tabla.FUP_CVE_ESTATUS = this.FupCveEstatus;
+            Tabla.FUP_NUM_PANTALLA = this.NumeroDePantalla;
+            Tabla.FUP_NUM_FUNCIONALIDAD = this.NumeroDeFuncionalidad;
+            Tabla.FUP_NUM_PERFIL = this.NumeroDePerfil;
+            Tabla.FUP_CVE_ESTATUS = this.CveEstatus;
             return Tabla;
         }
         public static List<ClsFuncionesPerfiles> getList(bool EsVista = true)
@@ -118,25 +118,25 @@ namespace Negocio.Kuup.Clases
                         return (from q in db.ViFuncionPerfil
                                 select new ClsFuncionesPerfiles()
                                 {
-                                    FupNumeroDePantalla = q.FUP_NUM_PANTALLA,
-                                    FupNumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
-                                    FupNumeroDePerfil = q.FUP_NUM_PERFIL,
-                                    FupCveEstatus = q.FUP_CVE_ESTATUS,
-                                    FupNombreDePantalla = q.FUP_NOM_PANTALLA,
-                                    FupNombreDeFuncionalidad = q.FUP_NOM_FUNCIONALIDAD,
-                                    FupNombreDePerfil = q.FUP_NOM_PERFIL,
-                                    FupTxtEstatus = q.FUP_TXT_ESTATUS,
+                                    NumeroDePantalla = q.FUP_NUM_PANTALLA,
+                                    NumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
+                                    NumeroDePerfil = q.FUP_NUM_PERFIL,
+                                    CveEstatus = q.FUP_CVE_ESTATUS,
+                                    NombreDePantalla = q.FUP_NOM_PANTALLA,
+                                    NombreDeFuncionalidad = q.FUP_NOM_FUNCIONALIDAD,
+                                    NombreDePerfil = q.FUP_NOM_PERFIL,
+                                    TxtEstatus = q.FUP_TXT_ESTATUS,
                                 }).ToList();
                     }
                     else
                     {
-                        return (from q in db.FupFuncionPerfil
+                        return (from q in db.FuncionPerfil
                                 select new ClsFuncionesPerfiles()
                                 {
-                                    FupNumeroDePantalla = q.FUP_NUM_PANTALLA,
-                                    FupNumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
-                                    FupNombreDeFuncionalidad = q.FUP_NUM_PERFIL,
-                                    FupCveEstatus = q.FUP_CVE_ESTATUS,
+                                    NumeroDePantalla = q.FUP_NUM_PANTALLA,
+                                    NumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
+                                    NumeroDePerfil = q.FUP_NUM_PERFIL,
+                                    CveEstatus = q.FUP_CVE_ESTATUS,
                                 }).ToList();
                     }
                 }
