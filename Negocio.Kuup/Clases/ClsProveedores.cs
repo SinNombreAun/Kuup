@@ -12,22 +12,22 @@ namespace Negocio.Kuup.Clases
     public class ClsProveedores : Interfaces.InterfazGen<ClsProveedores>
     {
         ViProveedor Proveedor = new ViProveedor();
-        public byte NumProveedor
+        public byte NumeroDeProveedor
         {
             get { return Proveedor.PRV_NUM_PROVEEDOR; }
-            set { Proveedor.PRV_NUM_PROVEEDOR = value;}
+            set { Proveedor.PRV_NUM_PROVEEDOR = value; }
         }
         public String NombreDeProveedor
         {
             get { return Proveedor.PRV_NOM_PROVEEDOR; }
             set { Proveedor.PRV_NOM_PROVEEDOR = value; }
         }
-        public System.DateTime FechaDeRegistro
+        public DateTime FechaDeRegistro
         {
             get { return Proveedor.PRV_FECHA_REGISTRO; }
             set { Proveedor.PRV_FECHA_REGISTRO = value; }
         }
-        public byte SurtidoPorCorreo
+        public byte CveSurtidoPorCorreo
         {
             get { return Proveedor.PRV_CVE_SURTIDO_POR_CORREO; }
             set { Proveedor.PRV_CVE_SURTIDO_POR_CORREO = value; }
@@ -47,7 +47,7 @@ namespace Negocio.Kuup.Clases
             get { return Proveedor.PRV_MENSAJE; }
             set { Proveedor.PRV_MENSAJE = value; }
         }
-        public Byte Estatus
+        public byte CveEstatus
         {
             get { return Proveedor.PRV_CVE_ESTATUS; }
             set { Proveedor.PRV_CVE_ESTATUS = value; }
@@ -110,14 +110,14 @@ namespace Negocio.Kuup.Clases
         public Proveedor ToTable()
         {
             Proveedor Tabla = new Proveedor();
-            Tabla.PRV_NUM_PROVEEDOR = this.NumProveedor;
+            Tabla.PRV_NUM_PROVEEDOR = this.NumeroDeProveedor;
             Tabla.PRV_NOM_PROVEEDOR = this.NombreDeProveedor;
             Tabla.PRV_FECHA_REGISTRO = this.FechaDeRegistro;
-            Tabla.PRV_CVE_SURTIDO_POR_CORREO = this.SurtidoPorCorreo;
+            Tabla.PRV_CVE_SURTIDO_POR_CORREO = this.CveSurtidoPorCorreo;
             Tabla.PRV_CORREO = this.Correo;
             Tabla.PRV_ASUNTO = this.Asunto;
             Tabla.PRV_MENSAJE = this.Mensaje;
-            Tabla.PRV_CVE_ESTATUS = this.Estatus;
+            Tabla.PRV_CVE_ESTATUS = this.CveEstatus;
             return Tabla;
         }
         public static List<ClsProveedores> getList(bool EsVista = true)
@@ -131,14 +131,14 @@ namespace Negocio.Kuup.Clases
                         return (from q in db.ViProveedor
                                 select new ClsProveedores()
                                 {
-                                    NumProveedor = q.PRV_NUM_PROVEEDOR,
+                                    NumeroDeProveedor = q.PRV_NUM_PROVEEDOR,
                                     NombreDeProveedor = q.PRV_NOM_PROVEEDOR,
                                     FechaDeRegistro = q.PRV_FECHA_REGISTRO,
-                                    SurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
+                                    CveSurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,
-                                    Estatus = q.PRV_CVE_ESTATUS,
+                                    CveEstatus = q.PRV_CVE_ESTATUS,
                                     TextoSurtidoPorCorreo = q.PRV_TXT_SURTIDO_POR_CORREO,
                                     TextoEstatus = q.PRV_TXT_ESTATUS
                                 }).ToList();
@@ -148,14 +148,14 @@ namespace Negocio.Kuup.Clases
                         return (from q in db.Proveedor
                                 select new ClsProveedores()
                                 {
-                                    NumProveedor = q.PRV_NUM_PROVEEDOR,
+                                    NumeroDeProveedor = q.PRV_NUM_PROVEEDOR,
                                     NombreDeProveedor = q.PRV_NOM_PROVEEDOR,
                                     FechaDeRegistro = q.PRV_FECHA_REGISTRO,
-                                    SurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
+                                    CveSurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,
-                                    Estatus = q.PRV_CVE_ESTATUS
+                                    CveEstatus = q.PRV_CVE_ESTATUS
                                 }).ToList();
                     }
                 }
