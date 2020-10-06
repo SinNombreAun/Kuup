@@ -72,7 +72,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public short fCveEstatus
+        public byte fCveEstatus
         {
             get { return this.CveEstatus; }
             set { this.CveEstatus = value; }
