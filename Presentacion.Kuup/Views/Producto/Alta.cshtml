@@ -82,17 +82,19 @@
                 @Html.TextBoxFor(model => model.fPrecioMayoreo, new { @class = "form-control" })
             </div>
         </fieldset>
-        <input type="submit" class="btn btn-primary" value="Guardar" />
+        <button type="button" id="Guardar" class="btn btn-primary">Guardar</button>
         <br />
         <br />
         <br />
+        @Html.Hidden("fGeneraCodigoDeBarras")
     }
 </div>
 <script type="text/javascript">
     let ClsProducto;
     $(function () {
         ClsProducto = Objeto.Constructor({
-            Funcionalidad: 'ALTA'
+            Funcionalidad: 'ALTA',
+            URLGeneraCodigoDeBarras: '@Url.Action("GeneraCodigoDeBarras","Producto")'
         });
         ClsProducto.Inicio();
     });

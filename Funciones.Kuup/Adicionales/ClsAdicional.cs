@@ -117,7 +117,6 @@ namespace Funciones.Kuup.Adicionales
                 return JsonResultado;
             }
         }
-
         public class ClsCargaCombo
         {
             public static List<SelectListItem> CargaComboClave(byte NumeroDeClave, String ValorPorDefecto)
