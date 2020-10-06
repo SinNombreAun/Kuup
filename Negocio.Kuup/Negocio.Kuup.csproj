@@ -50,14 +50,19 @@
   <ItemGroup>
     <Compile Include="Clases\ClsAgenda.cs" />
     <Compile Include="Clases\ClsClaves.cs" />
+    <Compile Include="Clases\ClsFuncionalidades.cs" />
+    <Compile Include="Clases\ClsFuncionesPerfiles.cs" />
     <Compile Include="Clases\ClsIPRegistradas.cs" />
     <Compile Include="Clases\ClsMenu.cs" />
     <Compile Include="Clases\ClsPantallasPerfil.cs" />
     <Compile Include="Clases\ClsParametros.cs" />
     <Compile Include="Clases\ClsPerfiles.cs" />
     <Compile Include="Clases\ClsProductos.cs" />
+    <Compile Include="Clases\ClsSurtidos.cs" />
     <Compile Include="Clases\ClsUsuarios.cs" />
     <Compile Include="Clases\ClsUsuariosPerfil.cs" />
+    <Compile Include="Clases\ClsVentas.cs" />
+    <Compile Include="Clases\ClsVentasTotales.cs" />
     <Compile Include="Interfaces\InterfazGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clases\ClsProveedores.cs" />
