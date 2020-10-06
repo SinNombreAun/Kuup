@@ -28,7 +28,7 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_CODIGO_BARRAS; }
             set { Venta.VEN_CODIGO_BARRAS = value; }
         }
-        public short CatProducto
+        public short CantidadDeProducto
         {
             get { return Venta.VEN_CANT_PRODUCTO; }
             set { Venta.VEN_CANT_PRODUCTO = value; }
@@ -52,7 +52,7 @@ namespace Negocio.Kuup.Clases
                     Venta Venta = this.ToTable();
                     db.Venta.Add(Venta);
                     db.SaveChanges();
-                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION select q).Count() != 0)
+                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
                     {
                         return true;
                     }
@@ -70,9 +70,9 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION select q).FirstOrDefault());
+                    db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).FirstOrDefault());
                     db.SaveChanges();
-                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION select q).Count() != 0)
+                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
                     {
                         return false;
                     }
@@ -94,7 +94,7 @@ namespace Negocio.Kuup.Clases
             Tabla.VEN_FOLIO_OPERACION = this.FolioDeOperacion;
             Tabla.VEN_NUM_PRODUCTO = this.NumeroDeProducto;
             Tabla.VEN_CODIGO_BARRAS = this.CodigoDeBarras;
-            Tabla.VEN_CANT_PRODUCTO = this.CatProducto;
+            Tabla.VEN_CANT_PRODUCTO = this.CantidadDeProducto;
             Tabla.VEN_IMPORTE_PRODUCTO = this.ImporteDeProducto;
             return Tabla;
         }
@@ -112,7 +112,7 @@ namespace Negocio.Kuup.Clases
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
-                                    CatProducto = q.VEN_CANT_PRODUCTO,
+                                    CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                     NombreDeProducto = q.VEN_NOM_PRODUCTO
                                 }).ToList();
@@ -125,7 +125,7 @@ namespace Negocio.Kuup.Clases
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
-                                    CatProducto = q.VEN_CANT_PRODUCTO,
+                                    CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                 }).ToList();
                     }

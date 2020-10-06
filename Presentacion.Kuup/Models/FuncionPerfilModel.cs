@@ -11,70 +11,70 @@ namespace Presentacion.Kuup.Models
         public FuncionPerfilModel() { }
         public FuncionPerfilModel(Negocio.Kuup.Clases.ClsFuncionesPerfiles FuncionesPerfiles)
         {
-            this.FupNumeroDePantalla = FuncionesPerfiles.FupNumeroDePantalla;
-            this.FupNumeroDeFuncionalidad = FuncionesPerfiles.FupNumeroDeFuncionalidad;
-            this.FupNumeroDePerfil = FuncionesPerfiles.FupNumeroDePerfil;
-            this.FupCveEstatus = FuncionesPerfiles.FupCveEstatus;
-            this.FupNombreDePantalla = FuncionesPerfiles.FupNombreDePantalla;
-            this.FupNombreDeFuncionalidad = FuncionesPerfiles.FupNombreDeFuncionalidad;
-            this.FupNombreDePerfil = FuncionesPerfiles.FupNombreDePerfil;
-            this.FupTxtEstatus = FuncionesPerfiles.FupTxtEstatus;
+            this.NumeroDePantalla = FuncionesPerfiles.NumeroDePantalla;
+            this.NumeroDeFuncionalidad = FuncionesPerfiles.NumeroDeFuncionalidad;
+            this.NumeroDePerfil = FuncionesPerfiles.NumeroDePerfil;
+            this.CveEstatus = FuncionesPerfiles.CveEstatus;
+            this.NombreDePantalla = FuncionesPerfiles.NombreDePantalla;
+            this.NombreDeFuncionalidad = FuncionesPerfiles.NombreDeFuncionalidad;
+            this.NombreDePerfil = FuncionesPerfiles.NombreDePerfil;
+            this.TxtEstatus = FuncionesPerfiles.TxtEstatus;
         }
         [Required]
         [Display(Name = "Número De Pantalla")]
-        public short fFupNumeroDePantalla
+        public short fNumeroDePantalla
         {
-            get { return this.FupNumeroDePantalla; }
-            set { this.FupNumeroDePantalla = value; }
+            get { return this.NumeroDePantalla; }
+            set { this.NumeroDePantalla = value; }
         }
         [Required]
         [Display(Name = "Número De Funcionalidad")]
-        public byte fFupNumeroDeFuncionalidad
+        public byte fNumeroDeFuncionalidad
         {
-            get { return this.FupNumeroDeFuncionalidad; }
-            set { this.FupNumeroDeFuncionalidad = value; }
+            get { return this.NumeroDeFuncionalidad; }
+            set { this.NumeroDeFuncionalidad = value; }
         }
         [Required]
         [Display(Name = "Número De Perfil")]
-        public byte fFupNumeroDePerfil
+        public byte fNumeroDePerfil
         {
-            get { return this.FupNumeroDePerfil; }
-            set { this.FupNumeroDePerfil = value; }
+            get { return this.NumeroDePerfil; }
+            set { this.NumeroDePerfil = value; }
         }
         [Required]
         [Display(Name = "Clave De Estatus")]
-        public byte fFupCveEstatus
+        public byte fCveEstatus
         {
-            get { return this.FupCveEstatus; }
-            set { this.FupCveEstatus = value; }
+            get { return this.CveEstatus; }
+            set { this.CveEstatus = value; }
         }
         [Required]
         [Display(Name = "Nombre De Pantalla")]
-        public short fFupNombreDePantalla
+        public short fNombreDePantalla
         {
-            get { return this.FupNombreDePantalla; }
-            set { this.FupNombreDePantalla = value; }
+            get { return this.NombreDePantalla; }
+            set { this.NombreDePantalla = value; }
         }
         [Required]
         [Display(Name = "Número De Funcionalidad")]
-        public string fFupNombreDeFuncionalidad
+        public string fNombreDeFuncionalidad
         {
-            get { return this.FupNombreDeFuncionalidad; }
-            set { this.FupNombreDeFuncionalidad = value; }
+            get { return this.NombreDeFuncionalidad; }
+            set { this.NombreDeFuncionalidad = value; }
         }
         [Required]
         [Display(Name = "Número De Perfil")]
-        public string fFupNombreDePerfil
+        public string fNombreDePerfil
         {
-            get { return this.FupNombreDePerfil; }
-            set { this.FupNombreDePerfil = value; }
+            get { return this.NombreDePerfil; }
+            set { this.NombreDePerfil = value; }
         }
         [Required]
         [Display(Name = "Texto De Estatus")]
-        public string fFupTxtEstatus
+        public string fTxtEstatus
         {
-            get { return this.FupTxtEstatus; }
-            set { this.FupTxtEstatus = value; }
+            get { return this.TxtEstatus; }
+            set { this.TxtEstatus = value; }
         }
     }
 }

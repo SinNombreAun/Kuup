@@ -8,12 +8,10 @@ namespace Presentacion.Kuup.Models
 {
     public class SurtidoModel : Negocio.Kuup.Clases.ClsSurtidos
     {
-
-
         public SurtidoModel() { }
         public SurtidoModel(Negocio.Kuup.Clases.ClsSurtidos Surtido)
         {
-            this.FolioSurtido = Surtido.FolioSurtido;
+            this.FolioDeSurtido = Surtido.FolioDeSurtido;
             this.NumeroDeProveedor = Surtido.NumeroDeProveedor;
             this.NumeroDeProducto = Surtido.NumeroDeProducto;
             this.CodigoDeBarras = Surtido.CodigoDeBarras;
@@ -22,16 +20,16 @@ namespace Presentacion.Kuup.Models
             this.CostoTotal = Surtido.CostoTotal;
             this.FechaDeSurtido = Surtido.FechaDeSurtido;
             this.CveEstatus = Surtido.CveEstatus;
-            //this.NombreDeProveedor = Surtido.NombreDeProveedor;
-            //this.NombreDeProducto = Surtido.NombreDeProducto;
+            this.NombreDeProveedor = Surtido.NombreDeProveedor;
+            this.NombreDeProducto = Surtido.NombreDeProducto;
             this.TxtEstatus = Surtido.TxtEstatus;
         }
         [Required]
         [Display(Name = "Folio De Surtido")]
-        public short fFolioSurtido
+        public short fFolioDeSurtido
         {
-            get { return this.FolioSurtido; }
-            set { this.FolioSurtido = value; }
+            get { return this.FolioDeSurtido; }
+            set { this.FolioDeSurtido = value; }
         }
         [Required]
         [Display(Name = "Número de Proveedor")]
@@ -89,20 +87,20 @@ namespace Presentacion.Kuup.Models
             get { return this.CveEstatus; }
             set { this.CveEstatus = value; }
         }
-        //[Required]
-        //[Display(Name = "Nombre De Proveedor")]
-        //public string fNombreDeProveedor
-        //{
-        //    get { return this.NombreDeProveedor; }
-        //    set { this.NombreDeProveedor = value; }
-        //}
-        //[Required]
-        //[Display(Name = "Nombre De Producto")]
-        //public string fNombreDeProducto
-        //{
-        //    get { return this.NombreDeProducto; }
-        //    set { this.NombreDeProducto = value; }
-        //}
+        [Required]
+        [Display(Name = "Nombre De Proveedor")]
+        public string fNombreDeProveedor
+        {
+            get { return this.NombreDeProveedor; }
+            set { this.NombreDeProveedor = value; }
+        }
+        [Required]
+        [Display(Name = "Nombre De Producto")]
+        public string fNombreDeProducto
+        {
+            get { return this.NombreDeProducto; }
+            set { this.NombreDeProducto = value; }
+        }
         [Required]
         [Display(Name = "Tipo De Estatus")]
         public string fTxtEstatus

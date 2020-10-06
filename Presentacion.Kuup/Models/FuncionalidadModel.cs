@@ -15,7 +15,7 @@ namespace Presentacion.Kuup.Models
             this.NumeroDeFuncionalidad = Funcionalidad.NumeroDeFuncionalidad;
             this.NombreDeFuncionalidad = Funcionalidad.NombreDeFuncionalidad;
             this.CveEstatus = Funcionalidad.CveEstatus;
-            this.TextoEstatis = Funcionalidad.TextoEstatis;
+            this.TextoEstatus = Funcionalidad.TextoEstatus;
         }
         [Required]
         [Display(Name = "Número de Pantalla")]
@@ -47,10 +47,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Texto Estatis")]
-        public string fTextoEstatis
+        public string fTextoEstatus
         {
-            get { return this.TextoEstatis; }
-            set { this.TextoEstatis = value; }
+            get { return this.TextoEstatus; }
+            set { this.TextoEstatus = value; }
         }
     }
 }
