@@ -18,31 +18,26 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_FOLIO_OPERACION; }
             set { Venta.VEN_FOLIO_OPERACION = value; }
         }
-        ViVenta Venta = new ViVenta();
         public short NumeroDeProducto
         {
             get { return Venta.VEN_NUM_PRODUCTO; }
             set { Venta.VEN_NUM_PRODUCTO = value; }
         }
-        ViVenta Venta = new ViVenta();
         public string CodigoDeBarras
         {
             get { return Venta.VEN_CODIGO_BARRAS; }
             set { Venta.VEN_CODIGO_BARRAS = value; }
         }
-        ViVenta Venta = new ViVenta();
         public short CatProducto
         {
             get { return Venta.VEN_CANT_PRODUCTO; }
             set { Venta.VEN_CANT_PRODUCTO = value; }
         }
-        ViVenta Venta = new ViVenta();
         public decimal ImporteDeProducto
         {
             get { return Venta.VEN_IMPORTE_PRODUCTO; }
             set { Venta.VEN_IMPORTE_PRODUCTO = value; }
         }
-        ViVenta Venta = new ViVenta();
         public string NombreDeProducto
         {
             get { return Venta.VEN_NOM_PRODUCTO; }

@@ -148,6 +148,8 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
+    <Compile Include="Models\FuncionalidadModel.cs" />
+    <Compile Include="Models\FuncionPerfilModel.cs" />
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\SurtidoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
