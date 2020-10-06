@@ -158,7 +158,7 @@
     <Compile Include="Models\VentaModel.cs" />
     <Compile Include="Nucleo\Motores\MoSesion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\ProvvedorModel.cs" />
+    <Compile Include="Models\ProveedorModel.cs" />
     <Compile Include="Models\PantallaModel.cs" />
     <Compile Include="Models\BitacoraCorreoModel.cs" />
   </ItemGroup>

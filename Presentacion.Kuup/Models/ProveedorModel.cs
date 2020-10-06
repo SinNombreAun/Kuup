@@ -11,23 +11,23 @@ namespace Presentacion.Kuup.Models
         public ProveedorModel() { }
         public ProveedorModel(Negocio.Kuup.Clases.ClsProveedores proveedores)
         {
-            this.NumProveedor = proveedores.NumProveedor;
+            this.NumeroDeProveedor = proveedores.NumeroDeProveedor;
             this.NombreDeProveedor = proveedores.NombreDeProveedor;
             this.FechaDeRegistro = proveedores.FechaDeRegistro;
-            this.SurtidoPorCorreo = proveedores.SurtidoPorCorreo;
+            this.CveSurtidoPorCorreo = proveedores.CveSurtidoPorCorreo;
             this.Correo = proveedores.Correo;
             this.Asunto = proveedores.Asunto;
             this.Mensaje = proveedores.Mensaje;
-            this.Estatus = proveedores.Estatus;
+            this.CveEstatus = proveedores.CveEstatus;
             this.TextoSurtidoPorCorreo = proveedores.TextoSurtidoPorCorreo;
             this.TextoEstatus = proveedores.TextoEstatus;
         }
         [Required]
         [Display(Name = "Número de Proveedor")]
-        public Byte fNumProveedor
+        public byte fNumeroDeProveedor
         {
-            get { return this.NumProveedor; }
-            set { this.NumProveedor = value; }
+            get { return this.NumeroDeProveedor; }
+            set { this.NumeroDeProveedor = value; }
         }
         [Required]
         [Display(Name = "Nombre del Proveedor")]
@@ -38,17 +38,17 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Fecha de Registro")]
-        public System.DateTime fFechaDeRegistro
+        public DateTime fFechaDeRegistro
         {
             get { return this.FechaDeRegistro; }
             set { this.FechaDeRegistro = value; }
         }
         [Required]
         [Display(Name = "Surtido Por Correo")]
-        public Byte fSurtidoPorCorreo
+        public Byte fCveSurtidoPorCorreo
         {
-            get { return this.SurtidoPorCorreo; }
-            set { this.SurtidoPorCorreo = value; }
+            get { return this.CveSurtidoPorCorreo; }
+            set { this.CveSurtidoPorCorreo = value; }
         }
         [Required]
         [Display(Name = "Correo")]
@@ -73,10 +73,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public Byte fEstatus
+        public byte fCveEstatus
         {
-            get { return this.Estatus; }
-            set { this.Estatus = value; }
+            get { return this.CveEstatus; }
+            set { this.CveEstatus = value; }
         }
         [Required]
         [Display(Name = "Surtido Por Correo")]
