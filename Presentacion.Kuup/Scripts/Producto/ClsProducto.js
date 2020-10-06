@@ -20,14 +20,23 @@
                 CantidadMinimaMayoreo: 'fCantidadMinimaMayoreo',
                 PrecioMayoreo: 'fPrecioMayoreo',
                 CveEstatus: 'fCveEstatus',
-                Guardar: 'Guardar'
+                Guardar: 'Guardar',
+                GeneraCodigoDeBarras: 'fGeneraCodigoDeBarras'
             };
-            let Funcionalidad = '';
+            let Funcionalidad = '',
+                URLGeneraCodigoDeBarras = '';
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
                     Funcionalidad = FuncionalidadSet;
                 } else {
                     return Funcionalidad;
+                }
+            };
+            let _URLGeneraCodigoDeBarras = function (URLGeneraCodigoDeBarrasSet) {
+                if (typeof (URLGeneraCodigoDeBarrasSet) != 'undefined') {
+                    URLGeneraCodigoDeBarras = URLGeneraCodigoDeBarrasSet;
+                } else {
+                    return URLGeneraCodigoDeBarras;
                 }
             };
             let _Inicio = function () {
@@ -111,9 +120,25 @@
                         break;
                 }
             }
+            $('#' + Elementos_Producto.Guardar).click(function () {
+                if ($('#' + Elementos_Producto.CodigoDeBarras).val() == '' && $('#' + Elementos_Producto.NombreDeProducto).val()) {
+                    alertify.confirm("Este producto no cuenta con Codigo de Barras, ¿Desas que el sistema genere un Codigo de Barras para este producto?",
+                        function () {
+                            $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(2);
+                        },
+                        function () {
+                            alertify.log("Proceso de Alta Cancelado");
+                        }
+                    );
+                } else {
+                    $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(1);
+                    $('form').submit();
+                }
+            });
             return {
                 Configuracion: {
-                    Funcionalidad: _Funcionalidad
+                    Funcionalidad: _Funcionalidad,
+                    URLGeneraCodigoDeBarras: _URLGeneraCodigoDeBarras
                 },
                 Inicio: _Inicio
             }
@@ -121,6 +146,7 @@
         let _Constructor = function (ObjetoConfiguracion) {
             let NucleoConfigurado = _Nucleo();
             NucleoConfigurado.Configuracion.Funcionalidad(ObjetoConfiguracion.Funcionalidad);
+            NucleoConfigurado.Configuracion.URLGeneraCodigoDeBarras(ObjetoConfiguracion.URLGeneraCodigoDeBarras);
             return NucleoConfigurado;
         }
         return {
