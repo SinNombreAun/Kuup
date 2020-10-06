@@ -27,7 +27,7 @@ namespace Negocio.Kuup.Clases
             get { return Proveedor.PRV_FECHA_REGISTRO; }
             set { Proveedor.PRV_FECHA_REGISTRO = value; }
         }
-        public byte SurtidoPorCorreo
+        public byte CveSurtidoPorCorreo
         {
             get { return Proveedor.PRV_CVE_SURTIDO_POR_CORREO; }
             set { Proveedor.PRV_CVE_SURTIDO_POR_CORREO = value; }
@@ -113,7 +113,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PRV_NUM_PROVEEDOR = this.NumProveedor;
             Tabla.PRV_NOM_PROVEEDOR = this.NombreDeProveedor;
             Tabla.PRV_FECHA_REGISTRO = this.FechaDeRegistro;
-            Tabla.PRV_CVE_SURTIDO_POR_CORREO = this.SurtidoPorCorreo;
+            Tabla.PRV_CVE_SURTIDO_POR_CORREO = this.CveSurtidoPorCorreo;
             Tabla.PRV_CORREO = this.Correo;
             Tabla.PRV_ASUNTO = this.Asunto;
             Tabla.PRV_MENSAJE = this.Mensaje;
@@ -134,7 +134,7 @@ namespace Negocio.Kuup.Clases
                                     NumProveedor = q.PRV_NUM_PROVEEDOR,
                                     NombreDeProveedor = q.PRV_NOM_PROVEEDOR,
                                     FechaDeRegistro = q.PRV_FECHA_REGISTRO,
-                                    SurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
+                                    CveSurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,
@@ -151,7 +151,7 @@ namespace Negocio.Kuup.Clases
                                     NumProveedor = q.PRV_NUM_PROVEEDOR,
                                     NombreDeProveedor = q.PRV_NOM_PROVEEDOR,
                                     FechaDeRegistro = q.PRV_FECHA_REGISTRO,
-                                    SurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
+                                    CveSurtidoPorCorreo = q.PRV_CVE_SURTIDO_POR_CORREO,
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,

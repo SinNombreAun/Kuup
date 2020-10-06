@@ -11,52 +11,52 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallas : Interfaces.InterfazGen<ClsPantallas>
     {
-        ViPantalla Pantalla = new ViPantalla();
+        ViPantalla Pantallas = new ViPantalla();
 
         public short NumeroDePantalla
         {
-            get { return Pantalla.PAN_NUM_PANTALLA; }
-            set { Pantalla.PAN_NUM_PANTALLA = value; }
+            get { return Pantallas.PAN_NUM_PANTALLA; }
+            set { Pantallas.PAN_NUM_PANTALLA = value; }
         }
         public String NombreDePantalla
         {
-            get { return Pantalla.PAN_NOM_PANTALLA; }
-            set { Pantalla.PAN_NOM_PANTALLA = value; }
+            get { return Pantallas.PAN_NOM_PANTALLA; }
+            set { Pantallas.PAN_NOM_PANTALLA = value; }
         }
         public String NombreDePantallaInt
         {
-            get { return Pantalla.PAN_NOM_PANTALLA_INT; }
-            set { Pantalla.PAN_NOM_PANTALLA_INT = value; }
+            get { return Pantallas.PAN_NOM_PANTALLA_INT; }
+            set { Pantallas.PAN_NOM_PANTALLA_INT = value; }
         }
         public String Descripcion
         {
-            get { return Pantalla.PAN_DESCRIPCION; }
-            set { Pantalla.PAN_DESCRIPCION = value; }
+            get { return Pantallas.PAN_DESCRIPCION; }
+            set { Pantallas.PAN_DESCRIPCION = value; }
         }
         public Byte CveManejoInterno
         {
-            get { return Pantalla.PAN_CVE_MANEJO_INTERNO; }
-            set { Pantalla.PAN_CVE_MANEJO_INTERNO = value; }
+            get { return Pantallas.PAN_CVE_MANEJO_INTERNO; }
+            set { Pantallas.PAN_CVE_MANEJO_INTERNO = value; }
         }
         public String Llave
         {
-            get { return Pantalla.PAN_LLAVE; }
-            set { Pantalla.PAN_LLAVE = value; }
+            get { return Pantallas.PAN_LLAVE; }
+            set { Pantallas.PAN_LLAVE = value; }
         }
         public Byte CveEstatus
         {
-            get { return Pantalla.PAN_CVE_ESTATUS; }
-            set { Pantalla.PAN_CVE_ESTATUS = value; }
+            get { return Pantallas.PAN_CVE_ESTATUS; }
+            set { Pantallas.PAN_CVE_ESTATUS = value; }
         }
         public String TextoManejoInterno
         {
-            get { return Pantalla.PAN_TXT_MANEJO_INTERNO; }
-            set { Pantalla.PAN_TXT_MANEJO_INTERNO = value; }
+            get { return Pantallas.PAN_TXT_MANEJO_INTERNO; }
+            set { Pantallas.PAN_TXT_MANEJO_INTERNO = value; }
         }
         public String TextoEstatus
         {
-            get { return Pantalla.PAN_TXT_ESTATUS; }
-            set { Pantalla.PAN_TXT_ESTATUS = value; }
+            get { return Pantallas.PAN_TXT_ESTATUS; }
+            set { Pantallas.PAN_TXT_ESTATUS = value; }
         }
         public bool Insert()
         {
@@ -64,10 +64,10 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    Pantalla Pantalla = this.ToTable();
-                    db.Pantalla.Add(Pantalla);
+                    Pantalla Pantallas = this.ToTable();
+                    db.Pantalla.Add(Pantallas);
                     db.SaveChanges();
-                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).Count() != 0)
+                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
                     {
                         return true;
                     }
@@ -85,9 +85,9 @@ namespace Negocio.Kuup.Clases
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).FirstOrDefault());
+                    db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).FirstOrDefault());
                     db.SaveChanges();
-                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).Count() != 0)
+                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
                     {
                         return false;
                     }
@@ -113,6 +113,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PAN_CVE_MANEJO_INTERNO = this.CveManejoInterno;
             Tabla.PAN_LLAVE = this.Llave;
             Tabla.PAN_CVE_ESTATUS = this.CveEstatus;
+            return Tabla;
         }
         public static List<ClsPantallas> getList(bool EsVista = true)
         {

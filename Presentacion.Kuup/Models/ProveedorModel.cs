@@ -14,7 +14,7 @@ namespace Presentacion.Kuup.Models
             this.NumProveedor = proveedores.NumProveedor;
             this.NombreDeProveedor = proveedores.NombreDeProveedor;
             this.FechaDeRegistro = proveedores.FechaDeRegistro;
-            this.SurtidoPorCorreo = proveedores.SurtidoPorCorreo;
+            this.CveSurtidoPorCorreo = proveedores.CveSurtidoPorCorreo;
             this.Correo = proveedores.Correo;
             this.Asunto = proveedores.Asunto;
             this.Mensaje = proveedores.Mensaje;
@@ -45,10 +45,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Surtido Por Correo")]
-        public Byte fSurtidoPorCorreo
+        public Byte fCveSurtidoPorCorreo
         {
-            get { return this.SurtidoPorCorreo; }
-            set { this.SurtidoPorCorreo = value; }
+            get { return this.CveSurtidoPorCorreo; }
+            set { this.CveSurtidoPorCorreo = value; }
         }
         [Required]
         [Display(Name = "Correo")]
