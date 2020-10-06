@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clases\ClsProveedores.cs" />
     <Compile Include="Clases\ClsPantallas.cs" />
+    <Compile Include="Clases\ClsBitacoraCorreos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funciones.Kuup\Funciones.Kuup.csproj">
