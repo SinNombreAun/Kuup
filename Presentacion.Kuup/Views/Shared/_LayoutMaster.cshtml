@@ -8,10 +8,13 @@
     <link href="~/Content/Styles/Site/Site.css" rel="stylesheet" />
     <link href="~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Librerias/Alertify/alertify.css" rel="stylesheet" />
-    <link href="~/Content/Styles/Account/font-awesome.css" rel="stylesheet" />
+    @*<link href="~/Content/Styles/Account/font-awesome.css" rel="stylesheet" />*@
+    <link href="~/Content/Styles/Account/all.css" rel="stylesheet" />
     <link href="~/Content/Librerias/FullCalendar/main.css" rel="stylesheet" />
     <link href="~/Content/Librerias/JQuery.UI/jquery-ui.theme.css" rel="stylesheet" />
     <link href="~/Content/Librerias/JQuery.UI/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/DataTables/datatables.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/DataTables/responsive.dataTables.css" rel="stylesheet" />
     <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="16x16">
     <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="32X32">
     <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="16x16 32x32">
@@ -28,9 +31,12 @@
     <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-addon.js"></script>
     <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-es.js"></script>
     <script src="~/Content/Librerias/JQuery.UI/jquery.ui.datepicker-es.js"></script>
+    <script src="~/Content/Librerias/DataTables/datatables.js"></script>
+    <script src="~/Content/Librerias/DataTables/dataTables.responsive.js"></script>
     <script src="~/Scripts/General/ClsResultado.js"></script>
     @{ Html.RenderAction("MenuBar", "Home"); }
     <div>
+        <br />
         @RenderBody()
     </div>
     <script type="text/javascript">

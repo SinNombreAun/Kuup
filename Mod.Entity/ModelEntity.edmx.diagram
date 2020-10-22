@@ -11,21 +11,17 @@
         <EntityTypeShape EntityType="DBKuupModel.FuncionPerfil" Width="1.5" PointX="13.25" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.IPRegistradas" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Menu" Width="1.5" PointX="7.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.Pantalla" Width="1.5" PointX="8.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.PantallaPerfil" Width="1.5" PointX="11" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBKuupModel.PantallaPerfil" Width="1.5" PointX="11.5" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Parametro" Width="1.5" PointX="7.75" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Perfil" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Proveedor" Width="1.5" PointX="3" PointY="23.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.Surtido" Width="1.5" PointX="5.25" PointY="18.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Usuario" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.UsuarioPerfil" Width="1.5" PointX="6" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.Venta" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.VentaTotal" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.BitacoraCorreo" Width="1.5" PointX="11" PointY="9.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViAgenda" Width="1.5" PointX="7.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViBitacoraCorreo" Width="1.5" PointX="9.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViClaves" Width="1.5" PointX="11.75" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.ViFuncionalidad" Width="1.5" PointX="13.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViFuncionPerfil" Width="1.5" PointX="13.75" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViIPRegistradas" Width="1.5" PointX="13.75" PointY="13.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViMenu" Width="1.5" PointX="13.75" PointY="16.375" IsExpanded="true" />
@@ -40,22 +36,32 @@
         <EntityTypeShape EntityType="DBKuupModel.ViVenta" Width="1.5" PointX="17.75" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViVentaTotal" Width="1.5" PointX="17.75" PointY="13.375" IsExpanded="true" />
         <AssociationConnector Association="DBKuupModel.FK_Agenda_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_Funcionalidad_Pantalla" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_FuncionPerfil_Funcionalidad" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_FuncionPerfil_Perfil" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_IPRegistradas_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_BitacoraCorreo_Pantalla" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Pantalla" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Perfil" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_UsuarioPerfil_Perfil" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_Surtido_Proveedor" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_UsuarioPerfil_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBKuupModel.FK_VentaTotal_Usuario" ManuallyRouted="false" />
-        <AssociationConnector Association="DBKuupModel.FK_Venta_VentaTotal" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="3" PointY="17.375" />
         <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="16.375" PointY="17.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Bitacora" Width="1.5" PointX="11.375" PointY="22.875" />
+        <EntityTypeShape EntityType="DBKuupModel.ViBitacora" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViCodigoDeBarras" Width="1.5" PointX="18.375" PointY="17.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViFuncionalidad" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBKuupModel.CodigoDeBarras" Width="1.5" PointX="22.625" PointY="7.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="20.375" PointY="6.375" />
+        <EntityTypeShape EntityType="DBKuupModel.Surtido" Width="1.5" PointX="22.625" PointY="14.875" />
+        <EntityTypeShape EntityType="DBKuupModel.Venta" Width="1.5" PointX="22.625" PointY="11.375" />
+        <AssociationConnector Association="DBKuupModel.FK_CodigoDeBarras_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" />
+        <AssociationConnector Association="DBKuupModel.FK_Surtido_Proveedor" />
+        <AssociationConnector Association="DBKuupModel.FK_Venta_VentaTotal" />
+        <EntityTypeShape EntityType="DBKuupModel.Pantalla" Width="1.5" PointX="8.75" PointY="7.25" />
+        <AssociationConnector Association="DBKuupModel.FK_Bitacora_Pantalla" />
+        <AssociationConnector Association="DBKuupModel.FK_Funcionalidad_Pantalla" />
+        <AssociationConnector Association="DBKuupModel.FK_BitacoraCorreo_Pantalla" />
+        <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Pantalla" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

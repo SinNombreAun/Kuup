@@ -47,7 +47,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Codigo De Barras")]
-        public string fCodigoDeBarras
+        public String fCodigoDeBarras
         {
             get { return this.CodigoDeBarras; }
             set { this.CodigoDeBarras = value; }
@@ -89,21 +89,21 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Nombre De Proveedor")]
-        public string fNombreDeProveedor
+        public String fNombreDeProveedor
         {
             get { return this.NombreDeProveedor; }
             set { this.NombreDeProveedor = value; }
         }
         [Required]
         [Display(Name = "Nombre De Producto")]
-        public string fNombreDeProducto
+        public String fNombreDeProducto
         {
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }
         }
         [Required]
         [Display(Name = "Tipo De Estatus")]
-        public string fTxtEstatus
+        public String fTxtEstatus
         {
             get { return this.TxtEstatus; }
             set { this.TxtEstatus = value; }

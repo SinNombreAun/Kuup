@@ -1,8 +1,8 @@
 ﻿/**
  * Crea popup de para HTML de forma dinámica.
  * @function CreaDialogo
- * @param {string} ContenedorDialog: id de div contenedor del formulario en HTML.
- * @param {string} Titulo: Titulo del formulario en HTML.
+ * @param {String} ContenedorDialog: id de div contenedor del formulario en HTML.
+ * @param {String} Titulo: Titulo del formulario en HTML.
  * @param {Object} Botones: Objeto de botones dinámicos para el formulario.
  * @param {number} Width: Tamaño del formulario ancho.
  * @param {number} Height: Tamaño del formulario largo.
@@ -21,11 +21,11 @@ function CreaDialog(ContenedorDialog, Titulo, Botones, Width, Height) {
     $("#" + ContenedorDialog).dialog('option', 'buttons', Botones);
 }
 /**
- * Genera string de HTML el cual será agregado al popup.
+ * Genera String de HTML el cual será agregado al popup.
  * @function CreaHTML
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @param {string} PropiedadesAdicionales: propiedades adicionales como estilos.
- * @returns {string} HTML
+ * @param {String} PropiedadesAdicionales: propiedades adicionales como estilos.
+ * @returns {String} HTML
  */
 function CreaHTML(Elemento, PropiedadesAdicionales) {
     var HTML = "";
@@ -58,7 +58,7 @@ function CreaHTML(Elemento, PropiedadesAdicionales) {
  * Genera label para el formulario
  * @function SpanLabel
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @returns {string} HTML
+ * @returns {String} HTML
  */
 function SpanLabel(Elemento) {
     var HTML = "";
@@ -76,7 +76,7 @@ function SpanLabel(Elemento) {
  * Genera Textbox para el formulario
  * @function SpanTextBox
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @returns {string} HTML
+ * @returns {String} HTML
  */
 function SpanTextBox(Elemento) {
     var HTML = "";
@@ -95,7 +95,7 @@ function SpanTextBox(Elemento) {
  * Genera checkbox para el formulario
  * @function SpanCheckBox
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @returns {string} HTML
+ * @returns {String} HTML
  */
 function SpanCheckBox(Elemento) {
     var HTML = "";
@@ -114,7 +114,7 @@ function SpanCheckBox(Elemento) {
  * Genera select para el formulario
  * @function SpanSelect
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @returns {string} HTML
+ * @returns {String} HTML
  */
 function SpanSelect(Elemento) {
     var HTML = "";
@@ -146,7 +146,7 @@ function SpanSelect(Elemento) {
  * Genera selectListItem para el formulario
  * @function SpanSelect
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario con estructura de SelectListItem.
- * @returns {string} HTML
+ * @returns {String} HTML
  */
 function SpanSelectListItem(Elemento) {
     var HTML = "";
@@ -197,8 +197,8 @@ function SpanTextArea(Elemento) {
  * Genera títulos para el formulario.
  * @function TitulosParaFormulario
  * @param {Object} Elemento: Objeto dinámico para los elementos que serán agregados al formulario.
- * @param {string} PropiedadesAdicionales: propiedades adicionales como estilos.
- * @returns {string} HTML
+ * @param {String} PropiedadesAdicionales: propiedades adicionales como estilos.
+ * @returns {String} HTML
  */
 function TitulosParaFormulario(Elemento, PropiedadesAdicionales) {
     var HTML = "";

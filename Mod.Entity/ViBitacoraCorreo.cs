@@ -15,14 +15,14 @@ namespace Mod.Entity
     public partial class ViBitacoraCorreo
     {
         public short BIM_NUM_PANTALLA { get; set; }
-        public string BIM_CORREO { get; set; }
-        public string BIM_ASUNTO { get; set; }
-        public string BIM_MENSAJE { get; set; }
+        public String BIM_CORREO { get; set; }
+        public String BIM_ASUNTO { get; set; }
+        public String BIM_MENSAJE { get; set; }
         public System.DateTime BIM_FECHA_ENVIO { get; set; }
         public System.DateTime BIM_FECHA_REENVIO { get; set; }
-        public string BIM_MESAJE_ERROR { get; set; }
+        public String BIM_MESAJE_ERROR { get; set; }
         public byte BIM_CVE_ESTATUS { get; set; }
-        public string BIM_NOM_PANTALLA { get; set; }
-        public string BIM_TXT_ESTATUS { get; set; }
+        public String BIM_NOM_PANTALLA { get; set; }
+        public String BIM_TXT_ESTATUS { get; set; }
     }
 }

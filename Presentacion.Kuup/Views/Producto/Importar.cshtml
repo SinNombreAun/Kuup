@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Alta Masiva de Producto";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/Producto/ClsProducto.js"></script>
+<script src="~/Scripts/General/ClsImportarArchivos.js"></script>
+<script type="text/javascript">
+    let ClsProducto;
+    $(function () {
+        ClsProducto = Objeto.Constructor({
+            Funcionalidad: 'IMPORTAR',
+            UrlCargaMasiva: '@Url.Action("AltaMasiva","Producto")',
+            UrlDescargaDeArchivo: '@Url.Action("DescargaArchivo", "General")'
+        });
+        ClsProducto.Inicio();
+    });
+    function CreaTabla(data) {
+        ClsProducto.CreaTabla(data);
+    }
+    function LimpiaTablaPantalla() {
+        ClsProducto.LimpiaTabla();
+    }
+</script>
+<h2 class="TituloPagina">ALTA MASIVA DE PRODUCTO <i class="fa fa-archive"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="text-color-site">Archivo de carga masiva para productos, este metodo permite la carga de varios registros a la vez con los siguietes campos requeridos.</p>
+            @foreach (var Texto in ViewBag.TitulosCampos)
+            {
+                <span class="badge badge-light" wfd-id="176">@Texto</span>
+            }
+            <br />
+            <br />
+            <p class="text-color-site">Descargar archivo de ejemplo para carga.</p>
+            @Html.ActionLink("Descarga de Archivo Ejemplo", "DescargaArchivo", "Producto", null, new { @class = "btn btn-info" })
+            <br />
+            <br />
+            @{ Html.RenderAction("SubirArchivo", "General", new { Accion = "SubirArchivo", Controlador = "Producto", UrlAccion = Url.Action("Validar", "Producto"), BotonCargaDatos = "#CargaMasiva" }); }
+            <button class="btn btn-primary" id="ValidaArchivo" onclick="ImportarCargaYValida()">Validar Archivo</button>
+            <br />
+            <br />
+            <table id="Tabla" class="table display nowrap Oculto" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">@Recursos.Textos.Producto_CodigoDeBarras</th>
+                        <th scope="col">@Recursos.Textos.Producto_NombreDeProducto</th>
+                        <th scope="col">@Recursos.Textos.Producto_Descripcion</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadDeProductoTotal</th>
+                        <th scope="col">@Recursos.Textos.Producto_PrecioUnitario</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveAviso</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoAviso</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveCorreoSurtido</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoCorreoSurtido</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadMinima</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveAplicaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoAplicaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadMinimaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_PrecioMayoreo</th>
+                        <th scope="col">Observaciones</th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">@Recursos.Textos.Producto_CodigoDeBarras</th>
+                        <th scope="col">@Recursos.Textos.Producto_NombreDeProducto</th>
+                        <th scope="col">@Recursos.Textos.Producto_Descripcion</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadDeProductoTotal</th>
+                        <th scope="col">@Recursos.Textos.Producto_PrecioUnitario</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveAviso</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoAviso</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveCorreoSurtido</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoCorreoSurtido</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadMinima</th>
+                        <th scope="col">@Recursos.Textos.Producto_CveAplicaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_TextoAplicaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_CantidadMinimaMayoreo</th>
+                        <th scope="col">@Recursos.Textos.Producto_PrecioMayoreo</th>
+                        <th scope="col">Observaciones</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br />
+            <br />
+            <button class="btn btn-primary" id="CargaMasiva" onclick="ClsProducto.CargaMasivaDeRegistros()">Carga Registros</button>
+            <br />
+            <br />
+        </div>
+    </div>
+</div>

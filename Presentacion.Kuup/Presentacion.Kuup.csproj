@@ -93,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\Account\fontawesome-webfont.svg" />
+    <Content Include="Content\Fonts\Site\fa-brands-400.svg" />
+    <Content Include="Content\Fonts\Site\fa-regular-400.svg" />
+    <Content Include="Content\Fonts\Site\fa-solid-900.svg" />
     <Content Include="Content\Imagenes\Fondo\Kuup.jpeg" />
     <Content Include="Content\Imagenes\Fondo\Kuup2.jpeg" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_444444_256x240.png" />
@@ -110,6 +113,10 @@
     <Content Include="Content\Librerias\Bootstrap\bootstrap.css" />
     <Content Include="Content\Librerias\Bootstrap\bootstrap.js" />
     <Content Include="Content\Librerias\Bootstrap\Themes\Solar\bootstrap.css" />
+    <Content Include="Content\Librerias\DataTables\datatables.css" />
+    <Content Include="Content\Librerias\DataTables\datatables.js" />
+    <Content Include="Content\Librerias\DataTables\dataTables.responsive.js" />
+    <Content Include="Content\Librerias\DataTables\responsive.dataTables.css" />
     <Content Include="Content\Librerias\FullCalendar\locales\es.js" />
     <Content Include="Content\Librerias\FullCalendar\main.css" />
     <Content Include="Content\Librerias\FullCalendar\main.js" />
@@ -123,36 +130,44 @@
     <Content Include="Content\Librerias\JQuery.UI\TimePicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\Librerias\JQuery.UI\TimePicker\jquery-ui-timepicker-es.js" />
     <Content Include="Content\Librerias\JQuery\JQuery-3.5.1.slim.js" />
+    <Content Include="Content\Styles\Account\all.css" />
     <Content Include="Content\Styles\Account\font-awesome.css" />
     <Content Include="Content\Styles\Account\style.css" />
     <Content Include="Content\Styles\Site\Site.css" />
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
+    <Content Include="Scripts\General\ClsImportarArchivos.js" />
     <Content Include="Scripts\General\ClsResultado.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
     <Content Include="Scripts\Producto\ClsProducto.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
+    <Content Include="Scripts\VentaTotal\ClsVentaTotal.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\VentaTotalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
+    <Compile Include="Models\GeneralModel.cs" />
     <Compile Include="Models\ParametroModel.cs" />
     <Compile Include="Models\FuncionalidadModel.cs" />
     <Compile Include="Models\FuncionPerfilModel.cs" />
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\SurtidoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
+    <Compile Include="Nucleo\Funciones\ClsOperaProducto.cs" />
+    <Compile Include="Nucleo\Motores\ClsConfiguracion.cs" />
     <Compile Include="Nucleo\Motores\ClsEnumerables.cs" />
     <Compile Include="Models\VentaTotalModel.cs" />
     <Compile Include="Models\VentaModel.cs" />
@@ -161,6 +176,11 @@
     <Compile Include="Models\ProveedorModel.cs" />
     <Compile Include="Models\PantallaModel.cs" />
     <Compile Include="Models\BitacoraCorreoModel.cs" />
+    <Compile Include="Recursos\Textos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Textos.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -181,11 +201,28 @@
     <Content Include="Content\Librerias\Bootstrap\Themes\Solar\_bootswatch.scss" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Content\Fonts\Site\fa-brands-400.eot" />
+    <Content Include="Content\Fonts\Site\fa-brands-400.ttf" />
+    <Content Include="Content\Fonts\Site\fa-brands-400.woff" />
+    <Content Include="Content\Fonts\Site\fa-brands-400.woff2" />
+    <Content Include="Content\Fonts\Site\fa-regular-400.eot" />
+    <Content Include="Content\Fonts\Site\fa-regular-400.ttf" />
+    <Content Include="Content\Fonts\Site\fa-regular-400.woff" />
+    <Content Include="Content\Fonts\Site\fa-regular-400.woff2" />
+    <Content Include="Content\Fonts\Site\fa-solid-900.eot" />
+    <Content Include="Content\Fonts\Site\fa-solid-900.ttf" />
+    <Content Include="Content\Fonts\Site\fa-solid-900.woff" />
+    <Content Include="Content\Fonts\Site\fa-solid-900.woff2" />
+    <Content Include="Content\Librerias\DataTables\dataTablesEspañol.json" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Alta.cshtml" />
     <Content Include="Views\Producto\Alta.cshtml" />
     <Content Include="Views\Producto\Detalle.cshtml" />
+    <Content Include="Views\Producto\Index.cshtml" />
+    <Content Include="Views\Producto\Importar.cshtml" />
+    <Content Include="Views\General\SubirArchivo.cshtml" />
+    <Content Include="Views\VentaTotal\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -196,6 +233,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
+    <Folder Include="Imagenes\CodigoBarras\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funciones.Kuup\Funciones.Kuup.csproj">
@@ -210,6 +248,13 @@
       <Project>{0ab74722-50ca-4a61-9920-3be4f2606403}</Project>
       <Name>Negocio.Kuup</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Recursos\Textos.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Textos.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Recursos</CustomToolNamespace>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

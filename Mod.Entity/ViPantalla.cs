@@ -15,13 +15,13 @@ namespace Mod.Entity
     public partial class ViPantalla
     {
         public short PAN_NUM_PANTALLA { get; set; }
-        public string PAN_NOM_PANTALLA { get; set; }
-        public string PAN_NOM_PANTALLA_INT { get; set; }
-        public string PAN_DESCRIPCION { get; set; }
+        public String PAN_NOM_PANTALLA { get; set; }
+        public String PAN_NOM_PANTALLA_INT { get; set; }
+        public String PAN_DESCRIPCION { get; set; }
         public byte PAN_CVE_MANEJO_INTERNO { get; set; }
-        public string PAN_LLAVE { get; set; }
+        public String PAN_LLAVE { get; set; }
         public byte PAN_CVE_ESTATUS { get; set; }
-        public string PAN_TXT_MANEJO_INTERNO { get; set; }
-        public string PAN_TXT_ESTATUS { get; set; }
+        public String PAN_TXT_MANEJO_INTERNO { get; set; }
+        public String PAN_TXT_ESTATUS { get; set; }
     }
 }

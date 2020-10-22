@@ -12,8 +12,8 @@ namespace Funciones.Kuup.Cifrado
     {
         private static readonly int tamanyoClave = 32;
         private static readonly int tamanyoVector = 16;
-        private static readonly string Clave = "Kuup&1231";
-        private static readonly string Vector = "Kuup de Ventor & 12345";
+        private static readonly String Clave = "Kuup&1231";
+        private static readonly String Vector = "Kuup de Ventor & 12345";
         public static byte[] Key = UTF8Encoding.UTF8.GetBytes(Clave);
         public static byte[] IV = UTF8Encoding.UTF8.GetBytes(Vector);
 
@@ -35,7 +35,7 @@ namespace Funciones.Kuup.Cifrado
             return Convert.ToBase64String(cipherMessageBytes);
         }
         [System.Diagnostics.DebuggerHidden()]
-        public static string Descifrado(String TextoADescifrar)
+        public static String Descifrado(String TextoADescifrar)
         {
             Array.Resize(ref Key, tamanyoClave);
             Array.Resize(ref IV, tamanyoVector);

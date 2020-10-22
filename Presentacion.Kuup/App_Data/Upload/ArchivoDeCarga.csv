@@ -1,0 +1,13 @@
+Codigo de Barras,Nombre de Producto,Descripción,Cantidad de Producto Total,Precio unitario,Aviso de Surtido,Notificar Surtido por Correo,Cantidad minima a notificar,Aplica Mayoreo,Cantidad minima para aplicar mayoreo,Precio al mayoreo
+750302753629,Labiales,Labiales,100,10,SI,NO,10,SI,5,10
+750302753627,Sombras para ojos,Sombras para ojos,200,15.25,SI,NO,15,NO,0,0
+750302753629,Esmaltes ,Esmaltes ,30,36.52,SI,NO,23,SI,3,30.52
+750302753628,fragancias ,fragancias ,40,38.4,NO,NO,0,SI,10,34.4
+750302753626,Exfoliante ,Exfoliante ,85,45.2,NO,SI,0,SI,5,40.2
+750302753624,Bálsamo ,Bálsamo ,42,100.25,SI,NO,12,SI,6,90.25
+750302753622,Ruby ,Ruby ,312,98.23,SI,SI,5,NO,0,0
+750302753621,Cream ,Cream ,10,75.1,NO,NO,0,NO,0,0
+750302753623,Bio-Oil,Bio-Oil,15,20.2,NO,SI,0,NO,0,0
+750302753630,Colorete ,Colorete ,89,12.15,SI,SI,10,SI,4,10.15
+750302753640,Aquasource ,Aquasource ,100,14.36,NO,NO,0,NO,0,0
+750302753633,Le Vernis 'Rouge Noir' de Chanel,Le Vernis 'Rouge Noir' de Chanel,246,89.33,NO,SI,0,SI,2,79.33

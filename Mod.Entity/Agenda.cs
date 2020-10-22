@@ -20,7 +20,7 @@ namespace Mod.Entity
         public System.DateTime AGN_FECHA_FIN_EVENTO { get; set; }
         public short AGN_NUM_USUARIO { get; set; }
         public byte AGN_CVE_NOTIFICA { get; set; }
-        public string AGN_DESCRIPCION { get; set; }
+        public String AGN_DESCRIPCION { get; set; }
         public byte AGN_CVE_ESTATUS { get; set; }
     
         public virtual Usuario Usuario { get; set; }

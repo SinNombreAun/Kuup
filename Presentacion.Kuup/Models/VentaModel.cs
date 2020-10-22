@@ -34,7 +34,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Codigo De Barras")]
-        public string fCodigoDeBarras
+        public String fCodigoDeBarras
         {
             get { return this.CodigoDeBarras; }
             set { this.CodigoDeBarras = value; }
@@ -55,7 +55,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Nombre De Producto")]
-        public string fNombreDeProducto
+        public String fNombreDeProducto
         {
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }

@@ -47,7 +47,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Nombre De Cliente")]
-        public string fNombreDeCliente
+        public String fNombreDeCliente
         {
             get { return this.NombreDeCliente; }
             set { this.NombreDeCliente = value; }
@@ -75,7 +75,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Porcentaje")]
-        public string fPorcentaje
+        public String fPorcentaje
         {
             get { return this.Porcentaje; }
             set { this.Porcentaje = value; }
@@ -96,14 +96,14 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "AplicaDescuento")]
-        public string fAplicaDescuento
+        public String fAplicaDescuento
         {
             get { return this.AplicaDescuento; }
             set { this.AplicaDescuento = value; }
         }
         [Required]
         [Display(Name = "Número de Producto")]
-        public string fTxtEstatus
+        public String fTxtEstatus
         {
             get { return this.TxtEstatus; }
             set { this.TxtEstatus = value; }

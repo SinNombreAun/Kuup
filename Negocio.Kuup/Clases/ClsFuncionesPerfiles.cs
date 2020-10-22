@@ -38,17 +38,17 @@ namespace Negocio.Kuup.Clases
             get { return FuncionPerfil.FUP_NOM_PANTALLA; }
             set { FuncionPerfil.FUP_NOM_PANTALLA = value; }
         }
-        public string NombreDeFuncionalidad
+        public String NombreDeFuncionalidad
         {
             get { return FuncionPerfil.FUP_NOM_FUNCIONALIDAD; }
             set { FuncionPerfil.FUP_NOM_FUNCIONALIDAD = value; }
         }
-        public string NombreDePerfil
+        public String NombreDePerfil
         {
             get { return FuncionPerfil.FUP_NOM_PERFIL; }
             set { FuncionPerfil.FUP_NOM_PERFIL = value; }
         }
-        public string TxtEstatus
+        public String TxtEstatus
         {
             get { return FuncionPerfil.FUP_TXT_ESTATUS; }
             set { FuncionPerfil.FUP_TXT_ESTATUS = value; }

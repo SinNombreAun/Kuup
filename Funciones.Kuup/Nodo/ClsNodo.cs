@@ -10,14 +10,14 @@ namespace Funciones.Kuup.Nodo
     public class ClsNodo
     {
         long _Id;
-        Dictionary<string, object> _Informacion;
+        Dictionary<String, object> _Informacion;
         List<ClsNodo> _NodosHijos;
         public long Id
         {
             get { return _Id; }
             set { _Id = value; }
         }
-        public Dictionary<string, object> Informacion
+        public Dictionary<String, object> Informacion
         {
             get { return _Informacion; }
             set { _Informacion = value; }
@@ -27,7 +27,7 @@ namespace Funciones.Kuup.Nodo
             get { return _NodosHijos; }
             set { _NodosHijos = value; }
         }
-        public ClsNodo(long Id, Dictionary<string, object> Informacion)
+        public ClsNodo(long Id, Dictionary<String, object> Informacion)
         {
             _Id = Id;
             _Informacion = Informacion;
@@ -62,7 +62,7 @@ namespace Funciones.Kuup.Nodo
         }
         public String Dibuja(String Indentacion = "")
         {
-            String str = string.Empty;
+            String str = String.Empty;
             str = Indentacion + (this.TieneNodosHijos() ? "+ " : "- ") + _Id.ToString();
             Indentacion += "\t";
             foreach (var item in _NodosHijos)
@@ -88,7 +88,7 @@ namespace Funciones.Kuup.Nodo
         }
         public String Menus(String ruta)
         {
-            String str = string.Empty, rutaCadena = string.Empty;
+            String str = String.Empty, rutaCadena = String.Empty;
             if (this.TieneNodosHijos() && _Id != 0)
             {
                 rutaCadena = ruta;

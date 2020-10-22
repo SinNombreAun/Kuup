@@ -33,7 +33,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Nombre De Funcionalidad")]
-        public string fNombreDeFuncionalidad
+        public String fNombreDeFuncionalidad
         {
             get { return this.NombreDeFuncionalidad; }
             set { this.NombreDeFuncionalidad = value; }
@@ -47,7 +47,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Texto Estatis")]
-        public string fTextoEstatus
+        public String fTextoEstatus
         {
             get { return this.TextoEstatus; }
             set { this.TextoEstatus = value; }

@@ -17,18 +17,19 @@ namespace Mod.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
+            this.CodigoDeBarras = new HashSet<CodigoDeBarras>();
             this.Surtido = new HashSet<Surtido>();
             this.Venta = new HashSet<Venta>();
         }
     
         public short PRO_NUM_PRODUCTO { get; set; }
-        public string PRO_CODIGO_BARRAS { get; set; }
+        public String PRO_CODIGO_BARRAS { get; set; }
         public System.DateTime PRO_FECHA_REGISTRO { get; set; }
         public short PRO_CANT_PRODUCTO_ULTIMA { get; set; }
         public short PRO_CANT_PRODUCTO_NUEVA { get; set; }
         public short PRO_CANT_PRODUCTO_TOTAL { get; set; }
-        public string PRO_NOM_PRODUCTO { get; set; }
-        public string PRO_DESCRIPCION { get; set; }
+        public String PRO_NOM_PRODUCTO { get; set; }
+        public String PRO_DESCRIPCION { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }
@@ -39,6 +40,8 @@ namespace Mod.Entity
         public Nullable<decimal> PRO_PRECIO_MAYOREO { get; set; }
         public byte PRO_CVE_ESTATUS { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CodigoDeBarras> CodigoDeBarras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Surtido> Surtido { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

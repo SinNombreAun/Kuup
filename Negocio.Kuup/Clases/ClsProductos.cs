@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -156,7 +157,6 @@ namespace Negocio.Kuup.Clases
                     db.SaveChanges();
                     if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
                     {
-                        this.NumeroDeProducto = Producto.PRO_NUM_PRODUCTO;
                         return true;
                     }
                     return false;
@@ -189,7 +189,21 @@ namespace Negocio.Kuup.Clases
         }
         public bool Update()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    Producto Producto = this.ToTable();
+                    db.Producto.Attach(Producto);
+                    db.Entry(Producto).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
         public Producto ToTable()
         {

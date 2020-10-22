@@ -6,10 +6,10 @@ namespace Presentacion.Kuup.Models
     public class AccountModel
     {
         [Required]
-        [Display(Name = "Nombre de Usuario")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Account_NombreDeUsuario")]
         public String NombreDeUsuario { get; set; }
         [Required]
-        [Display(Name = "Password")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Account_Password")]
         public String Password { get; set; }
         public String IP { get; set; }
         public String Terminal { get; set; }

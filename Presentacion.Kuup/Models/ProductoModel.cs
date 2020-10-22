@@ -37,145 +37,145 @@ namespace Presentacion.Kuup.Models
             this.TextoEstatus = Producto.TextoEstatus;
         }
         [Required]
-        [Display(Name ="Número de Producto")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_NumeroDeProducto")]
         public short fNumeroDeProducto
         {
             get { return this.NumeroDeProducto; }
             set { this.NumeroDeProducto = value; }
         }
         [Required]
-        [Display(Name ="Codigo de Barras")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CodigoDeBarras")]
         public String fCodigoDeBarras
         {
             get { return this.CodigoDeBarras; }
             set { this.CodigoDeBarras = value; }
         }
         [Required]
-        [Display(Name = "Fecha de Registro")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_FechaDeRegistro")]
         public DateTime fFechaDeRegistro
         {
             get { return this.FechaDeRegistro; }
             set { this.FechaDeRegistro = value; }
         }
         [Required]
-        [Display(Name = "Ultima Cantidad de Producto")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadDeProductoUltima")]
         public short fCantidadDeProductoUltima
         {
             get { return this.CantidadDeProductoUltima; }
             set { this.CantidadDeProductoUltima = value; }
         }
         [Required]
-        [Display(Name = "Nueva Cantidad de Producto")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadDeProductoNueva")]
         public short fCantidadDeProductoNueva
         {
             get { return this.CantidadDeProductoNueva; }
             set { this.CantidadDeProductoNueva = value; }
         }
         [Required]
-        [Display(Name = "Cantidad de Producto Total")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadDeProductoTotal")]
         public short fCantidadDeProductoTotal
         {
             get { return this.CantidadDeProductoTotal; }
             set { this.CantidadDeProductoTotal = value; }
         }
         [Required]
-        [Display(Name = "Nombre de Producto")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_NombreDeProducto")]
         public String fNombreDeProducto
         {
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }
         }
-        [Display(Name = "Descripción")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_Descripcion")]
         public String fDescripcion
         {
             get { return this.Descripcion; }
             set { this.Descripcion = value; }
         }
         [Required]
-        [Display(Name = "Aviso de Surtido")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveAviso")]
         public byte fCveAviso
         {
             get { return this.CveAviso; }
             set { this.CveAviso = value; }
         }
         [Required]
-        [Display(Name = "Notificar Surtido por Correo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveCorreoSurtido")]
         public byte fCveCorreoSurtido
         {
             get { return this.CveCorreoSurtido; }
             set { this.CveCorreoSurtido = value; }
         }
         [Required]
-        [Display(Name = "Cantidad minima a notificar")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadMinima")]
         public short fCantidadMinima
         {
             get { return this.CantidadMinima; }
             set { this.CantidadMinima = value; }
         }
-        [Display(Name = "Proveedor")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_NumeroDeProveedor")]
         public Nullable<byte> fNumeroDeProveedor
         {
             get { return this.NumeroDeProveedor; }
             set { this.NumeroDeProveedor = value; }
         }
         [Required]
-        [Display(Name = "Precio unitario")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_PrecioUnitario")]
         public decimal fPrecioUnitario
         {
             get { return this.PrecioUnitario; }
             set { this.PrecioUnitario = value; }
         }
         [Required]
-        [Display(Name = "Aplica Mayoreo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveAplicaMayoreo")]
         public byte fCveAplicaMayoreo
         {
             get { return this.CveAplicaMayoreo; }
             set { this.CveAplicaMayoreo = value; }
         }
-        [Display(Name = "Cantidad minima para aplicar mayoreo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadMinimaMayoreo")]
         public Nullable<short> fCantidadMinimaMayoreo
         {
             get { return this.CantidadMinimaMayoreo; }
             set { this.CantidadMinimaMayoreo = value; }
         }
-        [Display(Name = "Precio al mayoreo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_PrecioMayoreo")]
         public Nullable<decimal> fPrecioMayoreo
         {
             get { return this.PrecioMayoreo; }
             set { this.PrecioMayoreo = value; }
         }
         [Required]
-        [Display(Name = "Estatus")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveEstatus")]
         public byte fCveEstatus
         {
             get { return this.CveEstatus; }
             set { this.CveEstatus = value; }
         }
-        [Display(Name = "Aviso de Surtido")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAviso")]
         public String fTextoAviso
         {
             get { return this.TextoAviso; }
             set { this.TextoAviso = value; }
         }
-        [Display(Name = "Notificar Surtido por Correo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoCorreoSurtido")]
         public String fTextoCorreoSurtido
         {
             get { return this.TextoCorreoSurtido; }
             set { this.TextoCorreoSurtido = value; }
         }
-        [Display(Name = "Proveedor")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_NombreDeProveedor")]
         public String fNombreDeProveedor
         {
             get { return this.NombreDeProveedor; }
             set { this.NombreDeProveedor = value; }
         }
-        [Display(Name = "Aplica Mayoreo")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAplicaMayoreo")]
         public String fTextoAplicaMayoreo
         {
             get { return this.TextoAplicaMayoreo; }
             set { this.TextoAplicaMayoreo = value; }
         }
-        [Display(Name = "Estatus")]
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoEstatus")]
         public String fTextoEstatus
         {
             get { return this.TextoEstatus; }

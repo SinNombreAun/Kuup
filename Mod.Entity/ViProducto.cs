@@ -15,13 +15,13 @@ namespace Mod.Entity
     public partial class ViProducto
     {
         public short PRO_NUM_PRODUCTO { get; set; }
-        public string PRO_CODIGO_BARRAS { get; set; }
+        public String PRO_CODIGO_BARRAS { get; set; }
         public System.DateTime PRO_FECHA_REGISTRO { get; set; }
         public short PRO_CANT_PRODUCTO_ULTIMA { get; set; }
         public short PRO_CANT_PRODUCTO_NUEVA { get; set; }
         public short PRO_CANT_PRODUCTO_TOTAL { get; set; }
-        public string PRO_NOM_PRODUCTO { get; set; }
-        public string PRO_DESCRIPCION { get; set; }
+        public String PRO_NOM_PRODUCTO { get; set; }
+        public String PRO_DESCRIPCION { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }
@@ -31,10 +31,10 @@ namespace Mod.Entity
         public Nullable<short> PRO_CAT_MINIMA_MAYOREO { get; set; }
         public Nullable<decimal> PRO_PRECIO_MAYOREO { get; set; }
         public byte PRO_CVE_ESTATUS { get; set; }
-        public string PRO_TXT_AVISO { get; set; }
-        public string PRO_TXT_CORREO_SURTIDO { get; set; }
-        public string PRO_NOM_PROVEEDOR { get; set; }
-        public string PRO_TXT_APLICA_MAYOREO { get; set; }
-        public string PRO_TXT_ESTATUS { get; set; }
+        public String PRO_TXT_AVISO { get; set; }
+        public String PRO_TXT_CORREO_SURTIDO { get; set; }
+        public String PRO_NOM_PROVEEDOR { get; set; }
+        public String PRO_TXT_APLICA_MAYOREO { get; set; }
+        public String PRO_TXT_ESTATUS { get; set; }
     }
 }

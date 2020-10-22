@@ -21,10 +21,15 @@
                 PrecioMayoreo: 'fPrecioMayoreo',
                 CveEstatus: 'fCveEstatus',
                 Guardar: 'Guardar',
-                GeneraCodigoDeBarras: 'fGeneraCodigoDeBarras'
+                GeneraCodigoDeBarras: 'fGeneraCodigoDeBarras',
+                Tabla: 'Tabla',
+                CargaMasiva: 'CargaMasiva'
             };
             let Funcionalidad = '',
-                URLGeneraCodigoDeBarras = '';
+                UrlCargaGrid = '',
+                UrlDetalle = '',
+                UrlCargaMasiva = '',
+                UrlDescargaDeArchivo = '';
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
                     Funcionalidad = FuncionalidadSet;
@@ -32,18 +37,162 @@
                     return Funcionalidad;
                 }
             };
-            let _URLGeneraCodigoDeBarras = function (URLGeneraCodigoDeBarrasSet) {
-                if (typeof (URLGeneraCodigoDeBarrasSet) != 'undefined') {
-                    URLGeneraCodigoDeBarras = URLGeneraCodigoDeBarrasSet;
+            let _UrlCargaGrid = function (UrlCargaGridSet) {
+                if (typeof (UrlCargaGridSet) != 'undefined') {
+                    UrlCargaGrid = UrlCargaGridSet;
                 } else {
-                    return URLGeneraCodigoDeBarras;
+                    return UrlCargaGrid;
                 }
             };
+            let _UrlDetalle = function (UrlDetalleSet) {
+                if (typeof (UrlDetalleSet) != 'undefined') {
+                    UrlDetalle = UrlDetalleSet;
+                } else {
+                    return UrlDetalle;
+                }
+            };
+            let _UrlCargaMasiva = function (UrlCargaMasivaSet) {
+                if (typeof (UrlCargaMasivaSet) != 'undefined') {
+                    UrlCargaMasiva = UrlCargaMasivaSet;
+                } else {
+                    return UrlCargaMasiva;
+                }
+            };
+            let _UrlDescargaDeArchivo = function (UrlDescargaDeArchivoSet) {
+                if (typeof (UrlDescargaDeArchivoSet) != 'undefined') {
+                    UrlDescargaDeArchivo = UrlDescargaDeArchivoSet;
+                } else {
+                    return UrlDescargaDeArchivo;
+                }
+            }
+            let TablaImportar = null;
             let _Inicio = function () {
                 OcultaCampos();
                 AgregaEvento();
                 EjecutaEventosIniciales();
+                if (Funcionalidad == 'INDEX') {
+                    GeneraGridDeProducto();
+                }
             };
+            function GeneraGridDeProducto() {
+                var table = $('#' + Elementos_Producto.Tabla).DataTable({
+                    "destroy": true,
+                    "responsive": true,
+                    "ajax": {
+                        "method": "GET",
+                        "url": UrlCargaGrid + "?Grid=true"
+                    },
+                    "scrollY": 500,
+                    "columns": [
+                        { "data": "NumeroDeProducto" },
+                        { "data": "CodigoDeBarras" },
+                        { "data": "NombreDeProducto" },
+                        { "data": "CantidadDeProductoTotal" },
+                        { "data": "PrecioUnitario" },
+                        { "data": "TextoAviso" },
+                        { "data": "TextoCorreoSurtido" },
+                        { "data": "TextoAplicaMayoreo" },
+                        { "data": "CantidadMinimaMayoreo" },
+                        { "data": "PrecioMayoreo" },
+                        { "data": "TextoEstatus" },
+                        { "defaultContent": "<button type='button' class='detalle btn btn-info'>Detalle</button>"}
+                    ],
+                    "language": {
+                        "url": "/Content/Librerias/DataTables/dataTablesEspañol.json"
+                    }
+                });
+                DetalleRegistro('#' + Elementos_Producto.Tabla + ' tbody', table);
+            }
+            var DetalleRegistro = function (tbody, table) {
+                $(tbody).on('click', 'button.detalle', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    if (typeof (data) == 'undefined') {
+                        data = table.row($(this).parents('li')).data();
+                    }
+                    window.location.href =  UrlDetalle + '?NumeroDeProducto=' + data.NumeroDeProducto;
+                });
+            }
+            _CreaTabla = function (data) {
+                $('#' + Elementos_Producto.Tabla).show();
+                TablaImportar = $('#' + Elementos_Producto.Tabla).DataTable({
+                    "destroy": true,
+                    "responsive": true,
+                    "data": data.data,
+                    "scrollY": 500,
+                    "columnDefs": [
+                        {
+                            "targets": [5],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [7],
+                            "visible": false,
+                            "searchable": false
+                        },
+                        {
+                            "targets": [10],
+                            "visible": false,
+                            "searchable": false
+                        }
+                    ],
+                    "columns": [
+                        { "data": "CodigoDeBarras" },
+                        { "data": "NombreDeProducto" },
+                        { "data": "Descripcion" },
+                        { "data": "CantidadDeProductoTotal" },
+                        { "data": "PrecioUnitario" },
+                        { "data": "CveAviso" },
+                        { "data": "TextoAviso" },
+                        { "data": "CveCorreoSurtido" },
+                        { "data": "TextoCorreoSurtido" },
+                        { "data": "CantidadMinima" },
+                        { "data": "CveAplicaMayoreo" },
+                        { "data": "TextoAplicaMayoreo" },
+                        { "data": "CantidadMinimaMayoreo" },
+                        { "data": "PrecioMayoreo" },
+                        { "data": "Observaciones"}
+                    ],
+                    "language": {
+                        "url": "/Content/Librerias/DataTables/dataTablesEspañol.json"
+                    }
+                });
+            }
+            _LimpiaTabla = function () {
+                if (TablaImportar != null) {
+                    TablaImportar.clear().draw();
+                    $('#' + Elementos_Producto.Tabla).parent().parent().parent().parent().parent().hide();;
+                }
+            }
+            _CargaMasivaDeRegistros = function () {
+                let TablaRows = TablaImportar.rows().data();
+                let JsonObj = [];
+                for (var i = 0; i < TablaRows.rows()[0].length; i++) {
+                    JsonObj.push(TablaImportar.rows(i).data()[0]);
+                }
+                let JsonStrin = JSON.Stringify(JsonObj);
+                $.ajax({
+                    type: "POST",
+                    url: UrlCargaMasiva,
+                    async: false,
+                    data: { strinjson: JsonStrin },
+                    success: function (data) {
+                        if (data.Resultado.Resultado) {
+                            TablaImportar.clear().draw();
+                            $('#' + Elementos_Producto.Tabla).parent().parent().parent().parent().parent().hide();;
+                            alertify.success("Datos cargados correctamente");
+                        } else {
+                            alertify.error(data.Resultado.Mensaje);
+                            let url = UrlDescargaDeArchivo + "?";
+                            url += "NombreDeArchivo=" + data.NombreDeArchivo + "&Extencion=" + data.Extencion
+                            window.open(url, "_blank");
+                        }
+                    },
+                    error: function () {
+                        alertify.error("Ocurrio un error al realizar la accion de carga de archivo");
+                    }
+                });
+            }
             function OcultaCampos() {
                 switch (Funcionalidad) {
                     case 'ALTA':
@@ -53,6 +202,9 @@
 
                         $('#' + Elementos_Producto.CantidadMinimaMayoreo).parent().hide();
                         $('#' + Elementos_Producto.PrecioMayoreo).parent().hide();
+                        break;
+                    case 'IMPORTAR':
+                        $('#' + Elementos_Producto.CargaMasiva).hide();
                         break;
                 }
             }
@@ -122,14 +274,17 @@
             }
             $('#' + Elementos_Producto.Guardar).click(function () {
                 if ($('#' + Elementos_Producto.CodigoDeBarras).val() == '' && $('#' + Elementos_Producto.NombreDeProducto).val()) {
-                    alertify.confirm("Este producto no cuenta con Codigo de Barras, ¿Desas que el sistema genere un Codigo de Barras para este producto?",
+                    alertify.confirm("Codigo de Barras","Este producto no cuenta con Codigo de Barras, ¿Desas que el sistema genere un Codigo de Barras para este producto?",
                         function () {
                             $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(2);
+                            $('form').submit();
                         },
                         function () {
-                            alertify.log("Proceso de Alta Cancelado");
+                            $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(1);
+                            $('form').submit();
+                            alertify.warning("Proceso de Alta sin generación de Código de Barras");
                         }
-                    );
+                    ).set('labels', { ok: 'Si, Generar Codigo', cancel: 'No, Generar Codigo' });
                 } else {
                     $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(1);
                     $('form').submit();
@@ -138,15 +293,24 @@
             return {
                 Configuracion: {
                     Funcionalidad: _Funcionalidad,
-                    URLGeneraCodigoDeBarras: _URLGeneraCodigoDeBarras
+                    UrlCargaGrid: _UrlCargaGrid,
+                    UrlDetalle: _UrlDetalle,
+                    UrlCargaMasiva: _UrlCargaMasiva,
+                    UrlDescargaDeArchivo: _UrlDescargaDeArchivo
                 },
-                Inicio: _Inicio
+                Inicio: _Inicio,
+                CreaTabla: _CreaTabla,
+                CargaMasivaDeRegistros: _CargaMasivaDeRegistros,
+                LimpiaTabla: _LimpiaTabla
             }
         }
         let _Constructor = function (ObjetoConfiguracion) {
             let NucleoConfigurado = _Nucleo();
             NucleoConfigurado.Configuracion.Funcionalidad(ObjetoConfiguracion.Funcionalidad);
-            NucleoConfigurado.Configuracion.URLGeneraCodigoDeBarras(ObjetoConfiguracion.URLGeneraCodigoDeBarras);
+            NucleoConfigurado.Configuracion.UrlCargaGrid(ObjetoConfiguracion.UrlCargaGrid);
+            NucleoConfigurado.Configuracion.UrlDetalle(ObjetoConfiguracion.UrlDetalle);
+            NucleoConfigurado.Configuracion.UrlCargaMasiva(ObjetoConfiguracion.UrlCargaMasiva);
+            NucleoConfigurado.Configuracion.UrlDescargaDeArchivo(ObjetoConfiguracion.UrlDescargaDeArchivo);
             return NucleoConfigurado;
         }
         return {
