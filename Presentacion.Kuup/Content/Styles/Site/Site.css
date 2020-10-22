@@ -8,6 +8,7 @@
     -moz-background-size: cover;
     background-position: top;
     background-attachment: fixed;
+    /*overflow: hidden;*/
 }
 
 #Calendario {
@@ -58,6 +59,24 @@ form label {
     text-align: center;
     color:black;
     font-weight: bold;
+}
+.aling-center {
+    text-align: center;
+}
+#MenuBar{
+    min-height: 100vh;
+}
+#MenuBar .logo {
+    padding: .875rem 1.25rem;
+}
+#MenuBar .menu {
+    width: 18rem;
+}
+.btn-seach {
+    right: 9px;
+}
+.text-color-site {
+    color: #333333;
 }
 /*.container-form {
     width: 100%;

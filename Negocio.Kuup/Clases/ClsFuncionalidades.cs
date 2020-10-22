@@ -23,7 +23,7 @@ namespace Negocio.Kuup.Clases
             get { return Funcionalidad.FUN_NUM_FUNCIONALIDAD; }
             set { Funcionalidad.FUN_NUM_FUNCIONALIDAD = value; }
         }
-        public string NombreDeFuncionalidad
+        public String NombreDeFuncionalidad
         {
             get { return Funcionalidad.FUN_NOM_FUNCIONALIDAD; }
             set { Funcionalidad.FUN_NOM_FUNCIONALIDAD = value; }
@@ -33,10 +33,10 @@ namespace Negocio.Kuup.Clases
             get { return Funcionalidad.FUN_CVE_ESTATUS; }
             set { Funcionalidad.FUN_CVE_ESTATUS = value; }
         }
-        public string TextoEstatus
+        public String TextoEstatus
         {
-            get { return Funcionalidad.FUN_TXT_ESTATIS; }
-            set { Funcionalidad.FUN_TXT_ESTATIS = value; }
+            get { return Funcionalidad.FUN_TXT_ESTATUS; }
+            set { Funcionalidad.FUN_TXT_ESTATUS = value; }
         }
         public bool Insert()
         {
@@ -107,7 +107,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeFuncionalidad = q.FUN_NUM_FUNCIONALIDAD,
                                     NombreDeFuncionalidad = q.FUN_NOM_FUNCIONALIDAD,
                                     CveEstatus = q.FUN_CVE_ESTATUS,
-                                    TextoEstatus = q.FUN_TXT_ESTATIS
+                                    TextoEstatus = q.FUN_TXT_ESTATUS
                                 }).ToList();
                     }
                     else

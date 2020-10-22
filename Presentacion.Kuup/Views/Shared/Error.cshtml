@@ -7,7 +7,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
-    <title>Pagina no econtrada</title>
+    <title>@Recursos.Textos.NotFound_PaginaNoEncontrada</title>
     <link href="~/Content/Styles/Site/Site.css" rel="stylesheet" />
     <link href="~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/Styles/Account/font-awesome.css" rel="stylesheet" />
@@ -21,12 +21,12 @@
             <div class="col-lg-12">
                 <div class="bs-component margin404">
                     <div class="jumbotron jumbotron-notfund">
-                        <h1 class="display-3">Error 404</h1>
-                        <p class="lead">Página no encontrada, la ruta a la que se hace referencia no existe dentro del directorio, consultar a tu proveedor, si el problema persiste.</p>
+                        <h1 class="display-3">@Recursos.Textos.NotFound_Error404</h1>
+                        <p class="lead">@Recursos.Textos.NotFound_Mensaje</p>
                         <hr class="my-4" />
-                        <p>Da click en el botón siguiente para salir y regresar al inicio.</p>
+                        <p>@Recursos.Textos.NotFound_RegresarInicio</p>
                         <p class="lead">
-                            <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "Account")" role="button">Regresar a la página de inicio</a>
+                            <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "Account")" role="button">@Recursos.Textos.NotFound_Boton_RegresarInicio</a>
                         </p>
                     </div>
                 </div>

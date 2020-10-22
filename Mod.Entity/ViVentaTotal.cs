@@ -17,14 +17,14 @@ namespace Mod.Entity
         public short VET_FOLIO_OPERACION { get; set; }
         public System.DateTime VET_FECHA_OPERACION { get; set; }
         public short VET_NUM_USUARIO { get; set; }
-        public string VET_NOM_CLIENTE { get; set; }
+        public String VET_NOM_CLIENTE { get; set; }
         public decimal VET_IMPORTE_BRUTO { get; set; }
         public Nullable<decimal> VET_IVA { get; set; }
         public byte VET_CVE_APLICADESCUENTO { get; set; }
-        public string VET_PORCENTAJE { get; set; }
+        public String VET_PORCENTAJE { get; set; }
         public decimal VET_IMPORTE_NETO { get; set; }
         public byte VET_CVE_ESTATUS { get; set; }
-        public string VET_TXT_APLICADESCUENTO { get; set; }
-        public string VET_TXT_ESTATUS { get; set; }
+        public String VET_TXT_APLICADESCUENTO { get; set; }
+        public String VET_TXT_ESTATUS { get; set; }
     }
 }

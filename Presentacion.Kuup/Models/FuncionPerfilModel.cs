@@ -57,21 +57,21 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Número De Funcionalidad")]
-        public string fNombreDeFuncionalidad
+        public String fNombreDeFuncionalidad
         {
             get { return this.NombreDeFuncionalidad; }
             set { this.NombreDeFuncionalidad = value; }
         }
         [Required]
         [Display(Name = "Número De Perfil")]
-        public string fNombreDePerfil
+        public String fNombreDePerfil
         {
             get { return this.NombreDePerfil; }
             set { this.NombreDePerfil = value; }
         }
         [Required]
         [Display(Name = "Texto De Estatus")]
-        public string fTxtEstatus
+        public String fTxtEstatus
         {
             get { return this.TxtEstatus; }
             set { this.TxtEstatus = value; }

@@ -17,9 +17,9 @@ namespace Mod.Entity
         public byte USP_NUM_PERFIL { get; set; }
         public short USP_NUM_USUARIO { get; set; }
         public byte USP_CVE_ESTATUS { get; set; }
-        public string USP_NOM_PERFIL { get; set; }
-        public string USP_NOM_USUARIO { get; set; }
-        public string USP_CORREO { get; set; }
-        public string USP_TXT_ESTATUS { get; set; }
+        public String USP_NOM_PERFIL { get; set; }
+        public String USP_NOM_USUARIO { get; set; }
+        public String USP_CORREO { get; set; }
+        public String USP_TXT_ESTATUS { get; set; }
     }
 }

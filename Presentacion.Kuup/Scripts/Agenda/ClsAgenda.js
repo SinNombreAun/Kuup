@@ -110,7 +110,7 @@
                         text: 'Cancelar',
                         class: 'btn btn-danger',
                         click: function () {
-                            $('#AgregaEvento').dialog('close');
+                            $('#' + Elementos_Agenda.AgregaEvento).dialog('close');
                         }
                     },
                     'Guardar': {

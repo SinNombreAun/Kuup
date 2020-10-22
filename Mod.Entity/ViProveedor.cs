@@ -15,14 +15,14 @@ namespace Mod.Entity
     public partial class ViProveedor
     {
         public byte PRV_NUM_PROVEEDOR { get; set; }
-        public string PRV_NOM_PROVEEDOR { get; set; }
+        public String PRV_NOM_PROVEEDOR { get; set; }
         public System.DateTime PRV_FECHA_REGISTRO { get; set; }
         public byte PRV_CVE_SURTIDO_POR_CORREO { get; set; }
-        public string PRV_CORREO { get; set; }
-        public string PRV_ASUNTO { get; set; }
-        public string PRV_MENSAJE { get; set; }
+        public String PRV_CORREO { get; set; }
+        public String PRV_ASUNTO { get; set; }
+        public String PRV_MENSAJE { get; set; }
         public byte PRV_CVE_ESTATUS { get; set; }
-        public string PRV_TXT_SURTIDO_POR_CORREO { get; set; }
-        public string PRV_TXT_ESTATUS { get; set; }
+        public String PRV_TXT_SURTIDO_POR_CORREO { get; set; }
+        public String PRV_TXT_ESTATUS { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace Mod.Entity
         public byte PAP_NUM_PERFIL { get; set; }
         public byte PAP_CVE_ESTATUS { get; set; }
     
-        public virtual Pantalla Pantalla { get; set; }
         public virtual Perfil Perfil { get; set; }
+        public virtual Pantalla Pantalla { get; set; }
     }
 }

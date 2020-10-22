@@ -28,7 +28,7 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_NUM_PRODUCTO; }
             set { Surtido.SUR_NUM_PRODUCTO = value; }
         }
-        public string CodigoDeBarras
+        public String CodigoDeBarras
         {
             get { return Surtido.SUR_CODIGO_BARRAS; }
             set { Surtido.SUR_CODIGO_BARRAS = value; }
@@ -58,17 +58,17 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_CVE_ESTATUS; }
             set { Surtido.SUR_CVE_ESTATUS = value; }
         }
-        public string NombreDeProveedor
+        public String NombreDeProveedor
         {
             get { return Surtido.SUR_NOM_PROVEEDOR; }
             set { Surtido.SUR_NOM_PROVEEDOR = value; }
         }
-        public string NombreDeProducto
+        public String NombreDeProducto
         {
             get { return Surtido.SUR_NOM_PRODUCTO; }
             set { Surtido.SUR_NOM_PRODUCTO = value; }
         }
-        public string TxtEstatus
+        public String TxtEstatus
         {
             get { return Surtido.SUR_TXT_ESTATUS; }
             set { Surtido.SUR_TXT_ESTATUS = value; }

@@ -1,0 +1,19 @@
+﻿@model Presentacion.Kuup.Models.GeneralModel.FileUploadModelCsv
+
+@{
+    String Accion = ViewBag.Accion;
+    String Controlador = ViewBag.Controlador;
+    String UrlAccion = ViewBag.UrlAccion;
+    String BotonCargaDatos = ViewBag.BotonCargaDatos;
+}
+
+@using (Html.BeginForm(Accion, Controlador, FormMethod.Post, new { enctype = "multipart/form-data", id = "ImportarArchivoUpload", name = "ImportarArchivoUpload", target = "ImportarUploadObjetivo" }))
+{
+    <label for="Archivo">Selecionar archivo a subir:</label>
+    <input type="file" class="btn btn-danger" value="" onchange="LimpiaTabla('@BotonCargaDatos')" name="Archivo" id="Archivo" />
+    <br>
+    <br>
+}
+<div id="ImportarInformacionValidacion"></div>
+<iframe id="ImportarUploadObjetivo" name="ImportarUploadObjetivo" onload="ValidarArchivo('@UrlAccion','@BotonCargaDatos')" class="Oculto"></iframe>
+<br />

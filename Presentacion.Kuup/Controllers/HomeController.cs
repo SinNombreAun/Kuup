@@ -12,6 +12,7 @@ namespace Presentacion.Kuup.Controllers
 {
     public class HomeController : BaseController
     {
+        #region Index
         [HttpGet]
         public ActionResult Index()
         {
@@ -21,6 +22,8 @@ namespace Presentacion.Kuup.Controllers
             }
             return View();
         }
+        #endregion
+        #region MenuBarra
         public ActionResult MenuBar()
         {
             if (!ValidaSesion())
@@ -29,6 +32,7 @@ namespace Presentacion.Kuup.Controllers
             }
             ClsNodo estructuraMenu = this.ConsultaArbol();
             ViewData["lstMenu"] = estructuraMenu.Menus("");
+            ViewBag.NombreDeUsuario = String.Format("{0} {1} {2}", MoSesion.NombreDePersona, MoSesion.ApellidoPaterno, MoSesion.ApellidoMaterno).ToUpper();
             return PartialView("MenuBar");
         }
         public ClsNodo ConsultaArbol()
@@ -36,14 +40,14 @@ namespace Presentacion.Kuup.Controllers
             List<ClsPantallasPerfil> LstPantallaPerfil = (from q in ClsPantallasPerfil.getList() where q.NumeroDePerfil == MoSesion.NumeroDePerfil select q).ToList();
             List<ClsMenu> LstMenu = (from q in ClsMenu.getList() orderby q.NumeroDeMenuPadre ascending, q.NumeroDeOrden ascending, q.NumeroDePantalla ascending select q).ToList();
             LstMenu.RemoveAll(f => (!LstPantallaPerfil.Exists(x => x.NumeroDePantalla == f.NumeroDePantalla)) && f.NumeroDeMenuPadre != 0);
-            Dictionary<string, object> Informacion = new Dictionary<string, object>();
+            Dictionary<String, object> Informacion = new Dictionary<String, object>();
             Informacion.Add("Arbol de Nodos para Menú", "");
             ClsNodo NodoRaiz = new ClsNodo(0, Informacion);
             if (LstMenu.Count != 0)
             {
                 foreach (var item in LstMenu)
                 {
-                    Informacion = new Dictionary<string, object>();
+                    Informacion = new Dictionary<String, object>();
                     Informacion.Add("NombreInterno", item.NombreDePantallaInt);
                     Informacion.Add("NumeroDeMenu", item.NumeroDeMenu);
                     Informacion.Add("NombreDeMenu", item.NombreDeMenu);
@@ -57,6 +61,8 @@ namespace Presentacion.Kuup.Controllers
             }
             return NodoRaiz;
         }
+        #endregion
+        #region Agenda
         public JsonResult CargaEventos()
         {
             List<ClsAgenda> Eventos = (from q in ClsAgenda.getList() where q.NumeroDeUsuario == MoSesion.NumeroDeUsuario select q).ToList();
@@ -159,5 +165,6 @@ namespace Presentacion.Kuup.Controllers
             }
             return Json(Resultado, JsonRequestBehavior.AllowGet);
         }
+        #endregion
     }
 }

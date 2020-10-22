@@ -15,10 +15,10 @@ namespace Mod.Entity
     public partial class ViIPRegistradas
     {
         public short IPR_NUM_USUARIO { get; set; }
-        public string IPR_TERMINAL { get; set; }
-        public string IPR_IP { get; set; }
+        public String IPR_TERMINAL { get; set; }
+        public String IPR_IP { get; set; }
         public byte IPR_CVE_TIPOACCESO { get; set; }
-        public string IPR_NOM_USUARIO { get; set; }
-        public string IPR_TXT_TIPOACCESO { get; set; }
+        public String IPR_NOM_USUARIO { get; set; }
+        public String IPR_TXT_TIPOACCESO { get; set; }
     }
 }

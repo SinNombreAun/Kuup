@@ -23,7 +23,7 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_NUM_PRODUCTO; }
             set { Venta.VEN_NUM_PRODUCTO = value; }
         }
-        public string CodigoDeBarras
+        public String CodigoDeBarras
         {
             get { return Venta.VEN_CODIGO_BARRAS; }
             set { Venta.VEN_CODIGO_BARRAS = value; }
@@ -38,7 +38,7 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_IMPORTE_PRODUCTO; }
             set { Venta.VEN_IMPORTE_PRODUCTO = value; }
         }
-        public string NombreDeProducto
+        public String NombreDeProducto
         {
             get { return Venta.VEN_NOM_PRODUCTO; }
             set { Venta.VEN_NOM_PRODUCTO = value; }

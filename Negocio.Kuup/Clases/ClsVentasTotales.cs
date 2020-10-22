@@ -28,7 +28,7 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_NUM_USUARIO; }
             set { VentaTotal.VET_NUM_USUARIO = value; }
         }
-        public string NombreDeCliente
+        public String NombreDeCliente
         {
             get { return VentaTotal.VET_NOM_CLIENTE; }
             set { VentaTotal.VET_NOM_CLIENTE = value; }
@@ -48,7 +48,7 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_CVE_APLICADESCUENTO; }
             set { VentaTotal.VET_CVE_APLICADESCUENTO = value; }
         }
-        public string Porcentaje
+        public String Porcentaje
         {
             get { return VentaTotal.VET_PORCENTAJE; }
             set { VentaTotal.VET_PORCENTAJE = value; }
@@ -63,12 +63,12 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_CVE_ESTATUS; }
             set { VentaTotal.VET_CVE_ESTATUS = value; }
         }
-        public string AplicaDescuento
+        public String AplicaDescuento
         {
             get { return VentaTotal.VET_TXT_APLICADESCUENTO; }
             set { VentaTotal.VET_TXT_APLICADESCUENTO = value; }
         }
-        public string TxtEstatus
+        public String TxtEstatus
         {
             get { return VentaTotal.VET_TXT_ESTATUS; }
             set { VentaTotal.VET_TXT_ESTATUS = value; }

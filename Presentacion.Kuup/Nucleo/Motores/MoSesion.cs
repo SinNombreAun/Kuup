@@ -11,14 +11,17 @@ namespace Presentacion.Kuup.Nucleo.Motores
         public static void LimpiaSesion()
         {
             MoSesion.NumeroDeUsuario = 0;
-            MoSesion.NombreDeUsuario = string.Empty;
-            MoSesion.IPDeUsuario = string.Empty;
-            MoSesion.TerminalDeUsuario = string.Empty;
+            MoSesion.NombreDeUsuario = String.Empty;
+            MoSesion.NombreDePersona = String.Empty;
+            MoSesion.ApellidoPaterno = String.Empty;
+            MoSesion.ApellidoMaterno = String.Empty;
+            MoSesion.IPDeUsuario = String.Empty;
+            MoSesion.TerminalDeUsuario = String.Empty;
             MoSesion.CveTipoDeAcceso = 0;
-            MoSesion.TextoTipoDeAccedo = string.Empty;
+            MoSesion.TextoTipoDeAccedo = String.Empty;
             MoSesion.NumeroDePerfil = 0;
-            MoSesion.NombreDePerfil = string.Empty;
-            MoSesion.Browser = string.Empty;
+            MoSesion.NombreDePerfil = String.Empty;
+            MoSesion.Browser = String.Empty;
         }
         public static short NumeroDeUsuario
         {
@@ -29,6 +32,21 @@ namespace Presentacion.Kuup.Nucleo.Motores
         {
             get { return (String) HttpContext.Current.Session["NombreDeUsuario"]; }
             set { HttpContext.Current.Session["NombreDeUsuario"] = value; }
+        }
+        public static String NombreDePersona
+        {
+            get { return (String)HttpContext.Current.Session["NombreDePersona"]; }
+            set { HttpContext.Current.Session["NombreDePersona"] = value; }
+        }
+        public static String ApellidoPaterno
+        {
+            get { return (String)HttpContext.Current.Session["ApellidoPaterno"]; }
+            set { HttpContext.Current.Session["ApellidoPaterno"] = value; }
+        }
+        public static String ApellidoMaterno
+        {
+            get { return (String)HttpContext.Current.Session["ApellidoMaterno"]; }
+            set { HttpContext.Current.Session["ApellidoMaterno"] = value; }
         }
         public static String IPDeUsuario
         {

@@ -22,11 +22,11 @@ namespace Mod.Entity
     
         public short FUN_NUM_PANTALLA { get; set; }
         public byte FUN_NUM_FUNCIONALIDAD { get; set; }
-        public string FUN_NOM_FUNCIONALIDAD { get; set; }
+        public String FUN_NOM_FUNCIONALIDAD { get; set; }
         public byte FUN_CVE_ESTATUS { get; set; }
     
-        public virtual Pantalla Pantalla { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FuncionPerfil> FuncionPerfil { get; set; }
+        public virtual Pantalla Pantalla { get; set; }
     }
 }

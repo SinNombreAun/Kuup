@@ -1,15 +1,15 @@
 ﻿@model Presentacion.Kuup.Models.AccountModel
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = Recursos.Textos.Account_Titulo;
     Layout = "~/Views/_LayoutPage.cshtml";
 }
 <div class="header-w3l">
-    <h1>KUUP</h1>
+    <h1>@Recursos.Textos.Account_Kuup</h1>
 </div>
 <div class="main-w3layouts-agileinfo">
     <div class="wthree-form">
-        <h2>Inicia sesión en kuup</h2>
+        <h2>@Recursos.Textos.Account_IniciarSecion</h2>
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -29,11 +29,11 @@
             <div style="color: #fff;">@ViewData["Informacion"]</div>
             <div class="clear"></div>
             <div class="submit-agileits">
-                <input type="submit" value="Iniciar sesión">
+                <input type="submit" value="@Recursos.Textos.Account_Boton_IniciarSecion">
             </div>
         }
     </div>
 </div>
 <div class="footer">
-    <p>&copy; 2020 Sistema de Inventario y Ventas Kuup | Desarrollado por  <a href="">SIR</a></p>
+    <p>&copy; @Html.Raw(Recursos.Textos.Kuup_Aplicacion)</p>
 </div>

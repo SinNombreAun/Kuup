@@ -1,16 +1,67 @@
 ﻿<header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" data-controls="navbarColor01" aria-expanded="false">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav mr-auto">
-                @Html.Raw(ViewData["lstMenu"])
-            </ul>
-            <span class="navbar-text">
-                <a href="@Url.Action("LoginOut", "Account")"><i class="fa fa-sign-out"></i> Cerrar sesión</a>
-            </span>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" data-controls="navbarColor01" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav mr-auto">
+                    @Html.Raw(ViewData["lstMenu"])
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>&ensp; @ViewBag.NombreDeUsuario
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Perfil</a>
+                            <a class="dropdown-item" href="#">Configuracion</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("LoginOut", "Account")"><i class="fa fa-sign-out"></i> Cerrar sesión</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+@*<div class="d-flex">
+        <div id="MenuBar" class="bg-dark">
+            <div class="logo">
+                <h4 class="font-weight-bold">KUUP</h4>
+            </div>
+            <div class="menu">
+                <a href="#" class="d-block p-3"> tablero</a>
+                <a href="#" class="d-block p-3"> tablero</a>
+                <a href="#" class="d-block p-3"> tablero</a>
+                <a href="#" class="d-block p-3"> tablero</a>
+                <a href="#" class="d-block p-3"> tablero</a>
+                <a href="#" class="d-block p-3"> tablero</a>
+            </div>
         </div>
-    </nav>
-</header>
+        <div class="w-100">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <form class="form-inline my-2 position-relative d-inline-block">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                        <button class="btn btn-seach position-absolute btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Perfil
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("LoginOut", "Account")"><i class="fa fa-sign-out"></i> Cerrar sesión</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>*@
