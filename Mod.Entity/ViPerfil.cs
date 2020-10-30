@@ -15,10 +15,10 @@ namespace Mod.Entity
     public partial class ViPerfil
     {
         public byte PER_NUM_PERFIL { get; set; }
-        public String PER_NOM_PERFIL { get; set; }
+        public string PER_NOM_PERFIL { get; set; }
         public byte PER_CVE_TIPO_PERFIL { get; set; }
         public byte PER_CVE_ESTATUS { get; set; }
-        public String PER_TXT_TIPO_PERFIL { get; set; }
-        public String PER_TXT_ESTATUS { get; set; }
+        public string PER_TXT_TIPO_PERFIL { get; set; }
+        public string PER_TXT_ESTATUS { get; set; }
     }
 }

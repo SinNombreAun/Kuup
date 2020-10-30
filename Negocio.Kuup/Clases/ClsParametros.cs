@@ -38,7 +38,7 @@ namespace Negocio.Kuup.Clases
             get { return Parametro.PAR_TXT_TIPO; }
             set { Parametro.PAR_TXT_TIPO = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -46,7 +46,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Parametro Parametro = this.ToTable();
                     db.Parametro.Add(Parametro);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Parametro where q.PAR_NOM_PARAMETRO == Parametro.PAR_NOM_PARAMETRO select q).Count() != 0)
                     {
                         return true;
@@ -59,14 +62,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Parametro.Remove((from q in db.Parametro where q.PAR_NOM_PARAMETRO == Parametro.PAR_NOM_PARAMETRO select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Parametro where q.PAR_NOM_PARAMETRO == Parametro.PAR_NOM_PARAMETRO select q).Count() != 0)
                     {
                         return false;
@@ -79,7 +85,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

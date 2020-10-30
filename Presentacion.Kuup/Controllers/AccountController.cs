@@ -52,6 +52,10 @@ namespace Presentacion.Kuup.Controllers
                                 MoSesion.NumeroDePerfil = lstUsuarioPerfil.FirstOrDefault().NumeroDePerfil;
                                 MoSesion.NombreDePerfil = lstUsuarioPerfil.FirstOrDefault().NombreDePerfil;
                                 MoSesion.Browser = Request.Browser.Browser + " " + Request.Browser.Version;
+                                if (!MvcApplication.ListaDeSesionesActivas.ContainsKey(MoSesion.IDSesion))
+                                {
+                                    MvcApplication.ListaDeSesionesActivas.Add(MoSesion.IDSesion, new SesionActiva() { NumeroDeUsuario = MoSesion.NumeroDeUsuario, NumeroDePerfil = MoSesion.NumeroDePerfil, Deslogueado = false });
+                                }
                                 return RedirectToAction("Index", "Home");
                             }
                             else
@@ -74,6 +78,7 @@ namespace Presentacion.Kuup.Controllers
             {
                 ViewData["Informacion"] = Recursos.Textos.Bitacora_TextoTryCatchGenerico;
                 ClsBitacora.GeneraBitacora(NumeroDePantalla, 1, "Login", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                MoSesion.LimpiaSesion();
             }
             return View();
         }

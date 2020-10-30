@@ -15,6 +15,9 @@ using System.Web.Security.AntiXss;
 using System.Web.WebPages;
 using System.Data.SqlTypes;
 using System.Web.Configuration;
+using System.Web;
+using System.Collections;
+using System.Data.Entity.Validation;
 
 namespace Funciones.Kuup.Adicionales
 {
@@ -181,13 +184,20 @@ namespace Funciones.Kuup.Adicionales
                 }
                 return false;
             }
-            public static bool FileExists(String ruta, bool isDirectory, bool CreaDirectorio = false)
+            public static bool FileExists(String ruta, bool isDirectory, bool CreaElemento = false)
             {
                 if (!isDirectory)
                 {
                     if (File.Exists(ruta))
                     {
                         return true;
+                    }
+                    else
+                    {
+                        if (CreaElemento)
+                        {
+                            return CrearArchivo(ruta);
+                        }
                     }
                 }
                 else
@@ -198,7 +208,7 @@ namespace Funciones.Kuup.Adicionales
                     }
                     else
                     {
-                        if (CreaDirectorio)
+                        if (CreaElemento)
                         {
                             return CrearDirectorio(ruta);
                         }
@@ -662,6 +672,80 @@ namespace Funciones.Kuup.Adicionales
                     }
                 }
                 return Resultrado;
+            }
+        }
+        #endregion
+        #region ManejaError
+        public class ClsManejaError
+        {
+            public String MensajeErrorException(Exception exception, String NombreDeUsuario, String TipoDeExcepcion, String CodigoDeError)
+            {
+                String Mensaje = "Tipo de Excepción" + Environment.NewLine +
+                    "Mensaje: " + exception.Message + Environment.NewLine +
+                    "Versión: " + "" + Environment.NewLine +
+                    "Usuario: " + NombreDeUsuario + Environment.NewLine +
+                    "Fecha: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine;
+                if (HttpContext.Current.Request.UrlReferrer != null)
+                {
+                    Mensaje += "Referrer : " + HttpContext.Current.Request.UrlReferrer.PathAndQuery + Environment.NewLine;
+                }
+                Mensaje += "Request URL: " + HttpContext.Current.Request.Url.PathAndQuery + Environment.NewLine;
+                List<String> Parametros = new List<string>();
+                int Cont = 0;
+                switch (HttpContext.Current.Request.HttpMethod)
+                {
+                    case "GET":
+
+                        foreach (var Param in HttpContext.Current.Request.QueryString)
+                        {
+                            if (Param != null)
+                            {
+                                Parametros.Add("* Parametro: " + Param + " = " + HttpContext.Current.Request.QueryString[Cont]);
+                                Cont++;
+                            }
+                            if (Parametros.Count() > 0)
+                            {
+                                Mensaje += "Parametros por GET" + Environment.NewLine +
+                                    String.Join(Environment.NewLine, Parametros);
+                            }
+                        }
+                        break;
+                    case "POST":
+                        foreach (var Param in HttpContext.Current.Request.Form)
+                        {
+                            if (Param != null)
+                            {
+                                Parametros.Add("* Parametro: " + Param + " = " + HttpContext.Current.Request.Form[Cont]);
+                                Cont++;
+                            }
+                            if (Parametros.Count() > 0)
+                            {
+                                Mensaje += "Parametros por POST" + Environment.NewLine +
+                                    String.Join(Environment.NewLine, Parametros);
+                            }
+                        }
+                        break;
+                }
+                Mensaje += "Método de Petición: " + HttpContext.Current.Request.HttpMethod + Environment.NewLine +
+                    "Petición AJAX: " + (HttpContext.Current.Request.Headers.Get("X-Requested-With") == "XMLHttpRequest" ? "SI" : "NO") + Environment.NewLine +
+                    "User Agent: " + HttpContext.Current.Request.UserAgent + Environment.NewLine +
+                    "Explorador: " + HttpContext.Current.Request.Browser.Id + " " + HttpContext.Current.Request.Browser.Version + Environment.NewLine +
+                    "Equipo: " + Environment.MachineName + Environment.NewLine +
+                    "Usuario de Equipo: " + Environment.UserName + Environment.NewLine +
+                    "Información de la Excepción" + Environment.NewLine;
+                foreach (DictionaryEntry DataEx in exception.Data)
+                {
+                    Mensaje += DataEx.Key.ToString() + " = " + DataEx.Value.ToString() + Environment.NewLine;
+                }
+                Mensaje += "Codigo de Error: " + CodigoDeError + Environment.NewLine +
+                    "Stack: " + exception.StackTrace + Environment.NewLine +
+                    "Hast Code: " + exception.GetHashCode().ToString() + Environment.NewLine +
+                    "Target: " + exception.TargetSite.ToString() + Environment.NewLine +
+                    "Source: " + exception.Source + Environment.NewLine +
+                    "Versión Sistema Operativo: " + Environment.OSVersion.VersionString + Environment.NewLine +
+                    "Procesadores: " + Environment.ProcessorCount.ToString() + Environment.NewLine +
+                    "IP Address: " + HttpContext.Current.Request.ServerVariables.Get("REMOTE_ADDR");
+                return Mensaje;
             }
         }
         #endregion

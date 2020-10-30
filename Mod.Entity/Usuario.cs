@@ -18,18 +18,18 @@ namespace Mod.Entity
         public Usuario()
         {
             this.Agenda = new HashSet<Agenda>();
-            this.IPRegistradas = new HashSet<IPRegistradas>();
             this.UsuarioPerfil = new HashSet<UsuarioPerfil>();
+            this.IPRegistradas = new HashSet<IPRegistradas>();
             this.VentaTotal = new HashSet<VentaTotal>();
         }
     
         public short USU_NUM_USUARIO { get; set; }
-        public String USU_NOM_USUARIO { get; set; }
-        public String USU_NOM_PERS { get; set; }
-        public String USU_APP_PERS { get; set; }
-        public String USU_APM_PERS { get; set; }
-        public String USU_CORREO { get; set; }
-        public String USU_PASSWORD { get; set; }
+        public string USU_NOM_USUARIO { get; set; }
+        public string USU_NOM_PERS { get; set; }
+        public string USU_APP_PERS { get; set; }
+        public string USU_APM_PERS { get; set; }
+        public string USU_CORREO { get; set; }
+        public string USU_PASSWORD { get; set; }
         public System.DateTime USU_FECHA_REGISTRO { get; set; }
         public Nullable<System.DateTime> USU_FECHA_CANCELACION { get; set; }
         public byte USU_CVE_ESTATUS { get; set; }
@@ -37,9 +37,9 @@ namespace Mod.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agenda> Agenda { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<IPRegistradas> IPRegistradas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsuarioPerfil> UsuarioPerfil { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IPRegistradas> IPRegistradas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VentaTotal> VentaTotal { get; set; }
     }

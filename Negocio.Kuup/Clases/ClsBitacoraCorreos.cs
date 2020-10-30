@@ -63,7 +63,7 @@ namespace Negocio.Kuup.Clases
             get { return BitacoraCorreo.BIM_TXT_ESTATUS; }
             set { BitacoraCorreo.BIM_TXT_ESTATUS = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -71,7 +71,10 @@ namespace Negocio.Kuup.Clases
                 {
                     BitacoraCorreo BitacoraCorreo = this.ToTable();
                     db.BitacoraCorreo.Add(BitacoraCorreo);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
                     {
                         return true;
@@ -84,14 +87,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.BitacoraCorreo.Remove((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
                     {
                         return false;
@@ -104,7 +110,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

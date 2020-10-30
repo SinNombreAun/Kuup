@@ -29,7 +29,6 @@ namespace Mod.Entity
         public virtual DbSet<Claves> Claves { get; set; }
         public virtual DbSet<Funcionalidad> Funcionalidad { get; set; }
         public virtual DbSet<FuncionPerfil> FuncionPerfil { get; set; }
-        public virtual DbSet<IPRegistradas> IPRegistradas { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<PantallaPerfil> PantallaPerfil { get; set; }
         public virtual DbSet<Parametro> Parametro { get; set; }
@@ -37,13 +36,11 @@ namespace Mod.Entity
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<UsuarioPerfil> UsuarioPerfil { get; set; }
-        public virtual DbSet<VentaTotal> VentaTotal { get; set; }
         public virtual DbSet<BitacoraCorreo> BitacoraCorreo { get; set; }
         public virtual DbSet<ViAgenda> ViAgenda { get; set; }
         public virtual DbSet<ViBitacoraCorreo> ViBitacoraCorreo { get; set; }
         public virtual DbSet<ViClaves> ViClaves { get; set; }
         public virtual DbSet<ViFuncionPerfil> ViFuncionPerfil { get; set; }
-        public virtual DbSet<ViIPRegistradas> ViIPRegistradas { get; set; }
         public virtual DbSet<ViMenu> ViMenu { get; set; }
         public virtual DbSet<ViPantalla> ViPantalla { get; set; }
         public virtual DbSet<ViPantallaPerfil> ViPantallaPerfil { get; set; }
@@ -53,17 +50,22 @@ namespace Mod.Entity
         public virtual DbSet<ViSurtido> ViSurtido { get; set; }
         public virtual DbSet<ViUsuario> ViUsuario { get; set; }
         public virtual DbSet<ViUsuarioPerfil> ViUsuarioPerfil { get; set; }
-        public virtual DbSet<ViVenta> ViVenta { get; set; }
-        public virtual DbSet<ViVentaTotal> ViVentaTotal { get; set; }
         public virtual DbSet<ViProducto> ViProducto { get; set; }
-        public virtual DbSet<Bitacora> Bitacora { get; set; }
-        public virtual DbSet<ViBitacora> ViBitacora { get; set; }
         public virtual DbSet<ViCodigoDeBarras> ViCodigoDeBarras { get; set; }
         public virtual DbSet<ViFuncionalidad> ViFuncionalidad { get; set; }
         public virtual DbSet<CodigoDeBarras> CodigoDeBarras { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Surtido> Surtido { get; set; }
-        public virtual DbSet<Venta> Venta { get; set; }
         public virtual DbSet<Pantalla> Pantalla { get; set; }
+        public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
+        public virtual DbSet<ViConfiguraPaquete> ViConfiguraPaquete { get; set; }
+        public virtual DbSet<IPRegistradas> IPRegistradas { get; set; }
+        public virtual DbSet<Venta> Venta { get; set; }
+        public virtual DbSet<VentaTotal> VentaTotal { get; set; }
+        public virtual DbSet<ViIPRegistradas> ViIPRegistradas { get; set; }
+        public virtual DbSet<ViVenta> ViVenta { get; set; }
+        public virtual DbSet<ViVentaTotal> ViVentaTotal { get; set; }
+        public virtual DbSet<Bitacora> Bitacora { get; set; }
+        public virtual DbSet<ViBitacora> ViBitacora { get; set; }
     }
 }

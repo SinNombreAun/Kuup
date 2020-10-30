@@ -58,7 +58,7 @@ namespace Negocio.Kuup.Clases
             get { return Pantallas.PAN_TXT_ESTATUS; }
             set { Pantallas.PAN_TXT_ESTATUS = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -66,7 +66,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Pantalla Pantallas = this.ToTable();
                     db.Pantalla.Add(Pantallas);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
                     {
                         return true;
@@ -79,14 +82,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
                     {
                         return false;
@@ -99,7 +105,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

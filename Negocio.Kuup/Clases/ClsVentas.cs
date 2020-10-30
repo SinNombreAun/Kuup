@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -33,6 +34,11 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_CANT_PRODUCTO; }
             set { Venta.VEN_CANT_PRODUCTO = value; }
         }
+        public decimal PrecioUnitario
+        {
+            get { return Venta.VEN_PRECIO_UNITARIO; }
+            set { Venta.VEN_PRECIO_UNITARIO = value; }
+        }
         public decimal ImporteDeProducto
         {
             get { return Venta.VEN_IMPORTE_PRODUCTO; }
@@ -43,7 +49,7 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_NOM_PRODUCTO; }
             set { Venta.VEN_NOM_PRODUCTO = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -51,7 +57,11 @@ namespace Negocio.Kuup.Clases
                 {
                     Venta Venta = this.ToTable();
                     db.Venta.Add(Venta);
-                    db.SaveChanges();
+                    db.Entry(Venta).State = EntityState.Added;
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
                     {
                         return true;
@@ -61,17 +71,22 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).FirstOrDefault());
-                    db.SaveChanges();
+                    db.Entry(Venta).State = EntityState.Deleted;
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
                     {
                         return false;
@@ -81,10 +96,11 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
@@ -95,6 +111,7 @@ namespace Negocio.Kuup.Clases
             Tabla.VEN_NUM_PRODUCTO = this.NumeroDeProducto;
             Tabla.VEN_CODIGO_BARRAS = this.CodigoDeBarras;
             Tabla.VEN_CANT_PRODUCTO = this.CantidadDeProducto;
+            Tabla.VEN_PRECIO_UNITARIO = this.PrecioUnitario;
             Tabla.VEN_IMPORTE_PRODUCTO = this.ImporteDeProducto;
             return Tabla;
         }
@@ -113,6 +130,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
+                                    PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                     NombreDeProducto = q.VEN_NOM_PRODUCTO
                                 }).ToList();
@@ -126,6 +144,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
+                                    PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                 }).ToList();
                     }
