@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Presentacion.Kuup.Models
 {
-        public class FuncionalidadModel : Negocio.Kuup.Clases.ClsFuncionalidades
+    public class FuncionalidadModel : Negocio.Kuup.Clases.ClsFuncionalidades
     {
         public FuncionalidadModel() { }
         public FuncionalidadModel(Negocio.Kuup.Clases.ClsFuncionalidades Funcionalidad)
@@ -39,14 +39,14 @@ namespace Presentacion.Kuup.Models
             set { this.NombreDeFuncionalidad = value; }
         }
         [Required]
-        [Display(Name = "Cve Estatus")]
+        [Display(Name = "Estatus")]
         public byte fCveEstatus
         {
             get { return this.CveEstatus; }
             set { this.CveEstatus = value; }
         }
         [Required]
-        [Display(Name = "Texto Estatis")]
+        [Display(Name = "Estatus")]
         public String fTextoEstatus
         {
             get { return this.TextoEstatus; }

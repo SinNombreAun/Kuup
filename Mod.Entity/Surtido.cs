@@ -17,7 +17,7 @@ namespace Mod.Entity
         public short SUR_FOLIO_SURTIDO { get; set; }
         public byte SUR_NUM_PROVEEDOR { get; set; }
         public short SUR_NUM_PRODUCTO { get; set; }
-        public String SUR_CODIGO_BARRAS { get; set; }
+        public string SUR_CODIGO_BARRAS { get; set; }
         public short SUR_CANT_NUEVA { get; set; }
         public decimal SUR_PRECIO_UNITARIO { get; set; }
         public decimal SUR_COSTO_TOTAL { get; set; }

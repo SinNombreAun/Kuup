@@ -15,15 +15,15 @@ namespace Mod.Entity
     public partial class ViUsuario
     {
         public short USU_NUM_USUARIO { get; set; }
-        public String USU_NOM_USUARIO { get; set; }
-        public String USU_NOM_PERS { get; set; }
-        public String USU_APP_PERS { get; set; }
-        public String USU_APM_PERS { get; set; }
-        public String USU_CORREO { get; set; }
-        public String USU_PASSWORD { get; set; }
+        public string USU_NOM_USUARIO { get; set; }
+        public string USU_NOM_PERS { get; set; }
+        public string USU_APP_PERS { get; set; }
+        public string USU_APM_PERS { get; set; }
+        public string USU_CORREO { get; set; }
+        public string USU_PASSWORD { get; set; }
         public System.DateTime USU_FECHA_REGISTRO { get; set; }
         public Nullable<System.DateTime> USU_FECHA_CANCELACION { get; set; }
         public byte USU_CVE_ESTATUS { get; set; }
-        public String USU_TXT_ESTATUS { get; set; }
+        public string USU_TXT_ESTATUS { get; set; }
     }
 }

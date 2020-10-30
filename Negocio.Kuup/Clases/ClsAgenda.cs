@@ -89,7 +89,7 @@ namespace Negocio.Kuup.Clases
             TextoDeNotifica = Registro.AGN_TXT_NOTIFICA;
             TextoDeEstatus = Registro.AGN_TXT_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -97,7 +97,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Agenda Agenda = this.ToTable();
                     db.Agenda.Add(Agenda);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Agenda where q.AGN_NUM_AGENDA == Agenda.AGN_NUM_AGENDA select q).Count() != 0)
                     {
                         this.NumeroDeAgenda = Agenda.AGN_NUM_AGENDA;
@@ -112,14 +115,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Agenda.Remove((from q in db.Agenda where q.AGN_NUM_AGENDA == Agenda.AGN_NUM_AGENDA select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Agenda where q.AGN_NUM_AGENDA == Agenda.AGN_NUM_AGENDA select q).Count() != 0)
                     {
                         return false;
@@ -133,7 +139,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

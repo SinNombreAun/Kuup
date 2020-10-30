@@ -52,6 +52,7 @@
     <Compile Include="Clases\ClsBitacora.cs" />
     <Compile Include="Clases\ClsClaves.cs" />
     <Compile Include="Clases\ClsCodigosDeBarras.cs" />
+    <Compile Include="Clases\ClsConfiguraPaquetes.cs" />
     <Compile Include="Clases\ClsFuncionalidades.cs" />
     <Compile Include="Clases\ClsFuncionesPerfiles.cs" />
     <Compile Include="Clases\ClsIPRegistradas.cs" />

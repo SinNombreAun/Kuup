@@ -17,8 +17,8 @@ namespace Mod.Entity
         public short BIT_NUM_BITACORA { get; set; }
         public short BIT_NUM_PANTALLA { get; set; }
         public byte BIT_NUM_FUNCIONALIDAD { get; set; }
-        public String BIT_NOM_FUNCION_COD { get; set; }
-        public String BIT_DETALLE { get; set; }
+        public string BIT_NOM_FUNCION_COD { get; set; }
+        public string BIT_DETALLE { get; set; }
         public System.DateTime BIM_FECHA_BITACORA { get; set; }
     
         public virtual Pantalla Pantalla { get; set; }

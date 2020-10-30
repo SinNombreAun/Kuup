@@ -15,7 +15,17 @@
                 @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
             </div>
         </div>
-        <div class="col"></div>
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fImporteTotal", "Total de Venta", new { @class = "col-sm col-form-label" })
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    @Html.TextBox("fImporteTotal", null, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+        </div>
         <div class="col-sm-12">
             <table id="Tabla" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
@@ -25,7 +35,7 @@
                         <th scope="col">NombreDeProducto</th>
                         <th scope="col">CantidadDeProducto</th>
                         <th scope="col">PrecioUnitario</th>
-                        <th scope="col">PrecioTotal</th>
+                        <th scope="col">ImporteDeProducto</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -36,25 +46,65 @@
                         <th scope="col">NombreDeProducto</th>
                         <th scope="col">CantidadDeProducto</th>
                         <th scope="col">PrecioUnitario</th>
-                        <th scope="col">PrecioTotal</th>
+                        <th scope="col">ImporteDeProducto</th>
                         <th></th>
                     </tr>
                 </tfoot>
             </table>
+            <div class="text-right">
+                <button type="button" id="VentaTotal" class="btn btn-primary">Ejecutar Venta</button>
+            </div>
         </div>
     </div>
 </div>
 <div id="AgregaProducto" class="Oculto">
-    @*<form id="formProducto">*@
-        <fieldset>
-            <div class="from-group row from-group-margin">
-                <label from="fCantidadDeProducto" class="col-sm-5 col-form-label">Cantidad a vendar</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="fCantidadDeProducto" />
-                </div>
+    <fieldset>
+        <div class="from-group row from-group-margin Oculto">
+            <label form="fPaquetes" class="col-sm-5 col-form-label">Producto en paquete</label>
+            <div class="col-sm-7">
+                <select id="fPaquetes" class="form-control">
+                    <option value="">@TextoComboRequerido</option>
+                </select>
             </div>
-        </fieldset>
-    @*</form>*@
+        </div>
+        <div class="from-group row from-group-margin">
+            <label from="fCantidadDeProducto" class="col-sm-5 col-form-label">Cantidad a vendar</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="fCantidadDeProducto" />
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div id="RegistraVenta" class="Oculto">
+    <fieldset>
+        <div class="from-group from-group-margin">
+            <label form="fImporteTotalVent" class="col-sm-5 col-form-label">Importe Total</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" id="fImporteTotalVent" readonly="readonly" />
+            </div>
+        </div>
+        <div class="from-group from-group-margin">
+            <label from="fImporteRecibido" class="col-sm-5 col-form-label">Importe Recibido</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" id="fImporteRecibido" />
+            </div>
+        </div>
+        <div class="from-group from-group-margin">
+            <label from="fImporteCambio" class="col-sm-5 col-form-label">Cambio</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input type="text" class="form-control" id="fImporteCambio" readonly="readonly" />
+            </div>
+        </div>
+    </fieldset>
 </div>
 <script type="text/javascript">
     let ClsVentaTotal;
@@ -62,7 +112,10 @@
         ClsVentaTotal = Objeto.Constructor({
             Funcionalidad: 'INDEX',
             UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "VentaTotal")',
-            UrlCargaProducto: '@Url.Action("CargaProducto","VentaTotal")'
+            UrlCargaProducto: '@Url.Action("CargaProducto","VentaTotal")',
+            UrlProductoATabla: '@Url.Action("ProductoParaTabla","VentaTotal")',
+            UrlDeleteProducto: '@Url.Action("DeleteDeProducto","VentaTotal")',
+            UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")'
         });
         ClsVentaTotal.Inicio();
     });

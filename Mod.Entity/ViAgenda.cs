@@ -20,10 +20,10 @@ namespace Mod.Entity
         public System.DateTime AGN_FECHA_FIN_EVENTO { get; set; }
         public short AGN_NUM_USUARIO { get; set; }
         public byte AGN_CVE_NOTIFICA { get; set; }
-        public String AGN_DESCRIPCION { get; set; }
+        public string AGN_DESCRIPCION { get; set; }
         public byte AGN_CVE_ESTATUS { get; set; }
-        public String AGN_NOM_USUARIO { get; set; }
-        public String AGN_TXT_NOTIFICA { get; set; }
-        public String AGN_TXT_ESTATUS { get; set; }
+        public string AGN_NOM_USUARIO { get; set; }
+        public string AGN_TXT_NOTIFICA { get; set; }
+        public string AGN_TXT_ESTATUS { get; set; }
     }
 }
