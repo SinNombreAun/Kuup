@@ -13,12 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
-        DBKuupEntities _db = null;
-        public DBKuupEntities db
-        {
-            get { return _db; }
-            set { _db = value; }
-        }
+        public DBKuupEntities db { get; set; }
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {

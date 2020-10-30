@@ -14,6 +14,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProductos : Interfaces.InterfazGen<ClsProductos>
     {
+        public DBKuupEntities db { get; set; }
         ViProducto Producto = new ViProducto();
         public short NumeroDeProducto
         {
@@ -168,74 +169,102 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            Producto Producto = this.ToTable();
+            db.Producto.Add(Producto);
+            db.Entry(Producto).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Producto Producto = this.ToTable();
-                    db.Producto.Add(Producto);
-                    db.Entry(Producto).State = EntityState.Added;
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.Producto.Remove((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).FirstOrDefault());
+            db.Entry(Producto).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    db.Producto.Remove((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).FirstOrDefault());
-                    db.Entry(Producto).State = EntityState.Deleted;
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            Producto Producto = this.ToTable();
+            db.Producto.Attach(Producto);
+            db.Entry(Producto).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Producto Producto = this.ToTable();
-                    db.Producto.Attach(Producto);
-                    db.Entry(Producto).State = EntityState.Modified;
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToUpdate(db);
                     }
-                    return true;
+                }
+                else
+                {
+                    return ToUpdate(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
+
             }
         }
         public Producto ToTable()
