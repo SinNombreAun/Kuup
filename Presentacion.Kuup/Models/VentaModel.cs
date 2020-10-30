@@ -15,6 +15,7 @@ namespace Presentacion.Kuup.Models
             this.NumeroDeProducto = Venta.NumeroDeProducto;
             this.CodigoDeBarras = Venta.CodigoDeBarras;
             this.CantidadDeProducto = Venta.CantidadDeProducto;
+            this.PrecioUnitario = Venta.PrecioUnitario;
             this.ImporteDeProducto = Venta.ImporteDeProducto;
             this.NombreDeProducto = Venta.NombreDeProducto;
         }
@@ -45,6 +46,13 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.CantidadDeProducto; }
             set { this.CantidadDeProducto = value; }
+        }
+        [Required]
+        [Display(Name = "Precio Unitario")]
+        public decimal fPrecioUnitario
+        {
+            get { return this.PrecioUnitario; }
+            set { this.PrecioUnitario = value; }
         }
         [Required]
         [Display(Name = "Importe De Producto")]

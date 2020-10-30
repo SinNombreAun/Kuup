@@ -76,15 +76,15 @@ namespace Negocio.Kuup.Clases
             NumeroDePantalla = Registro.MEN_NUM_PANTALLA;
             CveDeEstatus = Registro.MEN_CVE_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

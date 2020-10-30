@@ -23,13 +23,13 @@ namespace Mod.Entity
         }
     
         public short PRO_NUM_PRODUCTO { get; set; }
-        public String PRO_CODIGO_BARRAS { get; set; }
+        public string PRO_CODIGO_BARRAS { get; set; }
         public System.DateTime PRO_FECHA_REGISTRO { get; set; }
         public short PRO_CANT_PRODUCTO_ULTIMA { get; set; }
         public short PRO_CANT_PRODUCTO_NUEVA { get; set; }
         public short PRO_CANT_PRODUCTO_TOTAL { get; set; }
-        public String PRO_NOM_PRODUCTO { get; set; }
-        public String PRO_DESCRIPCION { get; set; }
+        public string PRO_NOM_PRODUCTO { get; set; }
+        public string PRO_DESCRIPCION { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }

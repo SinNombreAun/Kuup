@@ -49,7 +49,7 @@ namespace Negocio.Kuup.Clases
             get { return CodigoDeBarrasE.COB_TXT_ESTATUS; }
             set { CodigoDeBarrasE.COB_TXT_ESTATUS = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -57,7 +57,10 @@ namespace Negocio.Kuup.Clases
                 {
                     CodigoDeBarras CodigoDeBarrasE = this.ToTable();
                     db.CodigoDeBarras.Add(CodigoDeBarrasE);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.CodigoDeBarras where q.COB_NUM_PRODUCTO == CodigoDeBarrasE.COB_NUM_PRODUCTO select q).Count() != 0)
                     {
                         return true;
@@ -70,14 +73,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.CodigoDeBarras.Remove((from q in db.CodigoDeBarras where q.COB_NUM_PRODUCTO == CodigoDeBarrasE.COB_NUM_PRODUCTO select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.CodigoDeBarras where q.COB_NUM_PRODUCTO == CodigoDeBarrasE.COB_NUM_PRODUCTO select q).Count() != 0)
                     {
                         return false;
@@ -90,7 +96,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             try
             {
@@ -99,7 +105,10 @@ namespace Negocio.Kuup.Clases
                     CodigoDeBarras CodigoDeBarrasE = this.ToTable();
                     db.CodigoDeBarras.Attach(CodigoDeBarrasE);
                     db.Entry(CodigoDeBarrasE).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     return true;
                 }
             }

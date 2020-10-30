@@ -63,7 +63,7 @@ namespace Negocio.Kuup.Clases
             Clave.CVE_DATO_ADICIONAL_II = DatoAdicionalII;
             Clave.CVE_CVE_ESTATUS = CveDeEstatus;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try 
             {
@@ -71,7 +71,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Claves Clave = this.ToTable();
                     db.Claves.Add(Clave);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Claves where q.CVE_NUM_CLAVE == Clave.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Clave.CVE_NUM_SEC_CLAVE select q).Count() != 0){
                         return true;
                     }
@@ -84,11 +87,11 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

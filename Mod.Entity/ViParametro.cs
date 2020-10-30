@@ -15,9 +15,9 @@ namespace Mod.Entity
     public partial class ViParametro
     {
         public byte PAR_CVE_TIPO { get; set; }
-        public String PAR_NOM_PARAMETRO { get; set; }
-        public String PAR_VALOR_PARAMETRO { get; set; }
-        public String PAR_DESCRIPCION { get; set; }
-        public String PAR_TXT_TIPO { get; set; }
+        public string PAR_NOM_PARAMETRO { get; set; }
+        public string PAR_VALOR_PARAMETRO { get; set; }
+        public string PAR_DESCRIPCION { get; set; }
+        public string PAR_TXT_TIPO { get; set; }
     }
 }

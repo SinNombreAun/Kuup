@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -12,6 +13,12 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
+        DBKuupEntities _db = null;
+        public DBKuupEntities db
+        {
+            get { return _db; }
+            set { _db = value; }
+        }
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
@@ -73,50 +80,103 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_TXT_ESTATUS; }
             set { VentaTotal.VET_TXT_ESTATUS = value; }
         }
+        private bool ToInsert(DBKuupEntities db)
+        {
+            VentaTotal VentaTotal = this.ToTable();
+            db.VentaTotal.Add(VentaTotal);
+            db.Entry(VentaTotal).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    VentaTotal VentaTotal = this.ToTable();
-                    db.VentaTotal.Add(VentaTotal);
-                    db.SaveChanges();
-                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
+                    using(db = new DBKuupEntities())
                     {
-                        return true;
+                        return ToInsert(db);
                     }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
+        }
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.VentaTotal.Remove((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).FirstOrDefault());
+            db.Entry(VentaTotal).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
         }
         public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if(db == null)
                 {
-                    db.VentaTotal.Remove((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).FirstOrDefault());
-                    db.SaveChanges();
-                    if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        return false;
+                        return ToDelete(db);
                     }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            VentaTotal VentaTotal = this.ToTable();
+            db.VentaTotal.Attach(VentaTotal);
+            db.Entry(VentaTotal).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
         public bool Update()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(db == null)
+                {
+                    using(DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch(Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+
+            }
         }
         public VentaTotal ToTable()
         {

@@ -48,7 +48,7 @@ namespace Negocio.Kuup.Clases
             get { return Bitacora.BIT_NOM_FUNCIONALIDAD; }
             set { Bitacora.BIT_NOM_FUNCIONALIDAD = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -56,7 +56,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Bitacora Bitacora = this.ToTable();
                     db.Bitacora.Add(Bitacora);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Bitacora where q.BIT_NUM_BITACORA == Bitacora.BIT_NUM_BITACORA && q.BIT_NUM_PANTALLA == Bitacora.BIT_NUM_PANTALLA && q.BIT_NUM_FUNCIONALIDAD == Bitacora.BIT_NUM_FUNCIONALIDAD select q).Count() != 0)
                     {
                         return true;
@@ -69,14 +72,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Bitacora.Remove((from q in db.Bitacora where q.BIT_NUM_BITACORA == Bitacora.BIT_NUM_BITACORA && q.BIT_NUM_PANTALLA == Bitacora.BIT_NUM_PANTALLA && q.BIT_NUM_FUNCIONALIDAD == Bitacora.BIT_NUM_FUNCIONALIDAD select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Bitacora where q.BIT_NUM_BITACORA == Bitacora.BIT_NUM_BITACORA && q.BIT_NUM_PANTALLA == Bitacora.BIT_NUM_PANTALLA && q.BIT_NUM_FUNCIONALIDAD == Bitacora.BIT_NUM_FUNCIONALIDAD select q).Count() != 0)
                     {
                         return false;
@@ -89,7 +95,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
@@ -117,7 +123,7 @@ namespace Negocio.Kuup.Clases
                 Bitacora.Insert();
             }catch (Exception e)
             {
-
+                var eee = e;
             }
         }
     }

@@ -38,7 +38,7 @@ namespace Negocio.Kuup.Clases
             get { return Funcionalidad.FUN_TXT_ESTATUS; }
             set { Funcionalidad.FUN_TXT_ESTATUS = value; }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -46,7 +46,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Funcionalidad Funcionalidad = this.ToTable();
                     db.Funcionalidad.Add(Funcionalidad);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
                     {
                         return true;
@@ -59,14 +62,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Funcionalidad.Add((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD  select q).Count() != 0)
                     {
                         return false;
@@ -79,7 +85,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

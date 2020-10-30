@@ -57,15 +57,15 @@ namespace Negocio.Kuup.Clases
             NombreDeUsuario = Registro.IPR_NOM_USUARIO;
             TextoTipoDeAccedo = Registro.IPR_TXT_TIPOACCESO;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

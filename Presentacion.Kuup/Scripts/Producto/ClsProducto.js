@@ -76,13 +76,21 @@
             };
             function GeneraGridDeProducto() {
                 var table = $('#' + Elementos_Producto.Tabla).DataTable({
-                    "destroy": true,
-                    "responsive": true,
                     "ajax": {
                         "method": "GET",
                         "url": UrlCargaGrid + "?Grid=true"
                     },
+                    "destroy": true,
+                    "responsive": false,
                     "scrollY": 500,
+                    "scrollX": true,
+                    "select": true,
+                    "scrollCollapse": false,
+                    "fixedColumns": {
+                        "leftColumns": 2,
+                        "rightColumns": 1
+                    },
+                    "columnDefs": [ { "targets": [0], "visible": false, "searchable": false } ],
                     "columns": [
                         { "data": "NumeroDeProducto" },
                         { "data": "CodigoDeBarras" },
@@ -95,11 +103,9 @@
                         { "data": "CantidadMinimaMayoreo" },
                         { "data": "PrecioMayoreo" },
                         { "data": "TextoEstatus" },
-                        { "defaultContent": "<button type='button' class='detalle btn btn-info'>Detalle</button>"}
+                        { "defaultContent": "<button type='button' class='detalle btn btn-info'>Detalle</button>" }
                     ],
-                    "language": {
-                        "url": "/Content/Librerias/DataTables/dataTablesEspañol.json"
-                    }
+                    "language": LenguajeEN()
                 });
                 DetalleRegistro('#' + Elementos_Producto.Tabla + ' tbody', table);
             }
@@ -109,33 +115,22 @@
                     if (typeof (data) == 'undefined') {
                         data = table.row($(this).parents('li')).data();
                     }
-                    window.location.href =  UrlDetalle + '?NumeroDeProducto=' + data.NumeroDeProducto;
+                    window.location.href = UrlDetalle + '?NumeroDeProducto=' + data.NumeroDeProducto;
                 });
             }
             _CreaTabla = function (data) {
                 $('#' + Elementos_Producto.Tabla).show();
                 TablaImportar = $('#' + Elementos_Producto.Tabla).DataTable({
                     "destroy": true,
-                    "responsive": true,
+                    "responsive": false,
                     "data": data.data,
-                    "scrollY": 500,
-                    "columnDefs": [
-                        {
-                            "targets": [5],
-                            "visible": false,
-                            "searchable": false
-                        },
-                        {
-                            "targets": [7],
-                            "visible": false,
-                            "searchable": false
-                        },
-                        {
-                            "targets": [10],
-                            "visible": false,
-                            "searchable": false
-                        }
-                    ],
+                    "scrollX": true,
+                    "scrollCollapse": true,
+                    "fixedColumns": {
+                        "leftColumns": 1,
+                        "rightColumns": 1
+                    },
+                    "columnDefs": [{ "targets": [5], "visible": false, "searchable": false }, { "targets": [7], "visible": false, "searchable": false }, { "targets": [10], "visible": false, "searchable": false }],
                     "columns": [
                         { "data": "CodigoDeBarras" },
                         { "data": "NombreDeProducto" },
@@ -151,17 +146,15 @@
                         { "data": "TextoAplicaMayoreo" },
                         { "data": "CantidadMinimaMayoreo" },
                         { "data": "PrecioMayoreo" },
-                        { "data": "Observaciones"}
+                        { "data": "Observaciones" }
                     ],
-                    "language": {
-                        "url": "/Content/Librerias/DataTables/dataTablesEspañol.json"
-                    }
+                    "language": LenguajeEN()
                 });
             }
             _LimpiaTabla = function () {
                 if (TablaImportar != null) {
                     TablaImportar.clear().draw();
-                    $('#' + Elementos_Producto.Tabla).parent().parent().parent().parent().parent().hide();;
+                    $('#' + Elementos_Producto.Tabla).parent().parent().parent().parent().parent().hide();
                 }
             }
             _CargaMasivaDeRegistros = function () {
@@ -170,7 +163,7 @@
                 for (var i = 0; i < TablaRows.rows()[0].length; i++) {
                     JsonObj.push(TablaImportar.rows(i).data()[0]);
                 }
-                let JsonStrin = JSON.Stringify(JsonObj);
+                let JsonStrin = JSON.stringify(JsonObj);
                 $.ajax({
                     type: "POST",
                     url: UrlCargaMasiva,
@@ -274,7 +267,7 @@
             }
             $('#' + Elementos_Producto.Guardar).click(function () {
                 if ($('#' + Elementos_Producto.CodigoDeBarras).val() == '' && $('#' + Elementos_Producto.NombreDeProducto).val()) {
-                    alertify.confirm("Codigo de Barras","Este producto no cuenta con Codigo de Barras, ¿Desas que el sistema genere un Codigo de Barras para este producto?",
+                    alertify.confirm("Codigo de Barras", "Este producto no cuenta con Codigo de Barras, ¿Desas que el sistema genere un Codigo de Barras para este producto?",
                         function () {
                             $('#' + Elementos_Producto.GeneraCodigoDeBarras).val(2);
                             $('form').submit();
