@@ -17,9 +17,9 @@ namespace Mod.Entity
         public short PAP_NUM_PANTALLA { get; set; }
         public byte PAP_NUM_PERFIL { get; set; }
         public byte PAP_CVE_ESTATUS { get; set; }
-        public String PAP_NOM_PANTALLA { get; set; }
-        public String PAP_NOM_PANTALLA_INT { get; set; }
-        public String PAP_NOM_PERFIL { get; set; }
-        public String PAP_TXT_ESTATUS { get; set; }
+        public string PAP_NOM_PANTALLA { get; set; }
+        public string PAP_NOM_PANTALLA_INT { get; set; }
+        public string PAP_NOM_PERFIL { get; set; }
+        public string PAP_TXT_ESTATUS { get; set; }
     }
 }

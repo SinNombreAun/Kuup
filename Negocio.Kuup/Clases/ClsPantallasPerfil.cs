@@ -62,15 +62,15 @@ namespace Negocio.Kuup.Clases
             NumeroDePerfil = Registro.PAP_NUM_PERFIL;
             CveDeEstatus = Registro.PAP_CVE_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

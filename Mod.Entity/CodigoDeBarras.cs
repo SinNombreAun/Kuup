@@ -14,9 +14,9 @@ namespace Mod.Entity
     
     public partial class CodigoDeBarras
     {
-        public String COB_CODIGO_BARRAS { get; set; }
+        public string COB_CODIGO_BARRAS { get; set; }
         public short COB_NUM_PRODUCTO { get; set; }
-        public String COB_RUTA_ARCHIVO { get; set; }
+        public string COB_RUTA_ARCHIVO { get; set; }
         public System.DateTime COB_FECHA_GENERACION { get; set; }
         public byte COB_CVE_ESTATUS { get; set; }
     

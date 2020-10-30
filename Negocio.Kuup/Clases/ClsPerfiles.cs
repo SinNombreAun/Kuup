@@ -57,15 +57,15 @@ namespace Negocio.Kuup.Clases
             TextoTipoDePerfil = Registro.PER_TXT_TIPO_PERFIL;
             TextoDeEstatus = Registro.PER_TXT_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

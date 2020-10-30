@@ -16,11 +16,11 @@ namespace Mod.Entity
     {
         public byte CVE_NUM_CLAVE { get; set; }
         public byte CVE_NUM_SEC_CLAVE { get; set; }
-        public String CVE_NOM_CLAVE { get; set; }
-        public String CVE_DESCRIPCION { get; set; }
-        public String CVE_DATO_ADICIONAL_I { get; set; }
-        public String CVE_DATO_ADICIONAL_II { get; set; }
+        public string CVE_NOM_CLAVE { get; set; }
+        public string CVE_DESCRIPCION { get; set; }
+        public string CVE_DATO_ADICIONAL_I { get; set; }
+        public string CVE_DATO_ADICIONAL_II { get; set; }
         public byte CVE_CVE_ESTATUS { get; set; }
-        public String CVE_TXT_ESTATUS { get; set; }
+        public string CVE_TXT_ESTATUS { get; set; }
     }
 }

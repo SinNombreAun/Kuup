@@ -93,7 +93,7 @@ namespace Negocio.Kuup.Clases
             CveDeEstatus = Registro.USU_CVE_ESTATUS;
             TextoDeEstatus = Registro.USU_TXT_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -101,7 +101,10 @@ namespace Negocio.Kuup.Clases
                 {
                     Usuario Usuario = this.ToTable();
                     db.Usuario.Add(Usuario);
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Usuario where q.USU_NUM_USUARIO == Usuario.USU_NUM_USUARIO select q).Count() != 0)
                     {
                         return true;
@@ -114,14 +117,17 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Usuario.Remove((from q in db.Usuario where q.USU_NUM_USUARIO == Usuario.USU_NUM_USUARIO select q).FirstOrDefault());
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Usuario where q.USU_NUM_USUARIO == Usuario.USU_NUM_USUARIO select q).Count() != 0)
                     {
                         return false;
@@ -134,7 +140,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

@@ -63,7 +63,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Iniciar sesión.
         /// </summary>
-        public static String Account_Boton_IniciarSecion {
+        public static string Account_Boton_IniciarSecion {
             get {
                 return ResourceManager.GetString("Account_Boton_IniciarSecion", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Inicia sesión en kuup.
         /// </summary>
-        public static String Account_IniciarSecion {
+        public static string Account_IniciarSecion {
             get {
                 return ResourceManager.GetString("Account_IniciarSecion", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a KUUP.
         /// </summary>
-        public static String Account_Kuup {
+        public static string Account_Kuup {
             get {
                 return ResourceManager.GetString("Account_Kuup", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Nombre de Usuario.
         /// </summary>
-        public static String Account_NombreDeUsuario {
+        public static string Account_NombreDeUsuario {
             get {
                 return ResourceManager.GetString("Account_NombreDeUsuario", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Password.
         /// </summary>
-        public static String Account_Password {
+        public static string Account_Password {
             get {
                 return ResourceManager.GetString("Account_Password", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Login.
         /// </summary>
-        public static String Account_Titulo {
+        public static string Account_Titulo {
             get {
                 return ResourceManager.GetString("Account_Titulo", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a El equipo {0} e IP {1} no se encuentran registrados para iniciar sesión en Kuup.
         /// </summary>
-        public static String Account_ValidaEquipo {
+        public static string Account_ValidaEquipo {
             get {
                 return ResourceManager.GetString("Account_ValidaEquipo", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a El usuario no tiene ningún perfil asignado.
         /// </summary>
-        public static String Account_ValidaPerfil {
+        public static string Account_ValidaPerfil {
             get {
                 return ResourceManager.GetString("Account_ValidaPerfil", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a El usuario y contraseña son incorrectos, favor de verificar.
         /// </summary>
-        public static String Account_ValidaUsuarioContraseña {
+        public static string Account_ValidaUsuarioContraseña {
             get {
                 return ResourceManager.GetString("Account_ValidaUsuarioContraseña", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}.
         /// </summary>
-        public static String Bitacora_TextoDeError {
+        public static string Bitacora_TextoDeError {
             get {
                 return ResourceManager.GetString("Bitacora_TextoDeError", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Ocurrió un error no identificado, consultar bitácora para más detalle.
         /// </summary>
-        public static String Bitacora_TextoTryCatchGenerico {
+        public static string Bitacora_TextoTryCatchGenerico {
             get {
                 return ResourceManager.GetString("Bitacora_TextoTryCatchGenerico", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a --SELECCIONE--.
         /// </summary>
-        public static String General_SELECCIONE {
+        public static string General_SELECCIONE {
             get {
                 return ResourceManager.GetString("General_SELECCIONE", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a 2020 Sistema de Inventario y Ventas Kuup | Desarrollado por  &lt;a href=&quot;&quot;&gt;SIR&lt;/a&gt;.
         /// </summary>
-        public static String Kuup_Aplicacion {
+        public static string Kuup_Aplicacion {
             get {
                 return ResourceManager.GetString("Kuup_Aplicacion", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Regresar a la página de inicio.
         /// </summary>
-        public static String NotFound_Boton_RegresarInicio {
+        public static string NotFound_Boton_RegresarInicio {
             get {
                 return ResourceManager.GetString("NotFound_Boton_RegresarInicio", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Error 404.
         /// </summary>
-        public static String NotFound_Error404 {
+        public static string NotFound_Error404 {
             get {
                 return ResourceManager.GetString("NotFound_Error404", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Página no encontrada, la ruta a la que se hace referencia no existe dentro del directorio, consultar a tu proveedor, si el problema persiste..
         /// </summary>
-        public static String NotFound_Mensaje {
+        public static string NotFound_Mensaje {
             get {
                 return ResourceManager.GetString("NotFound_Mensaje", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Página no encontrada.
         /// </summary>
-        public static String NotFound_PaginaNoEncontrada {
+        public static string NotFound_PaginaNoEncontrada {
             get {
                 return ResourceManager.GetString("NotFound_PaginaNoEncontrada", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Da click en el botón siguiente para salir y regresar al inicio..
         /// </summary>
-        public static String NotFound_RegresarInicio {
+        public static string NotFound_RegresarInicio {
             get {
                 return ResourceManager.GetString("NotFound_RegresarInicio", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Nueva Cantidad de Producto.
         /// </summary>
-        public static String Producto_CantidadDeProductoNueva {
+        public static string Producto_CantidadDeProductoNueva {
             get {
                 return ResourceManager.GetString("Producto_CantidadDeProductoNueva", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Cantidad de Producto Total.
         /// </summary>
-        public static String Producto_CantidadDeProductoTotal {
+        public static string Producto_CantidadDeProductoTotal {
             get {
                 return ResourceManager.GetString("Producto_CantidadDeProductoTotal", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Ultima Cantidad de Producto.
         /// </summary>
-        public static String Producto_CantidadDeProductoUltima {
+        public static string Producto_CantidadDeProductoUltima {
             get {
                 return ResourceManager.GetString("Producto_CantidadDeProductoUltima", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Cantidad minima a notificar.
         /// </summary>
-        public static String Producto_CantidadMinima {
+        public static string Producto_CantidadMinima {
             get {
                 return ResourceManager.GetString("Producto_CantidadMinima", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Cantidad minima para aplicar mayoreo.
         /// </summary>
-        public static String Producto_CantidadMinimaMayoreo {
+        public static string Producto_CantidadMinimaMayoreo {
             get {
                 return ResourceManager.GetString("Producto_CantidadMinimaMayoreo", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Codigo de Barras.
         /// </summary>
-        public static String Producto_CodigoDeBarras {
+        public static string Producto_CodigoDeBarras {
             get {
                 return ResourceManager.GetString("Producto_CodigoDeBarras", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Aplica Mayoreo.
         /// </summary>
-        public static String Producto_CveAplicaMayoreo {
+        public static string Producto_CveAplicaMayoreo {
             get {
                 return ResourceManager.GetString("Producto_CveAplicaMayoreo", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Aviso de Surtido.
         /// </summary>
-        public static String Producto_CveAviso {
+        public static string Producto_CveAviso {
             get {
                 return ResourceManager.GetString("Producto_CveAviso", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Notificar Surtido por Correo.
         /// </summary>
-        public static String Producto_CveCorreoSurtido {
+        public static string Producto_CveCorreoSurtido {
             get {
                 return ResourceManager.GetString("Producto_CveCorreoSurtido", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Estatus.
         /// </summary>
-        public static String Producto_CveEstatus {
+        public static string Producto_CveEstatus {
             get {
                 return ResourceManager.GetString("Producto_CveEstatus", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Descripción.
         /// </summary>
-        public static String Producto_Descripcion {
+        public static string Producto_Descripcion {
             get {
                 return ResourceManager.GetString("Producto_Descripcion", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Fecha de Registro.
         /// </summary>
-        public static String Producto_FechaDeRegistro {
+        public static string Producto_FechaDeRegistro {
             get {
                 return ResourceManager.GetString("Producto_FechaDeRegistro", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Nombre de Producto.
         /// </summary>
-        public static String Producto_NombreDeProducto {
+        public static string Producto_NombreDeProducto {
             get {
                 return ResourceManager.GetString("Producto_NombreDeProducto", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Proveedor.
         /// </summary>
-        public static String Producto_NombreDeProveedor {
+        public static string Producto_NombreDeProveedor {
             get {
                 return ResourceManager.GetString("Producto_NombreDeProveedor", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Número de Producto.
         /// </summary>
-        public static String Producto_NumeroDeProducto {
+        public static string Producto_NumeroDeProducto {
             get {
                 return ResourceManager.GetString("Producto_NumeroDeProducto", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Proveedor.
         /// </summary>
-        public static String Producto_NumeroDeProveedor {
+        public static string Producto_NumeroDeProveedor {
             get {
                 return ResourceManager.GetString("Producto_NumeroDeProveedor", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Precio al mayoreo.
         /// </summary>
-        public static String Producto_PrecioMayoreo {
+        public static string Producto_PrecioMayoreo {
             get {
                 return ResourceManager.GetString("Producto_PrecioMayoreo", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Precio unitario.
         /// </summary>
-        public static String Producto_PrecioUnitario {
+        public static string Producto_PrecioUnitario {
             get {
                 return ResourceManager.GetString("Producto_PrecioUnitario", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Aplica Mayoreo.
         /// </summary>
-        public static String Producto_TextoAplicaMayoreo {
+        public static string Producto_TextoAplicaMayoreo {
             get {
                 return ResourceManager.GetString("Producto_TextoAplicaMayoreo", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Aviso de Surtido.
         /// </summary>
-        public static String Producto_TextoAviso {
+        public static string Producto_TextoAviso {
             get {
                 return ResourceManager.GetString("Producto_TextoAviso", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Notificar Surtido por Correo.
         /// </summary>
-        public static String Producto_TextoCorreoSurtido {
+        public static string Producto_TextoCorreoSurtido {
             get {
                 return ResourceManager.GetString("Producto_TextoCorreoSurtido", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Estatus.
         /// </summary>
-        public static String Producto_TextoEstatus {
+        public static string Producto_TextoEstatus {
             get {
                 return ResourceManager.GetString("Producto_TextoEstatus", resourceCulture);
             }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Funciones.Kuup.Adicionales;
+using System;
 using System.Web;
-using Funciones.Kuup.Adicionales;
 
 namespace Presentacion.Kuup.Nucleo.Motores
 {
@@ -10,18 +8,16 @@ namespace Presentacion.Kuup.Nucleo.Motores
     {
         public static void LimpiaSesion()
         {
-            MoSesion.NumeroDeUsuario = 0;
-            MoSesion.NombreDeUsuario = String.Empty;
-            MoSesion.NombreDePersona = String.Empty;
-            MoSesion.ApellidoPaterno = String.Empty;
-            MoSesion.ApellidoMaterno = String.Empty;
-            MoSesion.IPDeUsuario = String.Empty;
-            MoSesion.TerminalDeUsuario = String.Empty;
-            MoSesion.CveTipoDeAcceso = 0;
-            MoSesion.TextoTipoDeAccedo = String.Empty;
-            MoSesion.NumeroDePerfil = 0;
-            MoSesion.NombreDePerfil = String.Empty;
-            MoSesion.Browser = String.Empty;
+            if (MvcApplication.ListaDeSesionesActivas.ContainsKey(MoSesion.IDSesion))
+            {
+                MvcApplication.ListaDeSesionesActivas.Remove(MoSesion.IDSesion);
+                HttpContext.Current.Session.Abandon();
+                HttpContext.Current.Session.Clear();
+            }
+        }
+        public static String IDSesion
+        {
+            get { return HttpContext.Current.Session.SessionID; }
         }
         public static short NumeroDeUsuario
         {
@@ -88,5 +84,12 @@ namespace Presentacion.Kuup.Nucleo.Motores
             get { return (String)HttpContext.Current.Session["Browser"]; }
             set { HttpContext.Current.Session["Browser"] = value; }
         }
+    }
+    public class SesionActiva
+    {
+        public short NumeroDeUsuario { get; set; }
+        public byte NumeroDePerfil { get; set; }
+
+        public bool Deslogueado { get; set; }
     }
 }

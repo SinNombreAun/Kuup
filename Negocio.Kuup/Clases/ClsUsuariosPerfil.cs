@@ -62,15 +62,15 @@ namespace Negocio.Kuup.Clases
             CorreoDeUsuario = Registro.USP_CORREO;
             TextoDeEstatus = Registro.USP_TXT_ESTATUS;
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             throw new NotImplementedException();
         }

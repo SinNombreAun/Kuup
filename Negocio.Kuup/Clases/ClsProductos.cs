@@ -7,6 +7,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
@@ -124,7 +125,28 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_TXT_ESTATUS; }
             set { Producto.PRO_TXT_ESTATUS = value; }
         }
-        public bool Existe()
+        public ClsProductos() { }
+        public ClsProductos(Producto Producto)
+        {
+            NumeroDeProducto = Producto.PRO_NUM_PRODUCTO;
+            CodigoDeBarras = Producto.PRO_CODIGO_BARRAS;
+            FechaDeRegistro = Producto.PRO_FECHA_REGISTRO;
+            CantidadDeProductoUltima = Producto.PRO_CANT_PRODUCTO_ULTIMA;
+            CantidadDeProductoNueva = Producto.PRO_CANT_PRODUCTO_NUEVA;
+            CantidadDeProductoTotal = Producto.PRO_CANT_PRODUCTO_TOTAL;
+            NombreDeProducto = Producto.PRO_NOM_PRODUCTO;
+            Descripcion = Producto.PRO_DESCRIPCION;
+            CveAviso = Producto.PRO_CVE_AVISO;
+            CveCorreoSurtido = Producto.PRO_CVE_CORREO_SURTIDO;
+            CantidadMinima = Producto.PRO_CAT_MINIMA;
+            NumeroDeProveedor = Producto.PRO_NUM_PROVEEDOR;
+            PrecioUnitario = Producto.PRO_PRECIO_UNITARIO;
+            CveAplicaMayoreo = Producto.PRO_CVE_APLICA_MAYOREO;
+            CantidadMinimaMayoreo = Producto.PRO_CAT_MINIMA_MAYOREO;
+            PrecioMayoreo = Producto.PRO_PRECIO_MAYOREO;
+            CveEstatus = Producto.PRO_CVE_ESTATUS;
+        }
+        public bool Existe(bool Dependencia = false)
         {
             try
             {
@@ -146,7 +168,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Insert()
+        public bool Insert(bool Dependencia = false)
         {
             try
             {
@@ -154,7 +176,11 @@ namespace Negocio.Kuup.Clases
                 {
                     Producto Producto = this.ToTable();
                     db.Producto.Add(Producto);
-                    db.SaveChanges();
+                    db.Entry(Producto).State = EntityState.Added;
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
                     {
                         return true;
@@ -167,14 +193,18 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete()
+        public bool Delete(bool Dependencia = false)
         {
             try
             {
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     db.Producto.Remove((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).FirstOrDefault());
-                    db.SaveChanges();
+                    db.Entry(Producto).State = EntityState.Deleted;
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
                     {
                         return false;
@@ -187,7 +217,7 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update()
+        public bool Update(bool Dependencia = false)
         {
             try
             {
@@ -196,7 +226,10 @@ namespace Negocio.Kuup.Clases
                     Producto Producto = this.ToTable();
                     db.Producto.Attach(Producto);
                     db.Entry(Producto).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (!Dependencia)
+                    {
+                        db.SaveChanges();
+                    }
                     return true;
                 }
             }
