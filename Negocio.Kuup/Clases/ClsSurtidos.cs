@@ -12,6 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsSurtidos : Interfaces.InterfazGen<ClsSurtidos>
     {
+        public DBKuupEntities db { get; set; }
         ViSurtido Surtido = new ViSurtido();
         public short FolioDeSurtido
         {
@@ -73,58 +74,104 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_TXT_ESTATUS; }
             set { Surtido.SUR_TXT_ESTATUS = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            Surtido Surtido = this.ToTable();
+            db.Surtido.Add(Surtido);
+            db.SaveChanges();
+            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Surtido Surtido = this.ToTable();
-                    db.Surtido.Add(Surtido);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
-                    {
-                        return true;
-                    }
+                }
+                else
+                {
+                    return ToInsert(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        private bool ToDelete(DBKuupEntities db)
+        {
+            using (DBKuupEntities db = new DBKuupEntities())
+            {
+                db.SaveChanges();
+                if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
+                {
                     return false;
                 }
+                return true;
             }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-        public bool Delete(bool Dependencia = false)
+       public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if(db == null)
                 {
-                    db.Surtido.Remove((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).FirstOrDefault());
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
-        {
-            throw new NotImplementedException();
-        }
-        public Surtido ToTable()
+            private bool ToUpdate(DBKuupEntities db)
+            {
+                Surtido Surtido = this.ToTable();
+                db.VentaTotal.Attach(Surtido);
+                db.Entry(Surtido).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            public bool Update()
+            {
+                try
+                {
+                    if (db == null)
+                    {
+                        using (DBKuupEntities db = new DBKuupEntities())
+                        {
+                            return ToUpdate(db);
+                        }
+                    }
+                    else
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                    return false;
+
+                }
+            }
+            public Surtido ToTable()
         {
             Surtido Tabla = new Surtido();
             Tabla.SUR_FOLIO_SURTIDO = this.FolioDeSurtido;
