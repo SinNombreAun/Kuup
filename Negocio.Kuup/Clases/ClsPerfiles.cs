@@ -10,7 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPerfiles : Interfaces.InterfazGen<ClsPerfiles>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViPerfil Perfil = new ViPerfil();
         public byte NumeroDePerfil
         {
@@ -43,6 +43,10 @@ namespace Negocio.Kuup.Clases
             set { Perfil.PER_TXT_ESTATUS = value; }
         }
         public ClsPerfiles() { }
+        public ClsPerfiles(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsPerfiles(Perfil Registro)
         {
             NumeroDePerfil = Registro.PER_NUM_PERFIL;

@@ -7,7 +7,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsAgenda : Interfaces.InterfazGen<ClsAgenda>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViAgenda Agenda = new ViAgenda();
         public short NumeroDeAgenda
         {
@@ -65,6 +65,10 @@ namespace Negocio.Kuup.Clases
             set { Agenda.AGN_TXT_ESTATUS = value; }
         }
         public ClsAgenda() { }
+        public ClsAgenda(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsAgenda(Agenda Registro)
         {
             NumeroDeAgenda = Registro.AGN_NUM_AGENDA;

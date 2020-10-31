@@ -11,7 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsMenu : Interfaces.InterfazGen<ClsMenu>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViMenu Menu = new ViMenu();
         public short NumeroDeMenu
         {
@@ -59,6 +59,10 @@ namespace Negocio.Kuup.Clases
             set { Menu.MEN_TXT_ESTATUS = value; }
         }
         public ClsMenu() { }
+        public ClsMenu(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsMenu(ViMenu Registro) {
             NumeroDeMenu = Registro.MEN_NUM_MENU;
             NumeroDeMenuPadre = Registro.MEN_NUM_PADRE;

@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallas : Interfaces.InterfazGen<ClsPantallas>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViPantalla Pantalla = new ViPantalla();
         public short NumeroDePantalla
         {
@@ -58,6 +58,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Pantalla.PAN_TXT_ESTATUS; }
             set { Pantalla.PAN_TXT_ESTATUS = value; }
+        }
+        public ClsPantallas() { }
+        public ClsPantallas(DBKuupEntities _db)
+        {
+            db = _db;
         }
         public bool ToInsert(DBKuupEntities db)
         {
