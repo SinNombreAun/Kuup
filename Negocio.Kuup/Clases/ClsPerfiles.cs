@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPerfiles : Interfaces.InterfazGen<ClsPerfiles>
     {
+        public DBKuupEntities db { get; set; }
         ViPerfil Perfil = new ViPerfil();
         public byte NumeroDePerfil
         {
@@ -57,17 +59,111 @@ namespace Negocio.Kuup.Clases
             TextoTipoDePerfil = Registro.PER_TXT_TIPO_PERFIL;
             TextoDeEstatus = Registro.PER_TXT_ESTATUS;
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            Perfil Perfil = this.ToTable();
+            db.Perfil.Add(Perfil);
+            db.Entry(Perfil).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.Perfil where q.PER_NUM_PERFIL == Perfil.PER_NUM_PERFIL select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
         }
-        public bool Delete(bool Dependencia = false)
+        public bool Insert()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (db == null)
+                {
+                    using (db = new DBKuupEntities())
+                    {
+                        return ToInsert(db);
+                    }
+                }
+                else
+                {
+                    return ToInsert(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            db.Perfil.Remove((from q in db.Perfil where q.PER_NUM_PERFIL == Perfil.PER_NUM_PERFIL select q).FirstOrDefault());
+            db.Entry(Perfil).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.Perfil where q.PER_NUM_PERFIL == Perfil.PER_NUM_PERFIL select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToDelete(db);
+                    }
+                }
+                else
+                {
+                    return ToDelete(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            Perfil Perfil = this.ToTable();
+            db.Perfil.Attach(Perfil);
+            db.Entry(Perfil).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        public Perfil ToTable()
+        {
+            Perfil Tabla = new Perfil();
+            Tabla.PER_NUM_PERFIL = this.NumeroDePerfil;
+            Tabla.PER_NOM_PERFIL = this.NombreDePerfil;
+            Tabla.PER_CVE_TIPO_PERFIL = this.CveTipoDePerfil;
+            Tabla.PER_CVE_ESTATUS = this.CveDeEstatus;
+            return Tabla;
         }
         public static List<ClsPerfiles> getList(bool EsVista = true)
         {

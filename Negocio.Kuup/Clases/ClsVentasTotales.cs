@@ -1,19 +1,14 @@
 ﻿using Mod.Entity;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Migrations.Builders;
-using System.IO.Pipes;
 using System.Linq;
-using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
-        public DBKuupEntities db { get; set; }
+        DBKuupEntities db { get; set; }
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
@@ -168,9 +163,8 @@ namespace Negocio.Kuup.Clases
             }
             catch(Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
-
             }
         }
         public VentaTotal ToTable()
