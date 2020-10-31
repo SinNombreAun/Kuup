@@ -32,8 +32,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                         try
                         {
                             ClsSequence Sequence = new ClsSequence(db.Database);
-                            ClsVentasTotales VentasTotales = new ClsVentasTotales();
-                            VentasTotales.db = db;
+                            ClsVentasTotales VentasTotales = new ClsVentasTotales(db);
                             VentasTotales.FolioDeOperacion = Sequence.SQ_FolioVenta();
                             VentasTotales.FechaDeOperacion = DateTime.Now;
                             VentasTotales.NumeroDeUsuario = MoSesion.NumeroDeUsuario;

@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsSurtidos : Interfaces.InterfazGen<ClsSurtidos>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViSurtido Surtido = new ViSurtido();
         public short FolioDeSurtido
         {
@@ -73,6 +73,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Surtido.SUR_TXT_ESTATUS; }
             set { Surtido.SUR_TXT_ESTATUS = value; }
+        }
+        public ClsSurtidos() { }
+        public ClsSurtidos(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

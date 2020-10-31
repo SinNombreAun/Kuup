@@ -8,7 +8,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsUsuariosPerfil : Interfaces.InterfazGen<ClsUsuariosPerfil>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViUsuarioPerfil UsuarioPerfil = new ViUsuarioPerfil();
         public byte NumeroDePerfil
         {
@@ -46,6 +46,10 @@ namespace Negocio.Kuup.Clases
             set { UsuarioPerfil.USP_TXT_ESTATUS = value; }
         }
         public ClsUsuariosPerfil() { }
+        public ClsUsuariosPerfil(DBKuupEntities _db) 
+        {
+            db = _db;
+        }
         public ClsUsuariosPerfil(UsuarioPerfil Registro)
         {
             NumeroDePerfil = Registro.USP_NUM_PERFIL;

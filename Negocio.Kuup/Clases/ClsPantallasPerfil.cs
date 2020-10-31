@@ -10,7 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallasPerfil : Interfaces.InterfazGen<ClsPantallasPerfil>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViPantallaPerfil PantallaPerfil = new ViPantallaPerfil();
         public short NumeroDePantalla
         {
@@ -48,6 +48,10 @@ namespace Negocio.Kuup.Clases
             set { PantallaPerfil.PAP_TXT_ESTATUS = value; }
         }
         public ClsPantallasPerfil() { }
+        public ClsPantallasPerfil(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsPantallasPerfil(ViPantallaPerfil Registro)
         {
             NumeroDePantalla = Registro.PAP_NUM_PANTALLA;

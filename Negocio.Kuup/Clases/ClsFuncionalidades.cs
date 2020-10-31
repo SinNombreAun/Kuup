@@ -10,9 +10,9 @@ using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
 {
-        public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
+    public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViFuncionalidad Funcionalidad = new ViFuncionalidad();
         public short NumeroDePantalla
         {
@@ -38,6 +38,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Funcionalidad.FUN_TXT_ESTATUS; }
             set { Funcionalidad.FUN_TXT_ESTATUS = value; }
+        }
+        public ClsFuncionalidades() { }
+        public ClsFuncionalidades(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

@@ -11,7 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsIPRegistradas : Interfaces.InterfazGen<ClsIPRegistradas>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViIPRegistradas IPRegistradas = new ViIPRegistradas();
         public short NumeroDeUsuario
         {
@@ -44,6 +44,10 @@ namespace Negocio.Kuup.Clases
             set { IPRegistradas.IPR_TXT_TIPOACCESO = value; }
         }
         public ClsIPRegistradas() { }
+        public ClsIPRegistradas(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsIPRegistradas(IPRegistradas Registro)
         {
             NumeroDeUsuario = Registro.IPR_NUM_USUARIO;

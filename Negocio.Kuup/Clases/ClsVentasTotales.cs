@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
@@ -70,6 +71,11 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_TXT_ESTATUS; }
             set { VentaTotal.VET_TXT_ESTATUS = value; }
         }
+        public ClsVentasTotales() { }
+        public ClsVentasTotales(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         private bool ToInsert(DBKuupEntities db)
         {
             VentaTotal VentaTotal = this.ToTable();
@@ -88,7 +94,7 @@ namespace Negocio.Kuup.Clases
             {
                 if (db == null)
                 {
-                    using(db = new DBKuupEntities())
+                    using (db = new DBKuupEntities())
                     {
                         return ToInsert(db);
                     }
@@ -119,7 +125,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if(db == null)
+                if (db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -149,9 +155,9 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if(db == null)
+                if (db == null)
                 {
-                    using(DBKuupEntities db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToUpdate(db);
                     }
@@ -161,7 +167,7 @@ namespace Negocio.Kuup.Clases
                     return ToUpdate(db);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
