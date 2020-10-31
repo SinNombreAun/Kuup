@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -11,89 +12,155 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsClaves : Interfaces.InterfazGen<ClsClaves>
     {
-        private ViClaves Clave = new ViClaves();
+        DBKuupEntities db { get; set; }
+        private ViClaves Claves = new ViClaves();
         public byte NumeroDeClave
         {
-            get { return Clave.CVE_NUM_CLAVE; }
-            set { Clave.CVE_NUM_CLAVE = value; }
+            get { return Claves.CVE_NUM_CLAVE; }
+            set { Claves.CVE_NUM_CLAVE = value; }
         }
         public byte NumeroDeSecuencial
         {
-            get { return Clave.CVE_NUM_SEC_CLAVE; }
-            set { Clave.CVE_NUM_SEC_CLAVE = value; }
+            get { return Claves.CVE_NUM_SEC_CLAVE; }
+            set { Claves.CVE_NUM_SEC_CLAVE = value; }
         }
         public String NombreDeClave 
         {
-            get { return Clave.CVE_NOM_CLAVE; }
-            set { Clave.CVE_NOM_CLAVE = value; }
+            get { return Claves.CVE_NOM_CLAVE; }
+            set { Claves.CVE_NOM_CLAVE = value; }
         }
         public String Descripcion
         {
-            get { return Clave.CVE_DESCRIPCION; }
-            set { Clave.CVE_DESCRIPCION = value; }
+            get { return Claves.CVE_DESCRIPCION; }
+            set { Claves.CVE_DESCRIPCION = value; }
         }
         public String AdicionalI
         {
-            get { return Clave.CVE_DATO_ADICIONAL_I; }
-            set { Clave.CVE_DATO_ADICIONAL_I = value; }
+            get { return Claves.CVE_DATO_ADICIONAL_I; }
+            set { Claves.CVE_DATO_ADICIONAL_I = value; }
         }
         public String AdicionalII
         {
-            get { return Clave.CVE_DATO_ADICIONAL_II; }
-            set { Clave.CVE_DATO_ADICIONAL_II = value; }
+            get { return Claves.CVE_DATO_ADICIONAL_II; }
+            set { Claves.CVE_DATO_ADICIONAL_II = value; }
         }
         public byte CveDeEstatus
         {
-            get { return Clave.CVE_CVE_ESTATUS; }
-            set { Clave.CVE_CVE_ESTATUS = value; }
+            get { return Claves.CVE_CVE_ESTATUS; }
+            set { Claves.CVE_CVE_ESTATUS = value; }
         }
         public String TextoDeEstatus
         {
-            get { return Clave.CVE_TXT_ESTATUS; }
-            set { Clave.CVE_TXT_ESTATUS = value; }
+            get { return Claves.CVE_TXT_ESTATUS; }
+            set { Claves.CVE_TXT_ESTATUS = value; }
         }
         public ClsClaves() { }
         public ClsClaves(byte NumeroDeClave, byte SecuencialDeClave, String NombreDeClave, String Descripcion, String DatoAdicionalI, String DatoAdicionalII, byte CveDeEstatus)
         {
-            Clave.CVE_NUM_CLAVE = NumeroDeClave;
-            Clave.CVE_NUM_SEC_CLAVE = SecuencialDeClave;
-            Clave.CVE_NOM_CLAVE = NombreDeClave;
-            Clave.CVE_DESCRIPCION = Descripcion;
-            Clave.CVE_DATO_ADICIONAL_I = DatoAdicionalI;
-            Clave.CVE_DATO_ADICIONAL_II = DatoAdicionalII;
-            Clave.CVE_CVE_ESTATUS = CveDeEstatus;
+            Claves.CVE_NUM_CLAVE = NumeroDeClave;
+            Claves.CVE_NUM_SEC_CLAVE = SecuencialDeClave;
+            Claves.CVE_NOM_CLAVE = NombreDeClave;
+            Claves.CVE_DESCRIPCION = Descripcion;
+            Claves.CVE_DATO_ADICIONAL_I = DatoAdicionalI;
+            Claves.CVE_DATO_ADICIONAL_II = DatoAdicionalII;
+            Claves.CVE_CVE_ESTATUS = CveDeEstatus;
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
         {
-            try 
+            Claves Claves = this.ToTable();
+            db.Claves.Add(Claves);
+            db.Entry(Claves).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.Claves where q.CVE_NUM_CLAVE == Claves.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Claves.CVE_NUM_SEC_CLAVE select q).Count() != 0)
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
+        {
+            try
+            {
+                if (db == null)
                 {
-                    Claves Clave = this.ToTable();
-                    db.Claves.Add(Clave);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Claves where q.CVE_NUM_CLAVE == Clave.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Clave.CVE_NUM_SEC_CLAVE select q).Count() != 0){
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
-
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        public bool ToDelete(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            db.Claves.Remove((from q in db.Claves where q.CVE_NUM_CLAVE == Claves.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Claves.CVE_NUM_SEC_CLAVE select q).FirstOrDefault());
+            db.Entry(Claves).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.Claves where q.CVE_NUM_CLAVE == Claves.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Claves.CVE_NUM_SEC_CLAVE select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
         }
-        public bool Update(bool Dependencia = false)
+        public bool Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToDelete(db);
+                    }
+                }
+                else
+                {
+                    return ToDelete(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            Claves Claves = this.ToTable();
+            db.Claves.Attach(Claves);
+            db.Entry(Claves).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
         }
         public Claves ToTable()
         {

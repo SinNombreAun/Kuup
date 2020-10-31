@@ -13,6 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentas : Interfaces.InterfazGen<ClsVentas>
     {
+        public DBKuupEntities db { get; set; }
         ViVenta Venta = new ViVenta();
         public short FolioDeOperacion
         {
@@ -49,24 +50,32 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_NOM_PRODUCTO; }
             set { Venta.VEN_NOM_PRODUCTO = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            Venta Venta = this.ToTable();
+            db.Venta.Add(Venta);
+            db.Entry(Venta).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Venta Venta = this.ToTable();
-                    db.Venta.Add(Venta);
-                    db.Entry(Venta).State = EntityState.Added;
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
@@ -75,23 +84,31 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).FirstOrDefault());
+            db.Entry(Venta).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).FirstOrDefault());
-                    db.Entry(Venta).State = EntityState.Deleted;
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
@@ -100,9 +117,36 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToUpdate(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            Venta Venta = this.ToTable();
+            db.Venta.Attach(Venta);
+            db.Entry(Venta).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+
+            }
         }
         public Venta ToTable()
         {

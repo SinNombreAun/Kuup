@@ -1,14 +1,8 @@
 ﻿using Mod.Entity;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Migrations.Builders;
-using System.IO.Pipes;
 using System.Linq;
-using System.Runtime.Remoting.Lifetime;
-using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
 {
