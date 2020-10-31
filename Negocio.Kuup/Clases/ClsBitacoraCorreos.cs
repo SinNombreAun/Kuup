@@ -11,6 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsBitacoraCorreos : Interfaces.InterfazGen<ClsBitacoraCorreos>
     {
+        public DBKuupEntities db { get; set; }
         ViBitacoraCorreo BitacoraCorreo = new ViBitacoraCorreo();
 
         public short NumeroDePantalla
@@ -63,58 +64,109 @@ namespace Negocio.Kuup.Clases
             get { return BitacoraCorreo.BIM_TXT_ESTATUS; }
             set { BitacoraCorreo.BIM_TXT_ESTATUS = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            BitacoraCorreo BitacoraCorreo = this.ToTable();
+            db.BitacoraCorreo.Add(BitacoraCorreo);
+            db.SaveChanges();
+            if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    BitacoraCorreo BitacoraCorreo = this.ToTable();
-                    db.BitacoraCorreo.Add(BitacoraCorreo);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
         {
-            try
+            db.BitacoraCorreo.Remove((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).FirstOrDefault());
+            db.SaveChanges();
+            if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
             {
-                using (DBKuupEntities db = new DBKuupEntities())
-                {
-                    db.BitacoraCorreo.Remove((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).FirstOrDefault());
-                    if (!Dependencia)
-                    {
-                        db.SaveChanges();
-                    }
-                    if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
-                }
+                return false;
             }
+            return true;
+        }
+    }
             catch (Exception e)
             {
                 return false;
+        }
+public bool Delete()
+{
+    try
+    {
+        if (db == null)
+        {
+            using (DBKuupEntities db = new DBKuupEntities())
+            {
+                return ToDelete(db);
             }
         }
-        public bool Update(bool Dependencia = false)
+        else
         {
-            throw new NotImplementedException();
+            return ToDelete(db);
         }
-        public BitacoraCorreo ToTable()
+    }
+    catch (Exception e)
+    {
+        ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+        return false;
+    }
+}
+private bool ToUpdate(DBKuupEntities db)
+{
+    BitacoraCorreo BitacoraCorreo = this.ToTable();
+    db.BitacoraCorreo.Attach(BitacoraCorreo);
+    db.Entry(BitacoraCorreo).State = EntityState.Modified;
+    db.SaveChanges();
+    return true;
+}
+public bool Update()
+{
+    try
+    {
+        if (db == null)
+        {
+            using (DBKuupEntities db = new DBKuupEntities())
+            {
+                return ToUpdate(db);
+            }
+        }
+        else
+        {
+            return ToUpdate(db);
+        }
+    }
+    catch (Exception e)
+    {
+        ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+        return false;
+
+    }
+}
+public BitacoraCorreo ToTable()
         {
             BitacoraCorreo Tabla = new BitacoraCorreo();
             Tabla.BIM_NUM_PANTALLA = this.NumeroDePantalla;

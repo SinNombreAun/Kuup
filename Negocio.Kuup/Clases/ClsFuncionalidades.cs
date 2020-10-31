@@ -12,6 +12,7 @@ namespace Negocio.Kuup.Clases
 {
         public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
     {
+        public DBKuupEntities db { get; set; }
         ViFuncionalidad Funcionalidad = new ViFuncionalidad();
         public short NumeroDePantalla
         {
@@ -38,56 +39,101 @@ namespace Negocio.Kuup.Clases
             get { return Funcionalidad.FUN_TXT_ESTATUS; }
             set { Funcionalidad.FUN_TXT_ESTATUS = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            Funcionalidad Funcionalidad = this.ToTable();
+            db.Funcionalidad.Add(Funcionalidad);
+            db.SaveChanges();
+            if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Funcionalidad Funcionalidad = this.ToTable();
-                    db.Funcionalidad.Add(Funcionalidad);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.Funcionalidad.Add((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).FirstOrDefault());
+            db.SaveChanges();
+            if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    db.Funcionalidad.Add((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).FirstOrDefault());
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD  select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToUpdate(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            Funcionalidad Funcionalidad = this.ToTable();
+            db.Funcionalidad.Attach(Funcionalidad);
+            db.Entry(Funcionalidad).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+
+            }
         }
         public Funcionalidad ToTable()
         {
