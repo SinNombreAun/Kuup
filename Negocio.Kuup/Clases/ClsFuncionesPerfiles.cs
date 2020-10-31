@@ -12,6 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsFuncionesPerfiles : Interfaces.InterfazGen<ClsFuncionesPerfiles>
     {
+        public DBKuupEntities db { get; set; }
         ViFuncionPerfil FuncionPerfil = new ViFuncionPerfil();
         public short NumeroDePantalla
         {
@@ -53,56 +54,102 @@ namespace Negocio.Kuup.Clases
             get { return FuncionPerfil.FUP_TXT_ESTATUS; }
             set { FuncionPerfil.FUP_TXT_ESTATUS = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
+        {
+            FuncionPerfil FuncionPerfil = this.ToTable();
+            db.FuncionPerfil.Add(FuncionPerfil);
+            db.SaveChanges();
+            if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    FuncionPerfil FuncionPerfil = this.ToTable();
-                    db.FuncionPerfil.Add(FuncionPerfil);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.FuncionPerfil.Remove((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).FirstOrDefault());
+            db.SaveChanges();
+            if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    db.FuncionPerfil.Remove((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).FirstOrDefault());
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToUpdate(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            FuncionPerfil FuncionPerfil = this.ToTable();
+            db.FuncionPerfil.Attach(FuncionPerfil);
+            db.Entry(FuncionPerfil).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+
+            }
         }
         public FuncionPerfil ToTable()
         {
