@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallasPerfil : Interfaces.InterfazGen<ClsPantallasPerfil>
     {
+        DBKuupEntities db { get; set; }
         ViPantallaPerfil PantallaPerfil = new ViPantallaPerfil();
         public short NumeroDePantalla
         {
@@ -62,17 +64,110 @@ namespace Negocio.Kuup.Clases
             NumeroDePerfil = Registro.PAP_NUM_PERFIL;
             CveDeEstatus = Registro.PAP_CVE_ESTATUS;
         }
-        public bool Insert(bool Dependencia = false)
+        private bool ToInsert(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            PantallaPerfil PantallaPerfil = this.ToTable();
+            db.PantallaPerfil.Add(PantallaPerfil);
+            db.Entry(PantallaPerfil).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.PantallaPerfil where q.PAP_NUM_PERFIL == PantallaPerfil.PAP_NUM_PERFIL && q.PAP_NUM_PANTALLA == PantallaPerfil.PAP_NUM_PANTALLA select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
         }
-        public bool Delete(bool Dependencia = false)
+        public bool Insert()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (db == null)
+                {
+                    using (db = new DBKuupEntities())
+                    {
+                        return ToInsert(db);
+                    }
+                }
+                else
+                {
+                    return ToInsert(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            db.PantallaPerfil.Remove((from q in db.PantallaPerfil where q.PAP_NUM_PERFIL == PantallaPerfil.PAP_NUM_PERFIL && q.PAP_NUM_PANTALLA == PantallaPerfil.PAP_NUM_PANTALLA select q).FirstOrDefault());
+            db.Entry(PantallaPerfil).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.PantallaPerfil where q.PAP_NUM_PERFIL == PantallaPerfil.PAP_NUM_PERFIL && q.PAP_NUM_PANTALLA == PantallaPerfil.PAP_NUM_PANTALLA select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToDelete(db);
+                    }
+                }
+                else
+                {
+                    return ToDelete(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            PantallaPerfil PantallaPerfil = this.ToTable();
+            db.PantallaPerfil.Attach(PantallaPerfil);
+            db.Entry(PantallaPerfil).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        public PantallaPerfil ToTable()
+        {
+            PantallaPerfil Tabla = new PantallaPerfil();
+            Tabla.PAP_NUM_PANTALLA = this.NumeroDePantalla;
+            Tabla.PAP_NUM_PERFIL = this.NumeroDePerfil;
+            Tabla.PAP_CVE_ESTATUS = this.CveDeEstatus;
+            return Tabla;
         }
         public static List<ClsPantallasPerfil> getList(bool EsVista = true)
         {

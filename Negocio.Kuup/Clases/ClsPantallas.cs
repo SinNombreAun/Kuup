@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -11,103 +12,149 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallas : Interfaces.InterfazGen<ClsPantallas>
     {
-        ViPantalla Pantallas = new ViPantalla();
-
+        DBKuupEntities db { get; set; }
+        ViPantalla Pantalla = new ViPantalla();
         public short NumeroDePantalla
         {
-            get { return Pantallas.PAN_NUM_PANTALLA; }
-            set { Pantallas.PAN_NUM_PANTALLA = value; }
+            get { return Pantalla.PAN_NUM_PANTALLA; }
+            set { Pantalla.PAN_NUM_PANTALLA = value; }
         }
         public String NombreDePantalla
         {
-            get { return Pantallas.PAN_NOM_PANTALLA; }
-            set { Pantallas.PAN_NOM_PANTALLA = value; }
+            get { return Pantalla.PAN_NOM_PANTALLA; }
+            set { Pantalla.PAN_NOM_PANTALLA = value; }
         }
         public String NombreDePantallaInt
         {
-            get { return Pantallas.PAN_NOM_PANTALLA_INT; }
-            set { Pantallas.PAN_NOM_PANTALLA_INT = value; }
+            get { return Pantalla.PAN_NOM_PANTALLA_INT; }
+            set { Pantalla.PAN_NOM_PANTALLA_INT = value; }
         }
         public String Descripcion
         {
-            get { return Pantallas.PAN_DESCRIPCION; }
-            set { Pantallas.PAN_DESCRIPCION = value; }
+            get { return Pantalla.PAN_DESCRIPCION; }
+            set { Pantalla.PAN_DESCRIPCION = value; }
         }
         public Byte CveManejoInterno
         {
-            get { return Pantallas.PAN_CVE_MANEJO_INTERNO; }
-            set { Pantallas.PAN_CVE_MANEJO_INTERNO = value; }
+            get { return Pantalla.PAN_CVE_MANEJO_INTERNO; }
+            set { Pantalla.PAN_CVE_MANEJO_INTERNO = value; }
         }
         public String Llave
         {
-            get { return Pantallas.PAN_LLAVE; }
-            set { Pantallas.PAN_LLAVE = value; }
+            get { return Pantalla.PAN_LLAVE; }
+            set { Pantalla.PAN_LLAVE = value; }
         }
         public Byte CveEstatus
         {
-            get { return Pantallas.PAN_CVE_ESTATUS; }
-            set { Pantallas.PAN_CVE_ESTATUS = value; }
+            get { return Pantalla.PAN_CVE_ESTATUS; }
+            set { Pantalla.PAN_CVE_ESTATUS = value; }
         }
         public String TextoManejoInterno
         {
-            get { return Pantallas.PAN_TXT_MANEJO_INTERNO; }
-            set { Pantallas.PAN_TXT_MANEJO_INTERNO = value; }
+            get { return Pantalla.PAN_TXT_MANEJO_INTERNO; }
+            set { Pantalla.PAN_TXT_MANEJO_INTERNO = value; }
         }
         public String TextoEstatus
         {
-            get { return Pantallas.PAN_TXT_ESTATUS; }
-            set { Pantallas.PAN_TXT_ESTATUS = value; }
+            get { return Pantalla.PAN_TXT_ESTATUS; }
+            set { Pantalla.PAN_TXT_ESTATUS = value; }
         }
-        public bool Insert(bool Dependencia = false)
+        public bool ToInsert(DBKuupEntities db)
+        {
+            Pantalla Pantalla = this.ToTable();
+            db.Pantalla.Add(Pantalla);
+            db.Entry(Pantalla).State = EntityState.Added;
+            db.SaveChanges();
+            if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).Count() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool Insert()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    Pantalla Pantallas = this.ToTable();
-                    db.Pantalla.Add(Pantallas);
-                    if (!Dependencia)
+                    using (db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToInsert(db);
                     }
-                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
-                    {
-                        return true;
-                    }
-                    return false;
+                }
+                else
+                {
+                    return ToInsert(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Delete(bool Dependencia = false)
+        private bool ToDelete(DBKuupEntities db)
+        {
+            db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).FirstOrDefault());
+            db.Entry(Pantalla).State = EntityState.Deleted;
+            db.SaveChanges();
+            if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).Count() != 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                if (db == null)
                 {
-                    db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).FirstOrDefault());
-                    if (!Dependencia)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        db.SaveChanges();
+                        return ToDelete(db);
                     }
-                    if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantallas.PAN_NUM_PANTALLA select q).Count() != 0)
-                    {
-                        return false;
-                    }
-                    return true;
+                }
+                else
+                {
+                    return ToDelete(db);
                 }
             }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
-        public bool Update(bool Dependencia = false)
+        private bool ToUpdate(DBKuupEntities db)
         {
-            throw new NotImplementedException();
+            Pantalla Pantalla = this.ToTable();
+            db.Pantalla.Attach(Pantalla);
+            db.Entry(Pantalla).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
         }
         public Pantalla ToTable()
         {
