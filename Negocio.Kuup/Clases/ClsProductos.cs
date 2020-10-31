@@ -8,7 +8,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProductos : Interfaces.InterfazGen<ClsProductos>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViProducto Producto = new ViProducto();
         public short NumeroDeProducto
         {
@@ -121,6 +121,10 @@ namespace Negocio.Kuup.Clases
             set { Producto.PRO_TXT_ESTATUS = value; }
         }
         public ClsProductos() { }
+        public ClsProductos(DBKuupEntities _db) 
+        {
+            db = _db;
+        }
         public ClsProductos(Producto Producto)
         {
             NumeroDeProducto = Producto.PRO_NUM_PRODUCTO;

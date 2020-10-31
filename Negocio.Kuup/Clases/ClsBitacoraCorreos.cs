@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -11,9 +12,8 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsBitacoraCorreos : Interfaces.InterfazGen<ClsBitacoraCorreos>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViBitacoraCorreo BitacoraCorreo = new ViBitacoraCorreo();
-
         public short NumeroDePantalla
         {
             get { return BitacoraCorreo.BIM_NUM_PANTALLA; }
@@ -64,6 +64,11 @@ namespace Negocio.Kuup.Clases
             get { return BitacoraCorreo.BIM_TXT_ESTATUS; }
             set { BitacoraCorreo.BIM_TXT_ESTATUS = value; }
         }
+        public ClsBitacoraCorreos() { }
+        public ClsBitacoraCorreos(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         private bool ToInsert(DBKuupEntities db)
         {
             BitacoraCorreo BitacoraCorreo = this.ToTable();
@@ -108,65 +113,60 @@ namespace Negocio.Kuup.Clases
             }
             return true;
         }
-    }
+        public bool Delete()
+        {
+            try
+            {
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToDelete(db);
+                    }
+                }
+                else
+                {
+                    return ToDelete(db);
+                }
+            }
             catch (Exception e)
             {
+                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
-        }
-public bool Delete()
-{
-    try
-    {
-        if (db == null)
-        {
-            using (DBKuupEntities db = new DBKuupEntities())
-            {
-                return ToDelete(db);
             }
         }
-        else
+        private bool ToUpdate(DBKuupEntities db)
         {
-            return ToDelete(db);
+            BitacoraCorreo BitacoraCorreo = this.ToTable();
+            db.BitacoraCorreo.Attach(BitacoraCorreo);
+            db.Entry(BitacoraCorreo).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
         }
-    }
-    catch (Exception e)
-    {
-        ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
-        return false;
-    }
-}
-private bool ToUpdate(DBKuupEntities db)
-{
-    BitacoraCorreo BitacoraCorreo = this.ToTable();
-    db.BitacoraCorreo.Attach(BitacoraCorreo);
-    db.Entry(BitacoraCorreo).State = EntityState.Modified;
-    db.SaveChanges();
-    return true;
-}
-public bool Update()
-{
-    try
-    {
-        if (db == null)
+        public bool Update()
         {
-            using (DBKuupEntities db = new DBKuupEntities())
+            try
             {
-                return ToUpdate(db);
+                if (db == null)
+                {
+                    using (DBKuupEntities db = new DBKuupEntities())
+                    {
+                        return ToUpdate(db);
+                    }
+                }
+                else
+                {
+                    return ToUpdate(db);
+                }
             }
-        }
-        else
-        {
-            return ToUpdate(db);
-        }
-    }
-    catch (Exception e)
-    {
-        ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
-        return false;
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
 
-    }
-}
-public BitacoraCorreo ToTable()
+            }
+        }
+        public BitacoraCorreo ToTable()
         {
             BitacoraCorreo Tabla = new BitacoraCorreo();
             Tabla.BIM_NUM_PANTALLA = this.NumeroDePantalla;

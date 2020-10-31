@@ -8,7 +8,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsConfiguraPaquetes : Interfaces.InterfazGen<ClsConfiguraPaquetes>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViConfiguraPaquete ConfiguraPaquete = new ViConfiguraPaquete();
         public short NumeroDeProductoPadre
         {
@@ -44,6 +44,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO; }
             set { ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO = value; }
+        }
+        public ClsConfiguraPaquetes() { }
+        public ClsConfiguraPaquetes(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsParametros : Interfaces.InterfazGen<ClsParametros>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViParametro Parametro = new ViParametro();
         public byte CveTipo
         {
@@ -39,6 +39,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Parametro.PAR_TXT_TIPO; }
             set { Parametro.PAR_TXT_TIPO = value; }
+        }
+        public ClsParametros() { }
+        public ClsParametros(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

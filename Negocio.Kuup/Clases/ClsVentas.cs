@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentas : Interfaces.InterfazGen<ClsVentas>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViVenta Venta = new ViVenta();
         public short FolioDeOperacion
         {
@@ -49,6 +49,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Venta.VEN_NOM_PRODUCTO; }
             set { Venta.VEN_NOM_PRODUCTO = value; }
+        }
+        public ClsVentas() { }
+        public ClsVentas(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

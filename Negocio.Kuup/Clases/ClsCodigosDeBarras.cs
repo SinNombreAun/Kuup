@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsCodigosDeBarras : Interfaces.InterfazGen<ClsCodigosDeBarras>
     {
-        public DBKuupEntities db { get; set; }
+        public  DBKuupEntities db = null;
         ViCodigoDeBarras CodigoDeBarrasE = new ViCodigoDeBarras();
         public String CodigoDeBarras
         {
@@ -49,6 +49,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return CodigoDeBarrasE.COB_TXT_ESTATUS; }
             set { CodigoDeBarrasE.COB_TXT_ESTATUS = value; }
+        }
+        public ClsCodigosDeBarras() { }
+        public ClsCodigosDeBarras(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

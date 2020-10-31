@@ -7,7 +7,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsBitacora : Interfaces.InterfazGen<ClsBitacora>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViBitacora Bitacora = new ViBitacora();
         public short NumeroDeBitacora
         {
@@ -48,6 +48,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Bitacora.BIT_NOM_FUNCIONALIDAD; }
             set { Bitacora.BIT_NOM_FUNCIONALIDAD = value; }
+        }
+        public ClsBitacora() { }
+        public ClsBitacora(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {
