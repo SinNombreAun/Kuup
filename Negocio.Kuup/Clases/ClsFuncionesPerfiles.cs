@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsFuncionesPerfiles : Interfaces.InterfazGen<ClsFuncionesPerfiles>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViFuncionPerfil FuncionPerfil = new ViFuncionPerfil();
         public short NumeroDePantalla
         {
@@ -53,6 +53,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return FuncionPerfil.FUP_TXT_ESTATUS; }
             set { FuncionPerfil.FUP_TXT_ESTATUS = value; }
+        }
+        public ClsFuncionesPerfiles() { }
+        public ClsFuncionesPerfiles(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {

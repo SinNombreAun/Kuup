@@ -9,7 +9,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsUsuarios : Interfaces.InterfazGen<ClsUsuarios>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         ViUsuario Usuario = new ViUsuario();
         public short NumeroDeUsuario
         {
@@ -67,6 +67,10 @@ namespace Negocio.Kuup.Clases
             set { Usuario.USU_TXT_ESTATUS = value; }
         }
         public ClsUsuarios() { }
+        public ClsUsuarios(DBKuupEntities _db) 
+        {
+            db = _db;
+        }
         public ClsUsuarios(Usuario Registro)
         {
             NumeroDeUsuario = Registro.USU_NUM_USUARIO;

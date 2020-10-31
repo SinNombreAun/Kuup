@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsClaves : Interfaces.InterfazGen<ClsClaves>
     {
-        DBKuupEntities db { get; set; }
+        private DBKuupEntities db = null;
         private ViClaves Claves = new ViClaves();
         public byte NumeroDeClave
         {
@@ -55,6 +55,10 @@ namespace Negocio.Kuup.Clases
             set { Claves.CVE_TXT_ESTATUS = value; }
         }
         public ClsClaves() { }
+        public ClsClaves(DBKuupEntities _db)
+        {
+            db = _db;
+        }
         public ClsClaves(byte NumeroDeClave, byte SecuencialDeClave, String NombreDeClave, String Descripcion, String DatoAdicionalI, String DatoAdicionalII, byte CveDeEstatus)
         {
             Claves.CVE_NUM_CLAVE = NumeroDeClave;

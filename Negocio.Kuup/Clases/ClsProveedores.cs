@@ -11,7 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProveedores : Interfaces.InterfazGen<ClsProveedores>
     {
-        public DBKuupEntities db { get; set; }
+        private  DBKuupEntities db = null;
         ViProveedor Proveedor = new ViProveedor();
         public byte NumeroDeProveedor
         {
@@ -62,6 +62,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Proveedor.PRV_TXT_ESTATUS; }
             set { Proveedor.PRV_TXT_ESTATUS = value; }
+        }
+        public ClsProveedores() { }
+        public ClsProveedores(DBKuupEntities _db)
+        {
+            db = _db;
         }
         private bool ToInsert(DBKuupEntities db)
         {
