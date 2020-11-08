@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -12,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViFuncionalidad Funcionalidad = new ViFuncionalidad();
         public short NumeroDePantalla
         {
@@ -29,25 +30,22 @@ namespace Negocio.Kuup.Clases
             get { return Funcionalidad.FUN_NOM_FUNCIONALIDAD; }
             set { Funcionalidad.FUN_NOM_FUNCIONALIDAD = value; }
         }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return Funcionalidad.FUN_CVE_ESTATUS; }
             set { Funcionalidad.FUN_CVE_ESTATUS = value; }
         }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return Funcionalidad.FUN_TXT_ESTATUS; }
             set { Funcionalidad.FUN_TXT_ESTATUS = value; }
         }
         public ClsFuncionalidades() { }
-        public ClsFuncionalidades(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Funcionalidad Funcionalidad = this.ToTable();
             db.Funcionalidad.Add(Funcionalidad);
+            db.Entry(Funcionalidad).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Funcionalidad where q.FUN_NUM_PANTALLA == Funcionalidad.FUN_NUM_PANTALLA && q.FUN_NUM_FUNCIONALIDAD == Funcionalidad.FUN_NUM_FUNCIONALIDAD select q).Count() != 0)
             {
@@ -146,7 +144,7 @@ namespace Negocio.Kuup.Clases
             Tabla.FUN_NUM_PANTALLA = this.NumeroDePantalla;
             Tabla.FUN_NUM_FUNCIONALIDAD = this.NumeroDeFuncionalidad;
             Tabla.FUN_NOM_FUNCIONALIDAD = this.NombreDeFuncionalidad;
-            Tabla.FUN_CVE_ESTATUS = this.CveEstatus;
+            Tabla.FUN_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsFuncionalidades> getList(bool EsVista = true)
@@ -163,8 +161,8 @@ namespace Negocio.Kuup.Clases
                                     NumeroDePantalla = q.FUN_NUM_PANTALLA,
                                     NumeroDeFuncionalidad = q.FUN_NUM_FUNCIONALIDAD,
                                     NombreDeFuncionalidad = q.FUN_NOM_FUNCIONALIDAD,
-                                    CveEstatus = q.FUN_CVE_ESTATUS,
-                                    TextoEstatus = q.FUN_TXT_ESTATUS
+                                    CveDeEstatus = q.FUN_CVE_ESTATUS,
+                                    TextoDeEstatus = q.FUN_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -175,7 +173,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDePantalla = q.FUN_NUM_PANTALLA,
                                     NumeroDeFuncionalidad = q.FUN_NUM_FUNCIONALIDAD,
                                     NombreDeFuncionalidad = q.FUN_NOM_FUNCIONALIDAD,
-                                    CveEstatus = q.FUN_CVE_ESTATUS
+                                    CveDeEstatus = q.FUN_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

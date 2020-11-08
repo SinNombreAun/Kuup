@@ -29,6 +29,8 @@ namespace Mod.Entity
         public byte VET_CVE_APLICADESCUENTO { get; set; }
         public string VET_PORCENTAJE { get; set; }
         public decimal VET_IMPORTE_NETO { get; set; }
+        public decimal VET_IMPORTE_ENTREGADO { get; set; }
+        public decimal VET_IMPORTE_CAMBIO { get; set; }
         public byte VET_CVE_ESTATUS { get; set; }
     
         public virtual Usuario Usuario { get; set; }

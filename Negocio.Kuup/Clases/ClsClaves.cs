@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsClaves : Interfaces.InterfazGen<ClsClaves>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         private ViClaves Claves = new ViClaves();
         public byte NumeroDeClave
         {
@@ -55,10 +55,6 @@ namespace Negocio.Kuup.Clases
             set { Claves.CVE_TXT_ESTATUS = value; }
         }
         public ClsClaves() { }
-        public ClsClaves(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsClaves(byte NumeroDeClave, byte SecuencialDeClave, String NombreDeClave, String Descripcion, String DatoAdicionalI, String DatoAdicionalII, byte CveDeEstatus)
         {
             Claves.CVE_NUM_CLAVE = NumeroDeClave;
@@ -106,7 +102,6 @@ namespace Negocio.Kuup.Clases
         public bool ToDelete(DBKuupEntities db)
         {
             db.Claves.Remove((from q in db.Claves where q.CVE_NUM_CLAVE == Claves.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Claves.CVE_NUM_SEC_CLAVE select q).FirstOrDefault());
-            db.Entry(Claves).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Claves where q.CVE_NUM_CLAVE == Claves.CVE_NUM_CLAVE && q.CVE_NUM_SEC_CLAVE == Claves.CVE_NUM_SEC_CLAVE select q).Count() != 0)
             {

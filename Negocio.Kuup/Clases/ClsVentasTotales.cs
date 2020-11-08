@@ -9,7 +9,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
@@ -56,26 +56,32 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_IMPORTE_NETO; }
             set { VentaTotal.VET_IMPORTE_NETO = value; }
         }
-        public byte CveEstatus
+        public decimal ImporteEntregado
+        {
+            get { return VentaTotal.VET_IMPORTE_ENTREGADO; }
+            set { VentaTotal.VET_IMPORTE_ENTREGADO = value; }
+        }
+        public decimal ImporteCambio
+        {
+            get { return VentaTotal.VET_IMPORTE_CAMBIO; }
+            set { VentaTotal.VET_IMPORTE_CAMBIO = value; }
+        }
+        public byte CveDeEstatus
         {
             get { return VentaTotal.VET_CVE_ESTATUS; }
             set { VentaTotal.VET_CVE_ESTATUS = value; }
         }
-        public String AplicaDescuento
+        public String TextoDeAplicaDescuento
         {
             get { return VentaTotal.VET_TXT_APLICADESCUENTO; }
             set { VentaTotal.VET_TXT_APLICADESCUENTO = value; }
         }
-        public String TxtEstatus
+        public String TextoDeEstatus
         {
             get { return VentaTotal.VET_TXT_ESTATUS; }
             set { VentaTotal.VET_TXT_ESTATUS = value; }
         }
         public ClsVentasTotales() { }
-        public ClsVentasTotales(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             VentaTotal VentaTotal = this.ToTable();
@@ -113,7 +119,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.VentaTotal.Remove((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).FirstOrDefault());
-            db.Entry(VentaTotal).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.VentaTotal where q.VET_FOLIO_OPERACION == VentaTotal.VET_FOLIO_OPERACION select q).Count() != 0)
             {
@@ -185,7 +190,9 @@ namespace Negocio.Kuup.Clases
             Tabla.VET_CVE_APLICADESCUENTO = this.CveAplicaDescuento;
             Tabla.VET_PORCENTAJE = this.Porcentaje;
             Tabla.VET_IMPORTE_NETO = this.ImporteNeto;
-            Tabla.VET_CVE_ESTATUS = this.CveEstatus;
+            Tabla.VET_IMPORTE_ENTREGADO = this.ImporteEntregado;
+            Tabla.VET_IMPORTE_CAMBIO = this.ImporteCambio;
+            Tabla.VET_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsVentasTotales> getList(bool EsVista = true)
@@ -208,9 +215,11 @@ namespace Negocio.Kuup.Clases
                                     CveAplicaDescuento = q.VET_CVE_APLICADESCUENTO,
                                     Porcentaje = q.VET_PORCENTAJE,
                                     ImporteNeto = q.VET_IMPORTE_NETO,
-                                    CveEstatus = q.VET_CVE_ESTATUS,
-                                    AplicaDescuento = q.VET_TXT_APLICADESCUENTO,
-                                    TxtEstatus = q.VET_TXT_ESTATUS
+                                    ImporteEntregado = q.VET_IMPORTE_ENTREGADO,
+                                    ImporteCambio = q.VET_IMPORTE_CAMBIO,
+                                    CveDeEstatus = q.VET_CVE_ESTATUS,
+                                    TextoDeAplicaDescuento = q.VET_TXT_APLICADESCUENTO,
+                                    TextoDeEstatus = q.VET_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -227,7 +236,9 @@ namespace Negocio.Kuup.Clases
                                     CveAplicaDescuento = q.VET_CVE_APLICADESCUENTO,
                                     Porcentaje = q.VET_PORCENTAJE,
                                     ImporteNeto = q.VET_IMPORTE_NETO,
-                                    CveEstatus = q.VET_CVE_ESTATUS
+                                    ImporteEntregado = q.VET_IMPORTE_ENTREGADO,
+                                    ImporteCambio = q.VET_IMPORTE_CAMBIO,
+                                    CveDeEstatus = q.VET_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

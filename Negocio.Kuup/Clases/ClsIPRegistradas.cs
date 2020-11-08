@@ -11,7 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsIPRegistradas : Interfaces.InterfazGen<ClsIPRegistradas>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViIPRegistradas IPRegistradas = new ViIPRegistradas();
         public short NumeroDeUsuario
         {
@@ -44,10 +44,6 @@ namespace Negocio.Kuup.Clases
             set { IPRegistradas.IPR_TXT_TIPOACCESO = value; }
         }
         public ClsIPRegistradas() { }
-        public ClsIPRegistradas(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsIPRegistradas(IPRegistradas Registro)
         {
             NumeroDeUsuario = Registro.IPR_NUM_USUARIO;
@@ -101,7 +97,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.IPRegistradas.Remove((from q in db.IPRegistradas where q.IPR_NUM_USUARIO == IPRegistradas.IPR_NUM_USUARIO && q.IPR_TERMINAL == IPRegistradas.IPR_TERMINAL && q.IPR_IP == IPRegistradas.IPR_IP && q.IPR_CVE_TIPOACCESO == IPRegistradas.IPR_CVE_TIPOACCESO select q).FirstOrDefault());
-            db.Entry(IPRegistradas).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.IPRegistradas where q.IPR_NUM_USUARIO == IPRegistradas.IPR_NUM_USUARIO && q.IPR_TERMINAL == IPRegistradas.IPR_TERMINAL && q.IPR_IP == IPRegistradas.IPR_IP && q.IPR_CVE_TIPOACCESO == IPRegistradas.IPR_CVE_TIPOACCESO select q).Count() != 0)
             {

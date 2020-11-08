@@ -22,5 +22,10 @@ namespace Presentacion.Kuup.Nucleo.Motores
         {
             get { return _RutaUpload; }
         }
+        private static readonly String _Tickets = "~/App_Data/Ticket/";
+        public static String Tickets
+        {
+            get { return _Tickets; }
+        }
     }
 }

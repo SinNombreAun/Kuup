@@ -11,7 +11,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsMenu : Interfaces.InterfazGen<ClsMenu>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViMenu Menu = new ViMenu();
         public short NumeroDeMenu
         {
@@ -59,10 +59,6 @@ namespace Negocio.Kuup.Clases
             set { Menu.MEN_TXT_ESTATUS = value; }
         }
         public ClsMenu() { }
-        public ClsMenu(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsMenu(ViMenu Registro) {
             NumeroDeMenu = Registro.MEN_NUM_MENU;
             NumeroDeMenuPadre = Registro.MEN_NUM_PADRE;
@@ -120,7 +116,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Menu.Remove((from q in db.Menu where q.MEN_NUM_MENU == Menu.MEN_NUM_MENU && q.MEN_NUM_PADRE == Menu.MEN_NUM_PADRE && q.MEN_NUM_ORDEN == Menu.MEN_NUM_ORDEN select q).FirstOrDefault());
-            db.Entry(Menu).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Menu where q.MEN_NUM_MENU == Menu.MEN_NUM_MENU && q.MEN_NUM_PADRE == Menu.MEN_NUM_PADRE && q.MEN_NUM_ORDEN == Menu.MEN_NUM_ORDEN select q).Count() != 0)
             {

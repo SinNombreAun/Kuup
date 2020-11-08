@@ -13,6 +13,7 @@
                 ImporteRecibido: 'fImporteRecibido',
                 ImporteTotalVent: 'fImporteTotalVent',
                 ImporteCambio: 'fImporteCambio',
+                NombreDeProducto: 'fNombreDeProducto',
                 Tabla: 'Tabla'
             };
             let Funcionalidad = '',
@@ -139,7 +140,7 @@
                         error: function () {
                             alertify.error("Ocurrio un error al realizar la eliminación del registro");
                         }
-                    });;
+                    });
                 });
             }
             function OcultaCampos() {
@@ -187,7 +188,7 @@
                                     $('#' + Elementos_VentaTotal.ImporteTotalVent).val($('#' + Elementos_VentaTotal.ImporteTotal).val());
                                     $('#' + Elementos_VentaTotal.ImporteRecibido).focus();
                                     AgregaEventoCambio();
-                                    $('#' + Elementos_VentaTotal.AgregaProducto).on('dialogclose', function (event) {
+                                    $('#' + Elementos_VentaTotal.RegistraVenta).on('dialogclose', function (event) {
                                         LimpiaCantidad();
                                         $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
                                     });
@@ -209,14 +210,14 @@
                     data: { NombreOCodigoDeProducto: $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val() },
                     success: function (data) {
                         if (data.Resultado.Resultado) {
-                            let DimencionesX = 500, DimencionesY = 200;
+                            let DimencionesX = 500, DimencionesY = 260;
                             if (data.TienePaquetes) {
                                 $('#' + Elementos_VentaTotal.Paquetes + ' option:gt(0)').remove();
                                 $.each(data.Paquetes, function (index, value) {
                                     $('#' + Elementos_VentaTotal.Paquetes).append($('<option></option>').attr('value', value.NumeroDeProductoPadre + '_' + value.NumeroDeProductoHijo).text(value.NombreDeProductoPadre + ' con ' + value.NombreDeProductoHijo));
                                 });
                                 DimencionesX = 700;
-                                DimencionesY = 300;
+                                DimencionesY = 350;
                                 $('#' + Elementos_VentaTotal.Paquetes).parent().parent().show();
                             } else {
                                 $('#' + Elementos_VentaTotal.Paquetes).parent().parent().hide();
@@ -225,6 +226,7 @@
                             $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).blur();
                             CreaDialog(Elementos_VentaTotal.AgregaProducto, 'Agrega Producto', CreaBotonesDialog(data.Producto, false), DimencionesX, DimencionesY);
                             $('#' + Elementos_VentaTotal.AgregaProducto).dialog('open');
+                            $('#' + Elementos_VentaTotal.NombreDeProducto).html(data.Producto.NombreDeProducto);
                             $('#' + Elementos_VentaTotal.CantidadDeProducto).focus();
                             AgregaEventoCantidad(data.Producto);
                             $('#' + Elementos_VentaTotal.AgregaProducto).on('dialogclose', function (event) {
@@ -247,7 +249,7 @@
                     if (keycode2 == 13) {
                         if (!isNaN($('#' + Elementos_VentaTotal.ImporteRecibido).val())) {
                             if ($('#' + Elementos_VentaTotal.ImporteRecibido).val() != '') {
-                                $('#' + Elementos_VentaTotal.ImporteCambio).val(parseFloat($('#' + Elementos_VentaTotal.ImporteRecibido).val()) - parseFloat($('#' + Elementos_VentaTotal.ImporteTotalVent).val()));
+                                $('#' + Elementos_VentaTotal.ImporteCambio).val((parseFloat($('#' + Elementos_VentaTotal.ImporteRecibido).val()) - parseFloat($('#' + Elementos_VentaTotal.ImporteTotalVent).val())).toFixed(2));
                             }
                         }
                     }
@@ -306,35 +308,43 @@
                                 if (JsonObj.length != 0) {
                                     JsonString = JSON.stringify(JsonObj);
                                 }
-                                $.ajax({
-                                    type: "POST",
-                                    url: UrlRegistraVenta,
-                                    async: false,
-                                    data: { RegistroVenta: JsonString },
-                                    success: function (data) {
-                                        if (data.Resultado) {
-                                            if (data.Adicional != null) {
-                                                alertify.alert('Aviso Importante', data.Adicional);
-                                            } else {
-                                                alertify.success(data.Mensaje);
+                                if (!isNaN($('#' + Elementos_VentaTotal.ImporteRecibido).val())) {
+                                    if ($('#' + Elementos_VentaTotal.ImporteRecibido).val() != '') {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: UrlRegistraVenta,
+                                            async: false,
+                                            data: { ImporteEntregado: $('#' + Elementos_VentaTotal.ImporteRecibido).val(), ImporteCambio: $('#' + Elementos_VentaTotal.ImporteCambio).val(), RegistroVenta: JsonString },
+                                            success: function (data) {
+                                                if (data.Resultado) {
+                                                    if (data.Adicional != null) {
+                                                        alertify.alert('Aviso Importante', data.Adicional);
+                                                    } else {
+                                                        alertify.success(data.Mensaje);
+                                                    }
+                                                    TablaVentas.clear().draw();
+                                                    $('#' + Elementos_VentaTotal.RegistraVenta).dialog('close');
+                                                    LimpiaCantidad();
+                                                    $('#' + Elementos_VentaTotal.ImporteTotal).val(0);
+                                                    $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
+                                                } else {
+                                                    if (data.Adicional != null) {
+                                                        alertify.alert('Aviso Importante', data.Adicional);
+                                                    } else {
+                                                        alertify.error(data.Mensaje);
+                                                    }
+                                                }
+                                            },
+                                            error: function () {
+                                                alertify.error("Ocurrio un error al realizar la carga del Producto");
                                             }
-                                            TablaVentas.clear().draw();
-                                            $('#' + Elementos_VentaTotal.RegistraVenta).dialog('close');
-                                            LimpiaCantidad();
-                                            $('#' + Elementos_VentaTotal.ImporteTotal).val(0);
-                                            $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
-                                        } else {
-                                            if (data.Adicional != null) {
-                                                alertify.alert('Aviso Importante', data.Adicional);
-                                            } else {
-                                                alertify.error(data.Mensaje);
-                                            }
-                                        }
-                                    },
-                                    error: function () {
-                                        alertify.error("Ocurrio un error al realizar la carga del Producto");
+                                        });
+                                    } else {
+                                        alertify.error('El Importe Recibido es requerido')
                                     }
-                                });
+                                } else {
+                                    alertify.error('El Importe Recibido debe ser numerico')
+                                }
                             }
                         }
                     }
@@ -402,8 +412,8 @@
             function LimpiaCantidad() {
                 $('#' + Elementos_VentaTotal.CantidadDeProducto).val('');
                 $('#' + Elementos_VentaTotal.Paquetes).val('');
-                $('#' + Elementos_VentaTotal.ImporteCambio).val();
-                $('#' + Elementos_VentaTotal.ImporteTotalVent).val();
+                $('#' + Elementos_VentaTotal.ImporteCambio).val('');
+                $('#' + Elementos_VentaTotal.ImporteTotalVent).val('');
             }
             return {
                 Configuracion: {

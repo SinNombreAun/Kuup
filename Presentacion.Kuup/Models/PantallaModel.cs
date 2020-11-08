@@ -16,9 +16,9 @@ namespace Presentacion.Kuup.Models
             this.Descripcion = Pantalla.Descripcion;
             this.CveManejoInterno = Pantalla.CveManejoInterno;
             this.Llave = Pantalla.Llave;
-            this.CveEstatus = Pantalla.CveEstatus;
+            this.CveDeEstatus = Pantalla.CveDeEstatus;
             this.TextoManejoInterno = Pantalla.TextoManejoInterno;
-            this.TextoEstatus = Pantalla.TextoEstatus;
+            this.TextoDeEstatus = Pantalla.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Número de Pantalla")]
@@ -64,10 +64,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public Byte fCveEstatus
+        public Byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
         [Display(Name = "Descripción Manejo Interno")]
@@ -78,10 +78,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Significado Del Estatus")]
-        public String fTextoEstatus
+        public String fTextoDeEstatus
         {
-            get { return this.TextoEstatus; }
-            set { this.TextoEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

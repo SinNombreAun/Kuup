@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsBitacoraCorreos : Interfaces.InterfazGen<ClsBitacoraCorreos>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViBitacoraCorreo BitacoraCorreo = new ViBitacoraCorreo();
         public short NumeroDePantalla
         {
@@ -49,7 +49,7 @@ namespace Negocio.Kuup.Clases
             get { return BitacoraCorreo.BIM_MESAJE_ERROR; }
             set { BitacoraCorreo.BIM_MESAJE_ERROR = value; }
         }
-        public Byte CveEstatus
+        public Byte CveDeEstatus
         {
             get { return BitacoraCorreo.BIM_CVE_ESTATUS; }
             set { BitacoraCorreo.BIM_CVE_ESTATUS = value; }
@@ -59,20 +59,17 @@ namespace Negocio.Kuup.Clases
             get { return BitacoraCorreo.BIM_NOM_PANTALLA; }
             set { BitacoraCorreo.BIM_NOM_PANTALLA = value; }
         }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return BitacoraCorreo.BIM_TXT_ESTATUS; }
             set { BitacoraCorreo.BIM_TXT_ESTATUS = value; }
         }
         public ClsBitacoraCorreos() { }
-        public ClsBitacoraCorreos(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             BitacoraCorreo BitacoraCorreo = this.ToTable();
             db.BitacoraCorreo.Add(BitacoraCorreo);
+            db.Entry(BitacoraCorreo).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.BitacoraCorreo where q.BIM_NUM_PANTALLA == BitacoraCorreo.BIM_NUM_PANTALLA select q).Count() != 0)
             {
@@ -176,7 +173,7 @@ namespace Negocio.Kuup.Clases
             Tabla.BIM_FECHA_ENVIO = this.FechaDeEnvio;
             Tabla.BIM_FECHA_REENVIO = this.FechaDeReenvio;
             Tabla.BIM_MESAJE_ERROR = this.MensajeDeError;
-            Tabla.BIM_CVE_ESTATUS = this.CveEstatus;
+            Tabla.BIM_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
 
@@ -198,9 +195,9 @@ namespace Negocio.Kuup.Clases
                                     FechaDeEnvio = q.BIM_FECHA_ENVIO,
                                     FechaDeReenvio = q.BIM_FECHA_REENVIO,
                                     MensajeDeError = q.BIM_MESAJE_ERROR,
-                                    CveEstatus = q.BIM_CVE_ESTATUS,
+                                    CveDeEstatus = q.BIM_CVE_ESTATUS,
                                     NombreDePantalla = q.BIM_NOM_PANTALLA,
-                                    TextoEstatus = q.BIM_TXT_ESTATUS
+                                    TextoDeEstatus = q.BIM_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -215,7 +212,7 @@ namespace Negocio.Kuup.Clases
                                     FechaDeEnvio = q.BIM_FECHA_ENVIO,
                                     FechaDeReenvio = q.BIM_FECHA_REENVIO,
                                     MensajeDeError = q.BIM_MESAJE_ERROR,
-                                    CveEstatus = q.BIM_CVE_ESTATUS
+                                    CveDeEstatus = q.BIM_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

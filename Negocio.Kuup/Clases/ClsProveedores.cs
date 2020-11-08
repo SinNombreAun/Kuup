@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -11,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProveedores : Interfaces.InterfazGen<ClsProveedores>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViProveedor Proveedor = new ViProveedor();
         public byte NumeroDeProveedor
         {
@@ -48,7 +49,7 @@ namespace Negocio.Kuup.Clases
             get { return Proveedor.PRV_MENSAJE; }
             set { Proveedor.PRV_MENSAJE = value; }
         }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return Proveedor.PRV_CVE_ESTATUS; }
             set { Proveedor.PRV_CVE_ESTATUS = value; }
@@ -58,20 +59,17 @@ namespace Negocio.Kuup.Clases
             get { return Proveedor.PRV_TXT_SURTIDO_POR_CORREO; }
             set { Proveedor.PRV_TXT_SURTIDO_POR_CORREO = value; }
         }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return Proveedor.PRV_TXT_ESTATUS; }
             set { Proveedor.PRV_TXT_ESTATUS = value; }
         }
         public ClsProveedores() { }
-        public ClsProveedores(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Proveedor Proveedor = this.ToTable();
             db.Proveedor.Add(Proveedor);
+            db.Entry(Proveedor).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Proveedor where q.PRV_NUM_PROVEEDOR == Proveedor.PRV_NUM_PROVEEDOR select q).Count() != 0)
             {
@@ -135,8 +133,8 @@ namespace Negocio.Kuup.Clases
         }
         private bool ToUpdate(DBKuupEntities db)
         {
-            Proveedores Proveedores = this.ToTable();
-            db.Provveedores.Attach(Proveedores);
+            Proveedor Proveedores = this.ToTable();
+            db.Proveedor.Attach(Proveedores);
             db.Entry(Proveedores).State = EntityState.Modified;
             db.SaveChanges();
             return true;
@@ -174,7 +172,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PRV_CORREO = this.Correo;
             Tabla.PRV_ASUNTO = this.Asunto;
             Tabla.PRV_MENSAJE = this.Mensaje;
-            Tabla.PRV_CVE_ESTATUS = this.CveEstatus;
+            Tabla.PRV_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsProveedores> getList(bool EsVista = true)
@@ -195,9 +193,9 @@ namespace Negocio.Kuup.Clases
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,
-                                    CveEstatus = q.PRV_CVE_ESTATUS,
+                                    CveDeEstatus = q.PRV_CVE_ESTATUS,
                                     TextoSurtidoPorCorreo = q.PRV_TXT_SURTIDO_POR_CORREO,
-                                    TextoEstatus = q.PRV_TXT_ESTATUS
+                                    TextoDeEstatus = q.PRV_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -212,7 +210,7 @@ namespace Negocio.Kuup.Clases
                                     Correo = q.PRV_CORREO,
                                     Asunto = q.PRV_ASUNTO,
                                     Mensaje = q.PRV_MENSAJE,
-                                    CveEstatus = q.PRV_CVE_ESTATUS
+                                    CveDeEstatus = q.PRV_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

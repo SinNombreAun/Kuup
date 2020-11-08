@@ -120,6 +120,7 @@
     <Content Include="Content\Librerias\FullCalendar\locales\es.js" />
     <Content Include="Content\Librerias\FullCalendar\main.css" />
     <Content Include="Content\Librerias\FullCalendar\main.js" />
+    <Content Include="Content\Librerias\JQuery.BlockUI\jquery.blockUI.js" />
     <Content Include="Content\Librerias\JQuery.UI\jquery-ui.css" />
     <Content Include="Content\Librerias\JQuery.UI\jquery-ui.js" />
     <Content Include="Content\Librerias\JQuery.UI\jquery-ui.structure.css" />
@@ -137,6 +138,7 @@
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
+    <Content Include="Scripts\General\ClsConfiguracion.js" />
     <Content Include="Scripts\General\ClsImportarArchivos.js" />
     <Content Include="Scripts\General\ClsResultado.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
@@ -152,6 +154,7 @@
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VentaTotalController.cs" />
     <Compile Include="Global.asax.cs">
@@ -159,6 +162,7 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
+    <Compile Include="Models\ConfiguraMayoreoModel.cs" />
     <Compile Include="Models\ConfiguraPaqueteModel.cs" />
     <Compile Include="Models\GeneralModel.cs" />
     <Compile Include="Models\ParametroModel.cs" />
@@ -236,6 +240,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
     <Folder Include="Imagenes\CodigoBarras\" />
+    <Folder Include="Views\Prueba\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funciones.Kuup\Funciones.Kuup.csproj">

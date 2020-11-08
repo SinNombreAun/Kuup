@@ -169,7 +169,7 @@ namespace Recursos {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a 2020 Sistema de Inventario y Ventas Kuup | Desarrollado por  &lt;a href=&quot;&quot;&gt;SIR&lt;/a&gt;.
+        ///   Busca una cadena traducida similar a 2020 Sistema de Inventario y Ventas Kuup | Desarrollado por  &lt;a href=&quot;http://sistemaseinnovacionsir.com/&quot;&gt;SIR&lt;/a&gt;.
         /// </summary>
         public static string Kuup_Aplicacion {
             get {
@@ -306,9 +306,9 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Estatus.
         /// </summary>
-        public static string Producto_CveEstatus {
+        public static string Producto_CveDeEstatus {
             get {
-                return ResourceManager.GetString("Producto_CveEstatus", resourceCulture);
+                return ResourceManager.GetString("Producto_CveDeEstatus", resourceCulture);
             }
         }
         
@@ -414,9 +414,9 @@ namespace Recursos {
         /// <summary>
         ///   Busca una cadena traducida similar a Estatus.
         /// </summary>
-        public static string Producto_TextoEstatus {
+        public static string Producto_TextoDeEstatus {
             get {
-                return ResourceManager.GetString("Producto_TextoEstatus", resourceCulture);
+                return ResourceManager.GetString("Producto_TextoDeEstatus", resourceCulture);
             }
         }
     }

@@ -12,16 +12,16 @@ namespace Mod.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Venta
+    public partial class ConfiguraMayoreo
     {
-        public short VEN_FOLIO_OPERACION { get; set; }
-        public short VEN_NUM_PRODUCTO { get; set; }
-        public string VEN_CODIGO_BARRAS { get; set; }
-        public short VEN_CANT_PRODUCTO { get; set; }
-        public decimal VEN_PRECIO_UNITARIO { get; set; }
-        public decimal VEN_IMPORTE_PRODUCTO { get; set; }
+        public short COM_NUM_MAYOREO { get; set; }
+        public short COM_NUM_PRODUCTO { get; set; }
+        public string COM_CODIGO_BARRAS { get; set; }
+        public byte COM_CVE_APLICA_PAQUETES { get; set; }
+        public byte COM_CANTIDAD_MINIMA { get; set; }
+        public Nullable<byte> COM_CANTIDAD_MAXIMA { get; set; }
+        public decimal COM_PRECIO_MAYOREO { get; set; }
     
-        public virtual VentaTotal VentaTotal { get; set; }
         public virtual Producto Producto { get; set; }
     }
 }

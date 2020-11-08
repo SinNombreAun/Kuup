@@ -74,7 +74,7 @@ namespace Presentacion.Kuup.Controllers
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado();
             RegistroCapturado.fFechaDeAlta = System.DateTime.Now;
             RegistroCapturado.fNumeroDeUsuario = MoSesion.NumeroDeUsuario;
-            RegistroCapturado.fCveDeEstatus = (byte)ClsEnumerables.CveEstatusGeneral.ACTIVO;
+            RegistroCapturado.fCveDeEstatus = (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO;
             if (ModelState.IsValid)
             {
                 if (RegistroCapturado.Insert())

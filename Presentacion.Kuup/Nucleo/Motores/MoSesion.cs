@@ -89,7 +89,6 @@ namespace Presentacion.Kuup.Nucleo.Motores
     {
         public short NumeroDeUsuario { get; set; }
         public byte NumeroDePerfil { get; set; }
-
         public bool Deslogueado { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Mod.Entity
         public System.DateTime SUR_FECHA_SURTIDO { get; set; }
         public byte SUR_CVE_ESTATUS { get; set; }
     
-        public virtual Producto Producto { get; set; }
         public virtual Proveedor Proveedor { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

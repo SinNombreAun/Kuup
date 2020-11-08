@@ -78,6 +78,9 @@ form label {
 .text-color-site {
     color: #333333;
 }
+.color-label-white {
+    color: white !important;
+}
 /*.container-form {
     width: 100%;
     padding-right: 15px;

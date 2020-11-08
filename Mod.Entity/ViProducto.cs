@@ -27,14 +27,10 @@ namespace Mod.Entity
         public short PRO_CAT_MINIMA { get; set; }
         public Nullable<byte> PRO_NUM_PROVEEDOR { get; set; }
         public decimal PRO_PRECIO_UNITARIO { get; set; }
-        public byte PRO_CVE_APLICA_MAYOREO { get; set; }
-        public Nullable<short> PRO_CAT_MINIMA_MAYOREO { get; set; }
-        public Nullable<decimal> PRO_PRECIO_MAYOREO { get; set; }
         public byte PRO_CVE_ESTATUS { get; set; }
         public string PRO_TXT_AVISO { get; set; }
         public string PRO_TXT_CORREO_SURTIDO { get; set; }
         public string PRO_NOM_PROVEEDOR { get; set; }
-        public string PRO_TXT_APLICA_MAYOREO { get; set; }
         public string PRO_TXT_ESTATUS { get; set; }
     }
 }

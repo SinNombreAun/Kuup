@@ -1,13 +1,14 @@
 ﻿using Mod.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsAgenda : Interfaces.InterfazGen<ClsAgenda>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViAgenda Agenda = new ViAgenda();
         public short NumeroDeAgenda
         {
@@ -65,10 +66,6 @@ namespace Negocio.Kuup.Clases
             set { Agenda.AGN_TXT_ESTATUS = value; }
         }
         public ClsAgenda() { }
-        public ClsAgenda(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsAgenda(Agenda Registro)
         {
             NumeroDeAgenda = Registro.AGN_NUM_AGENDA;
@@ -98,6 +95,7 @@ namespace Negocio.Kuup.Clases
         {
             Agenda Agenda = this.ToTable();
             db.Agenda.Add(Agenda);
+            db.Entry(Agenda).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Agenda where q.AGN_NUM_AGENDA == Agenda.AGN_NUM_AGENDA select q).Count() != 0)
             {

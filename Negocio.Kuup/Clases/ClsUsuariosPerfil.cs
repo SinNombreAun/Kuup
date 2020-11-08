@@ -8,7 +8,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsUsuariosPerfil : Interfaces.InterfazGen<ClsUsuariosPerfil>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViUsuarioPerfil UsuarioPerfil = new ViUsuarioPerfil();
         public byte NumeroDePerfil
         {
@@ -46,10 +46,6 @@ namespace Negocio.Kuup.Clases
             set { UsuarioPerfil.USP_TXT_ESTATUS = value; }
         }
         public ClsUsuariosPerfil() { }
-        public ClsUsuariosPerfil(DBKuupEntities _db) 
-        {
-            db = _db;
-        }
         public ClsUsuariosPerfil(UsuarioPerfil Registro)
         {
             NumeroDePerfil = Registro.USP_NUM_PERFIL;
@@ -103,7 +99,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.UsuarioPerfil.Remove((from q in db.UsuarioPerfil where q.USP_NUM_USUARIO == UsuarioPerfil.USP_NUM_USUARIO && q.USP_NUM_PERFIL == UsuarioPerfil.USP_NUM_PERFIL select q).FirstOrDefault());
-            db.Entry(UsuarioPerfil).State = EntityState.Deleted;
             db.SaveChanges();
             if((from q in db.UsuarioPerfil where q.USP_NUM_USUARIO == UsuarioPerfil.USP_NUM_USUARIO && q.USP_NUM_PERFIL == UsuarioPerfil.USP_NUM_PERFIL select q).Count() != 0)
             {

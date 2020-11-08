@@ -20,9 +20,11 @@ namespace Presentacion.Kuup.Models
             this.CveAplicaDescuento = VentaTotal.CveAplicaDescuento;
             this.Porcentaje = VentaTotal.Porcentaje;
             this.ImporteNeto = VentaTotal.ImporteNeto;
-            this.CveEstatus = VentaTotal.CveEstatus;
-            this.AplicaDescuento = VentaTotal.AplicaDescuento;
-            this.TxtEstatus = VentaTotal.TxtEstatus;
+            this.ImporteEntregado = VentaTotal.ImporteEntregado;
+            this.ImporteCambio = VentaTotal.ImporteCambio;
+            this.CveDeEstatus = VentaTotal.CveDeEstatus;
+            this.TextoDeAplicaDescuento = VentaTotal.TextoDeAplicaDescuento;
+            this.TextoDeEstatus = VentaTotal.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Folio De Operacion")]
@@ -67,7 +69,7 @@ namespace Presentacion.Kuup.Models
             set { this.IVA = value; }
         }
         [Required]
-        [Display(Name = "Clave Aplica Descuento")]
+        [Display(Name = "Aplica Descuento")]
         public byte fCveAplicaDescuento
         {
             get { return this.CveAplicaDescuento; }
@@ -88,25 +90,24 @@ namespace Presentacion.Kuup.Models
             set { this.ImporteNeto = value; }
         }
         [Required]
-        [Display(Name = "Clave Estatus")]
-        public byte fCveEstatus
+        [Display(Name = "Estatus")]
+        public byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
-        [Display(Name = "AplicaDescuento")]
-        public String fAplicaDescuento
+        [Display(Name = "Aplica Descuento")]
+        public String fTextoDeAplicaDescuento
         {
-            get { return this.AplicaDescuento; }
-            set { this.AplicaDescuento = value; }
+            get { return this.TextoDeAplicaDescuento; }
+            set { this.TextoDeAplicaDescuento = value; }
         }
-        [Required]
-        [Display(Name = "Número de Producto")]
-        public String fTxtEstatus
+        [Display(Name = "Estatus")]
+        public String fTextoDeEstatus
         {
-            get { return this.TxtEstatus; }
-            set { this.TxtEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

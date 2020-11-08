@@ -2,13 +2,14 @@
 using Negocio.Kuup.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsConfiguraPaquetes : Interfaces.InterfazGen<ClsConfiguraPaquetes>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViConfiguraPaquete ConfiguraPaquete = new ViConfiguraPaquete();
         public short NumeroDeProductoPadre
         {
@@ -46,14 +47,11 @@ namespace Negocio.Kuup.Clases
             set { ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO = value; }
         }
         public ClsConfiguraPaquetes() { }
-        public ClsConfiguraPaquetes(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             ConfiguraPaquete ConfiguraPaquete = this.ToTable();
             db.ConfiguraPaquete.Add(ConfiguraPaquete);
+            db.Entry(ConfiguraPaquete).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO select q).Count() != 0)
             {
