@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -12,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsSurtidos : Interfaces.InterfazGen<ClsSurtidos>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViSurtido Surtido = new ViSurtido();
         public short FolioDeSurtido
         {
@@ -54,7 +55,7 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_FECHA_SURTIDO; }
             set { Surtido.SUR_FECHA_SURTIDO = value; }
         }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return Surtido.SUR_CVE_ESTATUS; }
             set { Surtido.SUR_CVE_ESTATUS = value; }
@@ -69,20 +70,17 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_NOM_PRODUCTO; }
             set { Surtido.SUR_NOM_PRODUCTO = value; }
         }
-        public String TxtEstatus
+        public String TextoDeEstatus
         {
             get { return Surtido.SUR_TXT_ESTATUS; }
             set { Surtido.SUR_TXT_ESTATUS = value; }
         }
         public ClsSurtidos() { }
-        public ClsSurtidos(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Surtido Surtido = this.ToTable();
             db.Surtido.Add(Surtido);
+            db.Entry(Surtido).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
             {
@@ -114,20 +112,19 @@ namespace Negocio.Kuup.Clases
         }
         private bool ToDelete(DBKuupEntities db)
         {
-            using (DBKuupEntities db = new DBKuupEntities())
+            db.Surtido.Remove((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).FirstOrDefault());
+            db.SaveChanges();
+            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
             {
-                db.SaveChanges();
-                if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
-                {
-                    return false;
-                }
-                return true;
+                return false;
             }
-       public bool Delete()
+            return true;
+        }
+        public bool Delete()
         {
             try
             {
-                if(db == null)
+                if (db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -145,38 +142,38 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
-            private bool ToUpdate(DBKuupEntities db)
+        private bool ToUpdate(DBKuupEntities db)
+        {
+            Surtido Surtido = this.ToTable();
+            db.Surtido.Attach(Surtido);
+            db.Entry(Surtido).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
+        }
+        public bool Update()
+        {
+            try
             {
-                Surtido Surtido = this.ToTable();
-                db.VentaTotal.Attach(Surtido);
-                db.Entry(Surtido).State = EntityState.Modified;
-                db.SaveChanges();
-                return true;
-            }
-            public bool Update()
-            {
-                try
+                if (db == null)
                 {
-                    if (db == null)
-                    {
-                        using (DBKuupEntities db = new DBKuupEntities())
-                        {
-                            return ToUpdate(db);
-                        }
-                    }
-                    else
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToUpdate(db);
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
-                    return false;
-
+                    return ToUpdate(db);
                 }
             }
-            public Surtido ToTable()
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+
+            }
+        }
+        public Surtido ToTable()
         {
             Surtido Tabla = new Surtido();
             Tabla.SUR_FOLIO_SURTIDO = this.FolioDeSurtido;
@@ -187,7 +184,7 @@ namespace Negocio.Kuup.Clases
             Tabla.SUR_PRECIO_UNITARIO = this.PrecioUnitario;
             Tabla.SUR_COSTO_TOTAL = this.CostoTotal;
             Tabla.SUR_FECHA_SURTIDO = this.FechaDeSurtido;
-            Tabla.SUR_CVE_ESTATUS = this.CveEstatus;
+            Tabla.SUR_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsSurtidos> getList(bool EsVista = true)
@@ -209,10 +206,10 @@ namespace Negocio.Kuup.Clases
                                     PrecioUnitario = q.SUR_PRECIO_UNITARIO,
                                     CostoTotal = q.SUR_COSTO_TOTAL,
                                     FechaDeSurtido = q.SUR_FECHA_SURTIDO,
-                                    CveEstatus = q.SUR_CVE_ESTATUS,
+                                    CveDeEstatus = q.SUR_CVE_ESTATUS,
                                     NombreDeProveedor = q.SUR_NOM_PROVEEDOR,
                                     NombreDeProducto = q.SUR_NOM_PRODUCTO,
-                                    TxtEstatus = q.SUR_TXT_ESTATUS
+                                    TextoDeEstatus = q.SUR_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -228,7 +225,7 @@ namespace Negocio.Kuup.Clases
                                     PrecioUnitario = q.SUR_PRECIO_UNITARIO,
                                     CostoTotal = q.SUR_COSTO_TOTAL,
                                     FechaDeSurtido = q.SUR_FECHA_SURTIDO,
-                                    CveEstatus = q.SUR_CVE_ESTATUS
+                                    CveDeEstatus = q.SUR_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

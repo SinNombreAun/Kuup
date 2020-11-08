@@ -4,6 +4,7 @@ using Presentacion.Kuup.Nucleo.Funciones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web.Mvc;
 
 namespace Presentacion.Kuup.Controllers
@@ -20,9 +21,9 @@ namespace Presentacion.Kuup.Controllers
             }
             return View();
         }
-        public JsonResult RegistraVentaTotal(String RegistroVenta)
+        public JsonResult RegistraVentaTotal(decimal ImporteEntregado,decimal ImporteCambio, String RegistroVenta)
         {
-            return Json(Opera.RegistroDeVenta(RegistroVenta), JsonRequestBehavior.AllowGet);
+            return Json(Opera.RegistroDeVenta(ImporteEntregado, ImporteCambio, RegistroVenta), JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargaProducto(String NombreOCodigoDeProducto)
         {
@@ -71,26 +72,72 @@ namespace Presentacion.Kuup.Controllers
                     if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre))
                     {
                         Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre select q).ToList();
+
+                        decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
+
+                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        if (Mayoreo.Count() > 0)
+                        {
+                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
+                            {
+                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
+                                {
+                                    if (Cantidad >= mayoreo.CantidadMinima)
+                                    {
+                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                        break;
+                                    }
+                                }
+                                else if (Cantidad >= mayoreo.CantidadMinima && Cantidad <= mayoreo.CantidadMaxima)
+                                {
+                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                    break;
+                                }
+                            }
+                        }
                         Registro.Add(new ClsVentas()
                         {
                             NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre,
                             CodigoDeBarras = Productos.FirstOrDefault().CodigoDeBarras,
                             CantidadDeProducto = Cantidad,
-                            ImporteDeProducto = Math.Round(Cantidad * ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre, 2),
-                            PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre,
+                            ImporteDeProducto = Math.Round(Cantidad * PrecioUnitario, 2),
+                            PrecioUnitario = PrecioUnitario,
                             NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoPadre
                         });
                     }
                     else
                     {
                         var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre).FirstOrDefault();
+
+                        decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
+
+                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Previo.NumeroDeProducto && q.CodigoDeBarras == Previo.CodigoDeBarras select q).ToList();
+                        if (Mayoreo.Count() > 0)
+                        {
+                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
+                            {
+                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
+                                {
+                                    if (((Cantidad + Previo.CantidadDeProducto) + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima)
+                                    {
+                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                        break;
+                                    }
+                                }
+                                else if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima && (Cantidad + Previo.CantidadDeProducto) <= mayoreo.CantidadMaxima)
+                                {
+                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                    break;
+                                }
+                            }
+                        }
                         Registro.Add(new ClsVentas()
                         {
                             NumeroDeProducto = Previo.NumeroDeProducto,
                             CodigoDeBarras = Previo.CodigoDeBarras,
                             CantidadDeProducto = (short)(Cantidad + Previo.CantidadDeProducto),
-                            ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre, 2),
-                            PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre,
+                            ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * PrecioUnitario, 2),
+                            PrecioUnitario = PrecioUnitario,
                             NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoPadre
                         });
                     }
@@ -146,11 +193,25 @@ namespace Presentacion.Kuup.Controllers
                     if (Productos.Count != 0)
                     {
                         decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-                        if (Productos.FirstOrDefault().CveAplicaMayoreo == 1)
+
+                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        if (Mayoreo.Count() > 0)
                         {
-                            if (Productos.FirstOrDefault().CantidadMinimaMayoreo >= Cantidad)
+                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
                             {
-                                PrecioUnitario = (decimal)Productos.FirstOrDefault().PrecioMayoreo;
+                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
+                                {
+                                    if(Cantidad >= mayoreo.CantidadMinima)
+                                    {
+                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                        break;
+                                    }
+                                }
+                                else if (Cantidad >= mayoreo.CantidadMinima && Cantidad <= mayoreo.CantidadMaxima)
+                                {
+                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                    break;
+                                }
                             }
                         }
                         Registro.Add(new ClsVentas()
@@ -169,11 +230,25 @@ namespace Presentacion.Kuup.Controllers
                     var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault();
                     Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
                     decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-                    if (Productos.FirstOrDefault().CveAplicaMayoreo == 1)
+
+                    List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                    if (Mayoreo.Count() > 0)
                     {
-                        if (Productos.FirstOrDefault().CantidadMinimaMayoreo >= (Cantidad + Previo.CantidadDeProducto))
+                        foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
                         {
-                            PrecioUnitario = (decimal)Productos.FirstOrDefault().PrecioMayoreo;
+                            if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
+                            {
+                                if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima)
+                                {
+                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                    break;
+                                }
+                            }
+                            else if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima && (Cantidad + Previo.CantidadDeProducto) <= mayoreo.CantidadMaxima)
+                            {
+                                PrecioUnitario = mayoreo.PrecioDeMayoreo;
+                                break;
+                            }
                         }
                     }
                     Registro.Add(new ClsVentas()
@@ -247,10 +322,33 @@ namespace Presentacion.Kuup.Controllers
         public JsonResult AutoCompleteProducto(String Prefix)
         {
             List<ClsProductos> Productos = new List<ClsProductos>();
-            Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.StartsWith(Prefix) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-            if (Productos.Count == 0)
+            ClsParametros Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ActivaLike" select q).ToList().FirstOrDefault();
+            if (Parametro != null)
             {
-                Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.StartsWith(Prefix) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                if (Parametro.ValorDeParametro == "SI")
+                {
+                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                    if (Productos.Count == 0)
+                    {
+                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                    }
+                }
+                else
+                {
+                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                    if (Productos.Count == 0)
+                    {
+                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                    }
+                }
+            }
+            else
+            {
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                if (Productos.Count == 0)
+                {
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                }
             }
             return Json(Productos, JsonRequestBehavior.AllowGet);
         }

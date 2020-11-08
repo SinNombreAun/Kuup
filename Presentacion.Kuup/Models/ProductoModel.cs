@@ -26,15 +26,11 @@ namespace Presentacion.Kuup.Models
             this.CantidadMinima = Producto.CantidadMinima;
             this.NumeroDeProveedor = Producto.NumeroDeProveedor;
             this.PrecioUnitario = Producto.PrecioUnitario;
-            this.CveAplicaMayoreo = Producto.CveAplicaMayoreo;
-            this.CantidadMinimaMayoreo = Producto.CantidadMinimaMayoreo;
-            this.PrecioMayoreo = Producto.PrecioMayoreo;
-            this.CveEstatus = Producto.CveEstatus;
+            this.CveDeEstatus = Producto.CveDeEstatus;
             this.TextoAviso = Producto.TextoAviso;
             this.TextoCorreoSurtido = Producto.TextoCorreoSurtido;
             this.NombreDeProveedor = Producto.NombreDeProveedor;
-            this.TextoAplicaMayoreo = Producto.TextoAplicaMayoreo;
-            this.TextoEstatus = Producto.TextoEstatus;
+            this.TextoDeEstatus = Producto.TextoDeEstatus;
         }
         [Required]
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_NumeroDeProducto")]
@@ -126,30 +122,11 @@ namespace Presentacion.Kuup.Models
             set { this.PrecioUnitario = value; }
         }
         [Required]
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveAplicaMayoreo")]
-        public byte fCveAplicaMayoreo
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveDeEstatus")]
+        public byte fCveDeEstatus
         {
-            get { return this.CveAplicaMayoreo; }
-            set { this.CveAplicaMayoreo = value; }
-        }
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CantidadMinimaMayoreo")]
-        public Nullable<short> fCantidadMinimaMayoreo
-        {
-            get { return this.CantidadMinimaMayoreo; }
-            set { this.CantidadMinimaMayoreo = value; }
-        }
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_PrecioMayoreo")]
-        public Nullable<decimal> fPrecioMayoreo
-        {
-            get { return this.PrecioMayoreo; }
-            set { this.PrecioMayoreo = value; }
-        }
-        [Required]
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveEstatus")]
-        public byte fCveEstatus
-        {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAviso")]
         public String fTextoAviso
@@ -169,17 +146,20 @@ namespace Presentacion.Kuup.Models
             get { return this.NombreDeProveedor; }
             set { this.NombreDeProveedor = value; }
         }
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAplicaMayoreo")]
-        public String fTextoAplicaMayoreo
+        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoDeEstatus")]
+        public String fTextoDeEstatus
         {
-            get { return this.TextoAplicaMayoreo; }
-            set { this.TextoAplicaMayoreo = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
-        [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoEstatus")]
-        public String fTextoEstatus
-        {
-            get { return this.TextoEstatus; }
-            set { this.TextoEstatus = value; }
-        }
+    }
+    public class MayoreoProducto
+    {
+        public String NombreDeProducto { get; set; }
+        public String CodigoDeBarras { get; set; }
+        public short CveAplicaMayoreo { get; set; }
+        public String TextoAplicaMayoreo { get; set; }
+        public byte CantidadMinimaMayoreo { get; set; }
+        public decimal PrecioMayoreo { get; set; }
     }
 }

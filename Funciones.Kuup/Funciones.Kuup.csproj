@@ -81,6 +81,7 @@
     <Compile Include="Nodo\ClsNodo.cs" />
     <Compile Include="Cifrado\MoCifrado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tecket\ClsTicket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

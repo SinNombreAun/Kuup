@@ -2,6 +2,7 @@
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
@@ -12,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsFuncionesPerfiles : Interfaces.InterfazGen<ClsFuncionesPerfiles>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViFuncionPerfil FuncionPerfil = new ViFuncionPerfil();
         public short NumeroDePantalla
         {
@@ -29,7 +30,7 @@ namespace Negocio.Kuup.Clases
             get { return FuncionPerfil.FUP_NUM_PERFIL; }
             set { FuncionPerfil.FUP_NUM_PERFIL = value; }
         }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return FuncionPerfil.FUP_CVE_ESTATUS; }
             set { FuncionPerfil.FUP_CVE_ESTATUS = value; }
@@ -49,20 +50,17 @@ namespace Negocio.Kuup.Clases
             get { return FuncionPerfil.FUP_NOM_PERFIL; }
             set { FuncionPerfil.FUP_NOM_PERFIL = value; }
         }
-        public String TxtEstatus
+        public String TextoDeEstatus
         {
             get { return FuncionPerfil.FUP_TXT_ESTATUS; }
             set { FuncionPerfil.FUP_TXT_ESTATUS = value; }
         }
         public ClsFuncionesPerfiles() { }
-        public ClsFuncionesPerfiles(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             FuncionPerfil FuncionPerfil = this.ToTable();
             db.FuncionPerfil.Add(FuncionPerfil);
+            db.Entry(FuncionPerfil).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.FuncionPerfil where q.FUP_NUM_PANTALLA == FuncionPerfil.FUP_NUM_PANTALLA && q.FUP_NUM_FUNCIONALIDAD == FuncionPerfil.FUP_NUM_FUNCIONALIDAD && q.FUP_NUM_PERFIL == FuncionPerfil.FUP_NUM_PERFIL select q).Count() != 0)
             {
@@ -162,7 +160,7 @@ namespace Negocio.Kuup.Clases
             Tabla.FUP_NUM_PANTALLA = this.NumeroDePantalla;
             Tabla.FUP_NUM_FUNCIONALIDAD = this.NumeroDeFuncionalidad;
             Tabla.FUP_NUM_PERFIL = this.NumeroDePerfil;
-            Tabla.FUP_CVE_ESTATUS = this.CveEstatus;
+            Tabla.FUP_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsFuncionesPerfiles> getList(bool EsVista = true)
@@ -179,11 +177,11 @@ namespace Negocio.Kuup.Clases
                                     NumeroDePantalla = q.FUP_NUM_PANTALLA,
                                     NumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
                                     NumeroDePerfil = q.FUP_NUM_PERFIL,
-                                    CveEstatus = q.FUP_CVE_ESTATUS,
+                                    CveDeEstatus = q.FUP_CVE_ESTATUS,
                                     NombreDePantalla = q.FUP_NOM_PANTALLA,
                                     NombreDeFuncionalidad = q.FUP_NOM_FUNCIONALIDAD,
                                     NombreDePerfil = q.FUP_NOM_PERFIL,
-                                    TxtEstatus = q.FUP_TXT_ESTATUS,
+                                    TextoDeEstatus = q.FUP_TXT_ESTATUS,
                                 }).ToList();
                     }
                     else
@@ -194,7 +192,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDePantalla = q.FUP_NUM_PANTALLA,
                                     NumeroDeFuncionalidad = q.FUP_NUM_FUNCIONALIDAD,
                                     NumeroDePerfil = q.FUP_NUM_PERFIL,
-                                    CveEstatus = q.FUP_CVE_ESTATUS,
+                                    CveDeEstatus = q.FUP_CVE_ESTATUS,
                                 }).ToList();
                     }
                 }

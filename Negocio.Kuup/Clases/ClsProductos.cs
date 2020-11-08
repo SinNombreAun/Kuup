@@ -8,7 +8,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProductos : Interfaces.InterfazGen<ClsProductos>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViProducto Producto = new ViProducto();
         public short NumeroDeProducto
         {
@@ -75,22 +75,7 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_PRECIO_UNITARIO; }
             set { Producto.PRO_PRECIO_UNITARIO = value; }
         }
-        public byte CveAplicaMayoreo
-        {
-            get { return Producto.PRO_CVE_APLICA_MAYOREO; }
-            set { Producto.PRO_CVE_APLICA_MAYOREO = value; }
-        }
-        public Nullable<short> CantidadMinimaMayoreo
-        {
-            get { return Producto.PRO_CAT_MINIMA_MAYOREO; }
-            set { Producto.PRO_CAT_MINIMA_MAYOREO = value; }
-        }
-        public Nullable<decimal> PrecioMayoreo
-        {
-            get { return Producto.PRO_PRECIO_MAYOREO; }
-            set { Producto.PRO_PRECIO_MAYOREO = value; }
-        }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return Producto.PRO_CVE_ESTATUS; }
             set { Producto.PRO_CVE_ESTATUS = value; }
@@ -110,21 +95,12 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_NOM_PROVEEDOR; }
             set { Producto.PRO_NOM_PROVEEDOR = value; }
         }
-        public String TextoAplicaMayoreo
-        {
-            get { return Producto.PRO_TXT_APLICA_MAYOREO; }
-            set { Producto.PRO_TXT_APLICA_MAYOREO = value; }
-        }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return Producto.PRO_TXT_ESTATUS; }
             set { Producto.PRO_TXT_ESTATUS = value; }
         }
         public ClsProductos() { }
-        public ClsProductos(DBKuupEntities _db) 
-        {
-            db = _db;
-        }
         public ClsProductos(Producto Producto)
         {
             NumeroDeProducto = Producto.PRO_NUM_PRODUCTO;
@@ -140,10 +116,7 @@ namespace Negocio.Kuup.Clases
             CantidadMinima = Producto.PRO_CAT_MINIMA;
             NumeroDeProveedor = Producto.PRO_NUM_PROVEEDOR;
             PrecioUnitario = Producto.PRO_PRECIO_UNITARIO;
-            CveAplicaMayoreo = Producto.PRO_CVE_APLICA_MAYOREO;
-            CantidadMinimaMayoreo = Producto.PRO_CAT_MINIMA_MAYOREO;
-            PrecioMayoreo = Producto.PRO_PRECIO_MAYOREO;
-            CveEstatus = Producto.PRO_CVE_ESTATUS;
+            CveDeEstatus = Producto.PRO_CVE_ESTATUS;
         }
         public bool Existe(bool Dependencia = false)
         {
@@ -204,7 +177,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Producto.Remove((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).FirstOrDefault());
-            db.Entry(Producto).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).Count() != 0)
             {
@@ -281,10 +253,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PRO_CAT_MINIMA = this.CantidadMinima;
             Tabla.PRO_NUM_PROVEEDOR = this.NumeroDeProveedor;
             Tabla.PRO_PRECIO_UNITARIO = this.PrecioUnitario;
-            Tabla.PRO_CVE_APLICA_MAYOREO = this.CveAplicaMayoreo;
-            Tabla.PRO_CAT_MINIMA_MAYOREO = this.CantidadMinimaMayoreo;
-            Tabla.PRO_PRECIO_MAYOREO = this.PrecioMayoreo;
-            Tabla.PRO_CVE_ESTATUS = this.CveEstatus;
+            Tabla.PRO_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsProductos> getList(bool EsVista = true)
@@ -311,14 +280,10 @@ namespace Negocio.Kuup.Clases
                                     CantidadMinima = q.PRO_CAT_MINIMA,
                                     NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
                                     PrecioUnitario = q.PRO_PRECIO_UNITARIO,
-                                    CveAplicaMayoreo = q.PRO_CVE_APLICA_MAYOREO,
-                                    CantidadMinimaMayoreo = q.PRO_CAT_MINIMA_MAYOREO,
-                                    PrecioMayoreo = q.PRO_PRECIO_MAYOREO,
-                                    CveEstatus = q.PRO_CVE_ESTATUS,
+                                    CveDeEstatus = q.PRO_CVE_ESTATUS,
                                     TextoAviso = q.PRO_TXT_AVISO,
                                     TextoCorreoSurtido = q.PRO_TXT_CORREO_SURTIDO,
-                                    TextoAplicaMayoreo = q.PRO_TXT_APLICA_MAYOREO,
-                                    TextoEstatus = q.PRO_TXT_ESTATUS
+                                    TextoDeEstatus = q.PRO_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -339,10 +304,7 @@ namespace Negocio.Kuup.Clases
                                     CantidadMinima = q.PRO_CAT_MINIMA,
                                     NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
                                     PrecioUnitario = q.PRO_PRECIO_UNITARIO,
-                                    CveAplicaMayoreo = q.PRO_CVE_APLICA_MAYOREO,
-                                    CantidadMinimaMayoreo = q.PRO_CAT_MINIMA_MAYOREO,
-                                    PrecioMayoreo = q.PRO_PRECIO_MAYOREO,
-                                    CveEstatus = q.PRO_CVE_ESTATUS
+                                    CveDeEstatus = q.PRO_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

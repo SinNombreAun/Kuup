@@ -17,9 +17,9 @@ namespace Presentacion.Kuup.Models
             this.FechaDeEnvio = BitacoraCorreo.FechaDeEnvio;
             this.FechaDeReenvio = BitacoraCorreo.FechaDeReenvio;
             this.MensajeDeError = BitacoraCorreo.MensajeDeError;
-            this.CveEstatus = BitacoraCorreo.CveEstatus;
+            this.CveDeEstatus = BitacoraCorreo.CveDeEstatus;
             this.NombreDePantalla = BitacoraCorreo.NombreDePantalla;
-            this.TextoEstatus = BitacoraCorreo.TextoEstatus;
+            this.TextoDeEstatus = BitacoraCorreo.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Número de Pantalla")]
@@ -72,10 +72,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public byte fCveEstatus
+        public byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
         [Display(Name = "Nombre De La Pantalla")]
@@ -86,10 +86,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public String fTextoEstatus
+        public String fTextoDeEstatus
         {
-            get { return this.TextoEstatus; }
-            set { this.TextoEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

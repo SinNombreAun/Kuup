@@ -12,7 +12,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallas : Interfaces.InterfazGen<ClsPantallas>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViPantalla Pantalla = new ViPantalla();
         public short NumeroDePantalla
         {
@@ -44,7 +44,7 @@ namespace Negocio.Kuup.Clases
             get { return Pantalla.PAN_LLAVE; }
             set { Pantalla.PAN_LLAVE = value; }
         }
-        public Byte CveEstatus
+        public Byte CveDeEstatus
         {
             get { return Pantalla.PAN_CVE_ESTATUS; }
             set { Pantalla.PAN_CVE_ESTATUS = value; }
@@ -54,16 +54,12 @@ namespace Negocio.Kuup.Clases
             get { return Pantalla.PAN_TXT_MANEJO_INTERNO; }
             set { Pantalla.PAN_TXT_MANEJO_INTERNO = value; }
         }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return Pantalla.PAN_TXT_ESTATUS; }
             set { Pantalla.PAN_TXT_ESTATUS = value; }
         }
         public ClsPantallas() { }
-        public ClsPantallas(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public bool ToInsert(DBKuupEntities db)
         {
             Pantalla Pantalla = this.ToTable();
@@ -101,7 +97,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Pantalla.Remove((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).FirstOrDefault());
-            db.Entry(Pantalla).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Pantalla where q.PAN_NUM_PANTALLA == Pantalla.PAN_NUM_PANTALLA select q).Count() != 0)
             {
@@ -170,7 +165,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PAN_DESCRIPCION = this.Descripcion;
             Tabla.PAN_CVE_MANEJO_INTERNO = this.CveManejoInterno;
             Tabla.PAN_LLAVE = this.Llave;
-            Tabla.PAN_CVE_ESTATUS = this.CveEstatus;
+            Tabla.PAN_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsPantallas> getList(bool EsVista = true)
@@ -190,9 +185,9 @@ namespace Negocio.Kuup.Clases
                                     Descripcion = q.PAN_DESCRIPCION,
                                     CveManejoInterno = q.PAN_CVE_MANEJO_INTERNO,
                                     Llave = q.PAN_LLAVE,
-                                    CveEstatus = q.PAN_CVE_ESTATUS,
+                                    CveDeEstatus = q.PAN_CVE_ESTATUS,
                                     TextoManejoInterno = q.PAN_TXT_MANEJO_INTERNO,
-                                    TextoEstatus = q.PAN_TXT_ESTATUS
+                                    TextoDeEstatus = q.PAN_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -206,7 +201,7 @@ namespace Negocio.Kuup.Clases
                                     Descripcion = q.PAN_DESCRIPCION,
                                     CveManejoInterno = q.PAN_CVE_MANEJO_INTERNO,
                                     Llave = q.PAN_LLAVE,
-                                    CveEstatus = q.PAN_CVE_ESTATUS
+                                    CveDeEstatus = q.PAN_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

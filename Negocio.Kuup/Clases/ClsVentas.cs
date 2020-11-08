@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsVentas : Interfaces.InterfazGen<ClsVentas>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db  { get; set; }
         ViVenta Venta = new ViVenta();
         public short FolioDeOperacion
         {
@@ -51,10 +51,6 @@ namespace Negocio.Kuup.Clases
             set { Venta.VEN_NOM_PRODUCTO = value; }
         }
         public ClsVentas() { }
-        public ClsVentas(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Venta Venta = this.ToTable();
@@ -92,7 +88,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Venta.Remove((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).FirstOrDefault());
-            db.Entry(Venta).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Venta where q.VEN_FOLIO_OPERACION == Venta.VEN_FOLIO_OPERACION && q.VEN_NUM_PRODUCTO == Venta.VEN_NUM_PRODUCTO && q.VEN_CODIGO_BARRAS == Venta.VEN_CODIGO_BARRAS select q).Count() != 0)
             {

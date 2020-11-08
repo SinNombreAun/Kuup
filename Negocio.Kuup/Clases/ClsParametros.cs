@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsParametros : Interfaces.InterfazGen<ClsParametros>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViParametro Parametro = new ViParametro();
         public byte CveTipo
         {
@@ -41,10 +41,6 @@ namespace Negocio.Kuup.Clases
             set { Parametro.PAR_TXT_TIPO = value; }
         }
         public ClsParametros() { }
-        public ClsParametros(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Parametro Parametro = this.ToTable();
@@ -82,7 +78,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Parametro.Remove((from q in db.Parametro where q.PAR_NOM_PARAMETRO == Parametro.PAR_NOM_PARAMETRO select q).FirstOrDefault());
-            db.Entry(Parametro).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Parametro where q.PAR_NOM_PARAMETRO == Parametro.PAR_NOM_PARAMETRO select q).Count() != 0)
             {

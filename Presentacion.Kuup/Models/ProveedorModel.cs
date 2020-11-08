@@ -18,9 +18,9 @@ namespace Presentacion.Kuup.Models
             this.Correo = proveedores.Correo;
             this.Asunto = proveedores.Asunto;
             this.Mensaje = proveedores.Mensaje;
-            this.CveEstatus = proveedores.CveEstatus;
+            this.CveDeEstatus = proveedores.CveDeEstatus;
             this.TextoSurtidoPorCorreo = proveedores.TextoSurtidoPorCorreo;
-            this.TextoEstatus = proveedores.TextoEstatus;
+            this.TextoDeEstatus = proveedores.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Número de Proveedor")]
@@ -73,10 +73,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public byte fCveEstatus
+        public byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
         [Display(Name = "Surtido Por Correo")]
@@ -87,10 +87,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Estatus")]
-        public String fTextoEstatus
+        public String fTextoDeEstatus
         {
-            get { return this.TextoEstatus; }
-            set { this.TextoEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

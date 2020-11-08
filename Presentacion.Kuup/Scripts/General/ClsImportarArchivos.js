@@ -27,6 +27,10 @@ function ValidarArchivo(UrlAccion, BotonCargaDatos) {
                 type: "POST",
                 url: UrlAccion,
                 async: false,
+                configuracion: {
+                    mensaje: "Ejecutando proceso...",
+                    bloqueaPantalla: true
+                },
                 data: { NombreDelArchivo: NombreDelArchivoAValidar },
                 success: function (data) {
                     CreaTabla(data.data);

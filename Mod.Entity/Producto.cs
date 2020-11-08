@@ -20,6 +20,7 @@ namespace Mod.Entity
             this.CodigoDeBarras = new HashSet<CodigoDeBarras>();
             this.Surtido = new HashSet<Surtido>();
             this.Venta = new HashSet<Venta>();
+            this.ConfiguraMayoreo = new HashSet<ConfiguraMayoreo>();
         }
     
         public short PRO_NUM_PRODUCTO { get; set; }
@@ -35,9 +36,6 @@ namespace Mod.Entity
         public short PRO_CAT_MINIMA { get; set; }
         public Nullable<byte> PRO_NUM_PROVEEDOR { get; set; }
         public decimal PRO_PRECIO_UNITARIO { get; set; }
-        public byte PRO_CVE_APLICA_MAYOREO { get; set; }
-        public Nullable<short> PRO_CAT_MINIMA_MAYOREO { get; set; }
-        public Nullable<decimal> PRO_PRECIO_MAYOREO { get; set; }
         public byte PRO_CVE_ESTATUS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -46,5 +44,7 @@ namespace Mod.Entity
         public virtual ICollection<Surtido> Surtido { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Venta> Venta { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConfiguraMayoreo> ConfiguraMayoreo { get; set; }
     }
 }

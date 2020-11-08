@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Funciones.Kuup.Adicionales;
 using Funciones.Kuup.CodigoDeBarras;
 using Mod.Entity;
@@ -23,7 +24,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             }
         }
 
-        public ClsAdicional.ClsResultado Insert(ProductoModel Producto, bool GeneraCodigoDeBarras)
+        public ClsAdicional.ClsResultado Insert(ProductoModel Producto, bool GeneraCodigoDeBarras,List<MayoreoProducto> Mayoreo)
         {
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             using (DBKuupEntities db = new DBKuupEntities())
@@ -44,6 +45,24 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                 Producto.Delete();
                             }
                         }
+                        if (Mayoreo.Count() > 0)
+                        {
+                            if(Mayoreo.Exists(x => x.NombreDeProducto == Producto.NombreDeProducto))
+                            {
+                                if (Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).CveAplicaMayoreo == 1)
+                                {
+                                    ClsConfiguraMayoreos configuraMayoreos = new ClsConfiguraMayoreos();
+                                    configuraMayoreos.NumeroDeMayoreo = 1;
+                                    configuraMayoreos.NumeroDeProducto = Producto.NumeroDeProducto;
+                                    configuraMayoreos.CodigoDeBarras = Producto.CodigoDeBarras;
+                                    configuraMayoreos.CveDeAplicaPaquetes = 1;
+                                    configuraMayoreos.CantidadMinima = Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).CantidadMinimaMayoreo;
+                                    configuraMayoreos.CantidadMaxima = null;
+                                    configuraMayoreos.PrecioDeMayoreo = Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).PrecioMayoreo;
+                                    configuraMayoreos.Insert();
+                                }
+                            }
+                        }
                     }
                     else
                     {
@@ -55,6 +74,67 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 {
                     Resultado.Resultado = false;
                     Resultado.Mensaje = "El producto a registrar ya Existe";
+                }
+            }
+            return Resultado;
+        }
+        public ClsAdicional.ClsResultado RegistraMayoreo(short NumeroDeProducto, String CodigoDeBarras, List<ClsConfiguraMayoreos> configuraMayoreos)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            if (configuraMayoreos.Count() > 0)
+            {
+                using(DBKuupEntities db = new DBKuupEntities())
+                {
+                    using(var Transaccion = db.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            List<ClsConfiguraMayoreos> Previos = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CodigoDeBarras == CodigoDeBarras select q).ToList();
+                            if (Previos.Count() > 0)
+                            {
+                                foreach(var p in Previos.OrderBy(x => x.NumeroDeMayoreo))
+                                {
+                                    if (!p.Delete())
+                                    {
+                                        Resultado.Resultado = false;
+                                        Resultado.Mensaje = "Ocurrio un error al realizar la carga de Precios de Mayoreo";
+                                        break;
+                                    }
+                                }
+                            }
+                            if (Resultado.Resultado)
+                            {
+                                foreach (var Mayoreo in configuraMayoreos.OrderBy(x => x.NumeroDeMayoreo))
+                                {
+                                    Mayoreo.db = db;
+                                    Mayoreo.NumeroDeProducto = NumeroDeProducto;
+                                    Mayoreo.CodigoDeBarras = CodigoDeBarras;
+                                    Mayoreo.CveDeAplicaPaquetes = 1;
+                                    if (!Mayoreo.Insert())
+                                    {
+                                        Resultado.Resultado = false;
+                                        Resultado.Mensaje = "No fue posible realizar la carga de precios de mayoreo";
+                                        break;
+                                    }
+                                }
+                            }
+                            if (Resultado.Resultado)
+                            {
+                                Transaccion.Commit();
+                            }
+                            else
+                            {
+                                Transaccion.Rollback();
+                            }
+                        }
+                        catch(Exception e)
+                        {
+                            Transaccion.Rollback();
+                            Resultado.Resultado = false;
+                            Resultado.Mensaje = Recursos.Textos.Bitacora_TextoTryCatchGenerico;
+                            ClsBitacora.GeneraBitacora(1, 1, "RegistraMayoreo", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                        }
+                    }
                 }
             }
             return Resultado;

@@ -20,9 +20,9 @@
                 @Html.Label("fImporteTotal", "Total de Venta", new { @class = "col-sm col-form-label" })
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
+                        <span class="input-group-text color-label-white">$</span>
                     </div>
-                    @Html.TextBox("fImporteTotal", null, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBox("fImporteTotal", null, new { @class = "form-control color-label-white", @readonly = "readonly" })
                 </div>
             </div>
         </div>
@@ -30,23 +30,23 @@
             <table id="Tabla" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">NumeroDeProducto</th>
-                        <th scope="col">CodigoDeBarras</th>
-                        <th scope="col">NombreDeProducto</th>
-                        <th scope="col">CantidadDeProducto</th>
-                        <th scope="col">PrecioUnitario</th>
-                        <th scope="col">ImporteDeProducto</th>
+                        <th scope="col">Numero de Producto</th>
+                        <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Nombre de Producto</th>
+                        <th scope="col">Cantidad de Producto</th>
+                        <th scope="col">Precio Unitario</th>
+                        <th scope="col">Importe de Producto</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tfoot class="thead-dark">
                     <tr>
-                        <th scope="col">NumeroDeProducto</th>
-                        <th scope="col">CodigoDeBarras</th>
-                        <th scope="col">NombreDeProducto</th>
-                        <th scope="col">CantidadDeProducto</th>
-                        <th scope="col">PrecioUnitario</th>
-                        <th scope="col">ImporteDeProducto</th>
+                        <th scope="col">Numero de Producto</th>
+                        <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Nombre de Producto</th>
+                        <th scope="col">Cantidad de Producto</th>
+                        <th scope="col">Precio Unitario</th>
+                        <th scope="col">Importe de Producto</th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -59,6 +59,9 @@
 </div>
 <div id="AgregaProducto" class="Oculto">
     <fieldset>
+        <div class="from-group row from-group-margin">
+            <label form="fNombreDeProducto" id="fNombreDeProducto" class="col-sm-10 col-form-label"></label>
+        </div>
         <div class="from-group row from-group-margin Oculto">
             <label form="fPaquetes" class="col-sm-5 col-form-label">Producto en paquete</label>
             <div class="col-sm-7">
@@ -68,7 +71,7 @@
             </div>
         </div>
         <div class="from-group row from-group-margin">
-            <label from="fCantidadDeProducto" class="col-sm-5 col-form-label">Cantidad a vendar</label>
+            <label from="fCantidadDeProducto" class="col-sm-5 col-form-label">Cantidad a Vender</label>
             <div class="col-sm-7">
                 <input type="text" class="form-control" id="fCantidadDeProducto" />
             </div>
@@ -83,7 +86,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                 </div>
-                <input type="text" class="form-control" id="fImporteTotalVent" readonly="readonly" />
+                <input type="text" class="form-control col-form-label" id="fImporteTotalVent" readonly="readonly" />
             </div>
         </div>
         <div class="from-group from-group-margin">
@@ -101,7 +104,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                 </div>
-                <input type="text" class="form-control" id="fImporteCambio" readonly="readonly" />
+                <input type="text" class="form-control col-form-label" id="fImporteCambio" readonly="readonly" />
             </div>
         </div>
     </fieldset>

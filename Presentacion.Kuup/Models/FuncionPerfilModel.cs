@@ -14,11 +14,11 @@ namespace Presentacion.Kuup.Models
             this.NumeroDePantalla = FuncionesPerfiles.NumeroDePantalla;
             this.NumeroDeFuncionalidad = FuncionesPerfiles.NumeroDeFuncionalidad;
             this.NumeroDePerfil = FuncionesPerfiles.NumeroDePerfil;
-            this.CveEstatus = FuncionesPerfiles.CveEstatus;
+            this.CveDeEstatus = FuncionesPerfiles.CveDeEstatus;
             this.NombreDePantalla = FuncionesPerfiles.NombreDePantalla;
             this.NombreDeFuncionalidad = FuncionesPerfiles.NombreDeFuncionalidad;
             this.NombreDePerfil = FuncionesPerfiles.NombreDePerfil;
-            this.TxtEstatus = FuncionesPerfiles.TxtEstatus;
+            this.TextoDeEstatus = FuncionesPerfiles.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Número De Pantalla")]
@@ -43,10 +43,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Clave De Estatus")]
-        public byte fCveEstatus
+        public byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
         [Display(Name = "Nombre De Pantalla")]
@@ -71,10 +71,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Texto De Estatus")]
-        public String fTxtEstatus
+        public String fTextoDeEstatus
         {
-            get { return this.TxtEstatus; }
-            set { this.TxtEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

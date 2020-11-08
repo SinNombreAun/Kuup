@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsCodigosDeBarras : Interfaces.InterfazGen<ClsCodigosDeBarras>
     {
-        public  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViCodigoDeBarras CodigoDeBarrasE = new ViCodigoDeBarras();
         public String CodigoDeBarras
         {
@@ -35,7 +35,7 @@ namespace Negocio.Kuup.Clases
             get { return CodigoDeBarrasE.COB_FECHA_GENERACION; }
             set { CodigoDeBarrasE.COB_FECHA_GENERACION = value; }
         }
-        public byte CveEstatus
+        public byte CveDeEstatus
         {
             get { return CodigoDeBarrasE.COB_CVE_ESTATUS; }
             set { CodigoDeBarrasE.COB_CVE_ESTATUS = value; }
@@ -45,20 +45,17 @@ namespace Negocio.Kuup.Clases
             get { return CodigoDeBarrasE.COB_NOM_PRODUCTO; }
             set { CodigoDeBarrasE.COB_NOM_PRODUCTO = value; }
         }
-        public String TextoEstatus
+        public String TextoDeEstatus
         {
             get { return CodigoDeBarrasE.COB_TXT_ESTATUS; }
             set { CodigoDeBarrasE.COB_TXT_ESTATUS = value; }
         }
         public ClsCodigosDeBarras() { }
-        public ClsCodigosDeBarras(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             CodigoDeBarras CodigoDeBarrasE = this.ToTable();
             db.CodigoDeBarras.Add(CodigoDeBarrasE);
+            db.Entry(CodigoDeBarras).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.CodigoDeBarras where q.COB_NUM_PRODUCTO == CodigoDeBarrasE.COB_NUM_PRODUCTO select q).Count() != 0)
             {
@@ -158,7 +155,7 @@ namespace Negocio.Kuup.Clases
             Tabla.COB_NUM_PRODUCTO = this.NumeroDeProducto;
             Tabla.COB_RUTA_ARCHIVO = this.RutaDeArchivo;
             Tabla.COB_FECHA_GENERACION = this.FechaDeGeneracion;
-            Tabla.COB_CVE_ESTATUS = this.CveEstatus;
+            Tabla.COB_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsCodigosDeBarras> getList(bool EsVista = true)
@@ -176,9 +173,9 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeProducto = q.COB_NUM_PRODUCTO,
                                     RutaDeArchivo = q.COB_RUTA_ARCHIVO,
                                     FechaDeGeneracion = q.COB_FECHA_GENERACION,
-                                    CveEstatus = q.COB_CVE_ESTATUS,
+                                    CveDeEstatus = q.COB_CVE_ESTATUS,
                                     NombreDeProducto = q.COB_NOM_PRODUCTO,
-                                    TextoEstatus = q.COB_TXT_ESTATUS
+                                    TextoDeEstatus = q.COB_TXT_ESTATUS
                                 }).ToList();
                     }
                     else
@@ -190,7 +187,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeProducto = q.COB_NUM_PRODUCTO,
                                     RutaDeArchivo = q.COB_RUTA_ARCHIVO,
                                     FechaDeGeneracion = q.COB_FECHA_GENERACION,
-                                    CveEstatus = q.COB_CVE_ESTATUS
+                                    CveDeEstatus = q.COB_CVE_ESTATUS
                                 }).ToList();
                     }
                 }

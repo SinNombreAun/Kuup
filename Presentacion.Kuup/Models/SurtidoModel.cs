@@ -19,10 +19,10 @@ namespace Presentacion.Kuup.Models
             this.PrecioUnitario = Surtido.PrecioUnitario;
             this.CostoTotal = Surtido.CostoTotal;
             this.FechaDeSurtido = Surtido.FechaDeSurtido;
-            this.CveEstatus = Surtido.CveEstatus;
+            this.CveDeEstatus = Surtido.CveDeEstatus;
             this.NombreDeProveedor = Surtido.NombreDeProveedor;
             this.NombreDeProducto = Surtido.NombreDeProducto;
-            this.TxtEstatus = Surtido.TxtEstatus;
+            this.TextoDeEstatus = Surtido.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Folio De Surtido")]
@@ -82,10 +82,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Tipo De Surtido")]
-        public byte fCveEstatus
+        public byte fCveDeEstatus
         {
-            get { return this.CveEstatus; }
-            set { this.CveEstatus = value; }
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
         }
         [Required]
         [Display(Name = "Nombre De Proveedor")]
@@ -103,10 +103,10 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Tipo De Estatus")]
-        public String fTxtEstatus
+        public String fTextoDeEstatus
         {
-            get { return this.TxtEstatus; }
-            set { this.TxtEstatus = value; }
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿using Mod.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsBitacora : Interfaces.InterfazGen<ClsBitacora>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViBitacora Bitacora = new ViBitacora();
         public short NumeroDeBitacora
         {
@@ -50,14 +51,11 @@ namespace Negocio.Kuup.Clases
             set { Bitacora.BIT_NOM_FUNCIONALIDAD = value; }
         }
         public ClsBitacora() { }
-        public ClsBitacora(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         private bool ToInsert(DBKuupEntities db)
         {
             Bitacora Bitacora = this.ToTable();
             db.Bitacora.Add(Bitacora);
+            db.Entry(Bitacora).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Bitacora where q.BIT_NUM_BITACORA == Bitacora.BIT_NUM_BITACORA && q.BIT_NUM_PANTALLA == Bitacora.BIT_NUM_PANTALLA && q.BIT_NUM_FUNCIONALIDAD == Bitacora.BIT_NUM_FUNCIONALIDAD select q).Count() != 0)
             {
@@ -122,7 +120,7 @@ namespace Negocio.Kuup.Clases
         private bool ToUpdate(DBKuupEntities db)
         {
             Bitacora Bitacora = this.ToTable();
-            db.VentaTotal.Attach(Bitacora);
+            db.Bitacora.Attach(Bitacora);
             db.Entry(Bitacora).State = EntityState.Modified;
             db.SaveChanges();
             return true;

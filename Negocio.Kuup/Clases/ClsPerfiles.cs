@@ -10,7 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPerfiles : Interfaces.InterfazGen<ClsPerfiles>
     {
-        private  DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViPerfil Perfil = new ViPerfil();
         public byte NumeroDePerfil
         {
@@ -43,10 +43,6 @@ namespace Negocio.Kuup.Clases
             set { Perfil.PER_TXT_ESTATUS = value; }
         }
         public ClsPerfiles() { }
-        public ClsPerfiles(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsPerfiles(Perfil Registro)
         {
             NumeroDePerfil = Registro.PER_NUM_PERFIL;
@@ -100,7 +96,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.Perfil.Remove((from q in db.Perfil where q.PER_NUM_PERFIL == Perfil.PER_NUM_PERFIL select q).FirstOrDefault());
-            db.Entry(Perfil).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.Perfil where q.PER_NUM_PERFIL == Perfil.PER_NUM_PERFIL select q).Count() != 0)
             {

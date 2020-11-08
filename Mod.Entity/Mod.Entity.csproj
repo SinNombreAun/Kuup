@@ -66,6 +66,9 @@
     <Compile Include="CodigoDeBarras.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConfiguraMayoreo.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConfiguraPaquete.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -144,6 +147,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViCodigoDeBarras.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViConfiguraMayoreo.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViConfiguraPaquete.cs">

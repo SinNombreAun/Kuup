@@ -161,6 +161,11 @@ namespace Funciones.Kuup.Adicionales
             {
                 get { return _Descarga; }
             }
+            private static readonly String _Tickets = "~/App_Data/Ticket/";
+            public static String Tickets
+            {
+                get { return _Tickets; }
+            }
             public static String LeeArchivo(String ruta)
             {
                 String line = String.Empty, allLine = String.Empty;

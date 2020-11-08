@@ -61,23 +61,33 @@
                     @Html.TextBoxFor(model => model.fCantidadMinima, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
                 <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fCveAplicaMayoreo, new { @class = "col-sm-3 col-form-label" })
-                    @Html.DropDownListFor(model => model.fCveAplicaMayoreo, (IEnumerable<SelectListItem>)ViewBag.CveAplicaMayoreo, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
-                </div>
-                <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fCantidadMinimaMayoreo, new { @class = "col-sm-3 col-form-label" })
-                    @Html.TextBoxFor(model => model.fCantidadMinimaMayoreo, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
-                </div>
-                <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fPrecioMayoreo, new { @class = "col-sm-3 col-form-label" })
-                    @Html.TextBoxFor(model => model.fPrecioMayoreo, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
-                </div>
-                <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fCveEstatus, new { @class = "col-sm-3 col-form-label" })
-                    @Html.DropDownListFor(model => model.fCveEstatus, (IEnumerable<SelectListItem>)ViewBag.CveEstatus, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                    @Html.LabelFor(model => model.fCveDeEstatus, new { @class = "col-sm-3 col-form-label" })
+                    @Html.DropDownListFor(model => model.fCveDeEstatus, (IEnumerable<SelectListItem>)ViewBag.CveDeEstatus, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
             </fieldset>
             <br />
+            <button type="button" class="btn btn-info" id="AgregarPrecioM">Agregar Precio de Mayoreo</button>
+            <table id="TablaMayoreo" class="table display nowrap" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Orden</th>
+                        <th scope="col">Cantidad Minima</th>
+                        <th scope="col">Cantidad Maxima</th>
+                        <th scope="col">Precio de Mayoreo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">Orden</th>
+                        <th scope="col">Cantidad Minima</th>
+                        <th scope="col">Cantidad Maxima</th>
+                        <th scope="col">Precio de Mayoreo</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <button type="button" class="btn btn-primary" id="GuardaPrecioM">Guarda Precio de Mayoreo</button>
             <br />
             <hr class="my-4">
             @Html.ActionLink("Regresar a la Consulta", "Index", "Producto", null, new { @class = "btn btn-secondary" })
@@ -88,11 +98,43 @@
         </div>
     </div>
 </div>
+<div id="AgregaPrecioMayoreo" class="Oculto">
+    <fieldset>
+        <div class="from-group row from-group-margin">
+            <label from="fCantidadMinimaM" class="col-sm-5 col-form-label">Cantidad a Minima</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="fCantidadMinimaM" />
+            </div>
+        </div>
+        <div class="from-group row from-group-margin">
+            <label from="fCantidadMaxima" class="col-sm-5 col-form-label">Cantidad a Maxima</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="fCantidadMaxima" />
+            </div>
+        </div>
+        <div class="from-group row from-group-margin">
+            <label from="fPrecioDeMayoreo" class="col-sm-5 col-form-label">Precio de Mayoreo</label>
+            <div class="col-sm-7">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" class="form-control" id="fPrecioDeMayoreo"/>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
 <script type="text/javascript">
     let ClsProducto;
     $(function () {
         ClsProducto = Objeto.Constructor({
-            Funcionalidad: 'DETALLE'
+            Funcionalidad: 'DETALLE',
+            AplicarPrecioDeMayoreo: '@ViewBag.AplicarPrecioDeMayoreo',
+            UrlGuardaTablaMayoreo: '@Url.Action("GuardaMayoreo","Producto")',
+            NumeroDeProductoModel: '@Model.NumeroDeProducto',
+            CodigoDeBarrasModel: '@Model.CodigoDeBarras',
+            UrlCargaMayoreo: '@Url.Action("CargaMayoreo","Producto")'
         });
         ClsProducto.Inicio();
     });

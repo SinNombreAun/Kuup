@@ -73,6 +73,20 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definid
           <Property Name="COB_FECHA_GENERACION" Type="date" Nullable="false" />
           <Property Name="COB_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
+        <EntityType Name="ConfiguraMayoreo">
+          <Key>
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="COM_NUM_MAYOREO" Type="smallint" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="smallint" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="tinyint" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="ConfiguraPaquete">
           <Key>
             <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
@@ -186,9 +200,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definid
           <Property Name="PRO_CAT_MINIMA" Type="smallint" Nullable="false" />
           <Property Name="PRO_NUM_PROVEEDOR" Type="tinyint" />
           <Property Name="PRO_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="PRO_CVE_APLICA_MAYOREO" Type="tinyint" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA_MAYOREO" Type="smallint" />
-          <Property Name="PRO_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" />
           <Property Name="PRO_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Proveedor">
@@ -268,6 +279,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definid
           <Property Name="VET_CVE_APLICADESCUENTO" Type="tinyint" Nullable="false" />
           <Property Name="VET_PORCENTAJE" Type="nvarchar" MaxLength="20" />
           <Property Name="VET_IMPORTE_NETO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="VET_IMPORTE_ENTREGADO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="VET_IMPORTE_CAMBIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
           <Property Name="VET_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
@@ -379,6 +392,27 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViCodigoDeBarras' no tiene defin
           <Property Name="COB_CVE_ESTATUS" Type="tinyint" Nullable="false" />
           <Property Name="COB_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="COB_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViConfiguraMayoreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="ViConfiguraMayoreo">
+          <Key>
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+            <PropertyRef Name="COM_CVE_APLICA_PAQUETES" />
+            <PropertyRef Name="COM_CANTIDAD_MINIMA" />
+            <PropertyRef Name="COM_PRECIO_MAYOREO" />
+            <PropertyRef Name="COM_NOM_PRODUCTO" />
+          </Key>
+          <Property Name="COM_NUM_MAYOREO" Type="smallint" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="smallint" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="tinyint" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="COM_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViConfiguraPaquete' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -559,7 +593,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViProducto' no tiene definida ni
             <PropertyRef Name="PRO_CVE_CORREO_SURTIDO" />
             <PropertyRef Name="PRO_CAT_MINIMA" />
             <PropertyRef Name="PRO_PRECIO_UNITARIO" />
-            <PropertyRef Name="PRO_CVE_APLICA_MAYOREO" />
             <PropertyRef Name="PRO_CVE_ESTATUS" />
           </Key>
           <Property Name="PRO_NUM_PRODUCTO" Type="smallint" Nullable="false" />
@@ -575,14 +608,10 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViProducto' no tiene definida ni
           <Property Name="PRO_CAT_MINIMA" Type="smallint" Nullable="false" />
           <Property Name="PRO_NUM_PROVEEDOR" Type="tinyint" />
           <Property Name="PRO_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="PRO_CVE_APLICA_MAYOREO" Type="tinyint" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA_MAYOREO" Type="smallint" />
-          <Property Name="PRO_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" />
           <Property Name="PRO_CVE_ESTATUS" Type="tinyint" Nullable="false" />
           <Property Name="PRO_TXT_AVISO" Type="nvarchar" MaxLength="150" />
           <Property Name="PRO_TXT_CORREO_SURTIDO" Type="nvarchar" MaxLength="150" />
           <Property Name="PRO_NOM_PROVEEDOR" Type="nvarchar" MaxLength="150" />
-          <Property Name="PRO_TXT_APLICA_MAYOREO" Type="nvarchar" MaxLength="150" />
           <Property Name="PRO_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
@@ -710,10 +739,12 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <PropertyRef Name="VET_IMPORTE_BRUTO" />
             <PropertyRef Name="VET_CVE_APLICADESCUENTO" />
             <PropertyRef Name="VET_IMPORTE_NETO" />
+            <PropertyRef Name="VET_IMPORTE_ENTREGADO" />
+            <PropertyRef Name="VET_IMPORTE_CAMBIO" />
             <PropertyRef Name="VET_CVE_ESTATUS" />
           </Key>
           <Property Name="VET_FOLIO_OPERACION" Type="smallint" Nullable="false" />
-          <Property Name="VET_FECHA_OPERACION" Type="date" Nullable="false" />
+          <Property Name="VET_FECHA_OPERACION" Type="datetime" Nullable="false" />
           <Property Name="VET_NUM_USUARIO" Type="smallint" Nullable="false" />
           <Property Name="VET_NOM_CLIENTE" Type="nvarchar" MaxLength="150" />
           <Property Name="VET_IMPORTE_BRUTO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
@@ -721,6 +752,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="VET_CVE_APLICADESCUENTO" Type="tinyint" Nullable="false" />
           <Property Name="VET_PORCENTAJE" Type="nvarchar" MaxLength="20" />
           <Property Name="VET_IMPORTE_NETO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="VET_IMPORTE_ENTREGADO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="VET_IMPORTE_CAMBIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
           <Property Name="VET_CVE_ESTATUS" Type="tinyint" Nullable="false" />
           <Property Name="VET_TXT_APLICADESCUENTO" Type="nvarchar" MaxLength="150" />
           <Property Name="VET_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
@@ -772,6 +805,20 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <Dependent Role="CodigoDeBarras">
               <PropertyRef Name="COB_NUM_PRODUCTO" />
               <PropertyRef Name="COB_CODIGO_BARRAS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfiguraMayoreo_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ConfiguraMayoreo" Type="Self.ConfiguraMayoreo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraMayoreo">
+              <PropertyRef Name="COM_NUM_PRODUCTO" />
+              <PropertyRef Name="COM_CODIGO_BARRAS" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -942,6 +989,7 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="Bitacora" EntityType="Self.Bitacora" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Claves" EntityType="Self.Claves" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="CodigoDeBarras" EntityType="Self.CodigoDeBarras" Schema="Kuup" store:Type="Tables" />
+          <EntitySet Name="ConfiguraMayoreo" EntityType="Self.ConfiguraMayoreo" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="ConfiguraPaquete" EntityType="Self.ConfiguraPaquete" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Funcionalidad" EntityType="Self.Funcionalidad" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="FuncionPerfil" EntityType="Self.FuncionPerfil" Schema="Kuup" store:Type="Tables" />
@@ -1033,6 +1081,18 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
     [ViCodigoDeBarras].[COB_NOM_PRODUCTO] AS [COB_NOM_PRODUCTO], 
     [ViCodigoDeBarras].[COB_TXT_ESTATUS] AS [COB_TXT_ESTATUS]
     FROM [Kuup].[ViCodigoDeBarras] AS [ViCodigoDeBarras]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViConfiguraMayoreo" EntityType="Self.ViConfiguraMayoreo" store:Type="Views" store:Schema="Kuup">
+            <DefiningQuery>SELECT 
+    [ViConfiguraMayoreo].[COM_NUM_MAYOREO] AS [COM_NUM_MAYOREO], 
+    [ViConfiguraMayoreo].[COM_NUM_PRODUCTO] AS [COM_NUM_PRODUCTO], 
+    [ViConfiguraMayoreo].[COM_CODIGO_BARRAS] AS [COM_CODIGO_BARRAS], 
+    [ViConfiguraMayoreo].[COM_CVE_APLICA_PAQUETES] AS [COM_CVE_APLICA_PAQUETES], 
+    [ViConfiguraMayoreo].[COM_CANTIDAD_MINIMA] AS [COM_CANTIDAD_MINIMA], 
+    [ViConfiguraMayoreo].[COM_CANTIDAD_MAXIMA] AS [COM_CANTIDAD_MAXIMA], 
+    [ViConfiguraMayoreo].[COM_PRECIO_MAYOREO] AS [COM_PRECIO_MAYOREO], 
+    [ViConfiguraMayoreo].[COM_NOM_PRODUCTO] AS [COM_NOM_PRODUCTO]
+    FROM [Kuup].[ViConfiguraMayoreo] AS [ViConfiguraMayoreo]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViConfiguraPaquete" EntityType="Self.ViConfiguraPaquete" store:Type="Views" store:Schema="Kuup">
             <DefiningQuery>SELECT 
@@ -1147,14 +1207,10 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
     [ViProducto].[PRO_CAT_MINIMA] AS [PRO_CAT_MINIMA], 
     [ViProducto].[PRO_NUM_PROVEEDOR] AS [PRO_NUM_PROVEEDOR], 
     [ViProducto].[PRO_PRECIO_UNITARIO] AS [PRO_PRECIO_UNITARIO], 
-    [ViProducto].[PRO_CVE_APLICA_MAYOREO] AS [PRO_CVE_APLICA_MAYOREO], 
-    [ViProducto].[PRO_CAT_MINIMA_MAYOREO] AS [PRO_CAT_MINIMA_MAYOREO], 
-    [ViProducto].[PRO_PRECIO_MAYOREO] AS [PRO_PRECIO_MAYOREO], 
     [ViProducto].[PRO_CVE_ESTATUS] AS [PRO_CVE_ESTATUS], 
     [ViProducto].[PRO_TXT_AVISO] AS [PRO_TXT_AVISO], 
     [ViProducto].[PRO_TXT_CORREO_SURTIDO] AS [PRO_TXT_CORREO_SURTIDO], 
     [ViProducto].[PRO_NOM_PROVEEDOR] AS [PRO_NOM_PROVEEDOR], 
-    [ViProducto].[PRO_TXT_APLICA_MAYOREO] AS [PRO_TXT_APLICA_MAYOREO], 
     [ViProducto].[PRO_TXT_ESTATUS] AS [PRO_TXT_ESTATUS]
     FROM [Kuup].[ViProducto] AS [ViProducto]</DefiningQuery>
           </EntitySet>
@@ -1236,6 +1292,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
     [ViVentaTotal].[VET_CVE_APLICADESCUENTO] AS [VET_CVE_APLICADESCUENTO], 
     [ViVentaTotal].[VET_PORCENTAJE] AS [VET_PORCENTAJE], 
     [ViVentaTotal].[VET_IMPORTE_NETO] AS [VET_IMPORTE_NETO], 
+    [ViVentaTotal].[VET_IMPORTE_ENTREGADO] AS [VET_IMPORTE_ENTREGADO], 
+    [ViVentaTotal].[VET_IMPORTE_CAMBIO] AS [VET_IMPORTE_CAMBIO], 
     [ViVentaTotal].[VET_CVE_ESTATUS] AS [VET_CVE_ESTATUS], 
     [ViVentaTotal].[VET_TXT_APLICADESCUENTO] AS [VET_TXT_APLICADESCUENTO], 
     [ViVentaTotal].[VET_TXT_ESTATUS] AS [VET_TXT_ESTATUS]
@@ -1256,6 +1314,10 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <AssociationSet Name="FK_CodigoDeBarras_Producto" Association="Self.FK_CodigoDeBarras_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="CodigoDeBarras" EntitySet="CodigoDeBarras" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfiguraMayoreo_Producto" Association="Self.FK_ConfiguraMayoreo_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraMayoreo" EntitySet="ConfiguraMayoreo" />
           </AssociationSet>
           <AssociationSet Name="FK_Funcionalidad_Pantalla" Association="Self.FK_Funcionalidad_Pantalla">
             <End Role="Pantalla" EntitySet="Pantalla" />
@@ -1850,20 +1912,10 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="UsuarioPerfil" EntitySet="UsuarioPerfil" />
           </AssociationSet>
-          <EntitySet Name="ViProducto" EntityType="DBKuupModel.ViProducto" />
           <EntitySet Name="ViCodigoDeBarras" EntityType="DBKuupModel.ViCodigoDeBarras" />
           <EntitySet Name="ViFuncionalidad" EntityType="DBKuupModel.ViFuncionalidad" />
           <EntitySet Name="CodigoDeBarras" EntityType="DBKuupModel.CodigoDeBarras" />
-          <EntitySet Name="Producto" EntityType="DBKuupModel.Producto" />
           <EntitySet Name="Surtido" EntityType="DBKuupModel.Surtido" />
-          <AssociationSet Name="FK_CodigoDeBarras_Producto" Association="DBKuupModel.FK_CodigoDeBarras_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="CodigoDeBarras" EntitySet="CodigoDeBarras" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Surtido_Producto" Association="DBKuupModel.FK_Surtido_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="Surtido" EntitySet="Surtido" />
-          </AssociationSet>
           <AssociationSet Name="FK_Surtido_Proveedor" Association="DBKuupModel.FK_Surtido_Proveedor">
             <End Role="Proveedor" EntitySet="Proveedor" />
             <End Role="Surtido" EntitySet="Surtido" />
@@ -1885,18 +1937,20 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="ViConfiguraPaquete" EntityType="DBKuupModel.ViConfiguraPaquete" />
           <EntitySet Name="IPRegistradas" EntityType="DBKuupModel.IPRegistradas" />
           <EntitySet Name="Venta" EntityType="DBKuupModel.Venta" />
-          <EntitySet Name="VentaTotal" EntityType="DBKuupModel.VentaTotal" />
           <EntitySet Name="ViIPRegistradas" EntityType="DBKuupModel.ViIPRegistradas" />
           <EntitySet Name="ViVenta" EntityType="DBKuupModel.ViVenta" />
-          <EntitySet Name="ViVentaTotal" EntityType="DBKuupModel.ViVentaTotal" />
           <AssociationSet Name="FK_IPRegistradas_Usuario" Association="DBKuupModel.FK_IPRegistradas_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="IPRegistradas" EntitySet="IPRegistradas" />
           </AssociationSet>
-          <AssociationSet Name="FK_Venta_Producto" Association="DBKuupModel.FK_Venta_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="Venta" EntitySet="Venta" />
+          <EntitySet Name="Bitacora" EntityType="DBKuupModel.Bitacora" />
+          <EntitySet Name="ViBitacora" EntityType="DBKuupModel.ViBitacora" />
+          <AssociationSet Name="FK_Bitacora_Pantalla" Association="DBKuupModel.FK_Bitacora_Pantalla">
+            <End Role="Pantalla" EntitySet="Pantalla" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
           </AssociationSet>
+          <EntitySet Name="VentaTotal" EntityType="DBKuupModel.VentaTotal" />
+          <EntitySet Name="ViVentaTotal" EntityType="DBKuupModel.ViVentaTotal" />
           <AssociationSet Name="FK_VentaTotal_Usuario" Association="DBKuupModel.FK_VentaTotal_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="VentaTotal" EntitySet="VentaTotal" />
@@ -1905,52 +1959,27 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <End Role="VentaTotal" EntitySet="VentaTotal" />
             <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
-          <EntitySet Name="Bitacora" EntityType="DBKuupModel.Bitacora" />
-          <EntitySet Name="ViBitacora" EntityType="DBKuupModel.ViBitacora" />
-          <AssociationSet Name="FK_Bitacora_Pantalla" Association="DBKuupModel.FK_Bitacora_Pantalla">
-            <End Role="Pantalla" EntitySet="Pantalla" />
-            <End Role="Bitacora" EntitySet="Bitacora" />
+          <EntitySet Name="Producto" EntityType="DBKuupModel.Producto" />
+          <EntitySet Name="ViProducto" EntityType="DBKuupModel.ViProducto" />
+          <AssociationSet Name="FK_CodigoDeBarras_Producto" Association="DBKuupModel.FK_CodigoDeBarras_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="CodigoDeBarras" EntitySet="CodigoDeBarras" />
           </AssociationSet>
+          <AssociationSet Name="FK_Surtido_Producto" Association="DBKuupModel.FK_Surtido_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Surtido" EntitySet="Surtido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Producto" Association="DBKuupModel.FK_Venta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <EntitySet Name="ConfiguraMayoreo" EntityType="DBKuupModel.ConfiguraMayoreo" />
+          <AssociationSet Name="FK_ConfiguraMayoreo_Producto" Association="DBKuupModel.FK_ConfiguraMayoreo_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraMayoreo" EntitySet="ConfiguraMayoreo" />
+          </AssociationSet>
+          <EntitySet Name="ViConfiguraMayoreo" EntityType="DBKuupModel.ViConfiguraMayoreo" />
           </EntityContainer>
-        <EntityType Name="ViProducto">
-          <Key>
-            <PropertyRef Name="PRO_NUM_PRODUCTO" />
-            <PropertyRef Name="PRO_CODIGO_BARRAS" />
-            <PropertyRef Name="PRO_FECHA_REGISTRO" />
-            <PropertyRef Name="PRO_CANT_PRODUCTO_ULTIMA" />
-            <PropertyRef Name="PRO_CANT_PRODUCTO_NUEVA" />
-            <PropertyRef Name="PRO_CANT_PRODUCTO_TOTAL" />
-            <PropertyRef Name="PRO_NOM_PRODUCTO" />
-            <PropertyRef Name="PRO_CVE_AVISO" />
-            <PropertyRef Name="PRO_CVE_CORREO_SURTIDO" />
-            <PropertyRef Name="PRO_CAT_MINIMA" />
-            <PropertyRef Name="PRO_PRECIO_UNITARIO" />
-            <PropertyRef Name="PRO_CVE_APLICA_MAYOREO" />
-            <PropertyRef Name="PRO_CVE_ESTATUS" />
-          </Key>
-          <Property Name="PRO_NUM_PRODUCTO" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_FECHA_REGISTRO" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="Int16" Nullable="false" />
-          <Property Name="PRO_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_DESCRIPCION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_CVE_AVISO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_NUM_PROVEEDOR" Type="Byte" />
-          <Property Name="PRO_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="PRO_CVE_APLICA_MAYOREO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA_MAYOREO" Type="Int16" />
-          <Property Name="PRO_PRECIO_MAYOREO" Type="Decimal" Precision="12" Scale="2" />
-          <Property Name="PRO_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <Property Name="PRO_TXT_AVISO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_TXT_CORREO_SURTIDO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_NOM_PROVEEDOR" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_TXT_APLICA_MAYOREO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="ViCodigoDeBarras">
           <Key>
             <PropertyRef Name="COB_CODIGO_BARRAS" />
@@ -1992,32 +2021,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="COB_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_CodigoDeBarras_Producto" FromRole="CodigoDeBarras" ToRole="Producto" />
         </EntityType>
-        <EntityType Name="Producto">
-          <Key>
-            <PropertyRef Name="PRO_NUM_PRODUCTO" />
-            <PropertyRef Name="PRO_CODIGO_BARRAS" />
-          </Key>
-          <Property Name="PRO_NUM_PRODUCTO" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_FECHA_REGISTRO" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="Int16" Nullable="false" />
-          <Property Name="PRO_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_DESCRIPCION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PRO_CVE_AVISO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA" Type="Int16" Nullable="false" />
-          <Property Name="PRO_NUM_PROVEEDOR" Type="Byte" />
-          <Property Name="PRO_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="PRO_CVE_APLICA_MAYOREO" Type="Byte" Nullable="false" />
-          <Property Name="PRO_CAT_MINIMA_MAYOREO" Type="Int16" />
-          <Property Name="PRO_PRECIO_MAYOREO" Type="Decimal" Precision="12" Scale="2" />
-          <Property Name="PRO_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="CodigoDeBarras" Relationship="DBKuupModel.FK_CodigoDeBarras_Producto" FromRole="Producto" ToRole="CodigoDeBarras" />
-          <NavigationProperty Name="Surtido" Relationship="DBKuupModel.FK_Surtido_Producto" FromRole="Producto" ToRole="Surtido" />
-          <NavigationProperty Name="Venta" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Producto" ToRole="Venta" />
-        </EntityType>
         <EntityType Name="Surtido">
           <Key>
             <PropertyRef Name="SUR_FOLIO_SURTIDO" />
@@ -2031,37 +2034,9 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="SUR_COSTO_TOTAL" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="SUR_FECHA_SURTIDO" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="SUR_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_Surtido_Producto" FromRole="Surtido" ToRole="Producto" />
           <NavigationProperty Name="Proveedor" Relationship="DBKuupModel.FK_Surtido_Proveedor" FromRole="Surtido" ToRole="Proveedor" />
+          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_Surtido_Producto" FromRole="Surtido" ToRole="Producto" />
         </EntityType>
-        <Association Name="FK_CodigoDeBarras_Producto">
-          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
-          <End Type="DBKuupModel.CodigoDeBarras" Role="CodigoDeBarras" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="PRO_NUM_PRODUCTO" />
-              <PropertyRef Name="PRO_CODIGO_BARRAS" />
-            </Principal>
-            <Dependent Role="CodigoDeBarras">
-              <PropertyRef Name="COB_NUM_PRODUCTO" />
-              <PropertyRef Name="COB_CODIGO_BARRAS" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Surtido_Producto">
-          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
-          <End Type="DBKuupModel.Surtido" Role="Surtido" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="PRO_NUM_PRODUCTO" />
-              <PropertyRef Name="PRO_CODIGO_BARRAS" />
-            </Principal>
-            <Dependent Role="Surtido">
-              <PropertyRef Name="SUR_NUM_PRODUCTO" />
-              <PropertyRef Name="SUR_CODIGO_BARRAS" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Surtido_Proveedor">
           <End Type="DBKuupModel.Proveedor" Role="Proveedor" Multiplicity="1" />
           <End Type="DBKuupModel.Surtido" Role="Surtido" Multiplicity="*" />
@@ -2178,25 +2153,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="VEN_CANT_PRODUCTO" Type="Int16" Nullable="false" />
           <Property Name="VEN_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Venta" ToRole="Producto" />
           <NavigationProperty Name="VentaTotal" Relationship="DBKuupModel.FK_Venta_VentaTotal" FromRole="Venta" ToRole="VentaTotal" />
-        </EntityType>
-        <EntityType Name="VentaTotal">
-          <Key>
-            <PropertyRef Name="VET_FOLIO_OPERACION" />
-          </Key>
-          <Property Name="VET_FOLIO_OPERACION" Type="Int16" Nullable="false" />
-          <Property Name="VET_FECHA_OPERACION" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="VET_NUM_USUARIO" Type="Int16" Nullable="false" />
-          <Property Name="VET_NOM_CLIENTE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="VET_IMPORTE_BRUTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VET_IVA" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="VET_CVE_APLICADESCUENTO" Type="Byte" Nullable="false" />
-          <Property Name="VET_PORCENTAJE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="VET_IMPORTE_NETO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VET_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="DBKuupModel.FK_VentaTotal_Usuario" FromRole="VentaTotal" ToRole="Usuario" />
-          <NavigationProperty Name="Venta" Relationship="DBKuupModel.FK_Venta_VentaTotal" FromRole="VentaTotal" ToRole="Venta" />
+          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Venta" ToRole="Producto" />
         </EntityType>
         <EntityType Name="ViIPRegistradas">
           <Key>
@@ -2231,29 +2189,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ViVentaTotal">
-          <Key>
-            <PropertyRef Name="VET_FOLIO_OPERACION" />
-            <PropertyRef Name="VET_FECHA_OPERACION" />
-            <PropertyRef Name="VET_NUM_USUARIO" />
-            <PropertyRef Name="VET_IMPORTE_BRUTO" />
-            <PropertyRef Name="VET_CVE_APLICADESCUENTO" />
-            <PropertyRef Name="VET_IMPORTE_NETO" />
-            <PropertyRef Name="VET_CVE_ESTATUS" />
-          </Key>
-          <Property Name="VET_FOLIO_OPERACION" Type="Int16" Nullable="false" />
-          <Property Name="VET_FECHA_OPERACION" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="VET_NUM_USUARIO" Type="Int16" Nullable="false" />
-          <Property Name="VET_NOM_CLIENTE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="VET_IMPORTE_BRUTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VET_IVA" Type="Decimal" Precision="4" Scale="2" />
-          <Property Name="VET_CVE_APLICADESCUENTO" Type="Byte" Nullable="false" />
-          <Property Name="VET_PORCENTAJE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="VET_IMPORTE_NETO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VET_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <Property Name="VET_TXT_APLICADESCUENTO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="VET_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
         <Association Name="FK_IPRegistradas_Usuario">
           <End Type="DBKuupModel.Usuario" Role="Usuario" Multiplicity="1" />
           <End Type="DBKuupModel.IPRegistradas" Role="IPRegistradas" Multiplicity="*" />
@@ -2263,44 +2198,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             </Principal>
             <Dependent Role="IPRegistradas">
               <PropertyRef Name="IPR_NUM_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Venta_Producto">
-          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
-          <End Type="DBKuupModel.Venta" Role="Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="PRO_NUM_PRODUCTO" />
-              <PropertyRef Name="PRO_CODIGO_BARRAS" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="VEN_NUM_PRODUCTO" />
-              <PropertyRef Name="VEN_CODIGO_BARRAS" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_VentaTotal_Usuario">
-          <End Type="DBKuupModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="DBKuupModel.VentaTotal" Role="VentaTotal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="USU_NUM_USUARIO" />
-            </Principal>
-            <Dependent Role="VentaTotal">
-              <PropertyRef Name="VET_NUM_USUARIO" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Venta_VentaTotal">
-          <End Type="DBKuupModel.VentaTotal" Role="VentaTotal" Multiplicity="1" />
-          <End Type="DBKuupModel.Venta" Role="Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VentaTotal">
-              <PropertyRef Name="VET_FOLIO_OPERACION" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="VEN_FOLIO_OPERACION" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2348,6 +2245,224 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="VentaTotal">
+          <Key>
+            <PropertyRef Name="VET_FOLIO_OPERACION" />
+          </Key>
+          <Property Name="VET_FOLIO_OPERACION" Type="Int16" Nullable="false" />
+          <Property Name="VET_FECHA_OPERACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VET_NUM_USUARIO" Type="Int16" Nullable="false" />
+          <Property Name="VET_NOM_CLIENTE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="VET_IMPORTE_BRUTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IVA" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="VET_CVE_APLICADESCUENTO" Type="Byte" Nullable="false" />
+          <Property Name="VET_PORCENTAJE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="VET_IMPORTE_NETO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IMPORTE_ENTREGADO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IMPORTE_CAMBIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="DBKuupModel.FK_VentaTotal_Usuario" FromRole="VentaTotal" ToRole="Usuario" />
+          <NavigationProperty Name="Venta" Relationship="DBKuupModel.FK_Venta_VentaTotal" FromRole="VentaTotal" ToRole="Venta" />
+        </EntityType>
+        <EntityType Name="ViVentaTotal">
+          <Key>
+            <PropertyRef Name="VET_FOLIO_OPERACION" />
+            <PropertyRef Name="VET_FECHA_OPERACION" />
+            <PropertyRef Name="VET_NUM_USUARIO" />
+            <PropertyRef Name="VET_IMPORTE_BRUTO" />
+            <PropertyRef Name="VET_CVE_APLICADESCUENTO" />
+            <PropertyRef Name="VET_IMPORTE_NETO" />
+            <PropertyRef Name="VET_IMPORTE_ENTREGADO" />
+            <PropertyRef Name="VET_IMPORTE_CAMBIO" />
+            <PropertyRef Name="VET_CVE_ESTATUS" />
+          </Key>
+          <Property Name="VET_FOLIO_OPERACION" Type="Int16" Nullable="false" />
+          <Property Name="VET_FECHA_OPERACION" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="VET_NUM_USUARIO" Type="Int16" Nullable="false" />
+          <Property Name="VET_NOM_CLIENTE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="VET_IMPORTE_BRUTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IVA" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="VET_CVE_APLICADESCUENTO" Type="Byte" Nullable="false" />
+          <Property Name="VET_PORCENTAJE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="VET_IMPORTE_NETO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IMPORTE_ENTREGADO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_IMPORTE_CAMBIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="VET_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <Property Name="VET_TXT_APLICADESCUENTO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="VET_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_VentaTotal_Usuario">
+          <End Type="DBKuupModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="DBKuupModel.VentaTotal" Role="VentaTotal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="USU_NUM_USUARIO" />
+            </Principal>
+            <Dependent Role="VentaTotal">
+              <PropertyRef Name="VET_NUM_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Venta_VentaTotal">
+          <End Type="DBKuupModel.VentaTotal" Role="VentaTotal" Multiplicity="1" />
+          <End Type="DBKuupModel.Venta" Role="Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VentaTotal">
+              <PropertyRef Name="VET_FOLIO_OPERACION" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="VEN_FOLIO_OPERACION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="PRO_NUM_PRODUCTO" />
+            <PropertyRef Name="PRO_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="PRO_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_FECHA_REGISTRO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_DESCRIPCION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_CVE_AVISO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CAT_MINIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NUM_PROVEEDOR" Type="Byte" />
+          <Property Name="PRO_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="PRO_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="CodigoDeBarras" Relationship="DBKuupModel.FK_CodigoDeBarras_Producto" FromRole="Producto" ToRole="CodigoDeBarras" />
+          <NavigationProperty Name="Surtido" Relationship="DBKuupModel.FK_Surtido_Producto" FromRole="Producto" ToRole="Surtido" />
+          <NavigationProperty Name="Venta" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Producto" ToRole="Venta" />
+          <NavigationProperty Name="ConfiguraMayoreo" Relationship="DBKuupModel.FK_ConfiguraMayoreo_Producto" FromRole="Producto" ToRole="ConfiguraMayoreo" />
+        </EntityType>
+        <EntityType Name="ViProducto">
+          <Key>
+            <PropertyRef Name="PRO_NUM_PRODUCTO" />
+            <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            <PropertyRef Name="PRO_FECHA_REGISTRO" />
+            <PropertyRef Name="PRO_CANT_PRODUCTO_ULTIMA" />
+            <PropertyRef Name="PRO_CANT_PRODUCTO_NUEVA" />
+            <PropertyRef Name="PRO_CANT_PRODUCTO_TOTAL" />
+            <PropertyRef Name="PRO_NOM_PRODUCTO" />
+            <PropertyRef Name="PRO_CVE_AVISO" />
+            <PropertyRef Name="PRO_CVE_CORREO_SURTIDO" />
+            <PropertyRef Name="PRO_CAT_MINIMA" />
+            <PropertyRef Name="PRO_PRECIO_UNITARIO" />
+            <PropertyRef Name="PRO_CVE_ESTATUS" />
+          </Key>
+          <Property Name="PRO_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_FECHA_REGISTRO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_DESCRIPCION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_CVE_AVISO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CAT_MINIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NUM_PROVEEDOR" Type="Byte" />
+          <Property Name="PRO_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="PRO_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <Property Name="PRO_TXT_AVISO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_TXT_CORREO_SURTIDO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_NOM_PROVEEDOR" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CodigoDeBarras_Producto">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.CodigoDeBarras" Role="CodigoDeBarras" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="CodigoDeBarras">
+              <PropertyRef Name="COB_NUM_PRODUCTO" />
+              <PropertyRef Name="COB_CODIGO_BARRAS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Surtido_Producto">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.Surtido" Role="Surtido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="Surtido">
+              <PropertyRef Name="SUR_NUM_PRODUCTO" />
+              <PropertyRef Name="SUR_CODIGO_BARRAS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Venta_Producto">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.Venta" Role="Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="VEN_NUM_PRODUCTO" />
+              <PropertyRef Name="VEN_CODIGO_BARRAS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConfiguraMayoreo">
+          <Key>
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="COM_NUM_MAYOREO" Type="Int16" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="Byte" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_ConfiguraMayoreo_Producto" FromRole="ConfiguraMayoreo" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_ConfiguraMayoreo_Producto">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.ConfiguraMayoreo" Role="ConfiguraMayoreo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraMayoreo">
+              <PropertyRef Name="COM_NUM_PRODUCTO" />
+              <PropertyRef Name="COM_CODIGO_BARRAS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ViConfiguraMayoreo">
+          <Key>
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+            <PropertyRef Name="COM_CVE_APLICA_PAQUETES" />
+            <PropertyRef Name="COM_CANTIDAD_MINIMA" />
+            <PropertyRef Name="COM_PRECIO_MAYOREO" />
+            <PropertyRef Name="COM_NOM_PRODUCTO" />
+          </Key>
+          <Property Name="COM_NUM_MAYOREO" Type="Int16" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="Byte" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="COM_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2686,34 +2801,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ViProducto">
-            <EntityTypeMapping TypeName="DBKuupModel.ViProducto">
-              <MappingFragment StoreEntitySet="ViProducto">
-                <ScalarProperty Name="PRO_TXT_ESTATUS" ColumnName="PRO_TXT_ESTATUS" />
-                <ScalarProperty Name="PRO_TXT_APLICA_MAYOREO" ColumnName="PRO_TXT_APLICA_MAYOREO" />
-                <ScalarProperty Name="PRO_NOM_PROVEEDOR" ColumnName="PRO_NOM_PROVEEDOR" />
-                <ScalarProperty Name="PRO_TXT_CORREO_SURTIDO" ColumnName="PRO_TXT_CORREO_SURTIDO" />
-                <ScalarProperty Name="PRO_TXT_AVISO" ColumnName="PRO_TXT_AVISO" />
-                <ScalarProperty Name="PRO_CVE_ESTATUS" ColumnName="PRO_CVE_ESTATUS" />
-                <ScalarProperty Name="PRO_PRECIO_MAYOREO" ColumnName="PRO_PRECIO_MAYOREO" />
-                <ScalarProperty Name="PRO_CAT_MINIMA_MAYOREO" ColumnName="PRO_CAT_MINIMA_MAYOREO" />
-                <ScalarProperty Name="PRO_CVE_APLICA_MAYOREO" ColumnName="PRO_CVE_APLICA_MAYOREO" />
-                <ScalarProperty Name="PRO_PRECIO_UNITARIO" ColumnName="PRO_PRECIO_UNITARIO" />
-                <ScalarProperty Name="PRO_NUM_PROVEEDOR" ColumnName="PRO_NUM_PROVEEDOR" />
-                <ScalarProperty Name="PRO_CAT_MINIMA" ColumnName="PRO_CAT_MINIMA" />
-                <ScalarProperty Name="PRO_CVE_CORREO_SURTIDO" ColumnName="PRO_CVE_CORREO_SURTIDO" />
-                <ScalarProperty Name="PRO_CVE_AVISO" ColumnName="PRO_CVE_AVISO" />
-                <ScalarProperty Name="PRO_DESCRIPCION" ColumnName="PRO_DESCRIPCION" />
-                <ScalarProperty Name="PRO_NOM_PRODUCTO" ColumnName="PRO_NOM_PRODUCTO" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_TOTAL" ColumnName="PRO_CANT_PRODUCTO_TOTAL" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_NUEVA" ColumnName="PRO_CANT_PRODUCTO_NUEVA" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_ULTIMA" ColumnName="PRO_CANT_PRODUCTO_ULTIMA" />
-                <ScalarProperty Name="PRO_FECHA_REGISTRO" ColumnName="PRO_FECHA_REGISTRO" />
-                <ScalarProperty Name="PRO_CODIGO_BARRAS" ColumnName="PRO_CODIGO_BARRAS" />
-                <ScalarProperty Name="PRO_NUM_PRODUCTO" ColumnName="PRO_NUM_PRODUCTO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViCodigoDeBarras">
             <EntityTypeMapping TypeName="DBKuupModel.ViCodigoDeBarras">
               <MappingFragment StoreEntitySet="ViCodigoDeBarras">
@@ -2746,29 +2833,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
                 <ScalarProperty Name="COB_RUTA_ARCHIVO" ColumnName="COB_RUTA_ARCHIVO" />
                 <ScalarProperty Name="COB_NUM_PRODUCTO" ColumnName="COB_NUM_PRODUCTO" />
                 <ScalarProperty Name="COB_CODIGO_BARRAS" ColumnName="COB_CODIGO_BARRAS" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Producto">
-            <EntityTypeMapping TypeName="DBKuupModel.Producto">
-              <MappingFragment StoreEntitySet="Producto">
-                <ScalarProperty Name="PRO_CVE_ESTATUS" ColumnName="PRO_CVE_ESTATUS" />
-                <ScalarProperty Name="PRO_PRECIO_MAYOREO" ColumnName="PRO_PRECIO_MAYOREO" />
-                <ScalarProperty Name="PRO_CAT_MINIMA_MAYOREO" ColumnName="PRO_CAT_MINIMA_MAYOREO" />
-                <ScalarProperty Name="PRO_CVE_APLICA_MAYOREO" ColumnName="PRO_CVE_APLICA_MAYOREO" />
-                <ScalarProperty Name="PRO_PRECIO_UNITARIO" ColumnName="PRO_PRECIO_UNITARIO" />
-                <ScalarProperty Name="PRO_NUM_PROVEEDOR" ColumnName="PRO_NUM_PROVEEDOR" />
-                <ScalarProperty Name="PRO_CAT_MINIMA" ColumnName="PRO_CAT_MINIMA" />
-                <ScalarProperty Name="PRO_CVE_CORREO_SURTIDO" ColumnName="PRO_CVE_CORREO_SURTIDO" />
-                <ScalarProperty Name="PRO_CVE_AVISO" ColumnName="PRO_CVE_AVISO" />
-                <ScalarProperty Name="PRO_DESCRIPCION" ColumnName="PRO_DESCRIPCION" />
-                <ScalarProperty Name="PRO_NOM_PRODUCTO" ColumnName="PRO_NOM_PRODUCTO" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_TOTAL" ColumnName="PRO_CANT_PRODUCTO_TOTAL" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_NUEVA" ColumnName="PRO_CANT_PRODUCTO_NUEVA" />
-                <ScalarProperty Name="PRO_CANT_PRODUCTO_ULTIMA" ColumnName="PRO_CANT_PRODUCTO_ULTIMA" />
-                <ScalarProperty Name="PRO_FECHA_REGISTRO" ColumnName="PRO_FECHA_REGISTRO" />
-                <ScalarProperty Name="PRO_CODIGO_BARRAS" ColumnName="PRO_CODIGO_BARRAS" />
-                <ScalarProperty Name="PRO_NUM_PRODUCTO" ColumnName="PRO_NUM_PRODUCTO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2846,22 +2910,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VentaTotal">
-            <EntityTypeMapping TypeName="DBKuupModel.VentaTotal">
-              <MappingFragment StoreEntitySet="VentaTotal">
-                <ScalarProperty Name="VET_CVE_ESTATUS" ColumnName="VET_CVE_ESTATUS" />
-                <ScalarProperty Name="VET_IMPORTE_NETO" ColumnName="VET_IMPORTE_NETO" />
-                <ScalarProperty Name="VET_PORCENTAJE" ColumnName="VET_PORCENTAJE" />
-                <ScalarProperty Name="VET_CVE_APLICADESCUENTO" ColumnName="VET_CVE_APLICADESCUENTO" />
-                <ScalarProperty Name="VET_IVA" ColumnName="VET_IVA" />
-                <ScalarProperty Name="VET_IMPORTE_BRUTO" ColumnName="VET_IMPORTE_BRUTO" />
-                <ScalarProperty Name="VET_NOM_CLIENTE" ColumnName="VET_NOM_CLIENTE" />
-                <ScalarProperty Name="VET_NUM_USUARIO" ColumnName="VET_NUM_USUARIO" />
-                <ScalarProperty Name="VET_FECHA_OPERACION" ColumnName="VET_FECHA_OPERACION" />
-                <ScalarProperty Name="VET_FOLIO_OPERACION" ColumnName="VET_FOLIO_OPERACION" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ViIPRegistradas">
             <EntityTypeMapping TypeName="DBKuupModel.ViIPRegistradas">
               <MappingFragment StoreEntitySet="ViIPRegistradas">
@@ -2884,24 +2932,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
                 <ScalarProperty Name="VEN_CODIGO_BARRAS" ColumnName="VEN_CODIGO_BARRAS" />
                 <ScalarProperty Name="VEN_NUM_PRODUCTO" ColumnName="VEN_NUM_PRODUCTO" />
                 <ScalarProperty Name="VEN_FOLIO_OPERACION" ColumnName="VEN_FOLIO_OPERACION" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViVentaTotal">
-            <EntityTypeMapping TypeName="DBKuupModel.ViVentaTotal">
-              <MappingFragment StoreEntitySet="ViVentaTotal">
-                <ScalarProperty Name="VET_TXT_ESTATUS" ColumnName="VET_TXT_ESTATUS" />
-                <ScalarProperty Name="VET_TXT_APLICADESCUENTO" ColumnName="VET_TXT_APLICADESCUENTO" />
-                <ScalarProperty Name="VET_CVE_ESTATUS" ColumnName="VET_CVE_ESTATUS" />
-                <ScalarProperty Name="VET_IMPORTE_NETO" ColumnName="VET_IMPORTE_NETO" />
-                <ScalarProperty Name="VET_PORCENTAJE" ColumnName="VET_PORCENTAJE" />
-                <ScalarProperty Name="VET_CVE_APLICADESCUENTO" ColumnName="VET_CVE_APLICADESCUENTO" />
-                <ScalarProperty Name="VET_IVA" ColumnName="VET_IVA" />
-                <ScalarProperty Name="VET_IMPORTE_BRUTO" ColumnName="VET_IMPORTE_BRUTO" />
-                <ScalarProperty Name="VET_NOM_CLIENTE" ColumnName="VET_NOM_CLIENTE" />
-                <ScalarProperty Name="VET_NUM_USUARIO" ColumnName="VET_NUM_USUARIO" />
-                <ScalarProperty Name="VET_FECHA_OPERACION" ColumnName="VET_FECHA_OPERACION" />
-                <ScalarProperty Name="VET_FOLIO_OPERACION" ColumnName="VET_FOLIO_OPERACION" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2928,6 +2958,115 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
                 <ScalarProperty Name="BIT_NUM_FUNCIONALIDAD" ColumnName="BIT_NUM_FUNCIONALIDAD" />
                 <ScalarProperty Name="BIT_NUM_PANTALLA" ColumnName="BIT_NUM_PANTALLA" />
                 <ScalarProperty Name="BIT_NUM_BITACORA" ColumnName="BIT_NUM_BITACORA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentaTotal">
+            <EntityTypeMapping TypeName="DBKuupModel.VentaTotal">
+              <MappingFragment StoreEntitySet="VentaTotal">
+                <ScalarProperty Name="VET_CVE_ESTATUS" ColumnName="VET_CVE_ESTATUS" />
+                <ScalarProperty Name="VET_IMPORTE_CAMBIO" ColumnName="VET_IMPORTE_CAMBIO" />
+                <ScalarProperty Name="VET_IMPORTE_ENTREGADO" ColumnName="VET_IMPORTE_ENTREGADO" />
+                <ScalarProperty Name="VET_IMPORTE_NETO" ColumnName="VET_IMPORTE_NETO" />
+                <ScalarProperty Name="VET_PORCENTAJE" ColumnName="VET_PORCENTAJE" />
+                <ScalarProperty Name="VET_CVE_APLICADESCUENTO" ColumnName="VET_CVE_APLICADESCUENTO" />
+                <ScalarProperty Name="VET_IVA" ColumnName="VET_IVA" />
+                <ScalarProperty Name="VET_IMPORTE_BRUTO" ColumnName="VET_IMPORTE_BRUTO" />
+                <ScalarProperty Name="VET_NOM_CLIENTE" ColumnName="VET_NOM_CLIENTE" />
+                <ScalarProperty Name="VET_NUM_USUARIO" ColumnName="VET_NUM_USUARIO" />
+                <ScalarProperty Name="VET_FECHA_OPERACION" ColumnName="VET_FECHA_OPERACION" />
+                <ScalarProperty Name="VET_FOLIO_OPERACION" ColumnName="VET_FOLIO_OPERACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViVentaTotal">
+            <EntityTypeMapping TypeName="DBKuupModel.ViVentaTotal">
+              <MappingFragment StoreEntitySet="ViVentaTotal">
+                <ScalarProperty Name="VET_TXT_ESTATUS" ColumnName="VET_TXT_ESTATUS" />
+                <ScalarProperty Name="VET_TXT_APLICADESCUENTO" ColumnName="VET_TXT_APLICADESCUENTO" />
+                <ScalarProperty Name="VET_CVE_ESTATUS" ColumnName="VET_CVE_ESTATUS" />
+                <ScalarProperty Name="VET_IMPORTE_CAMBIO" ColumnName="VET_IMPORTE_CAMBIO" />
+                <ScalarProperty Name="VET_IMPORTE_ENTREGADO" ColumnName="VET_IMPORTE_ENTREGADO" />
+                <ScalarProperty Name="VET_IMPORTE_NETO" ColumnName="VET_IMPORTE_NETO" />
+                <ScalarProperty Name="VET_PORCENTAJE" ColumnName="VET_PORCENTAJE" />
+                <ScalarProperty Name="VET_CVE_APLICADESCUENTO" ColumnName="VET_CVE_APLICADESCUENTO" />
+                <ScalarProperty Name="VET_IVA" ColumnName="VET_IVA" />
+                <ScalarProperty Name="VET_IMPORTE_BRUTO" ColumnName="VET_IMPORTE_BRUTO" />
+                <ScalarProperty Name="VET_NOM_CLIENTE" ColumnName="VET_NOM_CLIENTE" />
+                <ScalarProperty Name="VET_NUM_USUARIO" ColumnName="VET_NUM_USUARIO" />
+                <ScalarProperty Name="VET_FECHA_OPERACION" ColumnName="VET_FECHA_OPERACION" />
+                <ScalarProperty Name="VET_FOLIO_OPERACION" ColumnName="VET_FOLIO_OPERACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="DBKuupModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="PRO_CVE_ESTATUS" ColumnName="PRO_CVE_ESTATUS" />
+                <ScalarProperty Name="PRO_PRECIO_UNITARIO" ColumnName="PRO_PRECIO_UNITARIO" />
+                <ScalarProperty Name="PRO_NUM_PROVEEDOR" ColumnName="PRO_NUM_PROVEEDOR" />
+                <ScalarProperty Name="PRO_CAT_MINIMA" ColumnName="PRO_CAT_MINIMA" />
+                <ScalarProperty Name="PRO_CVE_CORREO_SURTIDO" ColumnName="PRO_CVE_CORREO_SURTIDO" />
+                <ScalarProperty Name="PRO_CVE_AVISO" ColumnName="PRO_CVE_AVISO" />
+                <ScalarProperty Name="PRO_DESCRIPCION" ColumnName="PRO_DESCRIPCION" />
+                <ScalarProperty Name="PRO_NOM_PRODUCTO" ColumnName="PRO_NOM_PRODUCTO" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_TOTAL" ColumnName="PRO_CANT_PRODUCTO_TOTAL" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_NUEVA" ColumnName="PRO_CANT_PRODUCTO_NUEVA" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_ULTIMA" ColumnName="PRO_CANT_PRODUCTO_ULTIMA" />
+                <ScalarProperty Name="PRO_FECHA_REGISTRO" ColumnName="PRO_FECHA_REGISTRO" />
+                <ScalarProperty Name="PRO_CODIGO_BARRAS" ColumnName="PRO_CODIGO_BARRAS" />
+                <ScalarProperty Name="PRO_NUM_PRODUCTO" ColumnName="PRO_NUM_PRODUCTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViProducto">
+            <EntityTypeMapping TypeName="DBKuupModel.ViProducto">
+              <MappingFragment StoreEntitySet="ViProducto">
+                <ScalarProperty Name="PRO_TXT_ESTATUS" ColumnName="PRO_TXT_ESTATUS" />
+                <ScalarProperty Name="PRO_NOM_PROVEEDOR" ColumnName="PRO_NOM_PROVEEDOR" />
+                <ScalarProperty Name="PRO_TXT_CORREO_SURTIDO" ColumnName="PRO_TXT_CORREO_SURTIDO" />
+                <ScalarProperty Name="PRO_TXT_AVISO" ColumnName="PRO_TXT_AVISO" />
+                <ScalarProperty Name="PRO_CVE_ESTATUS" ColumnName="PRO_CVE_ESTATUS" />
+                <ScalarProperty Name="PRO_PRECIO_UNITARIO" ColumnName="PRO_PRECIO_UNITARIO" />
+                <ScalarProperty Name="PRO_NUM_PROVEEDOR" ColumnName="PRO_NUM_PROVEEDOR" />
+                <ScalarProperty Name="PRO_CAT_MINIMA" ColumnName="PRO_CAT_MINIMA" />
+                <ScalarProperty Name="PRO_CVE_CORREO_SURTIDO" ColumnName="PRO_CVE_CORREO_SURTIDO" />
+                <ScalarProperty Name="PRO_CVE_AVISO" ColumnName="PRO_CVE_AVISO" />
+                <ScalarProperty Name="PRO_DESCRIPCION" ColumnName="PRO_DESCRIPCION" />
+                <ScalarProperty Name="PRO_NOM_PRODUCTO" ColumnName="PRO_NOM_PRODUCTO" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_TOTAL" ColumnName="PRO_CANT_PRODUCTO_TOTAL" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_NUEVA" ColumnName="PRO_CANT_PRODUCTO_NUEVA" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_ULTIMA" ColumnName="PRO_CANT_PRODUCTO_ULTIMA" />
+                <ScalarProperty Name="PRO_FECHA_REGISTRO" ColumnName="PRO_FECHA_REGISTRO" />
+                <ScalarProperty Name="PRO_CODIGO_BARRAS" ColumnName="PRO_CODIGO_BARRAS" />
+                <ScalarProperty Name="PRO_NUM_PRODUCTO" ColumnName="PRO_NUM_PRODUCTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguraMayoreo">
+            <EntityTypeMapping TypeName="DBKuupModel.ConfiguraMayoreo">
+              <MappingFragment StoreEntitySet="ConfiguraMayoreo">
+                <ScalarProperty Name="COM_PRECIO_MAYOREO" ColumnName="COM_PRECIO_MAYOREO" />
+                <ScalarProperty Name="COM_CANTIDAD_MAXIMA" ColumnName="COM_CANTIDAD_MAXIMA" />
+                <ScalarProperty Name="COM_CANTIDAD_MINIMA" ColumnName="COM_CANTIDAD_MINIMA" />
+                <ScalarProperty Name="COM_CVE_APLICA_PAQUETES" ColumnName="COM_CVE_APLICA_PAQUETES" />
+                <ScalarProperty Name="COM_CODIGO_BARRAS" ColumnName="COM_CODIGO_BARRAS" />
+                <ScalarProperty Name="COM_NUM_PRODUCTO" ColumnName="COM_NUM_PRODUCTO" />
+                <ScalarProperty Name="COM_NUM_MAYOREO" ColumnName="COM_NUM_MAYOREO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViConfiguraMayoreo">
+            <EntityTypeMapping TypeName="DBKuupModel.ViConfiguraMayoreo">
+              <MappingFragment StoreEntitySet="ViConfiguraMayoreo">
+                <ScalarProperty Name="COM_NOM_PRODUCTO" ColumnName="COM_NOM_PRODUCTO" />
+                <ScalarProperty Name="COM_PRECIO_MAYOREO" ColumnName="COM_PRECIO_MAYOREO" />
+                <ScalarProperty Name="COM_CANTIDAD_MAXIMA" ColumnName="COM_CANTIDAD_MAXIMA" />
+                <ScalarProperty Name="COM_CANTIDAD_MINIMA" ColumnName="COM_CANTIDAD_MINIMA" />
+                <ScalarProperty Name="COM_CVE_APLICA_PAQUETES" ColumnName="COM_CVE_APLICA_PAQUETES" />
+                <ScalarProperty Name="COM_CODIGO_BARRAS" ColumnName="COM_CODIGO_BARRAS" />
+                <ScalarProperty Name="COM_NUM_PRODUCTO" ColumnName="COM_NUM_PRODUCTO" />
+                <ScalarProperty Name="COM_NUM_MAYOREO" ColumnName="COM_NUM_MAYOREO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

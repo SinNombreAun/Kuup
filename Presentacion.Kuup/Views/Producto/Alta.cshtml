@@ -67,24 +67,6 @@
                         @Html.ValidationMessageFor(model => model.fCantidadMinima, null, new { @class = "text-danger" })
                         @Html.TextBoxFor(model => model.fCantidadMinima, new { @class = "form-control" })
                     </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCveAplicaMayoreo, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCveAplicaMayoreo, null, new { @class = "text-danger" })
-                        @Html.DropDownListFor(model => model.fCveAplicaMayoreo, (IEnumerable<SelectListItem>)ViewBag.CveAplicaMayoreo, TextoComboRequerido, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCantidadMinimaMayoreo, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCantidadMinimaMayoreo, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fCantidadMinimaMayoreo, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fPrecioMayoreo, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fPrecioMayoreo, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fPrecioMayoreo, new { @class = "form-control" })
-                    </div>
                 </fieldset>
                 <button type="button" id="Guardar" class="btn btn-primary">Guardar</button>
                 <br />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsUsuarios : Interfaces.InterfazGen<ClsUsuarios>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViUsuario Usuario = new ViUsuario();
         public short NumeroDeUsuario
         {
@@ -67,10 +68,6 @@ namespace Negocio.Kuup.Clases
             set { Usuario.USU_TXT_ESTATUS = value; }
         }
         public ClsUsuarios() { }
-        public ClsUsuarios(DBKuupEntities _db) 
-        {
-            db = _db;
-        }
         public ClsUsuarios(Usuario Registro)
         {
             NumeroDeUsuario = Registro.USU_NUM_USUARIO;
@@ -102,6 +99,7 @@ namespace Negocio.Kuup.Clases
         {
             Usuario Usuario = this.ToTable();
             db.Usuario.Add(Usuario);
+            db.Entry(Usuario).State = EntityState.Added;
             db.SaveChanges();
             if ((from q in db.Usuario where q.USU_NUM_USUARIO == Usuario.USU_NUM_USUARIO select q).Count() != 0)
             {
@@ -165,8 +163,8 @@ namespace Negocio.Kuup.Clases
         }
         private bool ToUpdate(DBKuupEntities db)
         {
-            Usuarios Usuarios = this.ToTable();
-            db.Usuarios.Attach(Usuarios);
+            Usuario Usuarios = this.ToTable();
+            db.Usuario.Attach(Usuarios);
             db.Entry(Usuarios).State = EntityState.Modified;
             db.SaveChanges();
             return true;

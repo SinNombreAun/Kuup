@@ -6,6 +6,7 @@ using Presentacion.Kuup.Nucleo.Motores;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Core.Common.EntitySql;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -36,10 +37,7 @@ namespace Presentacion.Kuup.Controllers
                                     q.PrecioUnitario,
                                     q.TextoAviso,
                                     q.TextoCorreoSurtido,
-                                    q.TextoAplicaMayoreo,
-                                    q.CantidadMinimaMayoreo,
-                                    q.PrecioMayoreo,
-                                    q.TextoEstatus
+                                    q.TextoDeEstatus
                                 }).ToArray();
                 if (Producto.Length != 0)
                 {
@@ -91,9 +89,9 @@ namespace Presentacion.Kuup.Controllers
             {
                 RegistroCapturado.fFechaDeRegistro = DateTime.Now;
                 RegistroCapturado.fCantidadDeProductoNueva = RegistroCapturado.CantidadDeProductoTotal;
-                RegistroCapturado.fCveEstatus = (byte)ClsEnumerables.CveEstatusGeneral.ACTIVO;
+                RegistroCapturado.fCveDeEstatus = (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO;
 
-                Resultado = Opera.Insert(RegistroCapturado, (fGeneraCodigoDeBarras == 2));
+                Resultado = Opera.Insert(RegistroCapturado, (fGeneraCodigoDeBarras == 2), new List<MayoreoProducto>());
                 if (Resultado.Resultado)
                 {
                     return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto });
@@ -128,8 +126,42 @@ namespace Presentacion.Kuup.Controllers
             {
                 ViewBag.RutaDeCodigoDeBarras = CodigosDeBarras.RutaDeArchivo;
             }
+            ViewBag.AplicarPrecioDeMayoreo = "SI";
+            if (ClsConfiguraMayoreos.getList().Exists(x => x.NumeroDeProducto == Producto.NumeroDeProducto && x.CodigoDeBarras == Producto.CodigoDeBarras))
+            {
+                ViewBag.AplicarPrecioDeMayoreo = "NO";
+            }
             this.CargaCombos(Producto);
             return View(Producto);
+        }
+        public JsonResult CargaMayoreo(short NumeroDeProducto, String CodigoDeBarras)
+        {
+            var configuraMayoreos = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CodigoDeBarras == CodigoDeBarras select new { q.NumeroDeMayoreo,q.CantidadMinima,q.CantidadMaxima,q.PrecioDeMayoreo }).ToArray();
+            return Json(new { data = configuraMayoreos }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GuardaMayoreo(short NumeroDeProducto,String CodigoDeBarras, String Mayoreos)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            if (!ValidaSesion())
+            {
+                //return RedirectToAction("LoginOut", "Account");
+            }
+            try
+            {
+                if (!String.IsNullOrEmpty(Mayoreos))
+                {
+                    List<ClsConfiguraMayoreos> ConfiguraMayoreos = ClsAdicional.Deserializar<List<ClsConfiguraMayoreos>>(Mayoreos);
+                    if (ConfiguraMayoreos.Count() > 0)
+                    {
+                        Resultado = Opera.RegistraMayoreo(NumeroDeProducto, CodigoDeBarras, ConfiguraMayoreos);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+            return Json(Resultado, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region Importar
@@ -159,6 +191,7 @@ namespace Presentacion.Kuup.Controllers
                 if (!String.IsNullOrEmpty(strinjson))
                 {
                     List<ProductoModel> Productos = ClsAdicional.Deserializar<List<ProductoModel>>(strinjson);
+                    List<MayoreoProducto> Mayoreo = ClsAdicional.Deserializar<List<MayoreoProducto>>(strinjson);
                     if (Productos.Count > 0)
                     {
                         List<String> Mensajes = new List<String>();
@@ -170,8 +203,8 @@ namespace Presentacion.Kuup.Controllers
                             }
                             Producto.FechaDeRegistro = DateTime.Now;
                             Producto.CantidadDeProductoNueva = Producto.CantidadDeProductoTotal;
-                            Producto.CveEstatus = (byte)ClsEnumerables.CveEstatusGeneral.ACTIVO;
-                            ClsAdicional.ClsResultado Resultado = Opera.Insert(Producto, (String.IsNullOrEmpty(Producto.CodigoDeBarras)));
+                            Producto.CveDeEstatus = (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO;
+                            ClsAdicional.ClsResultado Resultado = Opera.Insert(Producto, (String.IsNullOrEmpty(Producto.CodigoDeBarras)), Mayoreo);
                             if (!Resultado.Resultado)
                             {
                                 Mensajes.Add("El producto con Codigo de Barras: " + Producto.CodigoDeBarras + " Nombre de producto: " + Producto.NombreDeProducto + " no puedo ser insertado debido a " + Resultado.Mensaje);
@@ -263,8 +296,7 @@ namespace Presentacion.Kuup.Controllers
             ViewBag.CveAviso = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveAviso.ToString());
             ViewBag.CveCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveCorreoSurtido.ToString());
             ViewBag.NumeroDeProveedor = ClsAdicional.ClsCargaCombo.CargaComboProveedor(Entidad.NumeroDeProveedor);
-            ViewBag.CveAplicaMayoreo = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveAplicaMayoreo.ToString());
-            ViewBag.CveEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveEstatus.ToString());
+            ViewBag.CveDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveDeEstatus.ToString());
 
             ViewBag.ManejaProveedor = ((from q in ClsParametros.getList() where q.NombreDeParametro == "ManejaProveedor" select q.ValorDeParametro).FirstOrDefault() == "SI");
 

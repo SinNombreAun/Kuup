@@ -10,7 +10,7 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallasPerfil : Interfaces.InterfazGen<ClsPantallasPerfil>
     {
-        private DBKuupEntities db = null;
+        public DBKuupEntities db { get; set; }
         ViPantallaPerfil PantallaPerfil = new ViPantallaPerfil();
         public short NumeroDePantalla
         {
@@ -48,10 +48,6 @@ namespace Negocio.Kuup.Clases
             set { PantallaPerfil.PAP_TXT_ESTATUS = value; }
         }
         public ClsPantallasPerfil() { }
-        public ClsPantallasPerfil(DBKuupEntities _db)
-        {
-            db = _db;
-        }
         public ClsPantallasPerfil(ViPantallaPerfil Registro)
         {
             NumeroDePantalla = Registro.PAP_NUM_PANTALLA;
@@ -105,7 +101,6 @@ namespace Negocio.Kuup.Clases
         private bool ToDelete(DBKuupEntities db)
         {
             db.PantallaPerfil.Remove((from q in db.PantallaPerfil where q.PAP_NUM_PERFIL == PantallaPerfil.PAP_NUM_PERFIL && q.PAP_NUM_PANTALLA == PantallaPerfil.PAP_NUM_PANTALLA select q).FirstOrDefault());
-            db.Entry(PantallaPerfil).State = EntityState.Deleted;
             db.SaveChanges();
             if ((from q in db.PantallaPerfil where q.PAP_NUM_PERFIL == PantallaPerfil.PAP_NUM_PERFIL && q.PAP_NUM_PANTALLA == PantallaPerfil.PAP_NUM_PANTALLA select q).Count() != 0)
             {
