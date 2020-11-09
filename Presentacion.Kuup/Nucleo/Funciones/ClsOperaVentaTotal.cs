@@ -97,23 +97,29 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                 Resultado.Resultado = false;
                                 Resultado.Mensaje = "No fue posible realizar la Venta";
                             }
+                            String Mensaje = String.Empty;
                             if (AvisaCantidad.Count() != 0)
                             {
-                                Resultado.Adicional = String.Join("</ br>", AvisaCantidad);
+                                Mensaje = String.Join("</ br>", AvisaCantidad);
                             }
                             if (Resultado.Resultado)
                             {
                                 Transaccion.Commit();
-                                GeneraTicket(VentasTotales.FolioDeOperacion);
+                                ClsAdicional.ClsResultado RTicket = GeneraTicket(VentasTotales.FolioDeOperacion);
+                                Resultado.Adicional = new { MensajeAviso = Mensaje, Ticket = RTicket.Adicional };
                             }
                             else
                             {
+                                Object Ticket = null;
                                 Transaccion.Rollback();
+                                Resultado.Adicional = new { MensajeAviso = Mensaje, Ticket };
                             }
                         }
                         catch (Exception e)
                         {
+                            Object Ticket = null;
                             Transaccion.Rollback();
+                            Resultado.Adicional = new { MensajeAviso = String.Empty, Ticket };
                             Resultado.Resultado = false;
                             Resultado.Mensaje = Recursos.Textos.Bitacora_TextoTryCatchGenerico;
                             ClsBitacora.GeneraBitacora(1, 1, "RegistroDeVenta", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
@@ -129,42 +135,62 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             try
             {
                 List<ClsParametros> ParametrosTicket = (from q in ClsParametros.getList() where q.CveTipo == 2 select q).ToList();
-                ClsTicket Ticket = new ClsTicket();
-                Ticket.TextoCentro(String.Format("Empresa {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Empresa" select q.ValorDeParametro).FirstOrDefault()));
-                ClsTicket.LineasCaracter("*");
-                Ticket.TextoCentro(String.Format("Dir: {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Direccion" select q.ValorDeParametro).FirstOrDefault()));
-                Ticket.TextoCentro(String.Format("Tel: {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Telefono" select q.ValorDeParametro).FirstOrDefault()));
-                Ticket.TextoIzquierda(String.Empty);
-                Ticket.TextoCentro("Ticket de Venta");
-                Ticket.TextoIzquierda(String.Format("Fecha: {0} Hora: {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
-                Ticket.TextoIzquierda("Le Atendio: " + String.Format("{0} {1} {2}", MoSesion.NombreDePersona, MoSesion.ApellidoPaterno, MoSesion.ApellidoMaterno).ToUpper());
-                Ticket.TextoIzquierda(String.Empty);
-                ClsTicket.LineasCaracter("*");
-                ClsTicket.EncabezadoVenta();
-                ClsTicket.LineasCaracter("*");
                 var lista = (from q in ClsVentasTotales.getList() join v in ClsVentas.getList() on q.FolioDeOperacion equals v.FolioDeOperacion where q.FolioDeOperacion == FolioDeVenta select new { q, v }).ToList();
+
+                List<Object> Producto = new List<Object>();
                 foreach (var vproducto in lista)
                 {
-                    Ticket.AgregaArticulo(vproducto.v.NombreDeProducto, vproducto.v.PrecioUnitario, vproducto.v.CantidadDeProducto, vproducto.v.ImporteDeProducto);
+                    Producto.Add(new { vproducto.v.NombreDeProducto,vproducto.v.PrecioUnitario,vproducto.v.CantidadDeProducto,vproducto.v.ImporteDeProducto});
                 }
-                ClsTicket.LineasCaracter("*");
-                Ticket.AgregaTotales("Total:", lista.FirstOrDefault().q.ImporteNeto);
-                Ticket.TextoIzquierda(String.Empty);
-                Ticket.AgregaTotales("Efectivo Entregado:", lista.FirstOrDefault().q.ImporteEntregado);
-                Ticket.AgregaTotales("Efectivo Devuelto:", lista.FirstOrDefault().q.ImporteCambio);
-                Ticket.TextoIzquierda(String.Empty);
-                ClsTicket.LineasCaracter("*");
-                Ticket.TextoCentro((from q in ParametrosTicket where q.NombreDeParametro == "TextoFinal" select q.ValorDeParametro).FirstOrDefault());
-                ClsTicket.LineasCaracter("*");
 
-                Ticket.NombreDeTicket = String.Format("Ticket{0}{1}.txt", lista.FirstOrDefault().q.FolioDeOperacion, DateTime.Now.ToString("yyyyMMdd"));
-                Ticket.RutaDeTicket = System.Web.HttpContext.Current.Server.MapPath(ClsConfiguracion.Tickets);
+                Object TicketObj = new { 
+                    Empresa = (from q in ParametrosTicket where q.NombreDeParametro == "Empresa" select q.ValorDeParametro).FirstOrDefault(),
+                    Dir = (from q in ParametrosTicket where q.NombreDeParametro == "Direccion" select q.ValorDeParametro).FirstOrDefault(),
+                    Tel = (from q in ParametrosTicket where q.NombreDeParametro == "Telefono" select q.ValorDeParametro).FirstOrDefault(),
+                    Atiende = String.Format("{0} {1} {2}", MoSesion.NombreDePersona, MoSesion.ApellidoPaterno, MoSesion.ApellidoMaterno).ToUpper().Trim(),
+                    Fecha = String.Format("Fecha: {0} Hora: {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()),
+                    ImporteTotal = lista.FirstOrDefault().q.ImporteNeto,
+                    ImporteEntregado = lista.FirstOrDefault().q.ImporteEntregado,
+                    Cambio = lista.FirstOrDefault().q.ImporteCambio,
+                    TextoFinal = (from q in ParametrosTicket where q.NombreDeParametro == "TextoFinal" select q.ValorDeParametro).FirstOrDefault(),
+                    ListaProducto = Producto
+                };
+                //ClsTicket Ticket = new ClsTicket();
+                //Ticket.TextoCentro(String.Format("Empresa {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Empresa" select q.ValorDeParametro).FirstOrDefault()));
+                //ClsTicket.LineasCaracter("*");
+                //Ticket.TextoCentro(String.Format("Dir: {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Direccion" select q.ValorDeParametro).FirstOrDefault()));
+                //Ticket.TextoCentro(String.Format("Tel: {0}", (from q in ParametrosTicket where q.NombreDeParametro == "Telefono" select q.ValorDeParametro).FirstOrDefault()));
+                //Ticket.TextoIzquierda(String.Empty);
+                //Ticket.TextoCentro("Ticket de Venta");
+                //Ticket.TextoIzquierda(String.Format("Fecha: {0} Hora: {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
+                //Ticket.TextoIzquierda("Le Atendio: " + String.Format("{0} {1} {2}", MoSesion.NombreDePersona, MoSesion.ApellidoPaterno, MoSesion.ApellidoMaterno).ToUpper());
+                //Ticket.TextoIzquierda(String.Empty);
+                //ClsTicket.LineasCaracter("*");
+                //ClsTicket.EncabezadoVenta();
+                //ClsTicket.LineasCaracter("*");
+                //foreach (var vproducto in lista)
+                //{
+                //    Ticket.AgregaArticulo(vproducto.v.NombreDeProducto, vproducto.v.PrecioUnitario, vproducto.v.CantidadDeProducto, vproducto.v.ImporteDeProducto);
+                //}
+                //ClsTicket.LineasCaracter("*");
+                //Ticket.AgregaTotales("Total:", lista.FirstOrDefault().q.ImporteNeto);
+                //Ticket.TextoIzquierda(String.Empty);
+                //Ticket.AgregaTotales("Efectivo Entregado:", lista.FirstOrDefault().q.ImporteEntregado);
+                //Ticket.AgregaTotales("Efectivo Devuelto:", lista.FirstOrDefault().q.ImporteCambio);
+                //Ticket.TextoIzquierda(String.Empty);
+                //ClsTicket.LineasCaracter("*");
+                //Ticket.TextoCentro((from q in ParametrosTicket where q.NombreDeParametro == "TextoFinal" select q.ValorDeParametro).FirstOrDefault());
+                //ClsTicket.LineasCaracter("*");
 
-                Ticket.ImprimirTiket("POS-58",ref Resultado);
-                if (!Resultado.Resultado)
-                {
-                    ClsBitacora.GeneraBitacora(1, 1, "ImprimirTiket", Resultado.Mensaje);
-                }
+                //Ticket.NombreDeTicket = String.Format("Ticket{0}{1}.txt", lista.FirstOrDefault().q.FolioDeOperacion, DateTime.Now.ToString("yyyyMMdd"));
+                //Ticket.RutaDeTicket = System.Web.HttpContext.Current.Server.MapPath(ClsConfiguracion.Tickets);
+
+                //Ticket.ImprimirTiket("POS-58", ref Resultado);
+                //if (!Resultado.Resultado)
+                //{
+                //    ClsBitacora.GeneraBitacora(1, 1, "ImprimirTiket", Resultado.Mensaje);
+                //}
+                Resultado.Adicional = TicketObj;// Ticket.RegresaTextoTicket();
             }
             catch(Exception e)
             {

@@ -31,6 +31,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             {
                 ClsSequence Sequence = new ClsSequence(db.Database);
                 Producto.NumeroDeProducto = Sequence.SQ_Producto();
+                Producto.NombreDeProducto = Producto.NombreDeProducto.ToUpper().Trim();
+                Producto.Descripcion = Producto.Descripcion.ToUpper().Trim();
                 Producto.CodigoDeBarras = (GeneraCodigoDeBarras ? MoCodigoDeBarras.ArmaNumeroDeBarras(Producto.NumeroDeProducto, "Kuup") : Producto.CodigoDeBarras);
                 if (!Producto.Existe())
                 {

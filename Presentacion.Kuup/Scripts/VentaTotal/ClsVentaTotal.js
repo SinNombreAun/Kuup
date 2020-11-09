@@ -317,19 +317,19 @@
                                             data: { ImporteEntregado: $('#' + Elementos_VentaTotal.ImporteRecibido).val(), ImporteCambio: $('#' + Elementos_VentaTotal.ImporteCambio).val(), RegistroVenta: JsonString },
                                             success: function (data) {
                                                 if (data.Resultado) {
-                                                    if (data.Adicional != null) {
-                                                        alertify.alert('Aviso Importante', data.Adicional);
-                                                    } else {
-                                                        alertify.success(data.Mensaje);
+                                                    if (data.Adicional.MensajeAviso != '') {
+                                                        alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
                                                     }
+                                                    alertify.success(data.Mensaje);
                                                     TablaVentas.clear().draw();
                                                     $('#' + Elementos_VentaTotal.RegistraVenta).dialog('close');
                                                     LimpiaCantidad();
                                                     $('#' + Elementos_VentaTotal.ImporteTotal).val(0);
                                                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
+                                                    ImprimirTicket(data.Adicional.Ticket);
                                                 } else {
-                                                    if (data.Adicional != null) {
-                                                        alertify.alert('Aviso Importante', data.Adicional);
+                                                    if (data.Adicional.MensajeAviso != '') {
+                                                        alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
                                                     } else {
                                                         alertify.error(data.Mensaje);
                                                     }
@@ -414,6 +414,7 @@
                 $('#' + Elementos_VentaTotal.Paquetes).val('');
                 $('#' + Elementos_VentaTotal.ImporteCambio).val('');
                 $('#' + Elementos_VentaTotal.ImporteTotalVent).val('');
+                $('#' + Elementos_VentaTotal.ImporteRecibido).val('');
             }
             return {
                 Configuracion: {

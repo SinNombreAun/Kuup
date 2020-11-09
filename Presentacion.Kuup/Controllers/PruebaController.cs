@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 
 namespace Presentacion.Kuup.Controllers
@@ -74,28 +75,53 @@ namespace Presentacion.Kuup.Controllers
             }
             return Json(new { Impresoras = string.Join(",",Impresoras)},JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CorrigeLetraEne()
+        public JsonResult CorrigeLetraEne(String A,String R)
         {
+            // Ã± , ¥
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
-            foreach (var producto in ClsProductos.getList().Where(x => x.NombreDeProducto.Contains("¥")))
+            foreach (var producto in ClsProductos.getList().Where(x => x.NombreDeProducto.Contains(A)))
             {
-                producto.NombreDeProducto = producto.NombreDeProducto.Replace("¥", "Ñ");
+                producto.NombreDeProducto = producto.NombreDeProducto.Replace(A, R);
                 if (!producto.Update())
                 {
                     Resultado.Resultado = false;
-                    Resultado.Mensaje = "Ocurrio un error al corregir Ñ";
+                    Resultado.Mensaje = "Ocurrio un error al corregir "+ R;
                     return Json(Resultado,JsonRequestBehavior.AllowGet);
                 }
             }
-            foreach (var producto in ClsProductos.getList().Where(x => x.Descripcion.Contains("¥")))
+            foreach (var producto in ClsProductos.getList().Where(x => x.Descripcion.Contains(A)))
             {
-                producto.Descripcion = producto.Descripcion.Replace("¥", "Ñ");
+                producto.Descripcion = producto.Descripcion.Replace(A, R);
                 if (!producto.Update())
                 {
                     Resultado.Resultado = false;
-                    Resultado.Mensaje = "Ocurrio un error al corregir Ñ";
+                    Resultado.Mensaje = "Ocurrio un error al corregir " + R;
                     return Json(Resultado, JsonRequestBehavior.AllowGet);
                 }
+            }
+            return Json(Resultado, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ParseaTodoAMayusculas()
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            foreach (var Producto in ClsProductos.getList())
+            {
+                Producto.NombreDeProducto = Producto.NombreDeProducto.Trim().ToUpper();
+                Producto.Descripcion = Producto.Descripcion.Trim().ToUpper();
+                if (!Producto.Update())
+                {
+                    Resultado.Resultado = false;
+                    Resultado.Mensaje = "Ocurrio un error al hacer ToUpperCase";
+                }
+            }
+            return Json(Resultado, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CreaImagneCodigoDeBarras()
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            foreach (var Producto in ClsProductos.getList().Where(x => x.CodigoDeBarras.Contains("Kuup")).ToList().OrderBy(x => x.NumeroDeProducto))
+            {
+                Funciones.Kuup.CodigoDeBarras.MoCodigoDeBarras ResultadoCodigo = (new Funciones.Kuup.CodigoDeBarras.MoCodigoDeBarras()).GeneraCodigoDeBarras(Producto.NumeroDeProducto, "Kuup", Producto.CodigoDeBarras);
             }
             return Json(Resultado, JsonRequestBehavior.AllowGet);
         }

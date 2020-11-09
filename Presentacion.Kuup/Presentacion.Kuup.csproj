@@ -120,6 +120,7 @@
     <Content Include="Content\Librerias\FullCalendar\locales\es.js" />
     <Content Include="Content\Librerias\FullCalendar\main.css" />
     <Content Include="Content\Librerias\FullCalendar\main.js" />
+    <Content Include="Content\Librerias\Impresoras\Impresora.js" />
     <Content Include="Content\Librerias\JQuery.BlockUI\jquery.blockUI.js" />
     <Content Include="Content\Librerias\JQuery.UI\jquery-ui.css" />
     <Content Include="Content\Librerias\JQuery.UI\jquery-ui.js" />
@@ -141,6 +142,7 @@
     <Content Include="Scripts\General\ClsConfiguracion.js" />
     <Content Include="Scripts\General\ClsImportarArchivos.js" />
     <Content Include="Scripts\General\ClsResultado.js" />
+    <Content Include="Scripts\General\ClsTicket.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
     <Content Include="Scripts\Producto\ClsProducto.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
