@@ -247,5 +247,11 @@ namespace Funciones.Kuup.Tecket
                 e.HasMorePages = false;
             }
         }
+        public String RegresaTextoTicket()
+        {
+            String ticket = line.ToString();
+            line = new StringBuilder();
+            return ticket;
+        }
     }
 }
