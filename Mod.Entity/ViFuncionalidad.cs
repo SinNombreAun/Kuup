@@ -18,6 +18,7 @@ namespace Mod.Entity
         public byte FUN_NUM_FUNCIONALIDAD { get; set; }
         public string FUN_NOM_FUNCIONALIDAD { get; set; }
         public byte FUN_CVE_ESTATUS { get; set; }
+        public string FUN_NOM_PANTALLA { get; set; }
         public string FUN_TXT_ESTATUS { get; set; }
     }
 }

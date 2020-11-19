@@ -18,7 +18,7 @@ namespace Mod.Entity
         public byte FUP_NUM_FUNCIONALIDAD { get; set; }
         public byte FUP_NUM_PERFIL { get; set; }
         public byte FUP_CVE_ESTATUS { get; set; }
-        public short FUP_NOM_PANTALLA { get; set; }
+        public string FUP_NOM_PANTALLA { get; set; }
         public string FUP_NOM_FUNCIONALIDAD { get; set; }
         public string FUP_NOM_PERFIL { get; set; }
         public string FUP_TXT_ESTATUS { get; set; }

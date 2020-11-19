@@ -9,6 +9,10 @@ namespace Negocio.Kuup.Clases
     public class ClsAgenda : Interfaces.InterfazGen<ClsAgenda>
     {
         public DBKuupEntities db { get; set; }
+        public short NumeroDePantallaKuup
+        {
+            get { return 11; }
+        }
         ViAgenda Agenda = new ViAgenda();
         public short NumeroDeAgenda
         {
@@ -122,7 +126,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -154,7 +158,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -184,7 +188,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
 
             }

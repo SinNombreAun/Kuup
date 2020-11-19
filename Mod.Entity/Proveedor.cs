@@ -14,12 +14,6 @@ namespace Mod.Entity
     
     public partial class Proveedor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Proveedor()
-        {
-            this.Surtido = new HashSet<Surtido>();
-        }
-    
         public byte PRV_NUM_PROVEEDOR { get; set; }
         public string PRV_NOM_PROVEEDOR { get; set; }
         public System.DateTime PRV_FECHA_REGISTRO { get; set; }
@@ -28,8 +22,5 @@ namespace Mod.Entity
         public string PRV_ASUNTO { get; set; }
         public string PRV_MENSAJE { get; set; }
         public byte PRV_CVE_ESTATUS { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Surtido> Surtido { get; set; }
     }
 }

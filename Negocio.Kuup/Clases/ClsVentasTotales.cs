@@ -10,6 +10,10 @@ namespace Negocio.Kuup.Clases
     public class ClsVentasTotales : Interfaces.InterfazGen<ClsVentasTotales>
     {
         public DBKuupEntities db { get; set; }
+        public short NumeroDePantallaKuup
+        {
+            get { return 1; }
+        }
         ViVentaTotal VentaTotal = new ViVentaTotal();
         public short FolioDeOperacion
         {
@@ -71,6 +75,11 @@ namespace Negocio.Kuup.Clases
             get { return VentaTotal.VET_CVE_ESTATUS; }
             set { VentaTotal.VET_CVE_ESTATUS = value; }
         }
+        public String NombreDeUsuario
+        {
+            get { return VentaTotal.VET_NOM_USUARIO; }
+            set { VentaTotal.VET_NOM_USUARIO = value; }
+        }
         public String TextoDeAplicaDescuento
         {
             get { return VentaTotal.VET_TXT_APLICADESCUENTO; }
@@ -112,7 +121,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -144,7 +153,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -174,7 +183,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -218,6 +227,7 @@ namespace Negocio.Kuup.Clases
                                     ImporteEntregado = q.VET_IMPORTE_ENTREGADO,
                                     ImporteCambio = q.VET_IMPORTE_CAMBIO,
                                     CveDeEstatus = q.VET_CVE_ESTATUS,
+                                    NombreDeUsuario = q.VET_NOM_USUARIO,
                                     TextoDeAplicaDescuento = q.VET_TXT_APLICADESCUENTO,
                                     TextoDeEstatus = q.VET_TXT_ESTATUS
                                 }).ToList();

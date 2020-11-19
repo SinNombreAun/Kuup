@@ -49,18 +49,31 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                         }
                         if (Mayoreo.Count() > 0)
                         {
-                            if(Mayoreo.Exists(x => x.NombreDeProducto == Producto.NombreDeProducto))
+                            if(Mayoreo.Exists(x => x.NombreDeProducto.ToUpper().Trim() == Producto.NombreDeProducto))
                             {
-                                if (Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).CveAplicaMayoreo == 1)
+                                foreach(var M in Mayoreo.Where(x => x.NombreDeProducto.ToUpper().Trim() == Producto.NombreDeProducto).OrderBy(x => x.CantidadMinimaMayoreo))
                                 {
+                                    var PrevioMayoreo = (from q in ClsConfiguraMayoreos.getList() where q.CodigoDeBarras == Producto.CodigoDeBarras && q.NumeroDeProducto == Producto.NumeroDeProducto select q).OrderBy(x => x.NumeroDeMayoreo).LastOrDefault();
+                                    short Orden = 0;
+                                    if (PrevioMayoreo != null)
+                                    {
+                                        Orden = (short) (PrevioMayoreo.NumeroDeMayoreo + 1);
+                                        PrevioMayoreo.CantidadMaxima = (byte) (M.CantidadMinimaMayoreo - 1);
+                                        PrevioMayoreo.Update();
+                                    }
+                                    else
+                                    {
+                                        Orden++;
+                                    }
+
                                     ClsConfiguraMayoreos configuraMayoreos = new ClsConfiguraMayoreos();
-                                    configuraMayoreos.NumeroDeMayoreo = 1;
+                                    configuraMayoreos.NumeroDeMayoreo = Orden;
                                     configuraMayoreos.NumeroDeProducto = Producto.NumeroDeProducto;
                                     configuraMayoreos.CodigoDeBarras = Producto.CodigoDeBarras;
                                     configuraMayoreos.CveDeAplicaPaquetes = 1;
-                                    configuraMayoreos.CantidadMinima = Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).CantidadMinimaMayoreo;
+                                    configuraMayoreos.CantidadMinima = M.CantidadMinimaMayoreo;
                                     configuraMayoreos.CantidadMaxima = null;
-                                    configuraMayoreos.PrecioDeMayoreo = Mayoreo.Find(x => x.NombreDeProducto == Producto.NombreDeProducto).PrecioMayoreo;
+                                    configuraMayoreos.PrecioDeMayoreo = M.PrecioMayoreo;
                                     configuraMayoreos.Insert();
                                 }
                             }

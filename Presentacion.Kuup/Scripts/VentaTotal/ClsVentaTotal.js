@@ -193,10 +193,10 @@
                                         $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
                                     });
                                 } else {
-                                    alertify.error('No se aregistrado ningun Producto o el Importe es');
+                                    alertify.error('No se aregistrado ningun Producto o el Importe es 0');
                                 }
                             } else {
-                                alertify.error('No se aregistrado ningun Producto o el Importe es');
+                                alertify.error('No se aregistrado ningun Producto o el Importe es 0');
                             }
                         });
                         break;
@@ -316,9 +316,17 @@
                                             async: false,
                                             data: { ImporteEntregado: $('#' + Elementos_VentaTotal.ImporteRecibido).val(), ImporteCambio: $('#' + Elementos_VentaTotal.ImporteCambio).val(), RegistroVenta: JsonString },
                                             success: function (data) {
+                                                if (typeof (data.UrlAccount) != 'undefined') {
+                                                    windows.location = data.UrlAccount;
+                                                }
+                                                if (typeof (data.UrlFun) != 'undefined') {
+                                                    window.location = data.UrlFun;
+                                                }
                                                 if (data.Resultado) {
-                                                    if (data.Adicional.MensajeAviso != '') {
-                                                        alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
+                                                    if (typeof (data.Adicional.MensajeAviso) != 'undefined') {
+                                                        if (data.Adicional.MensajeAviso != '') {
+                                                            alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
+                                                        }
                                                     }
                                                     alertify.success(data.Mensaje);
                                                     TablaVentas.clear().draw();
@@ -328,11 +336,12 @@
                                                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
                                                     ImprimirTicket(data.Adicional.Ticket);
                                                 } else {
-                                                    if (data.Adicional.MensajeAviso != '') {
-                                                        alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
-                                                    } else {
-                                                        alertify.error(data.Mensaje);
+                                                    if (typeof (data.Adicional.AgregaEvento) != 'undefined') {
+                                                        if (data.Adicional.MensajeAviso != '') {
+                                                            alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
+                                                        }
                                                     }
+                                                    alertify.error(data.Mensaje);
                                                 }
                                             },
                                             error: function () {
