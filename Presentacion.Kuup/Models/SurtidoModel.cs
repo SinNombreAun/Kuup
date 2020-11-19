@@ -12,15 +12,20 @@ namespace Presentacion.Kuup.Models
         public SurtidoModel(Negocio.Kuup.Clases.ClsSurtidos Surtido)
         {
             this.FolioDeSurtido = Surtido.FolioDeSurtido;
+            this.CveDeAplicaSurtido = Surtido.CveDeAplicaSurtido;
             this.NumeroDeProveedor = Surtido.NumeroDeProveedor;
+            this.NumeroDeUsuario = Surtido.NumeroDeUsuario;
             this.NumeroDeProducto = Surtido.NumeroDeProducto;
             this.CodigoDeBarras = Surtido.CodigoDeBarras;
-            this.CantNueva = Surtido.CantNueva;
+            this.CantidadPrevia = Surtido.CantidadPrevia;
+            this.CantidadNueva = Surtido.CantidadNueva;
             this.PrecioUnitario = Surtido.PrecioUnitario;
             this.CostoTotal = Surtido.CostoTotal;
             this.FechaDeSurtido = Surtido.FechaDeSurtido;
             this.CveDeEstatus = Surtido.CveDeEstatus;
+            this.TextoDeAplicaProveedor = Surtido.TextoDeAplicaProveedor;
             this.NombreDeProveedor = Surtido.NombreDeProveedor;
+            this.NombreDeUsuario = Surtido.NombreDeUsuario;
             this.NombreDeProducto = Surtido.NombreDeProducto;
             this.TextoDeEstatus = Surtido.TextoDeEstatus;
         }
@@ -32,11 +37,23 @@ namespace Presentacion.Kuup.Models
             set { this.FolioDeSurtido = value; }
         }
         [Required]
+        [Display(Name = "Maneja Proveedor")]
+        public byte fCveDeAplicaSurtido
+        {
+            get { return this.CveDeAplicaSurtido; }
+            set { this.CveDeAplicaSurtido = value; }
+        }
         [Display(Name = "Número de Proveedor")]
-        public byte fNumeroDeProveedor
+        public Nullable<byte> fNumeroDeProveedor
         {
             get { return this.NumeroDeProveedor; }
             set { this.NumeroDeProveedor = value; }
+        }
+        [Display(Name = "Número de Usuario")]
+        public Nullable<short> fNumeroDeUsuario
+        {
+            get { return this.NumeroDeUsuario; }
+            set { this.NumeroDeUsuario = value; }
         }
         [Required]
         [Display(Name = "Número de Producto")]
@@ -53,22 +70,29 @@ namespace Presentacion.Kuup.Models
             set { this.CodigoDeBarras = value; }
         }
         [Required]
-        [Display(Name = "Cantidad Nueva")]
-        public short fCantNueva
+        [Display(Name = "Cantidad Previa")]
+        public short fCantidadPrevia
         {
-            get { return this.CantNueva; }
-            set { this.CantNueva = value; }
+            get { return this.CantidadPrevia; }
+            set { this.CantidadPrevia = value; }
+        }
+        [Required]
+        [Display(Name = "Cantidad Nueva")]
+        public short fCantidadNueva
+        {
+            get { return this.CantidadNueva; }
+            set { this.CantidadNueva = value; }
         }
         [Required]
         [Display(Name = "Precio Unitario")]
-        public decimal fPrecioUnitario
+        public Nullable<decimal> fPrecioUnitario
         {
             get { return this.PrecioUnitario; }
             set { this.PrecioUnitario = value; }
         }
         [Required]
         [Display(Name = "Costo Total")]
-        public decimal fCostoTotal
+        public Nullable<decimal> fCostoTotal
         {
             get { return this.CostoTotal; }
             set { this.CostoTotal = value; }
@@ -81,28 +105,36 @@ namespace Presentacion.Kuup.Models
             set { this.FechaDeSurtido = value; }
         }
         [Required]
-        [Display(Name = "Tipo De Surtido")]
+        [Display(Name = "Estatus")]
         public byte fCveDeEstatus
         {
             get { return this.CveDeEstatus; }
             set { this.CveDeEstatus = value; }
         }
-        [Required]
+        [Display(Name = "Maneja Proveedor")]
+        public String fTextoDeAplicaProveedor
+        {
+            get { return this.TextoDeAplicaProveedor; }
+            set { this.TextoDeAplicaProveedor = value; }
+        }
         [Display(Name = "Nombre De Proveedor")]
         public String fNombreDeProveedor
         {
             get { return this.NombreDeProveedor; }
             set { this.NombreDeProveedor = value; }
         }
-        [Required]
+        public String fNombreDeUsuario
+        {
+            get { return this.NombreDeUsuario; }
+            set { this.NombreDeUsuario = value; }
+        }
         [Display(Name = "Nombre De Producto")]
         public String fNombreDeProducto
         {
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }
         }
-        [Required]
-        [Display(Name = "Tipo De Estatus")]
+        [Display(Name = "Estatus")]
         public String fTextoDeEstatus
         {
             get { return this.TextoDeEstatus; }

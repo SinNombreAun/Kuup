@@ -6,7 +6,6 @@ using Presentacion.Kuup.Nucleo.Motores;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Core.Common.EntitySql;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -16,7 +15,8 @@ namespace Presentacion.Kuup.Controllers
 {
     public class ProductoController : BaseController
     {
-        ClsOperaProducto Opera = new ClsOperaProducto();
+        readonly ClsOperaProducto Opera = new ClsOperaProducto();
+        readonly short NumeroDePantalla = (new ClsProductos()).NumeroDePantallaKuup;
         #region Index
         [HttpGet]
         public ActionResult Index(bool Grid = false)
@@ -24,6 +24,10 @@ namespace Presentacion.Kuup.Controllers
             if (!ValidaSesion())
             {
                 return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ACCESO))
+            {
+                return RedirectToAction("Index", "Home");
             }
             if (Grid)
             {
@@ -59,6 +63,10 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("LoginOut", "Account");
             }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA))
+            {
+                return RedirectToAction("Index", "Producto");
+            }
             ProductoModel Entidad = new ProductoModel();
             this.CargaCombos(Entidad);
             return View();
@@ -69,6 +77,10 @@ namespace Presentacion.Kuup.Controllers
             if (!ValidaSesion())
             {
                 return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA))
+            {
+                return RedirectToAction("Index", "Producto");
             }
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (fGeneraCodigoDeBarras == 2)
@@ -103,7 +115,7 @@ namespace Presentacion.Kuup.Controllers
                 Resultado.Mensaje = "Campos incorrectos";
             }
             this.CargaCombos(RegistroCapturado);
-            ViewBag.Resultado = Resultado.MensajeController();
+            TempData["Resultado"] = Resultado.MensajeController();
             return View(RegistroCapturado);
         }
         #endregion
@@ -114,6 +126,10 @@ namespace Presentacion.Kuup.Controllers
             if (!ValidaSesion())
             {
                 return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.DETALLE))
+            {
+                return RedirectToAction("Index", "Producto");
             }
             ProductoModel Producto = new ProductoModel((from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList().FirstOrDefault());
             if (Producto == null)
@@ -136,10 +152,10 @@ namespace Presentacion.Kuup.Controllers
         }
         public JsonResult CargaMayoreo(short NumeroDeProducto, String CodigoDeBarras)
         {
-            var configuraMayoreos = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CodigoDeBarras == CodigoDeBarras select new { q.NumeroDeMayoreo,q.CantidadMinima,q.CantidadMaxima,q.PrecioDeMayoreo }).ToArray();
+            var configuraMayoreos = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CodigoDeBarras == CodigoDeBarras select new { q.NumeroDeMayoreo, q.CantidadMinima, q.CantidadMaxima, q.PrecioDeMayoreo }).ToArray();
             return Json(new { data = configuraMayoreos }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GuardaMayoreo(short NumeroDeProducto,String CodigoDeBarras, String Mayoreos)
+        public JsonResult GuardaMayoreo(short NumeroDeProducto, String CodigoDeBarras, String Mayoreos)
         {
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (!ValidaSesion())
@@ -157,7 +173,7 @@ namespace Presentacion.Kuup.Controllers
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
@@ -172,6 +188,10 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("LoginOut", "Account");
             }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.IMPORTAR))
+            {
+                return RedirectToAction("Index", "Producto");
+            }
             ViewBag.TitulosCampos = Opera.ListaDeDatosAImportar();
             return View();
         }
@@ -184,6 +204,10 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("LoginOut", "Account");
             }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.IMPORTAR))
+            {
+                return RedirectToAction("Index", "Producto");
+            }
             ClsAdicional.ClsResultado ResultadoGeneral = new ClsAdicional.ClsResultado(true, String.Empty);
             String NombreDeArchivo = String.Empty;
             try
@@ -195,19 +219,24 @@ namespace Presentacion.Kuup.Controllers
                     if (Productos.Count > 0)
                     {
                         List<String> Mensajes = new List<String>();
-                        foreach (var Producto in Productos)
+                        String Previo = String.Empty;
+                        foreach (var Producto in Productos.Distinct())
                         {
-                            if (Producto.CveAviso == 2)
+                            if (Previo != Producto.CodigoDeBarras + Producto.NombreDeProducto)
                             {
-                                Producto.CveCorreoSurtido = 2;
-                            }
-                            Producto.FechaDeRegistro = DateTime.Now;
-                            Producto.CantidadDeProductoNueva = Producto.CantidadDeProductoTotal;
-                            Producto.CveDeEstatus = (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO;
-                            ClsAdicional.ClsResultado Resultado = Opera.Insert(Producto, (String.IsNullOrEmpty(Producto.CodigoDeBarras)), Mayoreo);
-                            if (!Resultado.Resultado)
-                            {
-                                Mensajes.Add("El producto con Codigo de Barras: " + Producto.CodigoDeBarras + " Nombre de producto: " + Producto.NombreDeProducto + " no puedo ser insertado debido a " + Resultado.Mensaje);
+                                Previo = Producto.CodigoDeBarras + Producto.NombreDeProducto;
+                                if (Producto.CveAviso == 2)
+                                {
+                                    Producto.CveCorreoSurtido = 2;
+                                }
+                                Producto.FechaDeRegistro = DateTime.Now;
+                                Producto.CantidadDeProductoNueva = Producto.CantidadDeProductoTotal;
+                                Producto.CveDeEstatus = (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO;
+                                ClsAdicional.ClsResultado Resultado = Opera.Insert(Producto, (String.IsNullOrEmpty(Producto.CodigoDeBarras)), Mayoreo);
+                                if (!Resultado.Resultado)
+                                {
+                                    Mensajes.Add("El producto con Codigo de Barras: " + Producto.CodigoDeBarras + " Nombre de producto: " + Producto.NombreDeProducto + " no puedo ser insertado debido a " + Resultado.Mensaje);
+                                }
                             }
                         }
                         if (Mensajes.Count > 0)
@@ -226,6 +255,132 @@ namespace Presentacion.Kuup.Controllers
                 ResultadoGeneral.Mensaje = "Ocurrio un error al dar de alta algun registro de producto, consultar bitacora";
             }
             return Json(new { Resultado = ResultadoGeneral, NombreDeArchivo = (String.IsNullOrEmpty(NombreDeArchivo) ? String.Empty : NombreDeArchivo.Split('.')[0]), Extencion = "txt" }, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+        #region ActualizaPrecios
+        [HttpGet]
+        public ActionResult ActualizaPrecios()
+        {
+            if (!ValidaSesion())
+            {
+                return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, 10))
+            {
+                return RedirectToAction("Index", "Producto");
+            }
+            return View();
+        }
+        public JsonResult UrlPreciosActualizados(String Precios)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, "Precios Actualizados");
+            if (!ValidaSesion())
+            {
+                return Json(new { UrlAccount = Url.Action("LoginOut", "Account") }, JsonRequestBehavior.AllowGet);
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA))
+            {
+                return Json(new { UrlFun = Url.Action("Index", "VentaTotal") }, JsonRequestBehavior.AllowGet);
+            }
+            List<String> Datos = Precios.Split(':').ToList();
+            foreach(var Dato in Datos)
+            {
+                List<String> Elementos = new List<string>();
+                if (Dato.Contains("PrecioUnitario"))
+                {
+                    Elementos = Dato.Split('&').ToList();
+                    ClsProductos Producto = (from q in ClsProductos.getList() where 
+                                             q.NumeroDeProducto == ClsAdicional.Convert<short>(Elementos[0].Split('=')[1]) 
+                                             select q).FirstOrDefault();
+                    if (Producto != null)
+                    {
+                        Producto.PrecioUnitario = ClsAdicional.Convert<decimal>(Elementos[1].Split('=')[1]);
+                    }
+                    if (!Producto.Update())
+                    {
+                        Resultado.Resultado = false;
+                        Resultado.Mensaje = "Ocurrio un error al actualizar el precio unitario del Producto";
+                        break;
+                    }
+                }
+                else if (Dato.Contains("NumeroDeMayoreo"))
+                {
+                    Elementos = Dato.Split('&').ToList();
+                    ClsConfiguraMayoreos ConfiguraMayoreo = (from q in ClsConfiguraMayoreos.getList() 
+                                                             where q.NumeroDeProducto == ClsAdicional.Convert<short>(Elementos[0].Split('=')[1]) &&
+                                                             q.NumeroDeMayoreo == ClsAdicional.Convert<short>(Elementos[1].Split('=')[1])
+                                                             select q).FirstOrDefault();
+                    if(ConfiguraMayoreo != null)
+                    {
+                        ConfiguraMayoreo.PrecioDeMayoreo = ClsAdicional.Convert<decimal>(Elementos[2].Split('=')[1]);
+                        if (!ConfiguraMayoreo.Update())
+                        {
+                            Resultado.Resultado = false;
+                            Resultado.Mensaje = "Ocurrio un error al actualizar el precio de mayoreo";
+                            break;
+                        }
+                    }
+
+                }
+                else if (Dato.Contains("PrecioDeProductoPadre") || Dato.Contains("PrecioDeProductoHijo"))
+                {
+                    Elementos = Dato.Split('&').ToList();
+                    ClsConfiguraPaquetes ConfiguraPaquetes = (from q in ClsConfiguraPaquetes.getList() 
+                                                              where q.NumeroDeProductoPadre == ClsAdicional.Convert<short>(Elementos[0].Split('=')[1]) &&
+                                                              q.NumeroDeProductoHijo == ClsAdicional.Convert<short>(Elementos[1].Split('=')[1])
+                                                              select q).FirstOrDefault();
+                    if (ConfiguraPaquetes != null)
+                    {
+                        if (Dato.Contains("PrecioDeProductoPadre"))
+                        {
+                            ConfiguraPaquetes.PrecioDeProductoPadre = ClsAdicional.Convert<decimal>(Elementos[2].Split('=')[1]);
+                        }
+                        else if (Dato.Contains("PrecioDeProductoHijo"))
+                        {
+                            ConfiguraPaquetes.PrecioDeProductoHijo = ClsAdicional.Convert<decimal>(Elementos[2].Split('=')[1]);
+                        }
+                        if (!ConfiguraPaquetes.Update())
+                        {
+                            Resultado.Resultado = false;
+                            Resultado.Mensaje = "Ocurrio un error al actualizar el precio de paquetes";
+                            break;
+                        }
+                    }
+                }
+                
+            }
+            return Json(Resultado, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargaTodosLosPrecios(String NombreOCodigoDeProducto)
+        {
+            var Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).FirstOrDefault();
+            if (Productos == null)
+            {
+                Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).FirstOrDefault();
+            }
+            List<Object> Precios = new List<object>();
+            if(Productos != null)
+            {
+                Precios.Add(new {id=Productos.NumeroDeProducto, Tipo = "Precio Unitario",Campo = "Precio Unitario", Valor = Productos.PrecioUnitario });
+
+                var PreciosMayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.NumeroDeProducto && q.CodigoDeBarras == Productos.CodigoDeBarras orderby q.NumeroDeMayoreo select q).ToList();
+                foreach (var Mayoreo in PreciosMayoreo)
+                {
+                    Precios.Add(new { id = Mayoreo.NumeroDeMayoreo, Tipo = "Precio Mayoreo", Campo = String.Format("Precio Mayoreo de {0} a {1}", Mayoreo.CantidadMinima, (Mayoreo.CantidadMaxima == null ? "sin limite" : Mayoreo.CantidadMaxima.ToString())), Valor = Mayoreo.PrecioDeMayoreo });
+                }
+                var ConfiguraPaqueteP = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == Productos.NumeroDeProducto select q).ToList();
+                foreach (var ConfPaqueteP in ConfiguraPaqueteP)
+                {
+                    Precios.Add(new { id = ConfPaqueteP.NumeroDeProductoPadre.ToString() + "_" + ConfPaqueteP.NumeroDeProductoHijo.ToString(), Tipo = "Precio Paquete Padre", Campo = "Precio de Producto Padre", Valor = ConfPaqueteP.PrecioDeProductoPadre, CampoHijo = "Producto Hijo " + ConfPaqueteP.NombreDeProductoHijo, ValorHijo = ConfPaqueteP.PrecioDeProductoHijo });
+                }
+                var ConfiguraPaqueteH = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoHijo == Productos.NumeroDeProducto select q).ToList();
+                foreach (var ConfPaqueteH in ConfiguraPaqueteH)
+                {
+                    Precios.Add(new { id = ConfPaqueteH.NumeroDeProductoPadre.ToString() + "_" + ConfPaqueteH.NumeroDeProductoHijo.ToString(), Tipo = "Precio Paquete Hijo", Campo = "Precio de Producto Hijo", Valor = ConfPaqueteH.PrecioDeProductoHijo, CampoPadre = "Producto Padre " + ConfPaqueteH.NombreDeProductoPadre, ValorPadre = ConfPaqueteH.PrecioDeProductoPadre });
+                }
+            }
+
+            return Json(new { Precios }, JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region Adicional
@@ -299,7 +454,39 @@ namespace Presentacion.Kuup.Controllers
             ViewBag.CveDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveDeEstatus.ToString());
 
             ViewBag.ManejaProveedor = ((from q in ClsParametros.getList() where q.NombreDeParametro == "ManejaProveedor" select q.ValorDeParametro).FirstOrDefault() == "SI");
-
+        }
+        public JsonResult AutoCompleteProducto(String Prefix)
+        {
+            List<ClsProductos> Productos = new List<ClsProductos>();
+            ClsParametros Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ActivaLike" select q).ToList().FirstOrDefault();
+            if (Parametro != null)
+            {
+                if (Parametro.ValorDeParametro == "SI")
+                {
+                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                    if (Productos.Count == 0)
+                    {
+                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                    }
+                }
+                else
+                {
+                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                    if (Productos.Count == 0)
+                    {
+                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                    }
+                }
+            }
+            else
+            {
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
+                if (Productos.Count == 0)
+                {
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
+                }
+            }
+            return Json(Productos, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

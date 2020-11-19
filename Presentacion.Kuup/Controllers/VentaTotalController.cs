@@ -1,17 +1,18 @@
 ﻿using Funciones.Kuup.Adicionales;
 using Negocio.Kuup.Clases;
 using Presentacion.Kuup.Nucleo.Funciones;
+using Presentacion.Kuup.Nucleo.Motores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Web.Mvc;
 
 namespace Presentacion.Kuup.Controllers
 {
     public class VentaTotalController : BaseController
     {
-        ClsOperaVentaTotal Opera = new ClsOperaVentaTotal();
+        readonly ClsOperaVentaTotal Opera = new ClsOperaVentaTotal();
+        readonly short NumeroDePantalla = (new ClsVentasTotales()).NumeroDePantallaKuup;
         [HttpGet]
         public ActionResult Index()
         {
@@ -19,10 +20,23 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("LoginOut", "Account");
             }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ACCESO))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
-        public JsonResult RegistraVentaTotal(decimal ImporteEntregado,decimal ImporteCambio, String RegistroVenta)
+        public JsonResult RegistraVentaTotal(decimal ImporteEntregado, decimal ImporteCambio, String RegistroVenta)
         {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            if (!ValidaSesion())
+            {
+                return Json(new { UrlAccount = Url.Action("LoginOut", "Account") }, JsonRequestBehavior.AllowGet);
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA))
+            {
+                return Json(new { UrlFun = Url.Action("Index", "VentaTotal") }, JsonRequestBehavior.AllowGet);
+            }
             return Json(Opera.RegistroDeVenta(ImporteEntregado, ImporteCambio, RegistroVenta), JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargaProducto(String NombreOCodigoDeProducto)
@@ -201,7 +215,7 @@ namespace Presentacion.Kuup.Controllers
                             {
                                 if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
                                 {
-                                    if(Cantidad >= mayoreo.CantidadMinima)
+                                    if (Cantidad >= mayoreo.CantidadMinima)
                                     {
                                         PrecioUnitario = mayoreo.PrecioDeMayoreo;
                                         break;

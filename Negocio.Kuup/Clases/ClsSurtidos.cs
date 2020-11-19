@@ -14,16 +14,30 @@ namespace Negocio.Kuup.Clases
     public class ClsSurtidos : Interfaces.InterfazGen<ClsSurtidos>
     {
         public DBKuupEntities db { get; set; }
+        public short NumeroDePantallaKuup
+        {
+            get { return 21; }
+        }
         ViSurtido Surtido = new ViSurtido();
         public short FolioDeSurtido
         {
             get { return Surtido.SUR_FOLIO_SURTIDO; }
             set { Surtido.SUR_FOLIO_SURTIDO = value; }
         }
-        public byte NumeroDeProveedor
+        public byte CveDeAplicaSurtido
+        {
+            get { return Surtido.SUR_CVE_APLICA_PROVEEDOR; }
+            set { Surtido.SUR_CVE_APLICA_PROVEEDOR = value; }
+        }
+        public Nullable<byte> NumeroDeProveedor
         {
             get { return Surtido.SUR_NUM_PROVEEDOR; }
             set { Surtido.SUR_NUM_PROVEEDOR = value; }
+        }
+        public Nullable<short> NumeroDeUsuario
+        {
+            get { return Surtido.SUR_NUM_USUARIO; }
+            set { Surtido.SUR_NUM_USUARIO = value; }
         }
         public short NumeroDeProducto
         {
@@ -35,17 +49,22 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_CODIGO_BARRAS; }
             set { Surtido.SUR_CODIGO_BARRAS = value; }
         }
-        public short CantNueva
+        public short CantidadPrevia
+        {
+            get { return Surtido.SUR_CANT_PREVIA; }
+            set { Surtido.SUR_CANT_PREVIA = value; }
+        }
+        public short CantidadNueva
         {
             get { return Surtido.SUR_CANT_NUEVA; }
             set { Surtido.SUR_CANT_NUEVA = value; }
         }
-        public decimal PrecioUnitario
+        public Nullable<decimal> PrecioUnitario
         {
             get { return Surtido.SUR_PRECIO_UNITARIO; }
             set { Surtido.SUR_PRECIO_UNITARIO = value; }
         }
-        public decimal CostoTotal
+        public Nullable<decimal> CostoTotal
         {
             get { return Surtido.SUR_COSTO_TOTAL; }
             set { Surtido.SUR_COSTO_TOTAL = value; }
@@ -60,10 +79,20 @@ namespace Negocio.Kuup.Clases
             get { return Surtido.SUR_CVE_ESTATUS; }
             set { Surtido.SUR_CVE_ESTATUS = value; }
         }
+        public String TextoDeAplicaProveedor
+        {
+            get { return Surtido.SUR_TXT_APLICA_MAYOREO; }
+            set { Surtido.SUR_TXT_APLICA_MAYOREO = value; }
+        }
         public String NombreDeProveedor
         {
             get { return Surtido.SUR_NOM_PROVEEDOR; }
             set { Surtido.SUR_NOM_PROVEEDOR = value; }
+        }
+        public String NombreDeUsuario
+        {
+            get { return Surtido.SUR_NOM_USUARIO; }
+            set { Surtido.SUR_NOM_USUARIO = value; }
         }
         public String NombreDeProducto
         {
@@ -82,7 +111,7 @@ namespace Negocio.Kuup.Clases
             db.Surtido.Add(Surtido);
             db.Entry(Surtido).State = EntityState.Added;
             db.SaveChanges();
-            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
+            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO  select q).Count() != 0)
             {
                 return true;
             }
@@ -106,15 +135,15 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
         private bool ToDelete(DBKuupEntities db)
         {
-            db.Surtido.Remove((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).FirstOrDefault());
+            db.Surtido.Remove((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO select q).FirstOrDefault());
             db.SaveChanges();
-            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO && q.SUR_NUM_PROVEEDOR == Surtido.SUR_NUM_PROVEEDOR && q.SUR_NUM_PRODUCTO == Surtido.SUR_NUM_PRODUCTO select q).Count() != 0)
+            if ((from q in db.Surtido where q.SUR_FOLIO_SURTIDO == Surtido.SUR_FOLIO_SURTIDO  select q).Count() != 0)
             {
                 return false;
             }
@@ -138,7 +167,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -168,7 +197,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
 
             }
@@ -177,10 +206,13 @@ namespace Negocio.Kuup.Clases
         {
             Surtido Tabla = new Surtido();
             Tabla.SUR_FOLIO_SURTIDO = this.FolioDeSurtido;
+            Tabla.SUR_CVE_APLICA_PROVEEDOR = this.CveDeAplicaSurtido;
             Tabla.SUR_NUM_PROVEEDOR = this.NumeroDeProveedor;
+            Tabla.SUR_NUM_USUARIO = this.NumeroDeUsuario;
             Tabla.SUR_NUM_PRODUCTO = this.NumeroDeProducto;
             Tabla.SUR_CODIGO_BARRAS = this.CodigoDeBarras;
-            Tabla.SUR_CANT_NUEVA = this.CantNueva;
+            Tabla.SUR_CANT_PREVIA = this.CantidadPrevia;
+            Tabla.SUR_CANT_NUEVA = this.CantidadNueva;
             Tabla.SUR_PRECIO_UNITARIO = this.PrecioUnitario;
             Tabla.SUR_COSTO_TOTAL = this.CostoTotal;
             Tabla.SUR_FECHA_SURTIDO = this.FechaDeSurtido;
@@ -199,15 +231,20 @@ namespace Negocio.Kuup.Clases
                                 select new ClsSurtidos()
                                 {
                                     FolioDeSurtido = q.SUR_FOLIO_SURTIDO,
+                                    CveDeAplicaSurtido = q.SUR_CVE_APLICA_PROVEEDOR,
                                     NumeroDeProveedor = q.SUR_NUM_PROVEEDOR,
+                                    NumeroDeUsuario = q.SUR_NUM_USUARIO,
                                     NumeroDeProducto = q.SUR_NUM_PRODUCTO,
                                     CodigoDeBarras = q.SUR_CODIGO_BARRAS,
-                                    CantNueva = q.SUR_CANT_NUEVA,
+                                    CantidadPrevia = q.SUR_CANT_PREVIA,
+                                    CantidadNueva = q.SUR_CANT_NUEVA,
                                     PrecioUnitario = q.SUR_PRECIO_UNITARIO,
                                     CostoTotal = q.SUR_COSTO_TOTAL,
                                     FechaDeSurtido = q.SUR_FECHA_SURTIDO,
                                     CveDeEstatus = q.SUR_CVE_ESTATUS,
+                                    TextoDeAplicaProveedor = q.SUR_TXT_APLICA_MAYOREO,
                                     NombreDeProveedor = q.SUR_NOM_PROVEEDOR,
+                                    NombreDeUsuario = q.SUR_NOM_USUARIO,
                                     NombreDeProducto = q.SUR_NOM_PRODUCTO,
                                     TextoDeEstatus = q.SUR_TXT_ESTATUS
                                 }).ToList();
@@ -218,10 +255,13 @@ namespace Negocio.Kuup.Clases
                                 select new ClsSurtidos()
                                 {
                                     FolioDeSurtido = q.SUR_FOLIO_SURTIDO,
+                                    CveDeAplicaSurtido = q.SUR_CVE_APLICA_PROVEEDOR,
                                     NumeroDeProveedor = q.SUR_NUM_PROVEEDOR,
+                                    NumeroDeUsuario = q.SUR_NUM_USUARIO,
                                     NumeroDeProducto = q.SUR_NUM_PRODUCTO,
                                     CodigoDeBarras = q.SUR_CODIGO_BARRAS,
-                                    CantNueva = q.SUR_CANT_NUEVA,
+                                    CantidadPrevia = q.SUR_CANT_PREVIA,
+                                    CantidadNueva = q.SUR_CANT_NUEVA,
                                     PrecioUnitario = q.SUR_PRECIO_UNITARIO,
                                     CostoTotal = q.SUR_COSTO_TOTAL,
                                     FechaDeSurtido = q.SUR_FECHA_SURTIDO,

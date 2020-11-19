@@ -18,5 +18,14 @@ namespace Presentacion.Kuup.Nucleo.Motores
             CANCELADA = 2,
             DEVOLUCION = 3
         }
+        public enum Funcionalidades : byte
+        {
+            ACCESO = 1,
+            DETALLE = 2,
+            ALTA = 3,
+            BAJA = 4,
+            EDITA = 5,
+            IMPORTAR = 6
+        }
     }
 }

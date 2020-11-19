@@ -1,0 +1,91 @@
+﻿@model Presentacion.Kuup.Models.SurtidoModel
+
+@{
+    ViewBag.Title = "Alta";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
+}
+<script src="~/Scripts/Surtido/ClsSurtido.js"></script>
+<h2 class="TituloPagina">ALTA DE SURTIDO <i class="fas fa-calculator"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-sm-12">
+            <hr class="my-4">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    @Html.HiddenFor(model => model.fNumeroDeProducto)
+                    @Html.HiddenFor(model => model.fCodigoDeBarras)
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fNombreDeProducto, new { @class = "col-sm-3 col-form-label" })
+                        @Html.TextBoxFor(model => model.fNombreDeProducto, new { @class = "form-control ", @readonly = "readonly" })
+                    </div>
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fCantidadPrevia, new { @class = "col-sm-3 col-form-label" })
+                        @Html.TextBoxFor(model => model.fCantidadPrevia, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fCantidadNueva, new { @class = "col-sm-3 col-form-label" })
+                        <a class="captura-requerida">*&ensp;</a>
+                        @Html.ValidationMessageFor(model => model.fCantidadNueva, null, new { @class = "text-danger rcantidad" })
+                        @Html.TextBoxFor(model => model.fCantidadNueva, new { @class = "form-control" })
+                    </div>
+                </fieldset>
+            }
+            <button type="button" id="Agregar" class="btn btn-primary">Agregar</button>
+            <table id="TablaSurtido" class="table display nowrap" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Numero de Producto</th>
+                        <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Nombre de Producto</th>
+                        <th scope="col">Cantidad Previa</th>
+                        <th scope="col">Cantidad Nueva</th>
+                        <th scope="col">Cantidad Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">Numero de Producto</th>
+                        <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Nombre de Producto</th>
+                        <th scope="col">Cantidad Previa</th>
+                        <th scope="col">Cantidad Nueva</th>
+                        <th scope="col">Cantidad Total</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <button style="button" id="Guardar" class="btn btn-primary Oculto">Cargar Surtido</button>
+            <br />
+            <br />
+            <hr class="my-4">
+            @Html.ActionLink("Regresar a la Consulta", "Index", "Surtido", null, new { @class = "btn btn-secondary" })
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let ClsSurtido;
+    $(function () {
+        ClsSurtido = Objeto.Constructor({
+            Funcionalidad: 'ALTA',
+            UrlAccion: '@Url.Action("Alta","Surtido")',
+            UrlCargaProducto: '@Url.Action("CargaProducto", "Surtido")',
+            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "Surtido")'
+        });
+        ClsSurtido.Inicio();
+    });
+</script>
