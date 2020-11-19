@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Ventas Realizadas";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/Venta/ClsVenta.js"></script>
+<h2 class="TituloPagina">CONSULTA DE VENTAS REALIZADAS <i class="fa fa-archive"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fFechaInicial", "Fecha de Inicio", new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fFechaInicial", null, new { @class = "form-control datetimepicker" })
+            </div>
+        </div>
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fFechaFinal", "Fecha de Final", new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fFechaFinal", null, new { @class = "form-control datetimepicker" })
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <button type="button" id="Consulta" class="btn btn-primary">Consultar</button>
+            <br />
+            <br />
+            <table id="VentasTotales" class="table display nowrap" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">FolioDeOperacion</th>
+                        <th scope="col">FechaDeOperacion</th>
+                        <th scope="col">NombreDeUsuario</th>
+                        <th scope="col">ImporteEntregado</th>
+                        <th scope="col">ImporteCambio</th>
+                        <th scope="col">ImporteNeto</th>
+                        <th scope="col">TextoDeEstatus</th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">FolioDeOperacion</th>
+                        <th scope="col">FechaDeOperacion</th>
+                        <th scope="col">NombreDeUsuario</th>
+                        <th scope="col">ImporteEntregado</th>
+                        <th scope="col">ImporteCambio</th>
+                        <th scope="col">ImporteNeto</th>
+                        <th scope="col">TextoDeEstatus</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <hr class="my-4">
+            <table id="Ventas" class="table display nowrap" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">FolioDeOperacion</th>
+                        <th scope="col">NombreDeProducto</th>
+                        <th scope="col">CantidadDeProducto</th>
+                        <th scope="col">PrecioUnitario</th>
+                        <th scope="col">ImporteDeProducto</th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">FolioDeOperacion</th>
+                        <th scope="col">NombreDeProducto</th>
+                        <th scope="col">CantidadDeProducto</th>
+                        <th scope="col">PrecioUnitario</th>
+                        <th scope="col">ImporteDeProducto</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <hr class="my-4">
+            @*botones*@
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+@*<script type="text/javascript">
+    let ClsVenta;
+    $(function () {
+        ClsVenta = Objeto.Constructor({
+            Funcionalidad: 'INDEX',
+            UrlCargaGrid: '@Url.Action("Index","Producto")',
+            UrlDetalle: '@Url.Action("Detalle","Producto")'
+        });
+        ClsVenta.Inicio();
+    });
+</script>*@

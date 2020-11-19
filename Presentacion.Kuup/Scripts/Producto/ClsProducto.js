@@ -3,6 +3,7 @@
         let _Nucleo = function () {
             let Elementos_Producto = {
                 form: 'formProducto',
+                CodigoONombreDeProducto: 'fCodigoONombreDeProducto',
                 NumeroDeProducto: 'fNumeroDeProducto',
                 CodigoDeBarras: 'fCodigoDeBarras',
                 FechaDeRegistro: 'fFechaDeRegistro',
@@ -27,19 +28,25 @@
                 CantidadMinimaM: 'fCantidadMinimaM',
                 CantidadMaxima: 'fCantidadMaxima',
                 PrecioDeMayoreo: 'fPrecioDeMayoreo',
-                GuardaPrecioM: 'GuardaPrecioM'
+                GuardaPrecioM: 'GuardaPrecioM',
+                PreciosProducto: 'PreciosProducto',
+                GuardarPrecios: 'GuardarPrecios'
             };
             let Funcionalidad = '',
                 NumeroDeProductoModel = '',
                 CodigoDeBarrasModel = '',
                 AplicarPrecioDeMayoreo = '',
+                UrlAutoCompleteProducto = '',
                 UrlCargaGrid = '',
                 UrlDetalle = '',
                 UrlCargaMasiva = '',
                 UrlDescargaDeArchivo = '',
                 UrlGuardaTablaMayoreo = '',
                 UrlCargaMayoreo = '',
-                TablaM = null;
+                UrlCargaPrecios = '',
+                UrlPreciosActualizados = '',
+                TablaM = null,
+                Ids = [];
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
                     Funcionalidad = FuncionalidadSet;
@@ -67,7 +74,14 @@
                 } else {
                     return AplicarPrecioDeMayoreo;
                 }
-            }
+            };
+            let _UrlAutoCompleteProducto = function (UrlAutoCompleteProductoSet) {
+                if (typeof (UrlAutoCompleteProductoSet) != 'undefined') {
+                    UrlAutoCompleteProducto = UrlAutoCompleteProductoSet;
+                } else {
+                    return UrlAutoCompleteProducto;
+                }
+            };
             let _UrlCargaGrid = function (UrlCargaGridSet) {
                 if (typeof (UrlCargaGridSet) != 'undefined') {
                     UrlCargaGrid = UrlCargaGridSet;
@@ -95,19 +109,33 @@
                 } else {
                     return UrlDescargaDeArchivo;
                 }
-            }
+            };
             let _UrlGuardaTablaMayoreo = function (UrlGuardaTablaMayoreoSet) {
                 if (typeof (UrlGuardaTablaMayoreoSet) != 'undefined') {
                     UrlGuardaTablaMayoreo = UrlGuardaTablaMayoreoSet;
                 } else {
                     return UrlGuardaTablaMayoreo;
                 }
-            }
+            };
             let _UrlCargaMayoreo = function (UrlCargaMayoreoSet) {
                 if (typeof (UrlCargaMayoreoSet) != 'undefined') {
                     UrlCargaMayoreo = UrlCargaMayoreoSet;
                 } else {
                     return UrlCargaMayoreo;
+                }
+            };
+            let _UrlCargaPrecios = function (UrlCargaPreciosSet) {
+                if (typeof (UrlCargaPreciosSet) != 'undefined') {
+                    UrlCargaPrecios = UrlCargaPreciosSet;
+                } else {
+                    return UrlCargaPrecios;
+                }
+            };
+            let _UrlPreciosActualizados = function (UrlPreciosActualizadosSet) {
+                if (typeof (UrlPreciosActualizadosSet) != '') {
+                    UrlPreciosActualizados = UrlPreciosActualizadosSet;
+                } else {
+                    return UrlPreciosActualizados;
                 }
             }
             let TablaImportar = null;
@@ -157,6 +185,7 @@
                     "scrollX": true,
                     "select": true,
                     "scrollCollapse": false,
+                    "pageLength": 100,
                     "fixedColumns": {
                         "leftColumns": 2,
                         "rightColumns": 1
@@ -176,12 +205,12 @@
             }
             var RemoveProducto = function (tbody, table) {
                 $(tbody).on('click', 'button.btndelete', function () {
+                    $('#' + Elementos_Producto.GuardaPrecioM).show();
                     table.row($(this).parents('tr')).remove().draw();
                     let data = table.row($(this).parents('tr')).data();
                     if (typeof (data) == 'undefined') {
                         table.row($(this).parents('li')).remove().draw();
                     }
-                    $('#' + Elementos_Producto.GuardaPrecioM).show();
                 });
             }
             function GeneraGridDeProducto() {
@@ -196,6 +225,7 @@
                     "scrollX": true,
                     "select": true,
                     "scrollCollapse": false,
+                    "pageLength": 100,
                     "fixedColumns": {
                         "leftColumns": 2,
                         "rightColumns": 1
@@ -233,6 +263,7 @@
                     "data": data.data,
                     "scrollX": true,
                     "scrollCollapse": true,
+                    "pageLength": 100,
                     "fixedColumns": {
                         "leftColumns": 1,
                         "rightColumns": 1
@@ -366,7 +397,12 @@
                                     Mayoreos: JsonString
                                 },
                                 success: function (data) {
-
+                                    if (data.Resultado) {
+                                        alertify.success('Precios Guardados');
+                                        $('#' + Elementos_Producto.GuardaPrecioM).hide();
+                                    } else {
+                                        alertify.error(data.Mensaje);
+                                    }
                                 },
                                 error: function () {
                                     alertify.error("Ocurrio un error al realizar la eliminación del registro");
@@ -374,7 +410,127 @@
                             });
                         });
                         break;
+                    case "ACTUALIZAPRECIOS":
+                        $('#' + Elementos_Producto.CodigoONombreDeProducto).autocomplete({
+                            source: function (request, response) {
+                                $.ajax({
+                                    url: UrlAutoCompleteProducto,
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: { Prefix: request.term },
+                                    success: function (data) {
+                                        try {
+                                            response($.map(data, function (item) {
+                                                return { label: item.NombreDeProducto, value: item.NombreDeProducto };
+                                            }));
+                                        } catch (e) {
+                                            //Excepcion controlada 
+                                        }
+                                    }
+                                })
+                            },
+                            messages: {
+                                noResults: "", results: ""
+                            }
+                        });
+                        $('#' + Elementos_Producto.CodigoONombreDeProducto).keydown(function (event) {
+                            let keycode = (event.keyCode ? event.keyCode : event.which);
+                            if (keycode == 13) {
+                                CargaPrecios();
+                            }
+                        });
+                        break;
                 }
+            }
+            function CargaPrecios() {
+                $.ajax({
+                    type: "POST",
+                    url: UrlCargaPrecios,
+                    async: false,
+                    data: { NombreOCodigoDeProducto: $('#' + Elementos_Producto.CodigoONombreDeProducto).val() },
+                    success: function (data) {
+                        if (data.Precios.length != 0) {
+                            let Tipo = '';
+                            $('#' + Elementos_Producto.PreciosProducto).empty();
+                            Ids = [];
+                            for (var i = 0; i <= data.Precios.length - 1; i++) {
+                                let Titulo = '';
+                                if (Tipo != data.Precios[i].Tipo) {
+                                    Tipo = data.Precios[i].Tipo;
+                                    Titulo = '<h2>' + Tipo + '</h2>'
+                                }
+                                let label = '<label class="col-sm-3 col-form-label" for="' + data.Precios[i].id + '">' + data.Precios[i].Campo + '</label>';
+                                let textp = '';
+                                if (typeof (data.Precios[i].CampoHijo) != 'undefined') {
+                                    textp = data.Precios[i].CampoHijo + ' con precio de ' + data.Precios[i].ValorHijo;
+                                }
+                                if (typeof (data.Precios[i].CampoPadre) != 'undefined') {
+                                    textp = data.Precios[i].CampoPadre + ' con precio de ' + data.Precios[i].ValorPadre;
+                                }
+                                let texbox = '<input class="form-control" data-val="true" id="' + data.Precios[i].id + '" name="' + data.Precios[i].id + '" type="text" value="' + data.Precios[i].Valor + '">';
+                                let botton = '';
+                                if (i == data.Precios.length - 1) {
+                                    botton = '<br><button type="button" id="GuardarPrecios" class="btn btn-primary">Guardar</button>'
+                                }
+                                $('#' + Elementos_Producto.PreciosProducto).append(Titulo + label + textp + texbox + botton);
+                                Ids.push({ Tipo: data.Precios[i].Tipo, Id: data.Precios[i].id })
+                            }
+
+                            $('#' + Elementos_Producto.GuardarPrecios).click(function () {
+                                let Unitario = '', Mayoreo = '', PPadre = '', PHijo = '', NumeroDeProducto = '';
+                                if (Ids.length != 0) {
+                                    for (var i = 0; i <= Ids.length - 1; i++) {
+                                        switch (Ids[i].Tipo) {
+                                            case 'Precio Unitario':
+                                                NumeroDeProducto = Ids[i].Id;
+                                                Unitario += 'NumeroDeProducto=' + Ids[i].Id + '&PrecioUnitario=' + $('#' + Ids[i].Id).val() + ":";
+                                                break;
+                                            case 'Precio Mayoreo':
+                                                Mayoreo += 'NumeroDeProducto=' + NumeroDeProducto + '&NumeroDeMayoreo=' + Ids[i].Id + '&PrecioDeMayoreo=' + $('#' + Ids[i].Id).val() + ":";
+                                                break;
+                                            case 'Precio Paquete Padre':
+                                                PPadre += 'NumeroDeProductoPadre=' + Ids[i].Id.split('_')[0] + '&NumeroDeProductoHijo=' + Ids[i].Id.split('_')[1] + '&PrecioDeProductoPadre=' + $('#' + Ids[i].Id).val() + ":";
+                                                break;
+                                            case 'Precio Paquete Hijo':
+                                                PHijo += 'NumeroDeProductoPadre=' + Ids[i].Id.split('_')[0] + '&NumeroDeProductoHijo=' + Ids[i].Id.split('_')[1] + '&PrecioDeProductoHijo=' + $('#' + Ids[i].Id).val() + ":";
+                                                break;
+                                        }
+                                    }
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: UrlPreciosActualizados,
+                                    async: false,
+                                    data: {
+                                        Precios: Unitario.substring(0, Unitario.length - 1) + ':' + Mayoreo.substring(0, Mayoreo.length - 1) + ':' + PPadre.substring(0, PPadre.length - 1) + ':' + PHijo.substring(0, PHijo.length - 1)
+                                    },
+                                    success: function (data) {
+                                        if (typeof (data.UrlAccount) != 'undefined') {
+                                            windows.location = data.UrlAccount;
+                                        }
+                                        if (typeof (data.UrlFun) != 'undefined') {
+                                            window.location = data.UrlFun;
+                                        }
+                                        if (data.Resultado) {
+                                            alertify.success('Precios Actualizados');
+                                            $('#' + Elementos_Producto.PreciosProducto).empty();
+                                        } else {
+                                            alertify.error(data.Mensaje);
+                                        }
+                                    },
+                                    error: function () {
+                                        alertify.error("Ocurrio un error al realizar la eliminación del registro");
+                                    }
+                                });
+                            });
+                        } else {
+                            alertify.error("Precios no encontrados");
+                        }
+                    },
+                    error: function () {
+                        alertify.error("Ocurrio un error al realizar la validacion del Producto");
+                    }
+                });
             }
             function CreaBotonesDialog() {
                 return {
@@ -482,12 +638,15 @@
                     NumeroDeProductoModel: _NumeroDeProductoModel,
                     CodigoDeBarrasModel: _CodigoDeBarrasModel,
                     AplicarPrecioDeMayoreo: _AplicarPrecioDeMayoreo,
+                    UrlAutoCompleteProducto: _UrlAutoCompleteProducto,
                     UrlCargaGrid: _UrlCargaGrid,
                     UrlDetalle: _UrlDetalle,
                     UrlCargaMasiva: _UrlCargaMasiva,
                     UrlDescargaDeArchivo: _UrlDescargaDeArchivo,
                     UrlGuardaTablaMayoreo: _UrlGuardaTablaMayoreo,
-                    UrlCargaMayoreo: _UrlCargaMayoreo
+                    UrlCargaMayoreo: _UrlCargaMayoreo,
+                    UrlCargaPrecios: _UrlCargaPrecios,
+                    UrlPreciosActualizados: _UrlPreciosActualizados
                 },
                 Inicio: _Inicio,
                 CreaTabla: _CreaTabla,
@@ -501,12 +660,15 @@
             NucleoConfigurado.Configuracion.NumeroDeProductoModel(ObjetoConfiguracion.NumeroDeProductoModel);
             NucleoConfigurado.Configuracion.CodigoDeBarrasModel(ObjetoConfiguracion.CodigoDeBarrasModel);
             NucleoConfigurado.Configuracion.AplicarPrecioDeMayoreo(ObjetoConfiguracion.AplicarPrecioDeMayoreo);
+            NucleoConfigurado.Configuracion.UrlAutoCompleteProducto(ObjetoConfiguracion.UrlAutoCompleteProducto)
             NucleoConfigurado.Configuracion.UrlCargaGrid(ObjetoConfiguracion.UrlCargaGrid);
             NucleoConfigurado.Configuracion.UrlDetalle(ObjetoConfiguracion.UrlDetalle);
             NucleoConfigurado.Configuracion.UrlCargaMasiva(ObjetoConfiguracion.UrlCargaMasiva);
             NucleoConfigurado.Configuracion.UrlDescargaDeArchivo(ObjetoConfiguracion.UrlDescargaDeArchivo);
             NucleoConfigurado.Configuracion.UrlGuardaTablaMayoreo(ObjetoConfiguracion.UrlGuardaTablaMayoreo);
             NucleoConfigurado.Configuracion.UrlCargaMayoreo(ObjetoConfiguracion.UrlCargaMayoreo);
+            NucleoConfigurado.Configuracion.UrlCargaPrecios(ObjetoConfiguracion.UrlCargaPrecios);
+            NucleoConfigurado.Configuracion.UrlPreciosActualizados(ObjetoConfiguracion.UrlPreciosActualizados);
             return NucleoConfigurado;
         }
         return {

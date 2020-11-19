@@ -1,12 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.EnterpriseServices.Internal;
-using System.Runtime.InteropServices;
 
 namespace Presentacion.Kuup.Models
 {
-        public class FuncionPerfilModel : Negocio.Kuup.Clases.ClsFuncionesPerfiles
+    public class FuncionPerfilModel : Negocio.Kuup.Clases.ClsFuncionesPerfiles
     {
         public FuncionPerfilModel() { }
         public FuncionPerfilModel(Negocio.Kuup.Clases.ClsFuncionesPerfiles FuncionesPerfiles)
@@ -50,7 +47,7 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Nombre De Pantalla")]
-        public short fNombreDePantalla
+        public String fNombreDePantalla
         {
             get { return this.NombreDePantalla; }
             set { this.NombreDePantalla = value; }
