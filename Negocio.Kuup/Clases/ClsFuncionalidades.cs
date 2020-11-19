@@ -1,19 +1,18 @@
 ﻿using Mod.Entity;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Migrations.Builders;
-using System.IO.Pipes;
 using System.Linq;
-using System.Security.Permissions;
 
 namespace Negocio.Kuup.Clases
 {
     public class ClsFuncionalidades : Interfaces.InterfazGen<ClsFuncionalidades>
     {
         public DBKuupEntities db { get; set; }
+        public short NumeroDePantallaKuup
+        {
+            get { return 8; }
+        }
         ViFuncionalidad Funcionalidad = new ViFuncionalidad();
         public short NumeroDePantalla
         {
@@ -34,6 +33,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Funcionalidad.FUN_CVE_ESTATUS; }
             set { Funcionalidad.FUN_CVE_ESTATUS = value; }
+        }
+        public String NombreDePantalla
+        {
+            get { return Funcionalidad.FUN_NOM_PANTALLA; }
+            set { Funcionalidad.FUN_NOM_PANTALLA = value; }
         }
         public String TextoDeEstatus
         {
@@ -71,7 +75,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -103,7 +107,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Delete", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }
@@ -133,7 +137,7 @@ namespace Negocio.Kuup.Clases
             }
             catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
 
             }
@@ -162,6 +166,7 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeFuncionalidad = q.FUN_NUM_FUNCIONALIDAD,
                                     NombreDeFuncionalidad = q.FUN_NOM_FUNCIONALIDAD,
                                     CveDeEstatus = q.FUN_CVE_ESTATUS,
+                                    NombreDePantalla = q.FUN_NOM_PANTALLA,
                                     TextoDeEstatus = q.FUN_TXT_ESTATUS
                                 }).ToList();
                     }

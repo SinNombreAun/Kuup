@@ -96,6 +96,7 @@
     <Content Include="Content\Fonts\Site\fa-brands-400.svg" />
     <Content Include="Content\Fonts\Site\fa-regular-400.svg" />
     <Content Include="Content\Fonts\Site\fa-solid-900.svg" />
+    <Content Include="Content\Imagenes\BlockUI\cargakuup.gif" />
     <Content Include="Content\Imagenes\Fondo\Kuup.jpeg" />
     <Content Include="Content\Imagenes\Fondo\Kuup2.jpeg" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_444444_256x240.png" />
@@ -116,7 +117,9 @@
     <Content Include="Content\Librerias\DataTables\datatables.css" />
     <Content Include="Content\Librerias\DataTables\datatables.js" />
     <Content Include="Content\Librerias\DataTables\dataTables.responsive.js" />
+    <Content Include="Content\Librerias\DataTables\dataTables.rowGroup.min.js" />
     <Content Include="Content\Librerias\DataTables\responsive.dataTables.css" />
+    <Content Include="Content\Librerias\DataTables\rowGroup.dataTables.min.css" />
     <Content Include="Content\Librerias\FullCalendar\locales\es.js" />
     <Content Include="Content\Librerias\FullCalendar\main.css" />
     <Content Include="Content\Librerias\FullCalendar\main.js" />
@@ -145,6 +148,7 @@
     <Content Include="Scripts\General\ClsTicket.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
     <Content Include="Scripts\Producto\ClsProducto.js" />
+    <Content Include="Scripts\Surtido\ClsSurtido.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
     <Content Include="Scripts\VentaTotal\ClsVentaTotal.js" />
     <Content Include="Web.config" />
@@ -157,7 +161,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\PruebaController.cs" />
+    <Compile Include="Controllers\SurtidoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Controllers\VentaTotalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -174,6 +180,7 @@
     <Compile Include="Models\SurtidoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaProducto.cs" />
+    <Compile Include="Nucleo\Funciones\ClsOperaSurtido.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaVentaTotal.cs" />
     <Compile Include="Nucleo\Motores\ClsConfiguracion.cs" />
     <Compile Include="Nucleo\Motores\ClsEnumerables.cs" />
@@ -231,6 +238,10 @@
     <Content Include="Views\Producto\Importar.cshtml" />
     <Content Include="Views\General\SubirArchivo.cshtml" />
     <Content Include="Views\VentaTotal\Index.cshtml" />
+    <Content Include="Views\Surtido\Index.cshtml" />
+    <Content Include="Views\Surtido\Alta.cshtml" />
+    <Content Include="Views\Producto\ActualizaPrecios.cshtml" />
+    <Content Include="Views\Venta\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -242,7 +253,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
     <Folder Include="Imagenes\CodigoBarras\" />
-    <Folder Include="Views\Prueba\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Funciones.Kuup\Funciones.Kuup.csproj">

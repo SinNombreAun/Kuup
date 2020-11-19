@@ -23,6 +23,7 @@ namespace Presentacion.Kuup.Models
             this.ImporteEntregado = VentaTotal.ImporteEntregado;
             this.ImporteCambio = VentaTotal.ImporteCambio;
             this.CveDeEstatus = VentaTotal.CveDeEstatus;
+            this.NombreDeUsuario = VentaTotal.NombreDeUsuario;
             this.TextoDeAplicaDescuento = VentaTotal.TextoDeAplicaDescuento;
             this.TextoDeEstatus = VentaTotal.TextoDeEstatus;
         }
@@ -96,7 +97,12 @@ namespace Presentacion.Kuup.Models
             get { return this.CveDeEstatus; }
             set { this.CveDeEstatus = value; }
         }
-        [Required]
+        [Display(Name = "Nombre de Usuario")]
+        public String fNombreDeUsuario
+        {
+            get { return this.NombreDeUsuario; }
+            set { this.NombreDeUsuario = value; }
+        }
         [Display(Name = "Aplica Descuento")]
         public String fTextoDeAplicaDescuento
         {

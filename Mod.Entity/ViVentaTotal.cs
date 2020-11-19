@@ -28,5 +28,6 @@ namespace Mod.Entity
         public byte VET_CVE_ESTATUS { get; set; }
         public string VET_TXT_APLICADESCUENTO { get; set; }
         public string VET_TXT_ESTATUS { get; set; }
+        public string VET_NOM_USUARIO { get; set; }
     }
 }

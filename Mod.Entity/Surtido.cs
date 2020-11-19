@@ -15,16 +15,18 @@ namespace Mod.Entity
     public partial class Surtido
     {
         public short SUR_FOLIO_SURTIDO { get; set; }
-        public byte SUR_NUM_PROVEEDOR { get; set; }
+        public byte SUR_CVE_APLICA_PROVEEDOR { get; set; }
+        public Nullable<byte> SUR_NUM_PROVEEDOR { get; set; }
+        public Nullable<short> SUR_NUM_USUARIO { get; set; }
         public short SUR_NUM_PRODUCTO { get; set; }
         public string SUR_CODIGO_BARRAS { get; set; }
+        public short SUR_CANT_PREVIA { get; set; }
         public short SUR_CANT_NUEVA { get; set; }
-        public decimal SUR_PRECIO_UNITARIO { get; set; }
-        public decimal SUR_COSTO_TOTAL { get; set; }
+        public Nullable<decimal> SUR_PRECIO_UNITARIO { get; set; }
+        public Nullable<decimal> SUR_COSTO_TOTAL { get; set; }
         public System.DateTime SUR_FECHA_SURTIDO { get; set; }
         public byte SUR_CVE_ESTATUS { get; set; }
     
-        public virtual Proveedor Proveedor { get; set; }
         public virtual Producto Producto { get; set; }
     }
 }
