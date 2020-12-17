@@ -1,8 +1,1 @@
-﻿function BloqueaPantalla() {
-    $.blockUI({
-        menssage: '<h1><img src="~/Content/Imagenes/cargakuup.gif" /></h1>'
-    });
-}
-function DesbloqueaPantalla() {
-    $.unblockUI();
-}
+﻿$(document).ajaxStart(function () { $.blockUI({ message: '<img src="/Content/Imagenes/BlockUI/cargakuup.gif" style="width: 60%" />' }); }).ajaxStop($.unblockUI);

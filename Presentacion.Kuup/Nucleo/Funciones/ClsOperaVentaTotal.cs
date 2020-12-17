@@ -81,6 +81,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                             {
                                                 Resultado.Resultado = false;
                                                 AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                                break;
                                             }
                                         }
                                     }

@@ -39,16 +39,23 @@ namespace Presentacion.Kuup.Controllers
             }
             return Json(Opera.RegistroDeVenta(ImporteEntregado, ImporteCambio, RegistroVenta), JsonRequestBehavior.AllowGet);
         }
-        public JsonResult CargaProducto(String NombreOCodigoDeProducto)
+        public JsonResult CargaProducto(String NombreOCodigoDeProducto, short NumeroDeProducto = 0)
         {
             List<ClsProductos> Productos = new List<ClsProductos>();
             List<ClsConfiguraPaquetes> Paquetes = new List<ClsConfiguraPaquetes>();
             ClsProductos Producto = new ClsProductos();
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
-            Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
-            if (Productos.Count == 0)
+            if (NumeroDeProducto == 0)
             {
-                Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
+                if (Productos.Count == 0)
+                {
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
+                }
+            }
+            else
+            {
+                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
             }
 
             if (Productos.Count != 0)
@@ -66,9 +73,9 @@ namespace Presentacion.Kuup.Controllers
                 Resultado.Resultado = false;
                 Resultado.Mensaje = "No fue posible encontrar el producto a registrar";
             }
-            return Json(new { Resultado, Producto, TienePaquetes = Paquetes.Count() != 0, Paquetes }, JsonRequestBehavior.AllowGet);
+            return Json(new { Resultado, Producto, TienePaquetes = Paquetes.Count() != 0, Paquetes , Productos }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ProductoParaTabla(String NombreOCodigoDeProducto, short Cantidad, String Paquetes, String RegistrosPrevios)
+        public JsonResult ProductoParaTabla(short NumeroDeProducto, short Cantidad, String Paquetes, String RegistrosPrevios)
         {
             List<ClsVentas> RegistrosPrev = ClsAdicional.Deserializar<List<ClsVentas>>(RegistrosPrevios);
             if (RegistrosPrev == null)
@@ -162,7 +169,7 @@ namespace Presentacion.Kuup.Controllers
                         {
                             NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo,
                             CodigoDeBarras = Productos.FirstOrDefault().CodigoDeBarras,
-                            CantidadDeProducto = Cantidad,
+                            CantidadDeProducto = (short)(Cantidad * ListaPaquetes.FirstOrDefault().CantidadASalir),
                             ImporteDeProducto = Math.Round(Cantidad * (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo, 2),
                             PrecioUnitario = (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo,
                             NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoHijo
@@ -175,7 +182,7 @@ namespace Presentacion.Kuup.Controllers
                         {
                             NumeroDeProducto = Previo.NumeroDeProducto,
                             CodigoDeBarras = Previo.CodigoDeBarras,
-                            CantidadDeProducto = (short)(Cantidad + Previo.CantidadDeProducto),
+                            CantidadDeProducto = (short)(((short)(Cantidad * ListaPaquetes.FirstOrDefault().CantidadASalir)) + Previo.CantidadDeProducto),
                             ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo, 2),
                             PrecioUnitario = (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo,
                             NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoHijo
@@ -186,24 +193,19 @@ namespace Presentacion.Kuup.Controllers
             else
             {
                 bool Existe = false;
-                short NumeroDeProducto = 0;
-                if (RegistrosPrev.Exists(x => x.CodigoDeBarras == NombreOCodigoDeProducto))
+                if (RegistrosPrev.Exists(x => x.NumeroDeProducto == NumeroDeProducto))
                 {
-                    NumeroDeProducto = RegistrosPrev.Where(x => x.CodigoDeBarras == NombreOCodigoDeProducto).FirstOrDefault().NumeroDeProducto;
+                    NumeroDeProducto = RegistrosPrev.Where(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault().NumeroDeProducto;
                     Existe = true;
                 }
-                else if (RegistrosPrev.Exists(x => x.NombreDeProducto == NombreOCodigoDeProducto))
+                else if (RegistrosPrev.Exists(x => x.NumeroDeProducto == NumeroDeProducto))
                 {
-                    NumeroDeProducto = RegistrosPrev.Where(x => x.NombreDeProducto == NombreOCodigoDeProducto).FirstOrDefault().NumeroDeProducto;
+                    NumeroDeProducto = RegistrosPrev.Where(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault().NumeroDeProducto;
                     Existe = true;
                 }
                 if (!Existe)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
-                    if (Productos.Count == 0)
-                    {
-                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
-                    }
+                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
                     if (Productos.Count != 0)
                     {
                         decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
@@ -335,36 +337,7 @@ namespace Presentacion.Kuup.Controllers
         }
         public JsonResult AutoCompleteProducto(String Prefix)
         {
-            List<ClsProductos> Productos = new List<ClsProductos>();
-            ClsParametros Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ActivaLike" select q).ToList().FirstOrDefault();
-            if (Parametro != null)
-            {
-                if (Parametro.ValorDeParametro == "SI")
-                {
-                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                    if (Productos.Count == 0)
-                    {
-                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                    }
-                }
-                else
-                {
-                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                    if (Productos.Count == 0)
-                    {
-                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                    }
-                }
-            }
-            else
-            {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                if (Productos.Count == 0)
-                {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                }
-            }
-            return Json(Productos, JsonRequestBehavior.AllowGet);
+            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix), JsonRequestBehavior.AllowGet);
         }
     }
 }

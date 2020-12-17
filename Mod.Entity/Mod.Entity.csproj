@@ -69,7 +69,13 @@
     <Compile Include="ConfiguraMayoreo.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ConfiguraMayoreoAudit.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="ConfiguraPaquete.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConfiguraPaqueteAudit.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Funcionalidad.cs">
@@ -113,6 +119,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Producto.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductoAudit.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

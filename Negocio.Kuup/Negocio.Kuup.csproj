@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\ClsAgenda.cs" />
+    <Compile Include="Clases\ClsAudit.cs" />
     <Compile Include="Clases\ClsBitacora.cs" />
     <Compile Include="Clases\ClsClaves.cs" />
     <Compile Include="Clases\ClsCodigosDeBarras.cs" />

@@ -51,8 +51,6 @@ namespace Mod.Entity
         public virtual DbSet<ViCodigoDeBarras> ViCodigoDeBarras { get; set; }
         public virtual DbSet<CodigoDeBarras> CodigoDeBarras { get; set; }
         public virtual DbSet<Pantalla> Pantalla { get; set; }
-        public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
-        public virtual DbSet<ViConfiguraPaquete> ViConfiguraPaquete { get; set; }
         public virtual DbSet<IPRegistradas> IPRegistradas { get; set; }
         public virtual DbSet<Venta> Venta { get; set; }
         public virtual DbSet<ViIPRegistradas> ViIPRegistradas { get; set; }
@@ -69,5 +67,10 @@ namespace Mod.Entity
         public virtual DbSet<ViFuncionalidad> ViFuncionalidad { get; set; }
         public virtual DbSet<ViFuncionPerfil> ViFuncionPerfil { get; set; }
         public virtual DbSet<ViVenta> ViVenta { get; set; }
+        public virtual DbSet<ViConfiguraPaquete> ViConfiguraPaquete { get; set; }
+        public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
+        public virtual DbSet<ConfiguraMayoreoAudit> ConfiguraMayoreoAudit { get; set; }
+        public virtual DbSet<ConfiguraPaqueteAudit> ConfiguraPaqueteAudit { get; set; }
+        public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
     }
 }

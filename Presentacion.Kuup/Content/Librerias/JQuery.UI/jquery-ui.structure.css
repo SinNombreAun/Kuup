@@ -107,11 +107,24 @@
 	border-top: 0;
 	overflow: auto;
 }
+/*.ui-autocomplete {
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: default;
+}*/
 .ui-autocomplete {
 	position: absolute;
 	top: 0;
 	left: 0;
 	cursor: default;
+	max-height: 400px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+* html .ui-autocomplete {
+	height: 100px;
 }
 .ui-menu {
 	list-style: none;
