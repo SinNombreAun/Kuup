@@ -87,16 +87,70 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definid
           <Property Name="COM_CANTIDAD_MAXIMA" Type="tinyint" />
           <Property Name="COM_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" Nullable="false" />
         </EntityType>
+        <EntityType Name="ConfiguraMayoreoAudit">
+          <Key>
+            <PropertyRef Name="COM_ID_AUDIT" />
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="COM_ID_AUDIT" Type="smallint" Nullable="false" />
+          <Property Name="COM_TERMINAL" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="COM_IP" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="COM_VERSION" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="COM_NOM_USUARIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COM_FECHA_BASE" Type="datetime" Nullable="false" />
+          <Property Name="COM_NOM_FUNCIONALIDAD" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="COM_NUM_MAYOREO" Type="smallint" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="smallint" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="tinyint" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="tinyint" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="COM_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="ConfiguraPaquete">
           <Key>
             <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
             <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
           </Key>
           <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="tinyint" Nullable="false" />
           <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="numeric" Precision="12" Scale="2" />
           <Property Name="CNP_IMPORTE_TOTAL" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConfiguraPaqueteAudit">
+          <Key>
+            <PropertyRef Name="CNP_ID_AUDIT" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+          </Key>
+          <Property Name="CNP_ID_AUDIT" Type="smallint" Nullable="false" />
+          <Property Name="CNP_TERMINAL" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="CNP_IP" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CNP_VERSION" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CNP_NOM_USUARIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNP_FECHA_BASE" Type="datetime" Nullable="false" />
+          <Property Name="CNP_NOM_FUNCIONALIDAD" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="tinyint" Nullable="false" />
+          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="numeric" Precision="12" Scale="2" />
+          <Property Name="CNP_IMPORTE_TOTAL" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="CNP_NOM_PRODUCTO_PADRE" Type="nvarchar" MaxLength="200" />
+          <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Funcionalidad">
           <Key>
@@ -201,6 +255,38 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definid
           <Property Name="PRO_NUM_PROVEEDOR" Type="tinyint" />
           <Property Name="PRO_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
           <Property Name="PRO_CVE_ESTATUS" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoAudit">
+          <Key>
+            <PropertyRef Name="PRO_ID_AUDIT" />
+            <PropertyRef Name="PRO_NUM_PRODUCTO" />
+            <PropertyRef Name="PRO_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="PRO_ID_AUDIT" Type="smallint" Nullable="false" />
+          <Property Name="PRO_TERMINAL" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PRO_IP" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PRO_VERSION" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PRO_NOM_USUARIO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PRO_FECHA_BASE" Type="datetime" Nullable="false" />
+          <Property Name="PRO_NOM_FUNCIONALIDAD" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="PRO_NUM_PRODUCTO" Type="smallint" Nullable="false" />
+          <Property Name="PRO_CODIGO_BARRAS" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PRO_FECHA_REGISTRO" Type="date" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="smallint" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="smallint" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="smallint" Nullable="false" />
+          <Property Name="PRO_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="PRO_DESCRIPCION" Type="nvarchar" MaxLength="500" />
+          <Property Name="PRO_CVE_AVISO" Type="tinyint" Nullable="false" />
+          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="tinyint" Nullable="false" />
+          <Property Name="PRO_CAT_MINIMA" Type="smallint" Nullable="false" />
+          <Property Name="PRO_NUM_PROVEEDOR" Type="tinyint" />
+          <Property Name="PRO_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
+          <Property Name="PRO_CVE_ESTATUS" Type="tinyint" Nullable="false" />
+          <Property Name="PRO_TXT_AVISO" Type="nvarchar" MaxLength="150" />
+          <Property Name="PRO_TXT_CORREO_SURTIDO" Type="nvarchar" MaxLength="150" />
+          <Property Name="PRO_NOM_PROVEEDOR" Type="nvarchar" MaxLength="150" />
+          <Property Name="PRO_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -424,16 +510,22 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViConfiguraPaquete' no tiene def
         <EntityType Name="ViConfiguraPaquete">
           <Key>
             <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
             <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
             <PropertyRef Name="CNP_PRECIO_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CANTIDAD_A_SALIR" />
             <PropertyRef Name="CNP_IMPORTE_TOTAL" />
             <PropertyRef Name="CNP_NOM_PRODUCTO_PADRE" />
             <PropertyRef Name="CNP_NOM_PRODUCTO_HIJO" />
           </Key>
           <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="smallint" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="numeric" Precision="12" Scale="2" Nullable="false" />
           <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="numeric" Precision="12" Scale="2" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="tinyint" Nullable="false" />
           <Property Name="CNP_IMPORTE_TOTAL" Type="numeric" Precision="12" Scale="2" Nullable="false" />
           <Property Name="CNP_NOM_PRODUCTO_PADRE" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -834,6 +926,34 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ConfiguraPaquete_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ConfiguraPaquete" Type="Self.ConfiguraPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraPaquete">
+              <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+              <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfiguraPaquete_Producto2">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ConfiguraPaquete" Type="Self.ConfiguraPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraPaquete">
+              <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+              <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Funcionalidad_Pantalla">
           <End Role="Pantalla" Type="Self.Pantalla" Multiplicity="1" />
           <End Role="Funcionalidad" Type="Self.Funcionalidad" Multiplicity="*" />
@@ -990,7 +1110,9 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="Claves" EntityType="Self.Claves" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="CodigoDeBarras" EntityType="Self.CodigoDeBarras" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="ConfiguraMayoreo" EntityType="Self.ConfiguraMayoreo" Schema="Kuup" store:Type="Tables" />
+          <EntitySet Name="ConfiguraMayoreoAudit" EntityType="Self.ConfiguraMayoreoAudit" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="ConfiguraPaquete" EntityType="Self.ConfiguraPaquete" Schema="Kuup" store:Type="Tables" />
+          <EntitySet Name="ConfiguraPaqueteAudit" EntityType="Self.ConfiguraPaqueteAudit" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Funcionalidad" EntityType="Self.Funcionalidad" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="FuncionPerfil" EntityType="Self.FuncionPerfil" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="IPRegistradas" EntityType="Self.IPRegistradas" Schema="Kuup" store:Type="Tables" />
@@ -1000,6 +1122,7 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="Parametro" EntityType="Self.Parametro" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="Kuup" store:Type="Tables" />
+          <EntitySet Name="ProductoAudit" EntityType="Self.ProductoAudit" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Surtido" EntityType="Self.Surtido" Schema="Kuup" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="Kuup" store:Type="Tables" />
@@ -1097,9 +1220,12 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="ViConfiguraPaquete" EntityType="Self.ViConfiguraPaquete" store:Type="Views" store:Schema="Kuup">
             <DefiningQuery>SELECT 
     [ViConfiguraPaquete].[CNP_NUM_PRODUCTO_PADRE] AS [CNP_NUM_PRODUCTO_PADRE], 
+    [ViConfiguraPaquete].[CNP_CODIGO_BARRAS_PADRE] AS [CNP_CODIGO_BARRAS_PADRE], 
     [ViConfiguraPaquete].[CNP_NUM_PRODUCTO_HIJO] AS [CNP_NUM_PRODUCTO_HIJO], 
+    [ViConfiguraPaquete].[CNP_CODIGO_BARRAS_HIJO] AS [CNP_CODIGO_BARRAS_HIJO], 
     [ViConfiguraPaquete].[CNP_PRECIO_PRODUCTO_PADRE] AS [CNP_PRECIO_PRODUCTO_PADRE], 
     [ViConfiguraPaquete].[CNP_PRECIO_PRODUCTO_HIJO] AS [CNP_PRECIO_PRODUCTO_HIJO], 
+    [ViConfiguraPaquete].[CNP_CANTIDAD_A_SALIR] AS [CNP_CANTIDAD_A_SALIR], 
     [ViConfiguraPaquete].[CNP_IMPORTE_TOTAL] AS [CNP_IMPORTE_TOTAL], 
     [ViConfiguraPaquete].[CNP_NOM_PRODUCTO_PADRE] AS [CNP_NOM_PRODUCTO_PADRE], 
     [ViConfiguraPaquete].[CNP_NOM_PRODUCTO_HIJO] AS [CNP_NOM_PRODUCTO_HIJO]
@@ -1325,6 +1451,14 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <AssociationSet Name="FK_ConfiguraMayoreo_Producto" Association="Self.FK_ConfiguraMayoreo_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="ConfiguraMayoreo" EntitySet="ConfiguraMayoreo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfiguraPaquete_Producto" Association="Self.FK_ConfiguraPaquete_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraPaquete" EntitySet="ConfiguraPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfiguraPaquete_Producto2" Association="Self.FK_ConfiguraPaquete_Producto2">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraPaquete" EntitySet="ConfiguraPaquete" />
           </AssociationSet>
           <AssociationSet Name="FK_Funcionalidad_Pantalla" Association="Self.FK_Funcionalidad_Pantalla">
             <End Role="Pantalla" EntitySet="Pantalla" />
@@ -1881,8 +2015,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <End Role="Pantalla" EntitySet="Pantalla" />
             <End Role="PantallaPerfil" EntitySet="PantallaPerfil" />
           </AssociationSet>
-          <EntitySet Name="ConfiguraPaquete" EntityType="DBKuupModel.ConfiguraPaquete" />
-          <EntitySet Name="ViConfiguraPaquete" EntityType="DBKuupModel.ViConfiguraPaquete" />
           <EntitySet Name="IPRegistradas" EntityType="DBKuupModel.IPRegistradas" />
           <EntitySet Name="Venta" EntityType="DBKuupModel.Venta" />
           <EntitySet Name="ViIPRegistradas" EntityType="DBKuupModel.ViIPRegistradas" />
@@ -1931,6 +2063,19 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <EntitySet Name="ViFuncionalidad" EntityType="DBKuupModel.ViFuncionalidad" />
           <EntitySet Name="ViFuncionPerfil" EntityType="DBKuupModel.ViFuncionPerfil" />
           <EntitySet Name="ViVenta" EntityType="DBKuupModel.ViVenta" />
+          <EntitySet Name="ViConfiguraPaquete" EntityType="DBKuupModel.ViConfiguraPaquete" />
+          <EntitySet Name="ConfiguraPaquete" EntityType="DBKuupModel.ConfiguraPaquete" />
+          <AssociationSet Name="FK_ConfiguraPaquete_Producto" Association="DBKuupModel.FK_ConfiguraPaquete_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraPaquete" EntitySet="ConfiguraPaquete" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConfiguraPaquete_Producto2" Association="DBKuupModel.FK_ConfiguraPaquete_Producto2">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConfiguraPaquete" EntitySet="ConfiguraPaquete" />
+          </AssociationSet>
+          <EntitySet Name="ConfiguraMayoreoAudit" EntityType="DBKuupModel.ConfiguraMayoreoAudit" />
+          <EntitySet Name="ConfiguraPaqueteAudit" EntityType="DBKuupModel.ConfiguraPaqueteAudit" />
+          <EntitySet Name="ProductoAudit" EntityType="DBKuupModel.ProductoAudit" />
           </EntityContainer>
         <EntityType Name="ViCodigoDeBarras">
           <Key>
@@ -2012,34 +2157,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ConfiguraPaquete">
-          <Key>
-            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
-            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
-          </Key>
-          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="Int16" Nullable="false" />
-          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="Int16" Nullable="false" />
-          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
-          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="Decimal" Precision="12" Scale="2" />
-          <Property Name="CNP_IMPORTE_TOTAL" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
-        </EntityType>
-        <EntityType Name="ViConfiguraPaquete">
-          <Key>
-            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
-            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
-            <PropertyRef Name="CNP_PRECIO_PRODUCTO_PADRE" />
-            <PropertyRef Name="CNP_IMPORTE_TOTAL" />
-            <PropertyRef Name="CNP_NOM_PRODUCTO_PADRE" />
-            <PropertyRef Name="CNP_NOM_PRODUCTO_HIJO" />
-          </Key>
-          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="Int16" Nullable="false" />
-          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="Int16" Nullable="false" />
-          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
-          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="Decimal" Precision="12" Scale="2" />
-          <Property Name="CNP_IMPORTE_TOTAL" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
-          <Property Name="CNP_NOM_PRODUCTO_PADRE" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="IPRegistradas">
           <Key>
             <PropertyRef Name="IPR_NUM_USUARIO" />
@@ -2233,7 +2350,9 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <NavigationProperty Name="Venta" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Producto" ToRole="Venta" />
           <NavigationProperty Name="ConfiguraMayoreo" Relationship="DBKuupModel.FK_ConfiguraMayoreo_Producto" FromRole="Producto" ToRole="ConfiguraMayoreo" />
           <NavigationProperty Name="Surtido" Relationship="DBKuupModel.FK_Surtido_Producto" FromRole="Producto" ToRole="Surtido" />
-        </EntityType>
+          <NavigationProperty Name="ConfiguraPaquete" Relationship="DBKuupModel.FK_ConfiguraPaquete_Producto" FromRole="Producto" ToRole="ConfiguraPaquete" />
+          <NavigationProperty Name="ConfiguraPaquete1" Relationship="DBKuupModel.FK_ConfiguraPaquete_Producto2" FromRole="Producto" ToRole="ConfiguraPaquete" />
+          </EntityType>
         <EntityType Name="ViProducto">
           <Key>
             <PropertyRef Name="PRO_NUM_PRODUCTO" />
@@ -2459,6 +2578,156 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
           <Property Name="VEN_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViConfiguraPaquete">
+          <Key>
+            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+            <PropertyRef Name="CNP_PRECIO_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CANTIDAD_A_SALIR" />
+            <PropertyRef Name="CNP_IMPORTE_TOTAL" />
+            <PropertyRef Name="CNP_NOM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_NOM_PRODUCTO_HIJO" />
+          </Key>
+          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="Byte" Nullable="false" />
+          <Property Name="CNP_IMPORTE_TOTAL" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="CNP_NOM_PRODUCTO_PADRE" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ConfiguraPaquete">
+          <Key>
+            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+          </Key>
+          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="Byte" Nullable="false" />
+          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="CNP_IMPORTE_TOTAL" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_ConfiguraPaquete_Producto" FromRole="ConfiguraPaquete" ToRole="Producto" />
+          <NavigationProperty Name="Producto1" Relationship="DBKuupModel.FK_ConfiguraPaquete_Producto2" FromRole="ConfiguraPaquete" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_ConfiguraPaquete_Producto">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.ConfiguraPaquete" Role="ConfiguraPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraPaquete">
+              <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+              <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConfiguraPaquete_Producto2">
+          <End Type="DBKuupModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DBKuupModel.ConfiguraPaquete" Role="ConfiguraPaquete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="PRO_NUM_PRODUCTO" />
+              <PropertyRef Name="PRO_CODIGO_BARRAS" />
+            </Principal>
+            <Dependent Role="ConfiguraPaquete">
+              <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+              <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ConfiguraMayoreoAudit">
+          <Key>
+            <PropertyRef Name="COM_ID_AUDIT" />
+            <PropertyRef Name="COM_NUM_MAYOREO" />
+            <PropertyRef Name="COM_NUM_PRODUCTO" />
+            <PropertyRef Name="COM_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="COM_ID_AUDIT" Type="Int16" Nullable="false" />
+          <Property Name="COM_TERMINAL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="COM_IP" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="COM_VERSION" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="COM_NOM_USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COM_FECHA_BASE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="COM_NOM_FUNCIONALIDAD" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="COM_NUM_MAYOREO" Type="Int16" Nullable="false" />
+          <Property Name="COM_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="COM_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COM_CVE_APLICA_PAQUETES" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MINIMA" Type="Byte" Nullable="false" />
+          <Property Name="COM_CANTIDAD_MAXIMA" Type="Byte" />
+          <Property Name="COM_PRECIO_MAYOREO" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="COM_NOM_PRODUCTO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ConfiguraPaqueteAudit">
+          <Key>
+            <PropertyRef Name="CNP_ID_AUDIT" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_PADRE" />
+            <PropertyRef Name="CNP_NUM_PRODUCTO_HIJO" />
+            <PropertyRef Name="CNP_CODIGO_BARRAS_HIJO" />
+          </Key>
+          <Property Name="CNP_ID_AUDIT" Type="Int16" Nullable="false" />
+          <Property Name="CNP_TERMINAL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_IP" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_VERSION" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NOM_USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_FECHA_BASE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CNP_NOM_FUNCIONALIDAD" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NUM_PRODUCTO_PADRE" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_PADRE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NUM_PRODUCTO_HIJO" Type="Int16" Nullable="false" />
+          <Property Name="CNP_CODIGO_BARRAS_HIJO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_PRECIO_PRODUCTO_PADRE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="CNP_CANTIDAD_A_SALIR" Type="Byte" Nullable="false" />
+          <Property Name="CNP_PRECIO_PRODUCTO_HIJO" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="CNP_IMPORTE_TOTAL" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="CNP_NOM_PRODUCTO_PADRE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProductoAudit">
+          <Key>
+            <PropertyRef Name="PRO_ID_AUDIT" />
+            <PropertyRef Name="PRO_NUM_PRODUCTO" />
+            <PropertyRef Name="PRO_CODIGO_BARRAS" />
+          </Key>
+          <Property Name="PRO_ID_AUDIT" Type="Int16" Nullable="false" />
+          <Property Name="PRO_TERMINAL" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_IP" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_VERSION" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_NOM_USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_FECHA_BASE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRO_NOM_FUNCIONALIDAD" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_NUM_PRODUCTO" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CODIGO_BARRAS" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_FECHA_REGISTRO" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PRO_CANT_PRODUCTO_ULTIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_NUEVA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_CANT_PRODUCTO_TOTAL" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_DESCRIPCION" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_CVE_AVISO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CVE_CORREO_SURTIDO" Type="Byte" Nullable="false" />
+          <Property Name="PRO_CAT_MINIMA" Type="Int16" Nullable="false" />
+          <Property Name="PRO_NUM_PROVEEDOR" Type="Byte" />
+          <Property Name="PRO_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
+          <Property Name="PRO_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <Property Name="PRO_TXT_AVISO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_TXT_CORREO_SURTIDO" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_NOM_PROVEEDOR" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PRO_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2803,30 +3072,6 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ConfiguraPaquete">
-            <EntityTypeMapping TypeName="DBKuupModel.ConfiguraPaquete">
-              <MappingFragment StoreEntitySet="ConfiguraPaquete">
-                <ScalarProperty Name="CNP_IMPORTE_TOTAL" ColumnName="CNP_IMPORTE_TOTAL" />
-                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_HIJO" ColumnName="CNP_PRECIO_PRODUCTO_HIJO" />
-                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_PADRE" ColumnName="CNP_PRECIO_PRODUCTO_PADRE" />
-                <ScalarProperty Name="CNP_NUM_PRODUCTO_HIJO" ColumnName="CNP_NUM_PRODUCTO_HIJO" />
-                <ScalarProperty Name="CNP_NUM_PRODUCTO_PADRE" ColumnName="CNP_NUM_PRODUCTO_PADRE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViConfiguraPaquete">
-            <EntityTypeMapping TypeName="DBKuupModel.ViConfiguraPaquete">
-              <MappingFragment StoreEntitySet="ViConfiguraPaquete">
-                <ScalarProperty Name="CNP_NOM_PRODUCTO_HIJO" ColumnName="CNP_NOM_PRODUCTO_HIJO" />
-                <ScalarProperty Name="CNP_NOM_PRODUCTO_PADRE" ColumnName="CNP_NOM_PRODUCTO_PADRE" />
-                <ScalarProperty Name="CNP_IMPORTE_TOTAL" ColumnName="CNP_IMPORTE_TOTAL" />
-                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_HIJO" ColumnName="CNP_PRECIO_PRODUCTO_HIJO" />
-                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_PADRE" ColumnName="CNP_PRECIO_PRODUCTO_PADRE" />
-                <ScalarProperty Name="CNP_NUM_PRODUCTO_HIJO" ColumnName="CNP_NUM_PRODUCTO_HIJO" />
-                <ScalarProperty Name="CNP_NUM_PRODUCTO_PADRE" ColumnName="CNP_NUM_PRODUCTO_PADRE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="IPRegistradas">
             <EntityTypeMapping TypeName="DBKuupModel.IPRegistradas">
               <MappingFragment StoreEntitySet="IPRegistradas">
@@ -3074,6 +3319,111 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
                 <ScalarProperty Name="VEN_CODIGO_BARRAS" ColumnName="VEN_CODIGO_BARRAS" />
                 <ScalarProperty Name="VEN_NUM_PRODUCTO" ColumnName="VEN_NUM_PRODUCTO" />
                 <ScalarProperty Name="VEN_FOLIO_OPERACION" ColumnName="VEN_FOLIO_OPERACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViConfiguraPaquete">
+            <EntityTypeMapping TypeName="DBKuupModel.ViConfiguraPaquete">
+              <MappingFragment StoreEntitySet="ViConfiguraPaquete">
+                <ScalarProperty Name="CNP_NOM_PRODUCTO_HIJO" ColumnName="CNP_NOM_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_NOM_PRODUCTO_PADRE" ColumnName="CNP_NOM_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_IMPORTE_TOTAL" ColumnName="CNP_IMPORTE_TOTAL" />
+                <ScalarProperty Name="CNP_CANTIDAD_A_SALIR" ColumnName="CNP_CANTIDAD_A_SALIR" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_HIJO" ColumnName="CNP_PRECIO_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_PADRE" ColumnName="CNP_PRECIO_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_HIJO" ColumnName="CNP_CODIGO_BARRAS_HIJO" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_HIJO" ColumnName="CNP_NUM_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_PADRE" ColumnName="CNP_CODIGO_BARRAS_PADRE" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_PADRE" ColumnName="CNP_NUM_PRODUCTO_PADRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguraPaquete">
+            <EntityTypeMapping TypeName="DBKuupModel.ConfiguraPaquete">
+              <MappingFragment StoreEntitySet="ConfiguraPaquete">
+                <ScalarProperty Name="CNP_IMPORTE_TOTAL" ColumnName="CNP_IMPORTE_TOTAL" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_HIJO" ColumnName="CNP_PRECIO_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_CANTIDAD_A_SALIR" ColumnName="CNP_CANTIDAD_A_SALIR" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_PADRE" ColumnName="CNP_PRECIO_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_HIJO" ColumnName="CNP_CODIGO_BARRAS_HIJO" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_HIJO" ColumnName="CNP_NUM_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_PADRE" ColumnName="CNP_CODIGO_BARRAS_PADRE" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_PADRE" ColumnName="CNP_NUM_PRODUCTO_PADRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguraMayoreoAudit">
+            <EntityTypeMapping TypeName="DBKuupModel.ConfiguraMayoreoAudit">
+              <MappingFragment StoreEntitySet="ConfiguraMayoreoAudit">
+                <ScalarProperty Name="COM_NOM_PRODUCTO" ColumnName="COM_NOM_PRODUCTO" />
+                <ScalarProperty Name="COM_PRECIO_MAYOREO" ColumnName="COM_PRECIO_MAYOREO" />
+                <ScalarProperty Name="COM_CANTIDAD_MAXIMA" ColumnName="COM_CANTIDAD_MAXIMA" />
+                <ScalarProperty Name="COM_CANTIDAD_MINIMA" ColumnName="COM_CANTIDAD_MINIMA" />
+                <ScalarProperty Name="COM_CVE_APLICA_PAQUETES" ColumnName="COM_CVE_APLICA_PAQUETES" />
+                <ScalarProperty Name="COM_CODIGO_BARRAS" ColumnName="COM_CODIGO_BARRAS" />
+                <ScalarProperty Name="COM_NUM_PRODUCTO" ColumnName="COM_NUM_PRODUCTO" />
+                <ScalarProperty Name="COM_NUM_MAYOREO" ColumnName="COM_NUM_MAYOREO" />
+                <ScalarProperty Name="COM_NOM_FUNCIONALIDAD" ColumnName="COM_NOM_FUNCIONALIDAD" />
+                <ScalarProperty Name="COM_FECHA_BASE" ColumnName="COM_FECHA_BASE" />
+                <ScalarProperty Name="COM_NOM_USUARIO" ColumnName="COM_NOM_USUARIO" />
+                <ScalarProperty Name="COM_VERSION" ColumnName="COM_VERSION" />
+                <ScalarProperty Name="COM_IP" ColumnName="COM_IP" />
+                <ScalarProperty Name="COM_TERMINAL" ColumnName="COM_TERMINAL" />
+                <ScalarProperty Name="COM_ID_AUDIT" ColumnName="COM_ID_AUDIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguraPaqueteAudit">
+            <EntityTypeMapping TypeName="DBKuupModel.ConfiguraPaqueteAudit">
+              <MappingFragment StoreEntitySet="ConfiguraPaqueteAudit">
+                <ScalarProperty Name="CNP_NOM_PRODUCTO_HIJO" ColumnName="CNP_NOM_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_NOM_PRODUCTO_PADRE" ColumnName="CNP_NOM_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_IMPORTE_TOTAL" ColumnName="CNP_IMPORTE_TOTAL" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_HIJO" ColumnName="CNP_PRECIO_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_CANTIDAD_A_SALIR" ColumnName="CNP_CANTIDAD_A_SALIR" />
+                <ScalarProperty Name="CNP_PRECIO_PRODUCTO_PADRE" ColumnName="CNP_PRECIO_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_HIJO" ColumnName="CNP_CODIGO_BARRAS_HIJO" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_HIJO" ColumnName="CNP_NUM_PRODUCTO_HIJO" />
+                <ScalarProperty Name="CNP_CODIGO_BARRAS_PADRE" ColumnName="CNP_CODIGO_BARRAS_PADRE" />
+                <ScalarProperty Name="CNP_NUM_PRODUCTO_PADRE" ColumnName="CNP_NUM_PRODUCTO_PADRE" />
+                <ScalarProperty Name="CNP_NOM_FUNCIONALIDAD" ColumnName="CNP_NOM_FUNCIONALIDAD" />
+                <ScalarProperty Name="CNP_FECHA_BASE" ColumnName="CNP_FECHA_BASE" />
+                <ScalarProperty Name="CNP_NOM_USUARIO" ColumnName="CNP_NOM_USUARIO" />
+                <ScalarProperty Name="CNP_VERSION" ColumnName="CNP_VERSION" />
+                <ScalarProperty Name="CNP_IP" ColumnName="CNP_IP" />
+                <ScalarProperty Name="CNP_TERMINAL" ColumnName="CNP_TERMINAL" />
+                <ScalarProperty Name="CNP_ID_AUDIT" ColumnName="CNP_ID_AUDIT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoAudit">
+            <EntityTypeMapping TypeName="DBKuupModel.ProductoAudit">
+              <MappingFragment StoreEntitySet="ProductoAudit">
+                <ScalarProperty Name="PRO_TXT_ESTATUS" ColumnName="PRO_TXT_ESTATUS" />
+                <ScalarProperty Name="PRO_NOM_PROVEEDOR" ColumnName="PRO_NOM_PROVEEDOR" />
+                <ScalarProperty Name="PRO_TXT_CORREO_SURTIDO" ColumnName="PRO_TXT_CORREO_SURTIDO" />
+                <ScalarProperty Name="PRO_TXT_AVISO" ColumnName="PRO_TXT_AVISO" />
+                <ScalarProperty Name="PRO_CVE_ESTATUS" ColumnName="PRO_CVE_ESTATUS" />
+                <ScalarProperty Name="PRO_PRECIO_UNITARIO" ColumnName="PRO_PRECIO_UNITARIO" />
+                <ScalarProperty Name="PRO_NUM_PROVEEDOR" ColumnName="PRO_NUM_PROVEEDOR" />
+                <ScalarProperty Name="PRO_CAT_MINIMA" ColumnName="PRO_CAT_MINIMA" />
+                <ScalarProperty Name="PRO_CVE_CORREO_SURTIDO" ColumnName="PRO_CVE_CORREO_SURTIDO" />
+                <ScalarProperty Name="PRO_CVE_AVISO" ColumnName="PRO_CVE_AVISO" />
+                <ScalarProperty Name="PRO_DESCRIPCION" ColumnName="PRO_DESCRIPCION" />
+                <ScalarProperty Name="PRO_NOM_PRODUCTO" ColumnName="PRO_NOM_PRODUCTO" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_TOTAL" ColumnName="PRO_CANT_PRODUCTO_TOTAL" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_NUEVA" ColumnName="PRO_CANT_PRODUCTO_NUEVA" />
+                <ScalarProperty Name="PRO_CANT_PRODUCTO_ULTIMA" ColumnName="PRO_CANT_PRODUCTO_ULTIMA" />
+                <ScalarProperty Name="PRO_FECHA_REGISTRO" ColumnName="PRO_FECHA_REGISTRO" />
+                <ScalarProperty Name="PRO_CODIGO_BARRAS" ColumnName="PRO_CODIGO_BARRAS" />
+                <ScalarProperty Name="PRO_NUM_PRODUCTO" ColumnName="PRO_NUM_PRODUCTO" />
+                <ScalarProperty Name="PRO_NOM_FUNCIONALIDAD" ColumnName="PRO_NOM_FUNCIONALIDAD" />
+                <ScalarProperty Name="PRO_FECHA_BASE" ColumnName="PRO_FECHA_BASE" />
+                <ScalarProperty Name="PRO_NOM_USUARIO" ColumnName="PRO_NOM_USUARIO" />
+                <ScalarProperty Name="PRO_VERSION" ColumnName="PRO_VERSION" />
+                <ScalarProperty Name="PRO_IP" ColumnName="PRO_IP" />
+                <ScalarProperty Name="PRO_TERMINAL" ColumnName="PRO_TERMINAL" />
+                <ScalarProperty Name="PRO_ID_AUDIT" ColumnName="PRO_ID_AUDIT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -12,8 +12,10 @@
                 RegistraVenta: 'RegistraVenta',
                 ImporteRecibido: 'fImporteRecibido',
                 ImporteTotalVent: 'fImporteTotalVent',
+                MasDeUnProducto: 'MasDeUnProducto',
                 ImporteCambio: 'fImporteCambio',
                 NombreDeProducto: 'fNombreDeProducto',
+                ProductosSelect: 'fProductosSelect',
                 Tabla: 'Tabla'
             };
             let Funcionalidad = '',
@@ -159,6 +161,7 @@
                                     type: "POST",
                                     dataType: "json",
                                     data: { Prefix: request.term },
+                                    async: false,
                                     success: function (data) {
                                         try {
                                             response($.map(data, function (item) {
@@ -177,7 +180,7 @@
                         $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).keydown(function (event) {
                             let keycode = (event.keyCode ? event.keyCode : event.which);
                             if (keycode == 13) {
-                                ConsultaProducto();
+                                ConsultaProducto(0);
                             }
                         });
                         $('#' + Elementos_VentaTotal.VentaTotal).click(function () {
@@ -202,37 +205,72 @@
                         break;
                 }
             }
-            function ConsultaProducto() {
+            function ConsultaProducto(NumeroDeProducto) {
                 $.ajax({
                     type: "POST",
                     url: UrlCargaProducto,
-                    async: false,
-                    data: { NombreOCodigoDeProducto: $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val() },
+                    async: true,
+                    data: { NombreOCodigoDeProducto: $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val(), NumeroDeProducto: NumeroDeProducto},
                     success: function (data) {
                         if (data.Resultado.Resultado) {
-                            let DimencionesX = 500, DimencionesY = 260;
-                            if (data.TienePaquetes) {
-                                $('#' + Elementos_VentaTotal.Paquetes + ' option:gt(0)').remove();
-                                $.each(data.Paquetes, function (index, value) {
-                                    $('#' + Elementos_VentaTotal.Paquetes).append($('<option></option>').attr('value', value.NumeroDeProductoPadre + '_' + value.NumeroDeProductoHijo).text(value.NombreDeProductoPadre + ' con ' + value.NombreDeProductoHijo));
+                            if (data.Productos.length > 1) {
+                                $('#' + Elementos_VentaTotal.ProductosSelect + ' option:gt(0)').remove();
+                                $.each(data.Productos, function (index, value) {
+                                    $('#' + Elementos_VentaTotal.ProductosSelect).append($('<option></option>').attr('value', value.NumeroDeProducto).text(value.CodigoDeBarras + ' - ' + value.NombreDeProducto));
                                 });
-                                DimencionesX = 700;
-                                DimencionesY = 350;
-                                $('#' + Elementos_VentaTotal.Paquetes).parent().parent().show();
+                                CreaDialog(Elementos_VentaTotal.MasDeUnProducto, 'Selecciona Producto', {
+                                    'Cancelar': {
+                                        id: 'Cancelar',
+                                        text: 'Cancelar',
+                                        class: 'btn btn-danger',
+                                        click: function () {
+                                            $('#' + Elementos_VentaTotal.MasDeUnProducto).dialog('close');
+                                        }
+                                    },
+                                    'Agregar': {
+                                        id: 'Agregar',
+                                        text: 'Agregar',
+                                        class: 'btn btn-primary',
+                                        click: function () {
+                                            if ($('#' + Elementos_VentaTotal.ProductosSelect).val() != 0) {
+                                                ConsultaProducto($('#' + Elementos_VentaTotal.ProductosSelect).val());
+                                                $('#' + Elementos_VentaTotal.MasDeUnProducto).dialog('close');
+                                            } else {
+                                                alertify.error('No se ha seleccionado ningun producto', 0);
+                                            }
+                                        }
+                                    }
+                                }, 500, 260);
+                                $('#' + Elementos_VentaTotal.MasDeUnProducto).dialog('open');
                             } else {
-                                $('#' + Elementos_VentaTotal.Paquetes).parent().parent().hide();
+                                if (data.Producto.CantidadDeProductoTotal > 0) {
+                                    let DimencionesX = 500, DimencionesY = 260;
+                                    if (data.TienePaquetes) {
+                                        $('#' + Elementos_VentaTotal.Paquetes + ' option:gt(0)').remove();
+                                        $.each(data.Paquetes, function (index, value) {
+                                            $('#' + Elementos_VentaTotal.Paquetes).append($('<option></option>').attr('value', value.NumeroDeProductoPadre + '_' + value.NumeroDeProductoHijo).text(value.NombreDeProductoPadre + ' con ' + value.NombreDeProductoHijo));
+                                        });
+                                        DimencionesX = 700;
+                                        DimencionesY = 350;
+                                        $('#' + Elementos_VentaTotal.Paquetes).parent().parent().show();
+                                    } else {
+                                        $('#' + Elementos_VentaTotal.Paquetes).parent().parent().hide();
+                                    }
+                                    $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val('');
+                                    $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).blur();
+                                    CreaDialog(Elementos_VentaTotal.AgregaProducto, 'Agrega Producto', CreaBotonesDialog(data.Producto, false), DimencionesX, DimencionesY);
+                                    $('#' + Elementos_VentaTotal.AgregaProducto).dialog('open');
+                                    $('#' + Elementos_VentaTotal.NombreDeProducto).html(data.Producto.NombreDeProducto);
+                                    $('#' + Elementos_VentaTotal.CantidadDeProducto).focus();
+                                    AgregaEventoCantidad(data.Producto);
+                                    $('#' + Elementos_VentaTotal.AgregaProducto).on('dialogclose', function (event) {
+                                        LimpiaCantidad();
+                                        $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
+                                    });
+                                } else {
+                                    alertify.alert('Aviso Importante', 'Producto sin existencias');
+                                }
                             }
-                            $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val('');
-                            $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).blur();
-                            CreaDialog(Elementos_VentaTotal.AgregaProducto, 'Agrega Producto', CreaBotonesDialog(data.Producto, false), DimencionesX, DimencionesY);
-                            $('#' + Elementos_VentaTotal.AgregaProducto).dialog('open');
-                            $('#' + Elementos_VentaTotal.NombreDeProducto).html(data.Producto.NombreDeProducto);
-                            $('#' + Elementos_VentaTotal.CantidadDeProducto).focus();
-                            AgregaEventoCantidad(data.Producto);
-                            $('#' + Elementos_VentaTotal.AgregaProducto).on('dialogclose', function (event) {
-                                LimpiaCantidad();
-                                $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
-                            });
                         } else {
                             alertify.error(data.Resultado.Mensaje);
                         }
@@ -379,13 +417,13 @@
                     type: "POST",
                     url: UrlProductoATabla,
                     async: false,
-                    data: { NombreOCodigoDeProducto: Producto.CodigoDeBarras, Cantidad: _Cantidad, Paquetes: $('#' + Elementos_VentaTotal.Paquetes).val(), RegistrosPrevios: JsonString },
+                    data: { NumeroDeProducto: Producto.NumeroDeProducto, Cantidad: _Cantidad, Paquetes: $('#' + Elementos_VentaTotal.Paquetes).val(), RegistrosPrevios: JsonString },
                     success: function (data) {
                         if (data.Registro.length != 0) {
                             for (var i = 0; i < data.Registro.length; i++) {
                                 let Index = null;
                                 for (var ii = 0; ii < TablaRows.rows()[0].length; ii++) {
-                                    if (data.Registro[i].CodigoDeBarras == TablaVentas.rows(ii).data()[0].CodigoDeBarras) {
+                                    if (data.Registro[i].NumeroDeProducto == TablaVentas.rows(ii).data()[0].NumeroDeProducto) {
                                         Index = ii;
                                     }
                                 }

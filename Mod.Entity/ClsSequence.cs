@@ -17,7 +17,11 @@ namespace Mod.Entity
         }
         public short SQ_FolioSurtido()
         {
-            return _Database.SqlQuery<short>("SELECT NEXT VALUE FOR Kuup.SQ_FolioSurtido").SingleAsync().Result;
+            return _Database.SqlQuery<short>("SELECT NEXT VALUE FOR Kuup.SQ_FolioSurtido;").SingleAsync().Result;
+        }
+        public short SQ_FolioAudit()
+        {
+            return _Database.SqlQuery<short>("SELECT NEXT VALUE FOR Kuup.SQ_FolioAudit;").SingleAsync().Result;
         }
     }
 }

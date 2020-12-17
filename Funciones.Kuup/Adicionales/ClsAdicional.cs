@@ -527,6 +527,10 @@ namespace Funciones.Kuup.Adicionales
                     Registros.Add(Campo, String.Empty);
                     return Resultado;
                 }
+                else if(string.IsNullOrEmpty(ValorDeDato) && !EsRequerido)
+                {
+                    Registros.Add(Campo, String.Empty);
+                }
                 else if (!String.IsNullOrEmpty(ValorDeDato))
                 {
                     Resultado = ClsAdicional.ClsValida.ValidaCapacidad(CampoTexto, ValorDeDato, typeof(String), Capacidad, 0);
@@ -771,6 +775,42 @@ namespace Funciones.Kuup.Adicionales
                 {
                     return (from q in db.Proveedor where q.PRV_NUM_PROVEEDOR == NumeroDeProveedor select new SelectListItem { Text = q.PRV_NUM_PROVEEDOR.ToString() + " / " + q.PRV_NOM_PROVEEDOR, Value = q.PRV_NUM_PROVEEDOR.ToString(), Selected = q.PRV_NUM_PROVEEDOR == NumeroDeProveedor }).ToList();
                 }
+            }
+            public static List<Object> AutoCompleteProducto(String Prefix)
+            {
+                var Productos = new List<Object>();
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    Parametro Parametro = (from q in db.Parametro where q.PAR_NOM_PARAMETRO == "ActivaLike" select q).FirstOrDefault();
+                    if (Parametro != null)
+                    {
+                        if (Parametro.PAR_VALOR_PARAMETRO == "SI")
+                        {
+                            Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            if(Productos.Count() == 0)
+                            {
+                                Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            }
+                        }
+                        else
+                        {
+                            Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            if(Productos.Count() == 0)
+                            {
+                                Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                        if (Productos.Count() == 0)
+                        {
+                            Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                        }
+                    }
+                }
+                return Productos;
             }
         }
         #endregion

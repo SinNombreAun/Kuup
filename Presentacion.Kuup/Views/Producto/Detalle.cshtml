@@ -91,6 +91,7 @@
             <br />
             <hr class="my-4">
             @Html.ActionLink("Regresar a la Consulta", "Index", "Producto", null, new { @class = "btn btn-secondary" })
+            @Html.ActionLink("Edita", "Edita", "Producto", new { Model.NumeroDeProducto, Model.CodigoDeBarras }, new { @class = "btn btn-info" })
             @Html.ActionLink("Alta", "Alta", "Producto", null, new { @class = "btn btn-primary" })
             <br />
             <br />

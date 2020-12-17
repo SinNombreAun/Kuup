@@ -21,6 +21,7 @@
                 NombreDeUsuario: 'fNombreDeUsuario',
                 NombreDeProducto: 'fNombreDeProducto',
                 TextoDeEstatus: 'fTextoDeEstatus',
+                ProductosSelect: 'fProductosSelect',
                 Tabla: 'Tabla',
                 TablaSurtido: 'TablaSurtido',
                 Agregar: 'Agregar',
@@ -121,9 +122,12 @@
             }
             function GeneraGridDeSurtido() {
                 var table = $('#' + Elementos_Surtido.Tabla).DataTable({
+                    "processing": true,
+                    "serverSide": true,
                     "ajax": {
-                        "method": "GET",
-                        "url": UrlCargaGrid + "?Grid=true"
+                        "type": "POST",
+                        "url": UrlCargaGrid,
+                        "async": false
                     },
                     "destroy": true,
                     "responsive": false,
@@ -182,6 +186,7 @@
                                     type: "POST",
                                     dataType: "json",
                                     data: { Prefix: request.term },
+                                    async: false,
                                     success: function (data) {
                                         try {
                                             response($.map(data, function (item) {
@@ -200,25 +205,7 @@
                         $('#' + Elementos_Surtido.CodigoONombreDeProducto).keydown(function (event) {
                             let keycode = (event.keyCode ? event.keyCode : event.which);
                             if (keycode == 13) {
-                                $.ajax({
-                                    type: "POST",
-                                    url: UrlCargaProducto,
-                                    async: false,
-                                    data: { NombreOCodigoDeProducto: $('#' + Elementos_Surtido.CodigoONombreDeProducto).val() },
-                                    success: function (data) {
-                                        if (data.Resultado.Resultado) {
-                                            $('#' + Elementos_Surtido.NumeroDeProducto).val(data.Producto.NumeroDeProducto);
-                                            $('#' + Elementos_Surtido.CodigoDeBarras).val(data.Producto.CodigoDeBarras);
-                                            $('#' + Elementos_Surtido.NombreDeProducto).val(data.Producto.NombreDeProducto);
-                                            $('#' + Elementos_Surtido.CantidadPrevia).val(data.Producto.CantidadDeProductoTotal);
-                                        } else {
-                                            alertify.error(data.Resultado.Mensaje);
-                                        }
-                                    },
-                                    error: function () {
-                                        alertify.error("Ocurrio un error al realizar la validacion del Producto");
-                                    }
-                                });
+                                AgregaProductoASutido(0);
                             }
                         });
                         $('#' + Elementos_Surtido.Agregar).click(function () {
@@ -284,6 +271,58 @@
                     case 'DETALLE':
                         break;
                 }
+            }
+            function AgregaProductoASutido(NumeroDeProducto) {
+                $.ajax({
+                    type: "POST",
+                    url: UrlCargaProducto,
+                    async: false,
+                    data: { NombreOCodigoDeProducto: $('#' + Elementos_Surtido.CodigoONombreDeProducto).val(), NumeroDeProducto: NumeroDeProducto },
+                    success: function (data) {
+                        if (data.Resultado.Resultado) {
+                            if (data.Productos.length > 1) {
+                                $('#' + Elementos_Surtido.ProductosSelect + ' option:gt(0)').remove();
+                                $.each(data.Productos, function (index, value) {
+                                    $('#' + Elementos_Surtido.ProductosSelect).append($('<option></option>').attr('value', value.NumeroDeProducto).text(value.CodigoDeBarras + ' - ' + value.NombreDeProducto));
+                                });
+                                CreaDialog(Elementos_Surtido.MasDeUnProducto, 'Selecciona Producto', {
+                                    'Cancelar': {
+                                        id: 'Cancelar',
+                                        text: 'Cancelar',
+                                        class: 'btn btn-danger',
+                                        click: function () {
+                                            $('#' + Elementos_Surtido.MasDeUnProducto).dialog('close');
+                                        }
+                                    },
+                                    'Agregar': {
+                                        id: 'Agregar',
+                                        text: 'Agregar',
+                                        class: 'btn btn-primary',
+                                        click: function () {
+                                            if ($('#' + Elementos_Surtido.ProductosSelect).val() != 0) {
+                                                AgregaProductoASutido($('#' + Elementos_Surtido.ProductosSelect).val());
+                                                $('#' + Elementos_Surtido.MasDeUnProducto).dialog('close');
+                                            } else {
+                                                alertify.error('No se ha seleccionado ningun producto', 0);
+                                            }
+                                        }
+                                    }
+                                }, 500, 260);
+                                $('#' + Elementos_Surtido.MasDeUnProducto).dialog('open');
+                            } else {
+                                $('#' + Elementos_Surtido.NumeroDeProducto).val(data.Producto.NumeroDeProducto);
+                                $('#' + Elementos_Surtido.CodigoDeBarras).val(data.Producto.CodigoDeBarras);
+                                $('#' + Elementos_Surtido.NombreDeProducto).val(data.Producto.NombreDeProducto);
+                                $('#' + Elementos_Surtido.CantidadPrevia).val(data.Producto.CantidadDeProductoTotal);
+                            }
+                        } else {
+                            alertify.error(data.Resultado.Mensaje);
+                        }
+                    },
+                    error: function () {
+                        alertify.error("Ocurrio un error al realizar la validacion del Producto");
+                    }
+                });
             }
             function LimpiarCampos() {
                 $('#' + Elementos_Surtido.CodigoONombreDeProducto).val('');

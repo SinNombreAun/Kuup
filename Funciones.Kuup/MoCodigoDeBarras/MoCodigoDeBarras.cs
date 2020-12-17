@@ -59,18 +59,21 @@ namespace Funciones.Kuup.CodigoDeBarras
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        Mod.Entity.CodigoDeBarras codigoDeBarras = new Mod.Entity.CodigoDeBarras();
-                        codigoDeBarras.COB_FECHA_GENERACION = DateTime.Now;
-                        codigoDeBarras.COB_NUM_PRODUCTO = Secuencial;
-                        codigoDeBarras.COB_CODIGO_BARRAS = CodigoBarras;
-                        codigoDeBarras.COB_RUTA_ARCHIVO = ClsAdicional.ClsArchivos.RutaCodigoDeBarras + CodigoBarras + ".jpg";
-                        codigoDeBarras.COB_CVE_ESTATUS = 1;
-                        db.CodigoDeBarras.Add(codigoDeBarras);
-                        db.SaveChanges();
-                        if ((from q in db.CodigoDeBarras where q.COB_CODIGO_BARRAS == codigoDeBarras.COB_CODIGO_BARRAS && q.COB_NUM_PRODUCTO == codigoDeBarras.COB_NUM_PRODUCTO select q).Count() == 0)
+                        if ((from q in db.CodigoDeBarras where q.COB_CODIGO_BARRAS == CodigoBarras && q.COB_NUM_PRODUCTO == Secuencial select q).Count() == 0)
                         {
-                            Resultado.Resultado = false;
-                            Resultado.Mensaje = "No fue posible gaurdar el registro de Codigo de Barras nuevo";
+                            Mod.Entity.CodigoDeBarras codigoDeBarras = new Mod.Entity.CodigoDeBarras();
+                            codigoDeBarras.COB_FECHA_GENERACION = DateTime.Now;
+                            codigoDeBarras.COB_NUM_PRODUCTO = Secuencial;
+                            codigoDeBarras.COB_CODIGO_BARRAS = CodigoBarras;
+                            codigoDeBarras.COB_RUTA_ARCHIVO = ClsAdicional.ClsArchivos.RutaCodigoDeBarras + CodigoBarras + ".jpg";
+                            codigoDeBarras.COB_CVE_ESTATUS = 1;
+                            db.CodigoDeBarras.Add(codigoDeBarras);
+                            db.SaveChanges();
+                            if ((from q in db.CodigoDeBarras where q.COB_CODIGO_BARRAS == codigoDeBarras.COB_CODIGO_BARRAS && q.COB_NUM_PRODUCTO == codigoDeBarras.COB_NUM_PRODUCTO select q).Count() == 0)
+                            {
+                                Resultado.Resultado = false;
+                                Resultado.Mensaje = "No fue posible gaurdar el registro de Codigo de Barras nuevo";
+                            }
                         }
                     }
                 }

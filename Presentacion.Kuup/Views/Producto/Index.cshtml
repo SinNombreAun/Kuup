@@ -54,7 +54,7 @@
     $(function () {
         ClsProducto = Objeto.Constructor({
             Funcionalidad: 'INDEX',
-            UrlCargaGrid: '@Url.Action("Index","Producto")',
+            UrlCargaGrid: '@Url.Action("Json", "Producto")',
             UrlDetalle: '@Url.Action("Detalle","Producto")'
         });
         ClsProducto.Inicio();
