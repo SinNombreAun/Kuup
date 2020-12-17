@@ -55,7 +55,16 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.Core.2.0.0\lib\net45\Rotativa.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -105,6 +114,7 @@
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_777777_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Imagenes\Kuup\logo.png" />
     <Content Include="Content\Librerias\Alertify\alertify.css" />
     <Content Include="Content\Librerias\Alertify\alertify.js" />
     <Content Include="Content\Librerias\Alertify\bootstrap.css" />
@@ -138,10 +148,13 @@
     <Content Include="Content\Styles\Account\all.css" />
     <Content Include="Content\Styles\Account\font-awesome.css" />
     <Content Include="Content\Styles\Account\style.css" />
+    <Content Include="Content\Styles\Site\Reportes.css" />
     <Content Include="Content\Styles\Site\Site.css" />
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
+    <Content Include="Scripts\ConfiguraPaquete\ClsConfiguraPaquete.js" />
     <Content Include="Scripts\General\ClsConfiguracion.js" />
     <Content Include="Scripts\General\ClsImportarArchivos.js" />
     <Content Include="Scripts\General\ClsResultado.js" />
@@ -151,11 +164,13 @@
     <Content Include="Scripts\Surtido\ClsSurtido.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
     <Content Include="Scripts\VentaTotal\ClsVentaTotal.js" />
+    <Content Include="Scripts\Venta\ClsVenta.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ConfiguraPaqueteController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -170,6 +185,7 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
+    <Compile Include="Models\CodigoDeBarrasModel.cs" />
     <Compile Include="Models\ConfiguraMayoreoModel.cs" />
     <Compile Include="Models\ConfiguraPaqueteModel.cs" />
     <Compile Include="Models\GeneralModel.cs" />
@@ -179,6 +195,7 @@
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\SurtidoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
+    <Compile Include="Nucleo\Clases\ClsAuditInsert.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaProducto.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaSurtido.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaVentaTotal.cs" />
@@ -242,6 +259,12 @@
     <Content Include="Views\Surtido\Alta.cshtml" />
     <Content Include="Views\Producto\ActualizaPrecios.cshtml" />
     <Content Include="Views\Venta\Index.cshtml" />
+    <Content Include="Views\Producto\Edita.cshtml" />
+    <Content Include="Views\ConfiguraPaquete\Index.cshtml" />
+    <Content Include="Views\ConfiguraPaquete\Alta.cshtml" />
+    <Content Include="Views\Producto\CodigosDeBarras.cshtml" />
+    <Content Include="Views\Shared\_LayoutReporte.cshtml" />
+    <Content Include="Views\General\TituloReportes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

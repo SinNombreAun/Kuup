@@ -9,7 +9,7 @@ using System.Windows.Markup;
 
 namespace Negocio.Kuup.Clases
 {
-    public class ClsConfiguraMayoreos : Interfaces.InterfazGen<ClsBitacora>
+    public class ClsConfiguraMayoreos : Interfaces.InterfazGen<ClsConfiguraMayoreos>
     {
         public DBKuupEntities db { get; set; }
         public short NumeroDePantallaKuup
@@ -110,6 +110,58 @@ namespace Negocio.Kuup.Clases
             catch (Exception e)
             {
                 ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Insert", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
+        public bool InsertAudit(ClsAudit ObjAudit)
+        {
+            ConfiguraMayoreoAudit Audit = new ConfiguraMayoreoAudit();
+            Audit.COM_ID_AUDIT = ObjAudit.IdAudit;
+            Audit.COM_TERMINAL = ObjAudit.Terminal;
+            Audit.COM_IP = ObjAudit.IP; 
+            Audit.COM_VERSION = ObjAudit.Version;
+            Audit.COM_NOM_USUARIO = ObjAudit.NombreDeUsuario;
+            Audit.COM_FECHA_BASE = DateTime.Now;
+            Audit.COM_NOM_FUNCIONALIDAD = ObjAudit.NombreDeFuncionalidad;
+            Audit.COM_NUM_MAYOREO = ConfiguraMayoreo.COM_NUM_MAYOREO;
+            Audit.COM_NUM_PRODUCTO = ConfiguraMayoreo.COM_NUM_PRODUCTO;
+            Audit.COM_CODIGO_BARRAS = ConfiguraMayoreo.COM_CODIGO_BARRAS;
+            Audit.COM_CVE_APLICA_PAQUETES = ConfiguraMayoreo.COM_CVE_APLICA_PAQUETES;
+            Audit.COM_CANTIDAD_MINIMA = ConfiguraMayoreo.COM_CANTIDAD_MINIMA;
+            Audit.COM_CANTIDAD_MAXIMA = ConfiguraMayoreo.COM_CANTIDAD_MAXIMA;
+            Audit.COM_PRECIO_MAYOREO = ConfiguraMayoreo.COM_PRECIO_MAYOREO;
+            Audit.COM_NOM_PRODUCTO = ConfiguraMayoreo.COM_NOM_PRODUCTO;
+            try
+            {
+                if (db == null)
+                {
+                    using (db = new DBKuupEntities())
+                    {
+                        db.ConfiguraMayoreoAudit.Add(Audit);
+                        db.Entry(Audit).State = EntityState.Added;
+                        db.SaveChanges();
+                        if ((from q in db.ConfiguraMayoreoAudit where q.COM_ID_AUDIT == Audit.COM_ID_AUDIT && q.COM_NUM_MAYOREO == Audit.COM_NUM_MAYOREO && q.COM_NUM_PRODUCTO == Audit.COM_NUM_PRODUCTO && q.COM_CODIGO_BARRAS == Audit.COM_CODIGO_BARRAS select q).Count() != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                else
+                {
+                    db.ConfiguraMayoreoAudit.Add(Audit);
+                    db.Entry(Audit).State = EntityState.Added;
+                    db.SaveChanges();
+                    if ((from q in db.ConfiguraMayoreoAudit where q.COM_ID_AUDIT == Audit.COM_ID_AUDIT && q.COM_NUM_MAYOREO == Audit.COM_NUM_MAYOREO && q.COM_NUM_PRODUCTO == Audit.COM_NUM_PRODUCTO && q.COM_CODIGO_BARRAS == Audit.COM_CODIGO_BARRAS select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "InsertAudit", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
             }
         }

@@ -7,7 +7,6 @@ namespace Presentacion.Kuup.Controllers
 {
     public class GeneralController : BaseController
     {
-        // GET: General
         public ActionResult SubirArchivo(String Accion, String Controlador, String UrlAccion, String BotonCargaDatos)
         {
             ViewBag.Accion = Accion;
@@ -28,6 +27,11 @@ namespace Presentacion.Kuup.Controllers
                 NombreDeArchivo += DateTime.Now.ToString("HH-mm-ss");
             }
             return File(Ruta + NombreDeArchivo +  "." + Extencion, System.Net.Mime.MediaTypeNames.Application.Octet, NombreDeArchivo + "." + Extencion);
+        }
+        [AllowAnonymous]
+        public ActionResult TituloReportes()
+        {
+            return View();
         }
     }
 }

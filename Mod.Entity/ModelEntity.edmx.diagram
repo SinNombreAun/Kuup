@@ -40,8 +40,6 @@
         <AssociationConnector Association="DBKuupModel.FK_Funcionalidad_Pantalla" />
         <AssociationConnector Association="DBKuupModel.FK_BitacoraCorreo_Pantalla" />
         <AssociationConnector Association="DBKuupModel.FK_PantallaPerfil_Pantalla" />
-        <EntityTypeShape EntityType="DBKuupModel.ConfiguraPaquete" Width="1.5" PointX="0.75" PointY="17.75" />
-        <EntityTypeShape EntityType="DBKuupModel.ViConfiguraPaquete" Width="1.5" PointX="2.75" PointY="17.75" />
         <EntityTypeShape EntityType="DBKuupModel.IPRegistradas" Width="1.5" PointX="3" PointY="12.125" />
         <EntityTypeShape EntityType="DBKuupModel.Venta" Width="1.5" PointX="25.625" PointY="7.625" />
         <EntityTypeShape EntityType="DBKuupModel.ViIPRegistradas" Width="1.5" PointX="18.375" PointY="12.75" />
@@ -66,6 +64,13 @@
         <EntityTypeShape EntityType="DBKuupModel.ViFuncionalidad" Width="1.5" PointX="10.375" PointY="18.75" />
         <EntityTypeShape EntityType="DBKuupModel.ViFuncionPerfil" Width="1.5" PointX="20.375" PointY="15.75" />
         <EntityTypeShape EntityType="DBKuupModel.ViVenta" Width="1.5" PointX="13.375" PointY="20.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViConfiguraPaquete" Width="1.5" PointX="2.75" PointY="15.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ConfiguraPaquete" Width="1.5" PointX="22.625" PointY="15.625" />
+        <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto" />
+        <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto2" />
+        <EntityTypeShape EntityType="DBKuupModel.ConfiguraMayoreoAudit" Width="1.5" PointX="22.375" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ConfiguraPaqueteAudit" Width="1.5" PointX="13.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="24.375" PointY="19.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

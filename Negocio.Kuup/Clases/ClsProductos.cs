@@ -178,6 +178,68 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
+        public bool InsertAudit(ClsAudit ObjAudit)
+        {
+            try
+            {
+                ProductoAudit Audit = new ProductoAudit();
+                Audit.PRO_ID_AUDIT = ObjAudit.IdAudit;
+                Audit.PRO_TERMINAL = ObjAudit.Terminal;
+                Audit.PRO_IP = ObjAudit.IP;
+                Audit.PRO_VERSION = ObjAudit.Version;
+                Audit.PRO_NOM_USUARIO = ObjAudit.NombreDeUsuario;
+                Audit.PRO_FECHA_BASE = DateTime.Now;
+                Audit.PRO_NOM_FUNCIONALIDAD = ObjAudit.NombreDeFuncionalidad;
+                Audit.PRO_NUM_PRODUCTO = Producto.PRO_NUM_PRODUCTO;
+                Audit.PRO_CODIGO_BARRAS = Producto.PRO_CODIGO_BARRAS;
+                Audit.PRO_FECHA_REGISTRO = Producto.PRO_FECHA_REGISTRO;
+                Audit.PRO_CANT_PRODUCTO_ULTIMA = Producto.PRO_CANT_PRODUCTO_ULTIMA;
+                Audit.PRO_CANT_PRODUCTO_NUEVA = Producto.PRO_CANT_PRODUCTO_NUEVA;
+                Audit.PRO_CANT_PRODUCTO_TOTAL = Producto.PRO_CANT_PRODUCTO_TOTAL;
+                Audit.PRO_NOM_PRODUCTO = Producto.PRO_NOM_PRODUCTO;
+                Audit.PRO_DESCRIPCION = Producto.PRO_DESCRIPCION;
+                Audit.PRO_CVE_AVISO = Producto.PRO_CVE_AVISO;
+                Audit.PRO_CVE_CORREO_SURTIDO = Producto.PRO_CVE_CORREO_SURTIDO;
+                Audit.PRO_CAT_MINIMA = Producto.PRO_CAT_MINIMA;
+                Audit.PRO_NUM_PROVEEDOR = Producto.PRO_NUM_PROVEEDOR;
+                Audit.PRO_PRECIO_UNITARIO = Producto.PRO_PRECIO_UNITARIO;
+                Audit.PRO_CVE_ESTATUS = Producto.PRO_CVE_ESTATUS;
+                Audit.PRO_TXT_AVISO = Producto.PRO_TXT_AVISO;
+                Audit.PRO_TXT_CORREO_SURTIDO = Producto.PRO_TXT_CORREO_SURTIDO;
+                Audit.PRO_NOM_PROVEEDOR = Producto.PRO_NOM_PROVEEDOR;
+                Audit.PRO_TXT_ESTATUS = Producto.PRO_TXT_ESTATUS;
+                if (db == null)
+                {
+                    using (db = new DBKuupEntities())
+                    {
+                        db.ProductoAudit.Add(Audit);
+                        db.Entry(Audit).State = EntityState.Added;
+                        db.SaveChanges();
+                        if ((from q in db.ProductoAudit where q.PRO_ID_AUDIT == Audit.PRO_ID_AUDIT && q.PRO_NUM_PRODUCTO == Audit.PRO_NUM_PRODUCTO select q).Count() != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                else
+                {
+                    db.ProductoAudit.Add(Audit);
+                    db.Entry(Audit).State = EntityState.Added;
+                    db.SaveChanges();
+                    if ((from q in db.ProductoAudit where q.PRO_ID_AUDIT == Audit.PRO_ID_AUDIT && q.PRO_NUM_PRODUCTO == Audit.PRO_NUM_PRODUCTO select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "InsertAudit", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
         private bool ToDelete(DBKuupEntities db)
         {
             db.Producto.Remove((from q in db.Producto where q.PRO_NUM_PRODUCTO == Producto.PRO_NUM_PRODUCTO select q).FirstOrDefault());

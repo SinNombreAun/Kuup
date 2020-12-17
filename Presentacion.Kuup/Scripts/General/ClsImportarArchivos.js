@@ -26,7 +26,7 @@ function ValidarArchivo(UrlAccion, BotonCargaDatos) {
             $.ajax({
                 type: "POST",
                 url: UrlAccion,
-                async: false,
+                async: true,
                 data: { NombreDelArchivo: NombreDelArchivoAValidar },
                 success: function (data) {
                     CreaTabla(data.data);

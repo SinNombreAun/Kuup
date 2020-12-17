@@ -1,0 +1,49 @@
+﻿@model List<Presentacion.Kuup.Models.CodigoDeBarrasModel>
+
+@{
+    //ViewBag.Title = "CodigosDeBarras";
+    Layout = "~/Views/Shared/_LayoutReporte.cshtml";
+}
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+            </div>
+            <div class="col">
+                <div class="text-center text-center-abajo">
+                    <h3>Sistema de Inventario y Ventas Kuup</h3>
+                    <h6>Desarrollado por SIR</h6>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Numero de Producto</th>
+                        <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Nombre de Producto</th>
+                        <th scope="col">Codigo de Barras para Scan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="col">@item.fNumeroDeProducto</th>
+                            <td>@item.fNombreDeProducto</td>
+                            <td>@item.fCodigoDeBarras</td>
+                            <td><img src="@Url.Content(item.fRutaDeArchivo)"></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

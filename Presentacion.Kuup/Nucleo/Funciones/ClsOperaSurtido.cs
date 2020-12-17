@@ -43,6 +43,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             {
                                 ClsSequence Sequence = new ClsSequence(db.Database);
                                 var Productos = ClsProductos.getList().Where(x => Surtidos.Exists(y => y.NumeroDeProducto == x.NumeroDeProducto)).ToList();
+                                var ProductosAudit = (from q in db.ProductoAudit select q.PRO_NUM_PRODUCTO).Distinct().ToList();
                                 short FolioDeSurtido = Sequence.SQ_FolioSurtido();
                                 foreach (var Surtido in Surtidos)
                                 {
@@ -64,6 +65,11 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                         if(Productos.Exists(x => x.NumeroDeProducto == Surtido.NumeroDeProducto && x.CodigoDeBarras == Surtido.CodigoDeBarras))
                                         {
                                             var Producto = Productos.Find(x => x.NumeroDeProducto == Surtido.NumeroDeProducto && x.CodigoDeBarras == Surtido.CodigoDeBarras);
+                                            if (!ProductosAudit.Exists(x => x == Producto.NumeroDeProducto))
+                                            {
+                                                ClsAudit Audit = Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "ALTA");
+                                                Producto.InsertAudit(Audit);
+                                            }
                                             Producto.CantidadDeProductoUltima = Producto.CantidadDeProductoTotal;
                                             Producto.CantidadDeProductoNueva = Surtido.CantidadNueva;
                                             Producto.CantidadDeProductoTotal = (short)(Surtido.CantidadPrevia + Surtido.CantidadNueva);
@@ -71,6 +77,11 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                             {
                                                 Resultado.Resultado = false;
                                                 break;
+                                            }
+                                            else
+                                            {
+                                                ClsAudit AuditUp = Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "SURTIDO");
+                                                Producto.InsertAudit(AuditUp);
                                             }
                                         }
                                     }
