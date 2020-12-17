@@ -20,15 +20,30 @@ namespace Negocio.Kuup.Clases
             get { return ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE; }
             set { ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE = value; }
         }
+        public String CodigoDeBarrasPadre
+        {
+            get { return ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE; }
+            set { ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE = value; }
+        }
         public short NumeroDeProductoHijo
         {
             get { return ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO; }
             set { ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO = value; }
         }
+        public String CodigoDeBarrasHijo
+        {
+            get { return ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO; }
+            set { ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO = value; }
+        }
         public decimal PrecioDeProductoPadre
         {
             get { return ConfiguraPaquete.CNP_PRECIO_PRODUCTO_PADRE; }
             set { ConfiguraPaquete.CNP_PRECIO_PRODUCTO_PADRE = value; }
+        }
+        public byte CantidadASalir
+        {
+            get { return ConfiguraPaquete.CNP_CANTIDAD_A_SALIR; }
+            set { ConfiguraPaquete.CNP_CANTIDAD_A_SALIR = value; }
         }
         public Nullable<decimal> PrecioDeProductoHijo
         {
@@ -57,7 +72,7 @@ namespace Negocio.Kuup.Clases
             db.ConfiguraPaquete.Add(ConfiguraPaquete);
             db.Entry(ConfiguraPaquete).State = EntityState.Added;
             db.SaveChanges();
-            if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO select q).Count() != 0)
+            if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
             {
                 return true;
             }
@@ -85,11 +100,65 @@ namespace Negocio.Kuup.Clases
                 return false;
             }
         }
+        public bool InsertAudit(ClsAudit ObjAudit)
+        {
+            ConfiguraPaqueteAudit Audit = new ConfiguraPaqueteAudit();
+            Audit.CNP_ID_AUDIT = ObjAudit.IdAudit;
+            Audit.CNP_TERMINAL = ObjAudit.Terminal;
+            Audit.CNP_IP = ObjAudit.IP;
+            Audit.CNP_VERSION = ObjAudit.Version;
+            Audit.CNP_NOM_USUARIO = ObjAudit.NombreDeUsuario;
+            Audit.CNP_FECHA_BASE = DateTime.Now;
+            Audit.CNP_NOM_FUNCIONALIDAD = ObjAudit.NombreDeFuncionalidad;
+            Audit.CNP_NUM_PRODUCTO_PADRE = ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE;
+            Audit.CNP_CODIGO_BARRAS_PADRE = ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE;
+            Audit.CNP_NUM_PRODUCTO_HIJO = ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO;
+            Audit.CNP_CODIGO_BARRAS_HIJO = ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO;
+            Audit.CNP_PRECIO_PRODUCTO_PADRE = ConfiguraPaquete.CNP_PRECIO_PRODUCTO_PADRE;
+            Audit.CNP_CANTIDAD_A_SALIR = ConfiguraPaquete.CNP_CANTIDAD_A_SALIR;
+            Audit.CNP_PRECIO_PRODUCTO_HIJO = ConfiguraPaquete.CNP_PRECIO_PRODUCTO_HIJO;
+            Audit.CNP_IMPORTE_TOTAL = ConfiguraPaquete.CNP_IMPORTE_TOTAL;
+            Audit.CNP_NOM_PRODUCTO_PADRE = ConfiguraPaquete.CNP_NOM_PRODUCTO_PADRE;
+            Audit.CNP_NOM_PRODUCTO_HIJO = ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO;
+            try
+            {
+                if (db == null)
+                {
+                    using (db = new DBKuupEntities())
+                    {
+                        db.ConfiguraPaqueteAudit.Add(Audit);
+                        db.Entry(Audit).State = EntityState.Added;
+                        db.SaveChanges();
+                        if ((from q in db.ConfiguraPaqueteAudit where q.CNP_ID_AUDIT == Audit.CNP_ID_AUDIT && q.CNP_NUM_PRODUCTO_PADRE == Audit.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == Audit.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == Audit.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == Audit.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+                else
+                {
+                    db.ConfiguraPaqueteAudit.Add(Audit);
+                    db.Entry(Audit).State = EntityState.Added;
+                    db.SaveChanges();
+                    if ((from q in db.ConfiguraPaqueteAudit where q.CNP_ID_AUDIT == Audit.CNP_ID_AUDIT && q.CNP_NUM_PRODUCTO_PADRE == Audit.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == Audit.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == Audit.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == Audit.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "InsertAudit", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                return false;
+            }
+        }
         private bool ToDelete(DBKuupEntities db)
         {
-            db.ConfiguraPaquete.Remove((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO select q).FirstOrDefault());
+            db.ConfiguraPaquete.Remove((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO select q).FirstOrDefault());
             db.SaveChanges();
-            if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO select q).Count() != 0)
+            if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == ConfiguraPaquete.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == ConfiguraPaquete.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
             {
                 return false;
             }
@@ -152,8 +221,11 @@ namespace Negocio.Kuup.Clases
         {
             ConfiguraPaquete Tabla = new ConfiguraPaquete();
             Tabla.CNP_NUM_PRODUCTO_PADRE = this.NumeroDeProductoPadre;
+            Tabla.CNP_CODIGO_BARRAS_PADRE = this.CodigoDeBarrasPadre;
             Tabla.CNP_NUM_PRODUCTO_HIJO = this.NumeroDeProductoHijo;
+            Tabla.CNP_CODIGO_BARRAS_HIJO = this.CodigoDeBarrasHijo;
             Tabla.CNP_PRECIO_PRODUCTO_PADRE = this.PrecioDeProductoPadre;
+            Tabla.CNP_CANTIDAD_A_SALIR = this.CantidadASalir;
             Tabla.CNP_PRECIO_PRODUCTO_HIJO = this.PrecioDeProductoHijo;
             Tabla.CNP_IMPORTE_TOTAL = this.ImporteTotal;
             return Tabla;
@@ -170,8 +242,11 @@ namespace Negocio.Kuup.Clases
                                 select new ClsConfiguraPaquetes()
                                 {
                                     NumeroDeProductoPadre = q.CNP_NUM_PRODUCTO_PADRE,
+                                    CodigoDeBarrasPadre = q.CNP_CODIGO_BARRAS_PADRE,
                                     NumeroDeProductoHijo = q.CNP_NUM_PRODUCTO_HIJO,
+                                    CodigoDeBarrasHijo = q.CNP_CODIGO_BARRAS_HIJO,
                                     PrecioDeProductoPadre = q.CNP_PRECIO_PRODUCTO_PADRE,
+                                    CantidadASalir = q.CNP_CANTIDAD_A_SALIR,
                                     PrecioDeProductoHijo = q.CNP_PRECIO_PRODUCTO_HIJO,
                                     ImporteTotal = q.CNP_IMPORTE_TOTAL,
                                     NombreDeProductoPadre = q.CNP_NOM_PRODUCTO_PADRE,
@@ -184,8 +259,11 @@ namespace Negocio.Kuup.Clases
                                 select new ClsConfiguraPaquetes()
                                 {
                                     NumeroDeProductoPadre = q.CNP_NUM_PRODUCTO_PADRE,
+                                    CodigoDeBarrasPadre = q.CNP_CODIGO_BARRAS_PADRE,
                                     NumeroDeProductoHijo = q.CNP_NUM_PRODUCTO_HIJO,
+                                    CodigoDeBarrasHijo = q.CNP_CODIGO_BARRAS_HIJO,
                                     PrecioDeProductoPadre = q.CNP_PRECIO_PRODUCTO_PADRE,
+                                    CantidadASalir = q.CNP_CANTIDAD_A_SALIR,
                                     PrecioDeProductoHijo = q.CNP_PRECIO_PRODUCTO_HIJO,
                                     ImporteTotal = q.CNP_IMPORTE_TOTAL
                                 }).ToList();

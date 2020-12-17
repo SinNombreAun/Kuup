@@ -11,13 +11,13 @@
         <div class="col">
             <div class="from-group from-group-margin">
                 @Html.Label("fFechaInicial", "Fecha de Inicio", new { @class = "col-sm col-form-label" })
-                @Html.TextBox("fFechaInicial", null, new { @class = "form-control datetimepicker" })
+                @Html.TextBox("fFechaInicial", null, new { @class = "form-control datetimepicker", autocomplete = "off" })
             </div>
         </div>
         <div class="col">
             <div class="from-group from-group-margin">
                 @Html.Label("fFechaFinal", "Fecha de Final", new { @class = "col-sm col-form-label" })
-                @Html.TextBox("fFechaFinal", null, new { @class = "form-control datetimepicker" })
+                @Html.TextBox("fFechaFinal", null, new { @class = "form-control datetimepicker", autocomplete = "off" })
             </div>
         </div>
         <div class="col-sm-12">
@@ -27,49 +27,52 @@
             <table id="VentasTotales" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">FolioDeOperacion</th>
-                        <th scope="col">FechaDeOperacion</th>
-                        <th scope="col">NombreDeUsuario</th>
-                        <th scope="col">ImporteEntregado</th>
-                        <th scope="col">ImporteCambio</th>
-                        <th scope="col">ImporteNeto</th>
-                        <th scope="col">TextoDeEstatus</th>
+                        <th scope="col">Folio de Operacion</th>
+                        <th scope="col">Fecha de Operacion</th>
+                        <th scope="col">Nombre de Usuario</th>
+                        <th scope="col">Importe Entregado</th>
+                        <th scope="col">Importe Cambio</th>
+                        <th scope="col">Importe Neto</th>
+                        <th scope="col">Estatus</th>
                     </tr>
                 </thead>
                 <tfoot class="thead-dark">
                     <tr>
-                        <th scope="col">FolioDeOperacion</th>
-                        <th scope="col">FechaDeOperacion</th>
-                        <th scope="col">NombreDeUsuario</th>
-                        <th scope="col">ImporteEntregado</th>
-                        <th scope="col">ImporteCambio</th>
-                        <th scope="col">ImporteNeto</th>
-                        <th scope="col">TextoDeEstatus</th>
+                        <th scope="col">Folio de Operacion</th>
+                        <th scope="col">Fecha de Operacion</th>
+                        <th scope="col">Nombre de Usuario</th>
+                        <th scope="col">Importe Entregado</th>
+                        <th scope="col">Importe Cambio</th>
+                        <th scope="col">Importe Neto</th>
+                        <th scope="col">Estatus</th>
                     </tr>
                 </tfoot>
             </table>
             <hr class="my-4">
-            <table id="Ventas" class="table display nowrap" cellspacing="0" width="100%">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">FolioDeOperacion</th>
-                        <th scope="col">NombreDeProducto</th>
-                        <th scope="col">CantidadDeProducto</th>
-                        <th scope="col">PrecioUnitario</th>
-                        <th scope="col">ImporteDeProducto</th>
-                    </tr>
-                </thead>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th scope="col">FolioDeOperacion</th>
-                        <th scope="col">NombreDeProducto</th>
-                        <th scope="col">CantidadDeProducto</th>
-                        <th scope="col">PrecioUnitario</th>
-                        <th scope="col">ImporteDeProducto</th>
-                    </tr>
-                </tfoot>
-            </table>
-            <hr class="my-4">
+            <div id="ContVentas">
+                <h2>Detalle de Venta</h2>
+                <table id="Ventas" class="table display nowrap" cellspacing="0" width="100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Folio de Operacion</th>
+                            <th scope="col">Nombre de Producto</th>
+                            <th scope="col">Cantidad de Producto</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Importe de Producto</th>
+                        </tr>
+                    </thead>
+                    <tfoot class="thead-dark">
+                        <tr>
+                            <th scope="col">Folio de Operacion</th>
+                            <th scope="col">Nombre de Producto</th>
+                            <th scope="col">Cantidad de Producto</th>
+                            <th scope="col">Precio Unitario</th>
+                            <th scope="col">Importe de Producto</th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr class="my-4">
+            </div>
             @*botones*@
             <br />
             <br />
@@ -78,14 +81,15 @@
     </div>
 </div>
 
-@*<script type="text/javascript">
+<script type="text/javascript">
     let ClsVenta;
     $(function () {
         ClsVenta = Objeto.Constructor({
             Funcionalidad: 'INDEX',
-            UrlCargaGrid: '@Url.Action("Index","Producto")',
-            UrlDetalle: '@Url.Action("Detalle","Producto")'
+            UrlCargaGrid: '@Url.Action("ObtenVentas", "Venta")',
+            UrlDetalle: '@Url.Action("ObtenDetalleDeVentas", "Venta")',
+            FechaInicialLimite: '@ViewBag.FechaInicialLimite'
         });
         ClsVenta.Inicio();
     });
-</script>*@
+</script>

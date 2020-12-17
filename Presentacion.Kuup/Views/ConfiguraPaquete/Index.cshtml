@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Consulta de Paquetes";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/ConfiguraPaquete/ClsConfiguraPaquete.js"></script>
+<h2 class="TituloPagina">CONSULTA DE PAQUETES <i class="fa fa-archive"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="Tabla" class="table display nowrap" cellspacing="0" width="100%">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Codigo de Barras Padre</th>
+                        <th scope="col">Nombre de Producto Padre</th>
+                        <th scope="col">Precio de Producto Padre</th>
+                        <th scope="col">Codigo de Barras Hijo</th>
+                        <th scope="col">Nombre de Producto Hijo</th>
+                        <th scope="col">Precio de Producto Hijo</th>
+                        <th scope="col">Importe Total</th>
+                    </tr>
+                </thead>
+                <tfoot class="thead-dark">
+                    <tr>
+                        <th scope="col">Codigo de Barras Padre</th>
+                        <th scope="col">Nombre de Producto Padre</th>
+                        <th scope="col">Precio de Producto Padre</th>
+                        <th scope="col">Codigo de Barras Hijo</th>
+                        <th scope="col">Nombre de Producto Hijo</th>
+                        <th scope="col">Precio de Producto Hijo</th>
+                        <th scope="col">Importe Total</th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br />
+            <hr class="my-4">
+            @Html.ActionLink("Alta", "Alta", "ConfiguraPaquete", null, new { @class = "btn btn-primary" })
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    let ClsConfiguraPaquete;
+    $(function () {
+        ClsConfiguraPaquete = Objeto.Constructor({
+            Funcionalidad: 'INDEX',
+            UrlCargaGrid: '@Url.Action("Json", "ConfiguraPaquete")'
+        });
+        ClsConfiguraPaquete.Inicio();
+    });
+</script>

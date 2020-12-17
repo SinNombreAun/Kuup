@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Alta de Configuracion de Paquetes";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/ConfiguraPaquete/ClsConfiguraPaquete.js"></script>
+<h2 class="TituloPagina">ALTA DE CONFIGURACION DE PAQUETES  <i class="fa fa-archive"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-sm-12">
+            <br />
+            <br />
+            <hr class="my-4">
+            @Html.ActionLink("Regresar a la Consulta", "Index", "Producto", null, new { @class = "btn btn-secondary" })
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let ClsConfiguraPaquete;
+    $(function () {
+        ClsConfiguraPaquete = Objeto.Constructor({
+            Funcionalidad: 'ALTA',
+            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "ConfiguraPaquete")'
+        });
+        ClsConfiguraPaquete.Inicio();
+    });
+</script>

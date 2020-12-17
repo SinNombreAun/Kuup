@@ -215,9 +215,12 @@
             }
             function GeneraGridDeProducto() {
                 var table = $('#' + Elementos_Producto.Tabla).DataTable({
+                    "processing": true,
+                    "serverSide": true,
                     "ajax": {
-                        "method": "GET",
-                        "url": UrlCargaGrid + "?Grid=true"
+                        "type": "POST",
+                        "url": UrlCargaGrid,
+                        "async": false
                     },
                     "destroy": true,
                     "responsive": false,
@@ -305,7 +308,6 @@
                 $.ajax({
                     type: "POST",
                     url: UrlCargaMasiva,
-                    async: false,
                     data: { strinjson: JsonStrin },
                     success: function (data) {
                         if (data.Resultado.Resultado) {
@@ -331,6 +333,11 @@
                         $('#' + Elementos_Producto.CantidadMinima).parent().hide();
                         $('#' + Elementos_Producto.NumeroDeProveedor).parent().hide();
                         break;
+                    case 'EDITA':
+                        $('#' + Elementos_Producto.CveCorreoSurtido).parent().hide();
+                        $('#' + Elementos_Producto.CantidadMinima).parent().hide();
+                        $('#' + Elementos_Producto.NumeroDeProveedor).parent().hide();
+                        break;
                     case 'IMPORTAR':
                         $('#' + Elementos_Producto.CargaMasiva).hide();
                         break;
@@ -341,6 +348,9 @@
                     case 'ALTA':
                         $('#' + Elementos_Producto.CveAviso).change();
                         break;
+                    case 'EDITA':
+                        $('#' + Elementos_Producto.CveAviso).change();
+                        break;
                     case 'DETALLE':
                         $('#' + Elementos_Producto.CveAviso).change();
                         break;
@@ -349,6 +359,19 @@
             function AgregaEvento() {
                 switch (Funcionalidad) {
                     case 'ALTA':
+                        $('#' + Elementos_Producto.CveAviso).change(function () {
+                            if (this.value == 1) {
+                                $('#' + Elementos_Producto.CveCorreoSurtido).parent().show();
+                                $('#' + Elementos_Producto.CantidadMinima).parent().show();
+                            } else {
+                                $('#' + Elementos_Producto.CveCorreoSurtido).parent().hide();
+                                $('#' + Elementos_Producto.CveCorreoSurtido).val('');
+                                $('#' + Elementos_Producto.CantidadMinima).parent().hide();
+                                $('#' + Elementos_Producto.CantidadMinima).val('');
+                            }
+                        });
+                        break;
+                    case 'EDITA':
                         $('#' + Elementos_Producto.CveAviso).change(function () {
                             if (this.value == 1) {
                                 $('#' + Elementos_Producto.CveCorreoSurtido).parent().show();
@@ -418,6 +441,7 @@
                                     type: "POST",
                                     dataType: "json",
                                     data: { Prefix: request.term },
+                                    async: false,
                                     success: function (data) {
                                         try {
                                             response($.map(data, function (item) {

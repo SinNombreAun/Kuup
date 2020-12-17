@@ -7,6 +7,7 @@ using Funciones.Kuup.CodigoDeBarras;
 using Mod.Entity;
 using Negocio.Kuup.Clases;
 using Presentacion.Kuup.Models;
+using Presentacion.Kuup.Nucleo.Motores;
 
 namespace Presentacion.Kuup.Nucleo.Funciones
 {
@@ -38,6 +39,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 {
                     if (Producto.Insert())
                     {
+                        ClsAudit Audit = Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "ALTA");
+                        Producto.InsertAudit(Audit);
                         if (GeneraCodigoDeBarras)
                         {
                             MoCodigoDeBarras ResultadoCodigo = (new MoCodigoDeBarras()).GeneraCodigoDeBarras(Producto.NumeroDeProducto, "Kuup", Producto.CodigoDeBarras);
@@ -53,28 +56,40 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             {
                                 foreach(var M in Mayoreo.Where(x => x.NombreDeProducto.ToUpper().Trim() == Producto.NombreDeProducto).OrderBy(x => x.CantidadMinimaMayoreo))
                                 {
-                                    var PrevioMayoreo = (from q in ClsConfiguraMayoreos.getList() where q.CodigoDeBarras == Producto.CodigoDeBarras && q.NumeroDeProducto == Producto.NumeroDeProducto select q).OrderBy(x => x.NumeroDeMayoreo).LastOrDefault();
-                                    short Orden = 0;
-                                    if (PrevioMayoreo != null)
+                                    if (M.CveAplicaMayoreo == 1)
                                     {
-                                        Orden = (short) (PrevioMayoreo.NumeroDeMayoreo + 1);
-                                        PrevioMayoreo.CantidadMaxima = (byte) (M.CantidadMinimaMayoreo - 1);
-                                        PrevioMayoreo.Update();
-                                    }
-                                    else
-                                    {
-                                        Orden++;
-                                    }
+                                        var PrevioMayoreo = (from q in ClsConfiguraMayoreos.getList() where q.CodigoDeBarras == Producto.CodigoDeBarras && q.NumeroDeProducto == Producto.NumeroDeProducto select q).OrderBy(x => x.NumeroDeMayoreo).LastOrDefault();
+                                        short Orden = 0;
+                                        if (PrevioMayoreo != null)
+                                        {
+                                            Orden = (short)(PrevioMayoreo.NumeroDeMayoreo + 1);
+                                            PrevioMayoreo.CantidadMaxima = (byte)(M.CantidadMinimaMayoreo - 1);
+                                            PrevioMayoreo.Update();
+                                        }
+                                        else
+                                        {
+                                            Orden++;
+                                        }
 
-                                    ClsConfiguraMayoreos configuraMayoreos = new ClsConfiguraMayoreos();
-                                    configuraMayoreos.NumeroDeMayoreo = Orden;
-                                    configuraMayoreos.NumeroDeProducto = Producto.NumeroDeProducto;
-                                    configuraMayoreos.CodigoDeBarras = Producto.CodigoDeBarras;
-                                    configuraMayoreos.CveDeAplicaPaquetes = 1;
-                                    configuraMayoreos.CantidadMinima = M.CantidadMinimaMayoreo;
-                                    configuraMayoreos.CantidadMaxima = null;
-                                    configuraMayoreos.PrecioDeMayoreo = M.PrecioMayoreo;
-                                    configuraMayoreos.Insert();
+                                        ClsConfiguraMayoreos configuraMayoreos = new ClsConfiguraMayoreos();
+                                        configuraMayoreos.NumeroDeMayoreo = Orden;
+                                        configuraMayoreos.NumeroDeProducto = Producto.NumeroDeProducto;
+                                        configuraMayoreos.CodigoDeBarras = Producto.CodigoDeBarras;
+                                        configuraMayoreos.CveDeAplicaPaquetes = 1;
+                                        configuraMayoreos.CantidadMinima = M.CantidadMinimaMayoreo;
+                                        configuraMayoreos.CantidadMaxima = null;
+                                        configuraMayoreos.PrecioDeMayoreo = M.PrecioMayoreo;
+                                        configuraMayoreos.Insert();
+                                    }
+                                }
+                                List<ClsConfiguraMayoreos> ConfMayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Producto.NumeroDeProducto && q.CodigoDeBarras == Producto.CodigoDeBarras select q).ToList();
+                                if(ConfMayoreo.Count() != 0)
+                                {
+                                    Audit.IdAudit = Sequence.SQ_FolioAudit();
+                                }
+                                foreach(var item in ConfMayoreo)
+                                {
+                                    item.InsertAudit(Audit);
                                 }
                             }
                         }
@@ -119,6 +134,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             }
                             if (Resultado.Resultado)
                             {
+                                ClsSequence Sequence = new ClsSequence(db.Database);
+                                ClsAudit Audit = Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "ALTA");
                                 foreach (var Mayoreo in configuraMayoreos.OrderBy(x => x.NumeroDeMayoreo))
                                 {
                                     Mayoreo.db = db;
@@ -131,6 +148,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                         Resultado.Mensaje = "No fue posible realizar la carga de precios de mayoreo";
                                         break;
                                     }
+                                    Mayoreo.InsertAudit(Audit);
                                 }
                             }
                             if (Resultado.Resultado)

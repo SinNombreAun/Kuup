@@ -12,13 +12,23 @@ namespace Presentacion.Kuup.Models
         public ConfiguraPaqueteModel() { }
         public ConfiguraPaqueteModel(Negocio.Kuup.Clases.ClsConfiguraPaquetes ConfiguraPaquete)
         {
+            this.CodigoDeBarrasPadre = ConfiguraPaquete.CodigoDeBarrasPadre;
             this.NumeroDeProductoPadre = ConfiguraPaquete.NumeroDeProductoPadre;
+            this.CodigoDeBarrasHijo = ConfiguraPaquete.CodigoDeBarrasHijo;
             this.NumeroDeProductoHijo = ConfiguraPaquete.NumeroDeProductoHijo;
             this.PrecioDeProductoPadre = ConfiguraPaquete.PrecioDeProductoPadre;
             this.PrecioDeProductoHijo = ConfiguraPaquete.PrecioDeProductoHijo;
+            this.CantidadASalir = ConfiguraPaquete.CantidadASalir;
             this.ImporteTotal = ConfiguraPaquete.ImporteTotal;
             this.NombreDeProductoPadre = ConfiguraPaquete.NombreDeProductoPadre;
             this.NombreDeProductoHijo = ConfiguraPaquete.NombreDeProductoHijo;
+        }
+        [Required]
+        [Display(Name = "Codigo de Barras Padre")]
+        public String fCodigoDeBarrasPadre
+        {
+            get { return this.CodigoDeBarrasPadre; }
+            set { this.CodigoDeBarrasPadre = value; }
         }
         [Required]
         [Display(Name = "Número de Producto Padre")]
@@ -35,6 +45,13 @@ namespace Presentacion.Kuup.Models
             set { this.NumeroDeProductoHijo = value; }
         }
         [Required]
+        [Display(Name = "Codigo de Barras Hijo")]
+        public String fCodigoDeBarrasHijo
+        {
+            get { return this.CodigoDeBarrasHijo; }
+            set { this.CodigoDeBarrasHijo = value; }
+        }
+        [Required]
         [Display(Name = "Precio de Producto Padre")]
         public decimal fPrecioDeProductoPadre
         {
@@ -47,6 +64,13 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.PrecioDeProductoHijo; }
             set { this.PrecioDeProductoHijo = value; }
+        }
+        [Required]
+        [Display(Name = "Cantidad a Salir")]
+        public byte fCantidadASalir
+        {
+            get { return this.CantidadASalir; }
+            set { this.CantidadASalir = value; }
         }
         [Required]
         [Display(Name = "Importe Total")]

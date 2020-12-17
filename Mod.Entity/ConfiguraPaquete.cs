@@ -15,9 +15,15 @@ namespace Mod.Entity
     public partial class ConfiguraPaquete
     {
         public short CNP_NUM_PRODUCTO_PADRE { get; set; }
+        public string CNP_CODIGO_BARRAS_PADRE { get; set; }
         public short CNP_NUM_PRODUCTO_HIJO { get; set; }
+        public string CNP_CODIGO_BARRAS_HIJO { get; set; }
         public decimal CNP_PRECIO_PRODUCTO_PADRE { get; set; }
+        public byte CNP_CANTIDAD_A_SALIR { get; set; }
         public Nullable<decimal> CNP_PRECIO_PRODUCTO_HIJO { get; set; }
         public decimal CNP_IMPORTE_TOTAL { get; set; }
+    
+        public virtual Producto Producto { get; set; }
+        public virtual Producto Producto1 { get; set; }
     }
 }

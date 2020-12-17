@@ -24,30 +24,39 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.FechaInicialLimite = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
             return View();
         }
         public JsonResult ObtenVentas(String fFechaInicial, String fFechaFinal)
         {
-            DateTime DFechaInicial = Convert.ToDateTime(fFechaInicial);
-            DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal);
+            if (string.IsNullOrEmpty(fFechaInicial))
+            {
+                fFechaInicial = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
+            }
+            DateTime DFechaInicial = Convert.ToDateTime(fFechaInicial).AddHours(00).AddMinutes(00).AddSeconds(00);
+            if (String.IsNullOrEmpty(fFechaFinal))
+            {
+                fFechaFinal = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal).AddHours(23).AddMinutes(59).AddSeconds(59);
             var VentasTotales = (from q in ClsVentasTotales.getList()
                                  where q.FechaDeOperacion >= DFechaInicial && q.FechaDeOperacion <= DFechaFinal
                                  select new
                                  {
                                      q.FolioDeOperacion,
-                                     q.FechaDeOperacion,
+                                     FechaDeOperacion = q.FechaDeOperacion.ToString("yyyy-MM-dd hh:mm:ss tt"),
                                      q.NombreDeUsuario,
                                      q.ImporteEntregado,
                                      q.ImporteCambio,
                                      q.ImporteNeto,
                                      q.TextoDeEstatus
-                                 });
+                                 }).OrderBy(x => x.FechaDeOperacion);
             return Json(new { data = VentasTotales }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ObtenDetalleDeVentas(short FolioDeOperacion)
+        public JsonResult ObtenDetalleDeVentas(short fFolioDeOperacion)
         {
             var DetalleDeVenta = (from q in ClsVentas.getList()
-                                  where q.FolioDeOperacion == FolioDeOperacion
+                                  where q.FolioDeOperacion == fFolioDeOperacion
                                   select new {
                                       q.FolioDeOperacion,
                                       q.NombreDeProducto,

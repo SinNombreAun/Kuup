@@ -1,33 +1,17 @@
 ﻿const RUTA_API = "http://localhost:8000"
-const $estado = document.querySelector("#estado"),
-    $listaDeImpresoras = document.querySelector("#listaDeImpresoras"),
-    $btnLimpiarLog = document.querySelector("#btnLimpiarLog"),
-    $btnRefrescarLista = document.querySelector("#btnRefrescarLista"),
-    $btnEstablecerImpresora = document.querySelector("#btnEstablecerImpresora"),
-    $texto = document.querySelector("#texto"),
-    $impresoraSeleccionada = document.querySelector("#impresoraSeleccionada"),
-    $btnImprimir = document.querySelector("#btnImprimir");
-
-
-
-//const loguear = texto => $estado.textContent += (new Date()).toLocaleString() + " " + texto + "\n";
-//const limpiarLog = () => $estado.textContent = "";
+const $impresoraSeleccionada = document.querySelector("#impresoraSeleccionada");
 
 const establecerImpresoraComoPredeterminada = nombreImpresora => {
-    Impresora.setImpresora(nombreImpresora)
-        .then(respuesta => {
-            refrescarNombreDeImpresoraSeleccionada();
-            if (respuesta) {
-            } else {
-            }
-        });
+    Impresora.setImpresora(nombreImpresora).then(respuesta => {
+        refrescarNombreDeImpresoraSeleccionada();
+        if (respuesta) { } else { }
+    });
 };
 
 const refrescarNombreDeImpresoraSeleccionada = () => {
-    Impresora.getImpresora()
-        .then(nombreImpresora => {
-            $impresoraSeleccionada.textContent = nombreImpresora;
-        });
+    Impresora.getImpresora().then(nombreImpresora => {
+        $impresoraSeleccionada.textContent = nombreImpresora;
+    });
 }
 function ImprimirTicket(ObjetoTicket) {
     establecerImpresoraComoPredeterminada('POS-58');
@@ -47,7 +31,7 @@ function ImprimirTicket(ObjetoTicket) {
     impresora.setAlign("left");
     impresora.write("Le Atendio: " + ObjetoTicket.Atiende + '\n');
     impresora.setAlign("center");
-    impresora.write(ObjetoTicket.Fecha);
+    impresora.write(ObjetoTicket.Fecha + '\n');
     for (var i = 0; i < ObjetoTicket.ListaProducto.length; i++) {
         impresora.setAlign("left");
         impresora.write(ObjetoTicket.ListaProducto[i].NombreDeProducto + '\n');
@@ -60,7 +44,7 @@ function ImprimirTicket(ObjetoTicket) {
     impresora.write('Importe Entregado: $' + ObjetoTicket.ImporteEntregado + '\n');
     impresora.write('Importe Cambio:    $' + ObjetoTicket.Cambio + '\n');
     impresora.cut();
-    impresora.cutPartial(); // Pongo este y también cut porque en ocasiones no funciona con cut, solo con cutPartial
+    impresora.cutPartial();
     impresora.end()
         .then(valor => {
             alertify.success("Ticket impreso");

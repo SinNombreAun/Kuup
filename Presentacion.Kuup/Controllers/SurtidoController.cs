@@ -15,7 +15,7 @@ namespace Presentacion.Kuup.Controllers
         readonly ClsOperaSurtido Opera = new ClsOperaSurtido();
         readonly short NumeroDePantalla = (new ClsSurtidos()).NumeroDePantallaKuup;
         [HttpGet]
-        public ActionResult Index(bool Grid = false)
+        public ActionResult Index()
         {
             if (!ValidaSesion())
             {
@@ -25,21 +25,44 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index","Home");
             }
-            if (Grid)
-            {
-                var Surtido = (from q in ClsSurtidos.getList()
-                               select new
-                               {
-                                   q.FolioDeSurtido,
-                                   q.NombreDeProducto,
-                                   NombreDeQuienSurtio = (q.NombreDeProveedor == null ? q.NombreDeUsuario : q.NombreDeProveedor),
-                                   q.CantidadNueva,
-                                   FechaDeSurtido = q.FechaDeSurtido.ToString("yyyy-MM-dd"),
-                                   q.TextoDeEstatus
-                               }).ToArray();
-                return Json(new { data = Surtido }, JsonRequestBehavior.AllowGet);
-            }
             return View();
+        }
+        [HttpPost]
+        public ActionResult Json()
+        {
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+            var pageSize = length != null ? Convert.ToInt32(length) : 0;
+            var skip = start != null ? Convert.ToInt32(start) : 0;
+            var recordsTotal = 0;
+
+            //var Producto 
+            var query = (from q in ClsSurtidos.getList()
+                         select new
+                         {
+                             q.FolioDeSurtido,
+                             q.NombreDeProducto,
+                             NombreDeQuienSurtio = (q.NombreDeProveedor == null ? q.NombreDeUsuario : q.NombreDeProveedor),
+                             q.CantidadNueva,
+                             FechaDeSurtido = q.FechaDeSurtido.ToString("yyyy-MM-dd"),
+                             q.TextoDeEstatus
+                         }).AsQueryable();
+            if (!String.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(x => x.NombreDeProducto.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) || 
+                x.NombreDeQuienSurtio.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) || 
+                x.FechaDeSurtido.ToString().Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) ||
+                x.TextoDeEstatus.ToString().Trim().ToUpper().Contains(searchValue.Trim().ToUpper()));
+            }
+            recordsTotal = query.Count();
+
+            var Surtido = query.Skip(skip).Take(pageSize).ToArray();
+            return Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = Surtido }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Alta()
@@ -71,52 +94,35 @@ namespace Presentacion.Kuup.Controllers
         }
         public JsonResult AutoCompleteProducto(String Prefix)
         {
+            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CargaProducto(String NombreOCodigoDeProducto, short NumeroDeProducto = 0)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             List<ClsProductos> Productos = new List<ClsProductos>();
-            ClsParametros Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ActivaLike" select q).ToList().FirstOrDefault();
-            if (Parametro != null)
+            ClsProductos Producto = new ClsProductos();
+            if (NumeroDeProducto == 0)
             {
-                if (Parametro.ValorDeParametro == "SI")
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
+                if (Productos.Count() == 0)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                    if (Productos.Count == 0)
-                    {
-                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().Contains(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                    }
-                }
-                else
-                {
-                    Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                    if (Productos.Count == 0)
-                    {
-                        Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                    }
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
                 }
             }
             else
             {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.CodigoDeBarras }).ToList();
-                if (Productos.Count == 0)
-                {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto.ToUpper().StartsWith(Prefix.ToUpper()) select new ClsProductos() { NombreDeProducto = q.NombreDeProducto }).ToList();
-                }
+                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
             }
-            return Json(Productos, JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult CargaProducto(String NombreOCodigoDeProducto)
-        {
-            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
-            ClsProductos Producto = new ClsProductos();
-            Producto = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).FirstOrDefault();
-            if (Producto == null)
-            {
-                Producto = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).FirstOrDefault();
-            }
-            if (Producto == null)
+            if (Productos.Count() == 0)
             {
                 Resultado.Resultado = false;
                 Resultado.Mensaje = "No fue posible encontrar el producto";
             }
-            return Json(new { Resultado, Producto }, JsonRequestBehavior.AllowGet);
+            else
+            {
+                Producto = Productos.FirstOrDefault();
+            }
+            return Json(new { Resultado, Producto, Productos }, JsonRequestBehavior.AllowGet);
         }
         private void CargaCombos(SurtidoModel Entidad)
         {
