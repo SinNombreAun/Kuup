@@ -318,7 +318,18 @@
                             text: 'Agregar',
                             class: 'btn btn-primary',
                             click: function () {
-                                AgregaProducto(Producto);
+                                if ($('#' + Elementos_VentaTotal.Paquetes).val() == '') {
+                                    alertify.confirm("Confirmación", "Este producto cuenta con un Paquete configurado, ¿Continuar sin paquete?",
+                                        function () {
+                                            AgregaProducto(Producto);
+                                        },
+                                        function () {
+
+                                        }
+                                    ).set('labels', { ok: 'Si, Continuar sin Paquete', cancel: 'No, Regresar a Paquete' });
+                                } else {
+                                    AgregaProducto(Producto);
+                                }
                             }
                         }
                     }
