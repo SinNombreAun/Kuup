@@ -44,7 +44,8 @@
                     "ajax": {
                         "type": "POST",
                         "url": UrlCargaGrid,
-                        "async": false
+                        "async": true,
+                        "datatype": "json"
                     },
                     "destroy": true,
                     "responsive": false,
@@ -53,6 +54,10 @@
                     "select": true,
                     "scrollCollapse": false,
                     "pageLength": 100,
+                    "filter": true,
+                    "responsivePriority": 1,
+                    "data": null,
+                    "order": [[1, 'desc']],
                     "columns": [
                         { "data": "CodigoDeBarrasPadre" },
                         { "data": "NombreDeProductoPadre" },
@@ -62,12 +67,12 @@
                         { "data": "PrecioDeProductoHijo" },
                         { "data": "ImporteTotal" }
                     ],
-                    "order": [[0, 'dec']],
                     "rowGroup": {
                         "dataSrc": 'NombreDeProductoPadre'
                     },
                     "language": LenguajeEN()
                 });
+                table.draw();
             }
             function OcultaCampos() {
                 switch (Funcionalidad) {
