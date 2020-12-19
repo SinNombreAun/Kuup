@@ -40,7 +40,7 @@ namespace Presentacion.Kuup.Controllers
             var draw = Request.Form.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
             var length = Request.Form.GetValues("length").FirstOrDefault();
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][data]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
             var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
 
@@ -64,6 +64,10 @@ namespace Presentacion.Kuup.Controllers
             if (!String.IsNullOrEmpty(searchValue))
             {
                 query = query.Where(x => x.NombreDeProducto.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) || x.CodigoDeBarras.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()));
+            }
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                query = query.OrderBy(sortColumn + " " + sortColumnDir);
             }
             recordsTotal = query.Count();
 

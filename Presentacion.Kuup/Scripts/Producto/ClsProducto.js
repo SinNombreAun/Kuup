@@ -220,7 +220,8 @@
                     "ajax": {
                         "type": "POST",
                         "url": UrlCargaGrid,
-                        "async": false
+                        "async": true,
+                        "datatype": "json"
                     },
                     "destroy": true,
                     "responsive": false,
@@ -229,11 +230,15 @@
                     "select": true,
                     "scrollCollapse": false,
                     "pageLength": 100,
+                    "filter": true,
+                    "responsivePriority": 1,
                     "fixedColumns": {
                         "leftColumns": 2,
                         "rightColumns": 1
                     },
-                    "columnDefs": [ { "targets": [0], "visible": false, "searchable": false } ],
+                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }],
+                    "data": null,
+                    "order": [[2, 'asc']],
                     "columns": [
                         { "data": "NumeroDeProducto" },
                         { "data": "CodigoDeBarras" },
@@ -247,6 +252,7 @@
                     ],
                     "language": LenguajeEN()
                 });
+                table.draw();
                 DetalleRegistro('#' + Elementos_Producto.Tabla + ' tbody', table);
             }
             var DetalleRegistro = function (tbody, table) {

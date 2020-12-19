@@ -127,7 +127,8 @@
                     "ajax": {
                         "type": "POST",
                         "url": UrlCargaGrid,
-                        "async": false
+                        "async": true,
+                        "datatype": "json"
                     },
                     "destroy": true,
                     "responsive": false,
@@ -135,6 +136,10 @@
                     "scrollX": true,
                     "scrollCollapse": false,
                     "pageLength": 100,
+                    "filter": true,
+                    "responsivePriority": 1,
+                    "data": null,
+                    "order": [[0, 'desc']],
                     "columns": [
                         { "data": "FolioDeSurtido" },
                         { "data": "NombreDeProducto" },
@@ -143,12 +148,12 @@
                         { "data": "FechaDeSurtido" },
                         { "data": "TextoDeEstatus" }
                     ],
-                    "order": [[0, 'dec']],
                     "rowGroup": {
                         "dataSrc": 'FolioDeSurtido'
                     },
                     "language": LenguajeEN()
                 });
+                table.draw();
                 DetalleRegistro('#' + Elementos_Surtido.Tabla + ' tbody', table);
             }
             var DetalleRegistro = function (tbody, table) {
