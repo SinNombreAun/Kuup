@@ -8,18 +8,21 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Presentacion.Kuup.Nucleo.Clases;
 
 namespace Presentacion.Kuup
 {
     public class MvcApplication : System.Web.HttpApplication
     {
         public static Dictionary<Object, SesionActiva> ListaDeSesionesActivas = new Dictionary<Object, SesionActiva>();
+        public static ClsVersion ObjVersion = null;
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
             this.RegisterGlobalFilters(GlobalFilters.Filters);
             this.RegisterRoutes(RouteTable.Routes);
             //this.RegisterBundles(BundleTable.Bundles);
+            ObjVersion = new ClsVersion();
         }
         private void RegisterRoutes(RouteCollection routes)
         {
