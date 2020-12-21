@@ -19,10 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CapaFunciones", "CapaFuncio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funciones.Kuup", "Funciones.Kuup\Funciones.Kuup.csproj", "{8632801F-3B9A-4F06-B918-66AA09CE85B3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version", "Version", "{9A2E2BB4-1F26-438F-A0BA-4BF11619474D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionKuup", "VersionKuup\VersionKuup.csproj", "{E21A0DB8-745D-44AC-A710-9B3A0119A67C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,10 +41,6 @@ Global
 		{8632801F-3B9A-4F06-B918-66AA09CE85B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8632801F-3B9A-4F06-B918-66AA09CE85B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8632801F-3B9A-4F06-B918-66AA09CE85B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E21A0DB8-745D-44AC-A710-9B3A0119A67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E21A0DB8-745D-44AC-A710-9B3A0119A67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E21A0DB8-745D-44AC-A710-9B3A0119A67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E21A0DB8-745D-44AC-A710-9B3A0119A67C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,7 +50,6 @@ Global
 		{0AB74722-50CA-4A61-9920-3BE4F2606403} = {36C027E8-109C-4DD9-9650-10E97792CCE9}
 		{EBB5F602-409D-40D4-9C7D-8EE20D2B45AB} = {B9F505F3-13F7-4830-81AD-8B5DB01EA0A6}
 		{8632801F-3B9A-4F06-B918-66AA09CE85B3} = {3465B785-B13D-48C0-9099-1B2EAB463D0F}
-		{E21A0DB8-745D-44AC-A710-9B3A0119A67C} = {9A2E2BB4-1F26-438F-A0BA-4BF11619474D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA7A8B66-C412-4792-94CC-6BC3662967DD}
