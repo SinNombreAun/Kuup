@@ -21,12 +21,16 @@ namespace Presentacion.Kuup.Models
             this.CantidadDeProductoTotal = Producto.CantidadDeProductoTotal;
             this.NombreDeProducto = Producto.NombreDeProducto;
             this.Descripcion = Producto.Descripcion;
+            this.CveTipoDeProducto = Producto.CveTipoDeProducto;
+            this.CveMarca = Producto.CveMarca;
             this.CveAviso = Producto.CveAviso;
             this.CveCorreoSurtido = Producto.CveCorreoSurtido;
             this.CantidadMinima = Producto.CantidadMinima;
             this.NumeroDeProveedor = Producto.NumeroDeProveedor;
             this.PrecioUnitario = Producto.PrecioUnitario;
             this.CveDeEstatus = Producto.CveDeEstatus;
+            this.TextoTipoDeProducto = Producto.TextoTipoDeProducto;
+            this.TextoMarca = Producto.TextoMarca;
             this.TextoAviso = Producto.TextoAviso;
             this.TextoCorreoSurtido = Producto.TextoCorreoSurtido;
             this.NombreDeProveedor = Producto.NombreDeProveedor;
@@ -88,6 +92,20 @@ namespace Presentacion.Kuup.Models
             set { this.Descripcion = value; }
         }
         [Required]
+        [Display(Name = "Tipo de Producto")]
+        public byte fCveTipoDeProducto
+        {
+            get { return this.CveTipoDeProducto; }
+            set { this.CveTipoDeProducto = value; }
+        }
+        [Required]
+        [Display(Name = "Marca")]
+        public byte fCveMarca
+        {
+            get { return this.CveMarca; }
+            set { this.CveMarca = value;}
+        }
+        [Required]
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveAviso")]
         public byte fCveAviso
         {
@@ -127,6 +145,18 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.CveDeEstatus; }
             set { this.CveDeEstatus = value; }
+        }
+        [Display(Name = "Tipo de Producto")]
+        public String fTextoTipoDeProducto
+        {
+            get { return this.TextoTipoDeProducto; }
+            set { this.TextoTipoDeProducto = value; }
+        }
+        [Display(Name ="Marca")]
+        public String fTextoMarca
+        {
+            get { return this.TextoMarca; }
+            set { this.TextoMarca = value; }
         }
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAviso")]
         public String fTextoAviso
