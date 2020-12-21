@@ -65,6 +65,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                         if(Productos.Exists(x => x.NumeroDeProducto == Surtido.NumeroDeProducto && x.CodigoDeBarras == Surtido.CodigoDeBarras))
                                         {
                                             var Producto = Productos.Find(x => x.NumeroDeProducto == Surtido.NumeroDeProducto && x.CodigoDeBarras == Surtido.CodigoDeBarras);
+                                            Producto.db = db;
                                             if (!ProductosAudit.Exists(x => x == Producto.NumeroDeProducto))
                                             {
                                                 ClsAudit Audit = Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "ALTA");

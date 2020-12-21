@@ -13,7 +13,7 @@ namespace Presentacion.Kuup.Nucleo.Clases
                 IdAudit = IdAudit,
                 Terminal = MoSesion.TerminalDeUsuario,
                 IP = MoSesion.IPDeUsuario,
-                Version = "",
+                Version = MvcApplication.ObjVersion.NumeroDeVersionCorta,
                 NombreDeUsuario = MoSesion.NombreDeUsuario,
                 NombreDeFuncionalidad = NombreDeFuncionalidad
             };
