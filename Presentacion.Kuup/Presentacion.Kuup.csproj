@@ -291,10 +291,6 @@
       <Project>{0ab74722-50ca-4a61-9920-3be4f2606403}</Project>
       <Name>Negocio.Kuup</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VersionKuup\VersionKuup.csproj">
-      <Project>{e21a0db8-745d-44ac-a710-9b3a0119a67c}</Project>
-      <Name>VersionKuup</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Recursos\Textos.resx">
