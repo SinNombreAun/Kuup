@@ -54,6 +54,16 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_DESCRIPCION; }
             set { Producto.PRO_DESCRIPCION = value; }
         }
+        public byte CveTipoDeProducto
+        {
+            get { return Producto.PRO_CVE_TIPO_PRODUCTO; }
+            set { Producto.PRO_CVE_TIPO_PRODUCTO = value; }
+        }
+        public byte CveMarca
+        {
+            get { return Producto.PRO_CVE_MARCA; }
+            set { Producto.PRO_CVE_MARCA = value; }
+        }
         public byte CveAviso
         {
             get { return Producto.PRO_CVE_AVISO; }
@@ -83,6 +93,16 @@ namespace Negocio.Kuup.Clases
         {
             get { return Producto.PRO_CVE_ESTATUS; }
             set { Producto.PRO_CVE_ESTATUS = value; }
+        }
+        public String TextoTipoDeProducto
+        {
+            get { return Producto.PRO_TXT_TIPO_PRODUCTO; }
+            set { Producto.PRO_TXT_TIPO_PRODUCTO = value; }
+        }
+        public String TextoMarca
+        {
+            get { return Producto.PRO_TXT_MARCA; }
+            set { Producto.PRO_TXT_MARCA = value; }
         }
         public String TextoAviso
         {
@@ -115,6 +135,8 @@ namespace Negocio.Kuup.Clases
             CantidadDeProductoTotal = Producto.PRO_CANT_PRODUCTO_TOTAL;
             NombreDeProducto = Producto.PRO_NOM_PRODUCTO;
             Descripcion = Producto.PRO_DESCRIPCION;
+            CveTipoDeProducto = Producto.PRO_CVE_TIPO_PRODUCTO;
+            CveMarca = Producto.PRO_CVE_MARCA;
             CveAviso = Producto.PRO_CVE_AVISO;
             CveCorreoSurtido = Producto.PRO_CVE_CORREO_SURTIDO;
             CantidadMinima = Producto.PRO_CAT_MINIMA;
@@ -198,12 +220,16 @@ namespace Negocio.Kuup.Clases
                 Audit.PRO_CANT_PRODUCTO_TOTAL = Producto.PRO_CANT_PRODUCTO_TOTAL;
                 Audit.PRO_NOM_PRODUCTO = Producto.PRO_NOM_PRODUCTO;
                 Audit.PRO_DESCRIPCION = Producto.PRO_DESCRIPCION;
+                Audit.PRO_CVE_TIPO_PRODUCTO = Producto.PRO_CVE_TIPO_PRODUCTO;
+                Audit.PRO_CVE_MARCA = Producto.PRO_CVE_MARCA;
                 Audit.PRO_CVE_AVISO = Producto.PRO_CVE_AVISO;
                 Audit.PRO_CVE_CORREO_SURTIDO = Producto.PRO_CVE_CORREO_SURTIDO;
                 Audit.PRO_CAT_MINIMA = Producto.PRO_CAT_MINIMA;
                 Audit.PRO_NUM_PROVEEDOR = Producto.PRO_NUM_PROVEEDOR;
                 Audit.PRO_PRECIO_UNITARIO = Producto.PRO_PRECIO_UNITARIO;
                 Audit.PRO_CVE_ESTATUS = Producto.PRO_CVE_ESTATUS;
+                Audit.PRO_TXT_TIPO_PRODUCTO = Producto.PRO_TXT_TIPO_PRODUCTO;
+                Audit.PRO_TXT_MARCA = Producto.PRO_TXT_MARCA;
                 Audit.PRO_TXT_AVISO = Producto.PRO_TXT_AVISO;
                 Audit.PRO_TXT_CORREO_SURTIDO = Producto.PRO_TXT_CORREO_SURTIDO;
                 Audit.PRO_NOM_PROVEEDOR = Producto.PRO_NOM_PROVEEDOR;
@@ -314,6 +340,8 @@ namespace Negocio.Kuup.Clases
             Tabla.PRO_CANT_PRODUCTO_TOTAL = this.CantidadDeProductoTotal;
             Tabla.PRO_NOM_PRODUCTO = this.NombreDeProducto;
             Tabla.PRO_DESCRIPCION = this.Descripcion;
+            Tabla.PRO_CVE_TIPO_PRODUCTO = this.CveTipoDeProducto;
+            Tabla.PRO_CVE_MARCA = this.CveMarca;
             Tabla.PRO_CVE_AVISO = this.CveAviso;
             Tabla.PRO_CVE_CORREO_SURTIDO = this.CveCorreoSurtido;
             Tabla.PRO_CAT_MINIMA = this.CantidadMinima;
@@ -341,12 +369,16 @@ namespace Negocio.Kuup.Clases
                                     CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
                                     NombreDeProducto = q.PRO_NOM_PRODUCTO,
                                     Descripcion = q.PRO_DESCRIPCION,
+                                    CveTipoDeProducto = q.PRO_CVE_TIPO_PRODUCTO,
+                                    CveMarca =q.PRO_CVE_MARCA,
                                     CveAviso = q.PRO_CVE_AVISO,
                                     CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
                                     CantidadMinima = q.PRO_CAT_MINIMA,
                                     NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
                                     PrecioUnitario = q.PRO_PRECIO_UNITARIO,
                                     CveDeEstatus = q.PRO_CVE_ESTATUS,
+                                    TextoTipoDeProducto = q.PRO_TXT_TIPO_PRODUCTO,
+                                    TextoMarca = q.PRO_TXT_MARCA,
                                     TextoAviso = q.PRO_TXT_AVISO,
                                     TextoCorreoSurtido = q.PRO_TXT_CORREO_SURTIDO,
                                     TextoDeEstatus = q.PRO_TXT_ESTATUS
@@ -365,6 +397,8 @@ namespace Negocio.Kuup.Clases
                                     CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
                                     NombreDeProducto = q.PRO_NOM_PRODUCTO,
                                     Descripcion = q.PRO_DESCRIPCION,
+                                    CveTipoDeProducto = q.PRO_CVE_TIPO_PRODUCTO,
+                                    CveMarca = q.PRO_CVE_MARCA,
                                     CveAviso = q.PRO_CVE_AVISO,
                                     CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
                                     CantidadMinima = q.PRO_CAT_MINIMA,
