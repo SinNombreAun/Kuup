@@ -32,6 +32,7 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            this.CargaCombosParaTabla();
             return View();
         }
         [HttpPost]
@@ -616,6 +617,12 @@ namespace Presentacion.Kuup.Controllers
             ViewBag.CveDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveDeEstatus.ToString());
 
             ViewBag.ManejaProveedor = ((from q in ClsParametros.getList() where q.NombreDeParametro == "ManejaProveedor" select q.ValorDeParametro).FirstOrDefault() == "SI");
+        }
+        private void CargaCombosParaTabla()
+        {
+            ViewBag.TextoAviso = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoAviso");
+            ViewBag.TextoCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoCorreoSurtido");
+            ViewBag.TextoDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(1, "TextoDeEstatus");
         }
         public JsonResult AutoCompleteProducto(String Prefix)
         {

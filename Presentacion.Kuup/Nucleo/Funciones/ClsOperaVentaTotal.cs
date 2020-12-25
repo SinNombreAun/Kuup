@@ -53,42 +53,51 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                 {
                                     Ventas.db = db;
                                     Ventas.FolioDeOperacion = VentasTotales.FolioDeOperacion;
-                                    if (Ventas.Insert())
+                                    var Producto = (from q in Productos where q.NumeroDeProducto == Ventas.NumeroDeProducto select q).FirstOrDefault();
+                                    if (Ventas.CantidadDeProducto <= Producto.CantidadDeProductoTotal)
                                     {
-                                        var Producto = (from q in Productos where q.NumeroDeProducto == Ventas.NumeroDeProducto select q).FirstOrDefault();
-                                        if (Producto != null)
+                                        if (Ventas.Insert())
                                         {
-                                            var Cantidad = Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto;
-                                            if (Cantidad >= 0)
+                                            if (Producto != null)
                                             {
-                                                Producto.db =db;
-                                                Producto.CantidadDeProductoTotal = (short)(Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto);
-                                                if (!Producto.Update())
+                                                var Cantidad = Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto;
+                                                if (Cantidad >= 0)
                                                 {
-                                                    Resultado.Resultado = false;
-                                                    Resultado.Mensaje = "No fue posible actualizar los titulos disponibles";
-                                                    break;
-                                                }
-                                                if (Producto.CveAviso == 1)
-                                                {
-                                                    if (Cantidad <= Producto.CantidadMinima)
+                                                    Producto.db = db;
+                                                    Producto.CantidadDeProductoTotal = (short)(Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto);
+                                                    if (!Producto.Update())
                                                     {
-                                                        AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                        Resultado.Resultado = false;
+                                                        Resultado.Mensaje = "No fue posible actualizar los titulos disponibles";
+                                                        break;
+                                                    }
+                                                    if (Producto.CveAviso == 1)
+                                                    {
+                                                        if (Cantidad <= Producto.CantidadMinima)
+                                                        {
+                                                            AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    Resultado.Resultado = false;
+                                                    AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                                    break;
+                                                }
                                             }
-                                            else
-                                            {
-                                                Resultado.Resultado = false;
-                                                AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
-                                                break;
-                                            }
+                                        }
+                                        else
+                                        {
+                                            Resultado.Resultado = false;
+                                            Resultado.Mensaje = "No fue posible cargar el detalle de la Venta";
+                                            break;
                                         }
                                     }
                                     else
                                     {
                                         Resultado.Resultado = false;
-                                        Resultado.Mensaje = "No fue posible cargar el detalle de la Venta";
+                                        AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
                                         break;
                                     }
                                 }
@@ -141,10 +150,11 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 List<Object> Producto = new List<Object>();
                 foreach (var vproducto in lista)
                 {
-                    Producto.Add(new { vproducto.v.NombreDeProducto,vproducto.v.PrecioUnitario,vproducto.v.CantidadDeProducto,vproducto.v.ImporteDeProducto});
+                    Producto.Add(new { vproducto.v.NombreDeProducto, vproducto.v.PrecioUnitario, vproducto.v.CantidadDeProducto, vproducto.v.ImporteDeProducto });
                 }
 
-                Object TicketObj = new { 
+                Object TicketObj = new
+                {
                     Empresa = (from q in ParametrosTicket where q.NombreDeParametro == "Empresa" select q.ValorDeParametro).FirstOrDefault(),
                     Dir = (from q in ParametrosTicket where q.NombreDeParametro == "Direccion" select q.ValorDeParametro).FirstOrDefault(),
                     Tel = (from q in ParametrosTicket where q.NombreDeParametro == "Telefono" select q.ValorDeParametro).FirstOrDefault(),
@@ -191,11 +201,12 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 //{
                 //    ClsBitacora.GeneraBitacora(1, 1, "ImprimirTiket", Resultado.Mensaje);
                 //}
-                Resultado.Adicional = TicketObj;// Ticket.RegresaTextoTicket();
+                // Ticket.RegresaTextoTicket();
+                Resultado.Adicional = TicketObj;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                ClsBitacora.GeneraBitacora(1, 1, "GeneraTicket", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                ClsBitacora.GeneraBitacora((new ClsVentasTotales()).NumeroDePantallaKuup, 1, "GeneraTicket", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
             }
 
             return Resultado;

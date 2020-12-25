@@ -127,7 +127,7 @@
                     "ajax": {
                         "type": "POST",
                         "url": UrlCargaGrid,
-                        "async": true,
+                        "async": false,
                         "datatype": "json"
                     },
                     "destroy": true,

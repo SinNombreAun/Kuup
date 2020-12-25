@@ -769,6 +769,20 @@ namespace Funciones.Kuup.Adicionales
                     return (from q in db.Claves where q.CVE_NUM_CLAVE == NumeroDeClave select new SelectListItem { Text = q.CVE_NUM_SEC_CLAVE.ToString() + " / " + q.CVE_NOM_CLAVE, Value = q.CVE_NUM_SEC_CLAVE.ToString(), Selected = q.CVE_NUM_SEC_CLAVE == ValorPorDefectoN }).ToList();
                 }
             }
+            public static String CargaComboClaveParaTabla(byte NumeroDeClave,String idDeCombo)
+            {
+                String SelectText = String.Format("<select id='{0}'>", idDeCombo);
+                using(DBKuupEntities db = new DBKuupEntities())
+                {
+                    SelectText += "<option value=''>--SELECCIONE--</option>";
+                    foreach (Claves Clave in (from q in db.Claves where q.CVE_NUM_CLAVE == NumeroDeClave select q).ToList())
+                    {
+                        SelectText += String.Format("<option value='{1}'>{0} / {1}</option>", Clave.CVE_NUM_SEC_CLAVE, Clave.CVE_NOM_CLAVE);
+                    }
+                }
+                SelectText += "</select>";
+                return SelectText;
+            }
             public static List<SelectListItem> CargaComboProveedor(Nullable<byte> NumeroDeProveedor)
             {
                 using (DBKuupEntities db = new DBKuupEntities())

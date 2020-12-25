@@ -1,0 +1,20 @@
+{
+  "name": "kuup",
+  "version": "1.0.3",
+  "description": "Sistema de inventario y administracion de ventas",
+  "main": "Kuup.sln",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinNombreAun/Kuup.git"
+  },
+  "author": "FrEaK0121",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SinNombreAun/Kuup/issues"
+  },
+  "homepage": "https://github.com/SinNombreAun/Kuup#readme",
+  "devDependencies": {}
+}
