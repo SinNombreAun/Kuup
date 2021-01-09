@@ -231,7 +231,7 @@ namespace Negocio.Kuup.Clases
             Tabla.CNP_IMPORTE_TOTAL = this.ImporteTotal;
             return Tabla;
         }
-        public static List<ClsConfiguraPaquetes> getList(bool EsVista = true)
+        public static List<ClsConfiguraPaquetes> getList(String filtro = "", bool EsVista = true)
         {
             try
             {
@@ -239,7 +239,7 @@ namespace Negocio.Kuup.Clases
                 {
                     if (EsVista)
                     {
-                        return (from q in db.ViConfiguraPaquete
+                        var Query = (from q in db.ViConfiguraPaquete
                                 select new ClsConfiguraPaquetes()
                                 {
                                     NumeroDeProductoPadre = q.CNP_NUM_PRODUCTO_PADRE,
@@ -252,11 +252,16 @@ namespace Negocio.Kuup.Clases
                                     ImporteTotal = q.CNP_IMPORTE_TOTAL,
                                     NombreDeProductoPadre = q.CNP_NOM_PRODUCTO_PADRE,
                                     NombreDeProductoHijo = q.CNP_NOM_PRODUCTO_HIJO
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                     else
                     {
-                        return (from q in db.ConfiguraPaquete
+                        var Query = (from q in db.ConfiguraPaquete
                                 select new ClsConfiguraPaquetes()
                                 {
                                     NumeroDeProductoPadre = q.CNP_NUM_PRODUCTO_PADRE,
@@ -267,7 +272,12 @@ namespace Negocio.Kuup.Clases
                                     CantidadASalir = q.CNP_CANTIDAD_A_SALIR,
                                     PrecioDeProductoHijo = q.CNP_PRECIO_PRODUCTO_HIJO,
                                     ImporteTotal = q.CNP_IMPORTE_TOTAL
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                 }
             }

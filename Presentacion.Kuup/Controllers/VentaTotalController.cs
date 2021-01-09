@@ -45,27 +45,37 @@ namespace Presentacion.Kuup.Controllers
             List<ClsConfiguraPaquetes> Paquetes = new List<ClsConfiguraPaquetes>();
             ClsProductos Producto = new ClsProductos();
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            String Filtro = String.Empty;
             if (NumeroDeProducto == 0)
             {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Filtro = String.Format("CodigoDeBarras == {0} && CveDeEstatus == {1}", NombreOCodigoDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                //Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Productos = ClsProductos.getList(Filtro);
                 if (Productos.Count == 0)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Filtro = String.Format("NombreDeProducto == \"{0}\" && CveDeEstatus == {1}", NombreOCodigoDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                    //Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Productos = ClsProductos.getList(Filtro);
                 }
             }
             else
             {
-                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                //Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Productos = ClsProductos.getList(Filtro);
             }
 
             if (Productos.Count != 0)
             {
                 Producto = Productos.FirstOrDefault();
-
-                Paquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == Producto.NumeroDeProducto select q).ToList();
+                Filtro = String.Format("NumeroDeProductoPadre == {0}", Producto.NumeroDeProducto);
+                //Paquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == Producto.NumeroDeProducto select q).ToList();
+                Paquetes = ClsConfiguraPaquetes.getList(Filtro);
                 if (Paquetes.Count() == 0)
                 {
-                    Paquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoHijo == Producto.NumeroDeProducto select q).ToList();
+                    Filtro = String.Format("NumeroDeProductoHijo == {0}", Producto.NumeroDeProducto);
+                    //Paquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoHijo == Producto.NumeroDeProducto select q).ToList();
+                    Paquetes = ClsConfiguraPaquetes.getList(Filtro);
                 }
             }
             else
@@ -85,18 +95,25 @@ namespace Presentacion.Kuup.Controllers
             List<ClsProductos> Productos = new List<ClsProductos>();
             List<ClsVentas> Registro = new List<ClsVentas>();
             List<ClsConfiguraPaquetes> ListaPaquetes = new List<ClsConfiguraPaquetes>();
+            String Filtro = String.Empty;
             if (!string.IsNullOrEmpty(Paquetes))
             {
-                ListaPaquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == ClsAdicional.Convert<short>(Paquetes.Split('_')[0]) && q.NumeroDeProductoHijo == ClsAdicional.Convert<short>(Paquetes.Split('_')[1]) select q).ToList();
+                Filtro = String.Format("NumeroDeProductoPadre == {0} && NumeroDeProductoHijo == {1}", ClsAdicional.Convert<short>(Paquetes.Split('_')[0]), ClsAdicional.Convert<short>(Paquetes.Split('_')[1]));
+                //ListaPaquetes = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == ClsAdicional.Convert<short>(Paquetes.Split('_')[0]) && q.NumeroDeProductoHijo == ClsAdicional.Convert<short>(Paquetes.Split('_')[1]) select q).ToList();
+                ListaPaquetes = ClsConfiguraPaquetes.getList(Filtro);
                 if (ListaPaquetes.Count() == 1)
                 {
                     if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre))
                     {
-                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
-
+                        Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}",ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                        //Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                        Productos = ClsProductos.getList(Filtro);
+                                   
                         decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
 
-                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == {1}", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
+                        //List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
                         if (Mayoreo.Count() > 0)
                         {
                             foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
@@ -131,8 +148,9 @@ namespace Presentacion.Kuup.Controllers
                         var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre).FirstOrDefault();
 
                         decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
-
-                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Previo.NumeroDeProducto && q.CodigoDeBarras == Previo.CodigoDeBarras select q).ToList();
+                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == {1}", Previo.NumeroDeProducto, Previo.CodigoDeBarras);
+                        //List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Previo.NumeroDeProducto && q.CodigoDeBarras == Previo.CodigoDeBarras select q).ToList();
+                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
                         if (Mayoreo.Count() > 0)
                         {
                             foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
@@ -164,7 +182,9 @@ namespace Presentacion.Kuup.Controllers
                     }
                     if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo))
                     {
-                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                        Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}",ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                        //Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                        Productos = ClsProductos.getList(Filtro);
                         Registro.Add(new ClsVentas()
                         {
                             NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo,
@@ -205,12 +225,15 @@ namespace Presentacion.Kuup.Controllers
                 }
                 if (!Existe)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                    //Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Productos = ClsProductos.getList(Filtro);
                     if (Productos.Count != 0)
                     {
                         decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-
-                        List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == {1}", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
+                        //List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
                         if (Mayoreo.Count() > 0)
                         {
                             foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
@@ -244,10 +267,13 @@ namespace Presentacion.Kuup.Controllers
                 else
                 {
                     var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault();
-                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
+                    //Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Productos = ClsProductos.getList(Filtro);
                     decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-
-                    List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                    Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == {1}", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
+                    //List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();
+                    List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
                     if (Mayoreo.Count() > 0)
                     {
                         foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
@@ -285,10 +311,14 @@ namespace Presentacion.Kuup.Controllers
             List<ClsVentas> Registro = new List<ClsVentas>();
             ClsVentas RegistroPrev = ClsAdicional.Deserializar<ClsVentas>(RegistroPrevio);
             List<ClsVentas> RegistrosPrev = ClsAdicional.Deserializar<List<ClsVentas>>(RegistrosPrevios);
+            String Filtro = String.Empty;
+            Filtro = String.Format("NumeroDeProductoPadre == {0}", RegistroPrev.NumeroDeProducto);
             List<ClsConfiguraPaquetes> Paquete = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == RegistroPrev.NumeroDeProducto select q).ToList();
             if (Paquete.Count == 0)
             {
-                Paquete = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoHijo == RegistroPrev.NumeroDeProducto select q).ToList();
+                Filtro = String.Format("NumeroDeProductoHijo == {0}", RegistroPrev.NumeroDeProducto);
+                //Paquete = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoHijo == RegistroPrev.NumeroDeProducto select q).ToList();
+                Paquete = ClsConfiguraPaquetes.getList(Filtro);
             }
             if (Paquete.Count != 0)
             {

@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
+using System.Linq.Dynamic;
 
 namespace Negocio.Kuup.Clases
 {
@@ -240,7 +238,7 @@ namespace Negocio.Kuup.Clases
             Tabla.COM_PRECIO_MAYOREO = this.PrecioDeMayoreo;
             return Tabla;
         }
-        public static List<ClsConfiguraMayoreos> getList(bool EsVista = true)
+        public static List<ClsConfiguraMayoreos> getList(String filtro = "", bool EsVista = true)
         {
             try
             {
@@ -248,7 +246,7 @@ namespace Negocio.Kuup.Clases
                 {
                     if (EsVista)
                     {
-                        return (from q in db.ViConfiguraMayoreo
+                        var Query = (from q in db.ViConfiguraMayoreo
                                 select new ClsConfiguraMayoreos()
                                 {
                                     NumeroDeMayoreo = q.COM_NUM_MAYOREO,
@@ -259,11 +257,16 @@ namespace Negocio.Kuup.Clases
                                     CantidadMaxima = q.COM_CANTIDAD_MAXIMA,
                                     PrecioDeMayoreo = q.COM_PRECIO_MAYOREO,
                                     NombreDeProducto = q.COM_NOM_PRODUCTO
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                     else
                     {
-                        return (from q in db.ConfiguraMayoreo
+                        var Query = (from q in db.ConfiguraMayoreo
                                 select new ClsConfiguraMayoreos()
                                 {
                                     NumeroDeMayoreo = q.COM_NUM_MAYOREO,
@@ -273,7 +276,12 @@ namespace Negocio.Kuup.Clases
                                     CantidadMinima = q.COM_CANTIDAD_MINIMA,
                                     CantidadMaxima = q.COM_CANTIDAD_MAXIMA,
                                     PrecioDeMayoreo = q.COM_PRECIO_MAYOREO,
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                 }
             }

@@ -323,7 +323,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PRO_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
-        public static List<ClsProductos> getList(bool EsVista = true)
+        public static List<ClsProductos> getList(String filtro = "", bool EsVista = true)
         {
             try
             {
@@ -331,48 +331,58 @@ namespace Negocio.Kuup.Clases
                 {
                     if (EsVista)
                     {
-                        return (from q in db.ViProducto
-                                select new ClsProductos()
-                                {
-                                    NumeroDeProducto = q.PRO_NUM_PRODUCTO,
-                                    CodigoDeBarras = q.PRO_CODIGO_BARRAS,
-                                    FechaDeRegistro = q.PRO_FECHA_REGISTRO,
-                                    CantidadDeProductoUltima = q.PRO_CANT_PRODUCTO_ULTIMA,
-                                    CantidadDeProductoNueva = q.PRO_CANT_PRODUCTO_NUEVA,
-                                    CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
-                                    NombreDeProducto = q.PRO_NOM_PRODUCTO,
-                                    Descripcion = q.PRO_DESCRIPCION,
-                                    CveAviso = q.PRO_CVE_AVISO,
-                                    CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
-                                    CantidadMinima = q.PRO_CAT_MINIMA,
-                                    NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
-                                    PrecioUnitario = q.PRO_PRECIO_UNITARIO,
-                                    CveDeEstatus = q.PRO_CVE_ESTATUS,
-                                    TextoAviso = q.PRO_TXT_AVISO,
-                                    TextoCorreoSurtido = q.PRO_TXT_CORREO_SURTIDO,
-                                    TextoDeEstatus = q.PRO_TXT_ESTATUS
-                                }).ToList();
+                        var Query = (from q in db.ViProducto
+                                     select new ClsProductos()
+                                     {
+                                         NumeroDeProducto = q.PRO_NUM_PRODUCTO,
+                                         CodigoDeBarras = q.PRO_CODIGO_BARRAS,
+                                         FechaDeRegistro = q.PRO_FECHA_REGISTRO,
+                                         CantidadDeProductoUltima = q.PRO_CANT_PRODUCTO_ULTIMA,
+                                         CantidadDeProductoNueva = q.PRO_CANT_PRODUCTO_NUEVA,
+                                         CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
+                                         NombreDeProducto = q.PRO_NOM_PRODUCTO,
+                                         Descripcion = q.PRO_DESCRIPCION,
+                                         CveAviso = q.PRO_CVE_AVISO,
+                                         CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
+                                         CantidadMinima = q.PRO_CAT_MINIMA,
+                                         NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
+                                         PrecioUnitario = q.PRO_PRECIO_UNITARIO,
+                                         CveDeEstatus = q.PRO_CVE_ESTATUS,
+                                         TextoAviso = q.PRO_TXT_AVISO,
+                                         TextoCorreoSurtido = q.PRO_TXT_CORREO_SURTIDO,
+                                         TextoDeEstatus = q.PRO_TXT_ESTATUS
+                                     }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                     else
                     {
-                        return (from q in db.Producto
-                                select new ClsProductos()
-                                {
-                                    NumeroDeProducto = q.PRO_NUM_PRODUCTO,
-                                    CodigoDeBarras = q.PRO_CODIGO_BARRAS,
-                                    FechaDeRegistro = q.PRO_FECHA_REGISTRO,
-                                    CantidadDeProductoUltima = q.PRO_CANT_PRODUCTO_ULTIMA,
-                                    CantidadDeProductoNueva = q.PRO_CANT_PRODUCTO_NUEVA,
-                                    CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
-                                    NombreDeProducto = q.PRO_NOM_PRODUCTO,
-                                    Descripcion = q.PRO_DESCRIPCION,
-                                    CveAviso = q.PRO_CVE_AVISO,
-                                    CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
-                                    CantidadMinima = q.PRO_CAT_MINIMA,
-                                    NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
-                                    PrecioUnitario = q.PRO_PRECIO_UNITARIO,
-                                    CveDeEstatus = q.PRO_CVE_ESTATUS
-                                }).ToList();
+                        var Query = (from q in db.Producto
+                                     select new ClsProductos()
+                                     {
+                                         NumeroDeProducto = q.PRO_NUM_PRODUCTO,
+                                         CodigoDeBarras = q.PRO_CODIGO_BARRAS,
+                                         FechaDeRegistro = q.PRO_FECHA_REGISTRO,
+                                         CantidadDeProductoUltima = q.PRO_CANT_PRODUCTO_ULTIMA,
+                                         CantidadDeProductoNueva = q.PRO_CANT_PRODUCTO_NUEVA,
+                                         CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
+                                         NombreDeProducto = q.PRO_NOM_PRODUCTO,
+                                         Descripcion = q.PRO_DESCRIPCION,
+                                         CveAviso = q.PRO_CVE_AVISO,
+                                         CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
+                                         CantidadMinima = q.PRO_CAT_MINIMA,
+                                         NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
+                                         PrecioUnitario = q.PRO_PRECIO_UNITARIO,
+                                         CveDeEstatus = q.PRO_CVE_ESTATUS
+                                     }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                 }
             }

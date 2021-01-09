@@ -240,7 +240,8 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index", "Producto");
             }
-            ProductoModel Producto = new ProductoModel((from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList().FirstOrDefault());
+            var ProductoClase = ClsProductos.getList(String.Format("NumeroDeProducto == {0}", NumeroDeProducto));
+            ProductoModel Producto = new ProductoModel(ProductoClase.FirstOrDefault());
             if (Producto == null)
             {
                 return RedirectToAction("Index", "Producto");

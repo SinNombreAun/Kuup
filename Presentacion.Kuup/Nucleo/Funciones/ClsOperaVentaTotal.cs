@@ -20,6 +20,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
         {
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, "Registro de Venta Correcto");
             List<Object> AvisaCantidad = new List<Object>();
+            String Filtro = String.Empty;
             if (!String.IsNullOrEmpty(ObjetoVenta))
             {
                 List<ClsVentas> RegistrosDeVentas = ClsAdicional.Deserializar<List<ClsVentas>>(ObjetoVenta);
