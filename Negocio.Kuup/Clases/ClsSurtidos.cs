@@ -8,6 +8,7 @@ using System.Data.Entity.Migrations.Builders;
 using System.IO.Pipes;
 using System.Linq;
 using System.Security.Permissions;
+using System.Linq.Dynamic;
 
 namespace Negocio.Kuup.Clases
 {
@@ -275,6 +276,117 @@ namespace Negocio.Kuup.Clases
 
             }
             return new List<ClsSurtidos>();
+        }
+        public Object DataTableSurtido(Globales.ClsDataTables RequesDT)
+        {
+            RequesDT.draw = RequesDT.Form.GetValues("draw").FirstOrDefault();
+            RequesDT.start = RequesDT.Form.GetValues("start").FirstOrDefault();
+            RequesDT.length = RequesDT.Form.GetValues("length").FirstOrDefault();
+            RequesDT.sortColumn = RequesDT.Form.GetValues("columns[" + RequesDT.Form.GetValues("order[0][column]").FirstOrDefault() + "][data]").FirstOrDefault();
+            RequesDT.sortColumnDir = RequesDT.Form.GetValues("order[0][dir]").FirstOrDefault();
+            RequesDT.searchValue = RequesDT.Form.GetValues("search[value]").FirstOrDefault();
+
+            RequesDT.pageSize = RequesDT.length != null ? Convert.ToInt32(RequesDT.length) : 0;
+            RequesDT.skip = RequesDT.start != null ? Convert.ToInt32(RequesDT.start) : 0;
+            RequesDT.recordsTotal = 0;
+            using (DBKuupEntities db = new DBKuupEntities())
+            {
+                var Query = (from q in db.ViSurtido
+                             select new ClsSurtidos
+                             {
+                                 FolioDeSurtido = q.SUR_FOLIO_SURTIDO,
+                                 NombreDeProducto = q.SUR_NOM_PRODUCTO,
+                                 NombreDeUsuario = (q.SUR_NOM_PROVEEDOR == null ? q.SUR_NOM_USUARIO : q.SUR_NOM_PROVEEDOR),
+                                 CantidadNueva = q.SUR_CANT_NUEVA,
+                                 FechaDeSurtido = q.SUR_FECHA_SURTIDO,
+                                 TextoDeEstatus = q.SUR_TXT_ESTATUS
+                             }).AsQueryable();
+                String sql = String.Empty;
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[0][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("FolioDeSurtido.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[0][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[1][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("NombreDeProducto.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[1][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[2][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("NombreDeUsuario.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[2][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[3][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("CantidadNueva.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[3][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[4][search][value]").FirstOrDefault()))
+                {
+                    String Fecha = RequesDT.Form.GetValues("columns[4][search][value]").FirstOrDefault().Trim().ToUpper();
+                    if (!String.IsNullOrEmpty(Fecha))
+                    {
+                        if (Fecha.Split('-').Length == 3)
+                        {
+                            if (!String.IsNullOrEmpty(sql))
+                            {
+                                sql += " && ";
+                            }
+                            sql += String.Format("FechaDeSurtido == Datetime({0},{1},{2})", Fecha.Split('-')[0], Fecha.Split('-')[1], Fecha.Split('-')[2]);
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[5][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("TextoDeEstatus.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[5][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!String.IsNullOrEmpty(sql))
+                {
+                    Query = Query.Where(sql);
+                }
+                //if (!String.IsNullOrEmpty(RequesDT.searchValue))
+                //{
+                //    Query = Query.Where(x => x.FolioDeSurtido.ToString().Contains(RequesDT.searchValue.Trim().ToUpper()) ||
+                //        x.NombreDeProducto.Trim().ToUpper().Contains(RequesDT.searchValue.Trim().ToUpper()));
+                //}
+                if (!(string.IsNullOrEmpty(RequesDT.sortColumn) && string.IsNullOrEmpty(RequesDT.sortColumnDir)))
+                {
+                    Query = Query.OrderBy(RequesDT.sortColumn + " " + RequesDT.sortColumnDir);
+                }
+                RequesDT.recordsTotal = Query.Count();
+
+                var ProductoTable = Query.Skip(RequesDT.skip).Take(RequesDT.pageSize).ToArray();
+                
+
+                RequesDT.DatosJson = new { RequesDT.draw, recordsFiltered = RequesDT.recordsTotal, RequesDT.recordsTotal, data = ProductoTable.Select(x => new
+                {
+                    x.FolioDeSurtido,
+                    x.NombreDeProducto,
+                    NombreDeQuienSurtio = x.NombreDeUsuario,
+                    x.CantidadNueva,
+                    FechaDeSurtido = x.FechaDeSurtido.ToString("yyyy-MM-dd"),
+                    x.TextoDeEstatus
+                })
+            };
+            }
+            return RequesDT.DatosJson;
         }
     }
 }

@@ -47,15 +47,15 @@ namespace Presentacion.Kuup.Controllers
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (NumeroDeProducto == 0)
             {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                 if (Productos.Count == 0)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                 }
             }
             else
             {
-                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
+                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
             }
 
             if (Productos.Count != 0)
@@ -92,7 +92,7 @@ namespace Presentacion.Kuup.Controllers
                 {
                     if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre))
                     {
-                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre select q).ToList();
+                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
 
                         decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
 
@@ -164,7 +164,7 @@ namespace Presentacion.Kuup.Controllers
                     }
                     if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo))
                     {
-                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo select q).ToList();
+                        Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                         Registro.Add(new ClsVentas()
                         {
                             NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo,
@@ -205,7 +205,7 @@ namespace Presentacion.Kuup.Controllers
                 }
                 if (!Existe)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
+                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                     if (Productos.Count != 0)
                     {
                         decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
@@ -244,7 +244,7 @@ namespace Presentacion.Kuup.Controllers
                 else
                 {
                     var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault();
-                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
+                    Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                     decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
 
                     List<ClsConfiguraMayoreos> Mayoreo = (from q in ClsConfiguraMayoreos.getList() where q.NumeroDeProducto == Productos.FirstOrDefault().NumeroDeProducto && q.CodigoDeBarras == Productos.FirstOrDefault().CodigoDeBarras select q).ToList();

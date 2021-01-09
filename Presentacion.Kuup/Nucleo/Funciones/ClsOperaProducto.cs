@@ -444,33 +444,33 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (!String.IsNullOrEmpty(NombreDeProducto))
             {
-                if ((from q in ClsProductos.getList() where q.NombreDeProducto.Trim() == NombreDeProducto.Trim() select q.NombreDeProducto).Count() == 0)
+                if ((from q in ClsProductos.getList() where q.NombreDeProducto.Trim().ToUpper() == NombreDeProducto.Trim().ToUpper() && q.CveDeEstatus == 1 select q.NombreDeProducto).Count() == 0)
                 {
-                    if ((from q in NombresYCodigoDeBarras where q.NombreDeProducto == NombreDeProducto select q.NombreDeProducto).Count() == 0)
+                    if ((from q in NombresYCodigoDeBarras where q.NombreDeProducto.Trim().ToUpper() == NombreDeProducto.Trim().ToUpper() select q.NombreDeProducto).Count() == 0)
                     {
-                        Registros.Add("NombreDeProducto", NombreDeProducto);
+                        Registros.Add("NombreDeProducto", NombreDeProducto.Trim().ToUpper());
                         String CodigoDeBarras = Registros["CodigoDeBarras"].ToString();
                         if (NombresYCodigoDeBarras.Count() == 0)
                         {
-                            NombresYCodigoDeBarras.Add(new ClsProductos() { CodigoDeBarras = CodigoDeBarras, NombreDeProducto = NombreDeProducto });
+                            NombresYCodigoDeBarras.Add(new ClsProductos() { CodigoDeBarras = CodigoDeBarras, NombreDeProducto = NombreDeProducto.Trim().ToUpper() });
                         }
                         else
                         {
-                            NombresYCodigoDeBarras.Find(x => x.CodigoDeBarras == CodigoDeBarras).NombreDeProducto = NombreDeProducto;
+                            NombresYCodigoDeBarras.Find(x => x.CodigoDeBarras == CodigoDeBarras).NombreDeProducto = NombreDeProducto.Trim().ToUpper();
                         }
                     }
                     else
                     {
                         Resultado.Resultado = false;
                         Resultado.Mensaje = "El campo Nombre de Producto a registrar se encuetra en un registro previo dentro del archivo";
-                        Registros.Add("NombreDeProducto", NombreDeProducto);
+                        Registros.Add("NombreDeProducto", NombreDeProducto.Trim().ToUpper());
                     }
                 }
                 else
                 {
                     Resultado.Resultado = false;
                     Resultado.Mensaje = "El campo Nombre de Producto a registrar se encuetra en un registro previo dentro del sistema";
-                    Registros.Add("NombreDeProducto", NombreDeProducto);
+                    Registros.Add("NombreDeProducto", NombreDeProducto.Trim().ToUpper());
                 }
             }
             else

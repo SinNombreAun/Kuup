@@ -771,7 +771,7 @@ namespace Funciones.Kuup.Adicionales
             }
             public static String CargaComboClaveParaTabla(byte NumeroDeClave,String idDeCombo)
             {
-                String SelectText = String.Format("<select id='{0}'>", idDeCombo);
+                String SelectText = String.Format("<select  id='{0}'>", idDeCombo);
                 using(DBKuupEntities db = new DBKuupEntities())
                 {
                     SelectText += "<option value=''>--SELECCIONE--</option>";

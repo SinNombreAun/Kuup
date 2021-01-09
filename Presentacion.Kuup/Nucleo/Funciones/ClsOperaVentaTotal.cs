@@ -51,54 +51,59 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                 var Productos = ClsProductos.getList().Where(x => RegistrosDeVentas.Exists(y => y.NumeroDeProducto == x.NumeroDeProducto)).ToList();
                                 foreach (var Ventas in RegistrosDeVentas)
                                 {
-                                    Ventas.db = db;
-                                    Ventas.FolioDeOperacion = VentasTotales.FolioDeOperacion;
-                                    var Producto = (from q in Productos where q.NumeroDeProducto == Ventas.NumeroDeProducto select q).FirstOrDefault();
-                                    if (Ventas.CantidadDeProducto <= Producto.CantidadDeProductoTotal)
+                                    if (Resultado.Resultado)
                                     {
-                                        if (Ventas.Insert())
+                                        Ventas.db = db;
+                                        Ventas.FolioDeOperacion = VentasTotales.FolioDeOperacion;
+                                        var Producto = (from q in Productos where q.NumeroDeProducto == Ventas.NumeroDeProducto select q).FirstOrDefault();
+                                        if (Ventas.CantidadDeProducto <= Producto.CantidadDeProductoTotal)
                                         {
-                                            if (Producto != null)
+                                            if (Ventas.Insert())
                                             {
-                                                var Cantidad = Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto;
-                                                if (Cantidad >= 0)
+                                                if (Producto != null)
                                                 {
-                                                    Producto.db = db;
-                                                    Producto.CantidadDeProductoTotal = (short)(Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto);
-                                                    if (!Producto.Update())
+                                                    var Cantidad = Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto;
+                                                    if (Cantidad >= 0)
                                                     {
-                                                        Resultado.Resultado = false;
-                                                        Resultado.Mensaje = "No fue posible actualizar los titulos disponibles";
-                                                        break;
-                                                    }
-                                                    if (Producto.CveAviso == 1)
-                                                    {
-                                                        if (Cantidad <= Producto.CantidadMinima)
+                                                        Producto.db = db;
+                                                        Producto.CantidadDeProductoTotal = (short)(Producto.CantidadDeProductoTotal - Ventas.CantidadDeProducto);
+                                                        if (!Producto.Update())
                                                         {
-                                                            AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                            Resultado.Resultado = false;
+                                                            Resultado.Mensaje = "No fue posible actualizar los titulos disponibles";
+                                                            break;
+                                                        }
+                                                        if (Producto.CveAviso == 1)
+                                                        {
+                                                            if (Cantidad <= Producto.CantidadMinima)
+                                                            {
+                                                                AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                            }
                                                         }
                                                     }
+                                                    else
+                                                    {
+                                                        Resultado.Resultado = false;
+                                                        Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
+                                                        AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                                        break;
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    Resultado.Resultado = false;
-                                                    AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
-                                                    break;
-                                                }
+                                            }
+                                            else
+                                            {
+                                                Resultado.Resultado = false;
+                                                Resultado.Mensaje = "No fue posible cargar el detalle de la Venta";
+                                                break;
                                             }
                                         }
                                         else
                                         {
                                             Resultado.Resultado = false;
-                                            Resultado.Mensaje = "No fue posible cargar el detalle de la Venta";
+                                            Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
+                                            AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
                                             break;
                                         }
-                                    }
-                                    else
-                                    {
-                                        Resultado.Resultado = false;
-                                        AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
-                                        break;
                                     }
                                 }
                             }
