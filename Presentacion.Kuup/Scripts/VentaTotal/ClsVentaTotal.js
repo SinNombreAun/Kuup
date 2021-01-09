@@ -389,12 +389,10 @@
                                                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
                                                     ImprimirTicket(data.Adicional.Ticket);
                                                 } else {
-                                                    if (typeof (data.Adicional.AgregaEvento) != 'undefined') {
-                                                        if (data.Adicional.MensajeAviso != '') {
-                                                            alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
-                                                        }
+                                                    if (data.Adicional.MensajeAviso != '') {
+                                                        alertify.alert('Aviso Importante', data.Adicional.MensajeAviso);
                                                     }
-                                                    alertify.error(data.Mensaje);
+                                                    alertify.error(data.Mensaje, 0);
                                                 }
                                             },
                                             error: function () {

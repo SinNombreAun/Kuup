@@ -41,6 +41,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,6 +71,8 @@
     <Compile Include="Clases\ClsUsuariosPerfil.cs" />
     <Compile Include="Clases\ClsVentas.cs" />
     <Compile Include="Clases\ClsVentasTotales.cs" />
+    <Compile Include="Globales\ClsDataTables.cs" />
+    <Compile Include="Interfaces\DataTables.cs" />
     <Compile Include="Interfaces\InterfazGen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Clases\ClsProveedores.cs" />
@@ -83,6 +88,9 @@
       <Project>{bc31fed0-a607-462a-a790-b0607659f4b7}</Project>
       <Name>Mod.Entity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

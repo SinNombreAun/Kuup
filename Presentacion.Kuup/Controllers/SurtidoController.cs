@@ -26,48 +26,13 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index","Home");
             }
+            this.CargaCombosParaTabla();
             return View();
         }
         [HttpPost]
         public ActionResult Json()
         {
-            var draw = Request.Form.GetValues("draw").FirstOrDefault();
-            var start = Request.Form.GetValues("start").FirstOrDefault();
-            var length = Request.Form.GetValues("length").FirstOrDefault();
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][data]").FirstOrDefault();
-            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
-            var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
-
-            var pageSize = length != null ? Convert.ToInt32(length) : 0;
-            var skip = start != null ? Convert.ToInt32(start) : 0;
-            var recordsTotal = 0;
-
-            //var Producto 
-            var query = (from q in ClsSurtidos.getList()
-                         select new
-                         {
-                             q.FolioDeSurtido,
-                             q.NombreDeProducto,
-                             NombreDeQuienSurtio = (q.NombreDeProveedor == null ? q.NombreDeUsuario : q.NombreDeProveedor),
-                             q.CantidadNueva,
-                             FechaDeSurtido = q.FechaDeSurtido.ToString("yyyy-MM-dd"),
-                             q.TextoDeEstatus
-                         }).AsQueryable();
-            if (!String.IsNullOrEmpty(searchValue))
-            {
-                query = query.Where(x => x.NombreDeProducto.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) || 
-                x.NombreDeQuienSurtio.Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) || 
-                x.FechaDeSurtido.ToString().Trim().ToUpper().Contains(searchValue.Trim().ToUpper()) ||
-                x.TextoDeEstatus.ToString().Trim().ToUpper().Contains(searchValue.Trim().ToUpper()));
-            }
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                query = query.OrderBy(sortColumn + " " + sortColumnDir);
-            }
-            recordsTotal = query.Count();
-
-            var Surtido = query.Skip(skip).Take(pageSize).ToArray();
-            return Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = Surtido }, JsonRequestBehavior.AllowGet);
+            return Json((new ClsSurtidos()).DataTableSurtido(new Negocio.Kuup.Globales.ClsDataTables(Request.Form)), JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult Alta()
@@ -108,15 +73,15 @@ namespace Presentacion.Kuup.Controllers
             ClsProductos Producto = new ClsProductos();
             if (NumeroDeProducto == 0)
             {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto select q).ToList();
+                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                 if (Productos.Count() == 0)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto select q).ToList();
+                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
                 }
             }
             else
             {
-                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto select q).ToList();
+                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
             }
             if (Productos.Count() == 0)
             {
@@ -133,6 +98,10 @@ namespace Presentacion.Kuup.Controllers
         {
             ViewBag.CveDeAplicaSurtido = ClsAdicional.ClsCargaCombo.CargaComboClave(4,Entidad.CveDeAplicaSurtido.ToString());
             ViewBag.CveDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveDeEstatus.ToString());
+        }
+        private void CargaCombosParaTabla()
+        {
+            ViewBag.TextoDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(1, "TextoDeEstatus");
         }
     }
 }

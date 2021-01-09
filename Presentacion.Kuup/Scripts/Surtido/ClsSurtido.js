@@ -25,7 +25,9 @@
                 Tabla: 'Tabla',
                 TablaSurtido: 'TablaSurtido',
                 Agregar: 'Agregar',
-                Guardar: 'Guardar'
+                Guardar: 'Guardar',
+                TablaFilter: "Tabla_filter",
+                SelectTablas: ["TextoDeEstatus"]
             };
             let Funcionalidad = '',
                 UrlAccion = '',
@@ -33,7 +35,8 @@
                 UrlAutoCompleteProducto = '',
                 UrlCargaGrid = '',
                 UrlDetalle = '',
-                TablaS = null
+                TablaS = null,
+                CombosParaTabla = [];
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
                     Funcionalidad = FuncionalidadSet;
@@ -74,6 +77,13 @@
                     UrlDetalle = UrlDetalleSet;
                 } else {
                     return UrlDetalle;
+                }
+            };
+            let _CombosParaTabla = function (CombosParaTablaSet) {
+                if (typeof CombosParaTablaSet != "") {
+                    CombosParaTabla = CombosParaTablaSet;
+                } else {
+                    return CombosParaTabla;
                 }
             };
             let _Inicio = function () {
@@ -121,6 +131,31 @@
                 });
             }
             function GeneraGridDeSurtido() {
+                $("#" + Elementos_Surtido.Tabla + " thead tr").clone(true).appendTo("#" + Elementos_Surtido.Tabla + " thead");
+                $("#" + Elementos_Surtido.Tabla + " thead tr:eq(1) th").each(function (i) {
+                    if (this.id != "boton") {
+                        if (Elementos_Surtido.SelectTablas.indexOf(this.id) > -1) {
+                            var Elemento = CombosParaTabla[Elementos_Surtido.SelectTablas.indexOf(this.id)];
+                            $(this).html(Elemento);
+                            $("select", this).on("change", function () {
+                                if (table.column(i).search() !== this.value) {
+                                    table.column(i).search(this.value).draw();
+                                }
+                            });
+                        } else {
+                            var title = $(this).text();
+                            $(this).html('<input type="text" style="width: 100%;" placeholder="Buscar ' + title + '" />');
+                            $("input", this).on("keydown", function () {
+                                let keycode = event.keyCode ? event.keyCode : event.which;
+                                if (keycode == 13) {
+                                    if (table.column(i).search() !== this.value) {
+                                        table.column(i).search(this.value).draw();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
                 var table = $('#' + Elementos_Surtido.Tabla).DataTable({
                     "processing": true,
                     "serverSide": true,
@@ -138,6 +173,8 @@
                     "pageLength": 100,
                     "filter": true,
                     "responsivePriority": 1,
+                    "orderCellsTop": true,
+                    "fixedHeader": true,
                     "data": null,
                     "order": [[0, 'desc']],
                     "columns": [
@@ -154,6 +191,7 @@
                     "language": LenguajeEN()
                 });
                 table.draw();
+                $('#' + Elementos_Surtido.TablaFilter).hide();
                 DetalleRegistro('#' + Elementos_Surtido.Tabla + ' tbody', table);
             }
             var DetalleRegistro = function (tbody, table) {
@@ -348,6 +386,7 @@
                     UrlCargaProducto: _UrlCargaProducto,
                     UrlCargaGrid: _UrlCargaGrid,
                     UrlDetalle: _UrlDetalle,
+                    CombosParaTabla: _CombosParaTabla
                 },
                 Inicio: _Inicio,
             }
@@ -360,6 +399,7 @@
             NucleoConfigurado.Configuracion.UrlCargaProducto(ObjetoConfiguracion.UrlCargaProducto);
             NucleoConfigurado.Configuracion.UrlCargaGrid(ObjetoConfiguracion.UrlCargaGrid);
             NucleoConfigurado.Configuracion.UrlDetalle(ObjetoConfiguracion.UrlDetalle);
+            NucleoConfigurado.Configuracion.CombosParaTabla(ObjetoConfiguracion.CombosParaTabla);
             return NucleoConfigurado;
         }
         return {
