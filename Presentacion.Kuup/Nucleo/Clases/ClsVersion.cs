@@ -19,7 +19,7 @@ namespace Presentacion.Kuup.Nucleo.Clases
         {
             VersionMayor = 1;
             VersionDeCompativilidad = 0;
-            VersionDeCompilado = 4;
+            VersionDeCompilado = 5;
             Complemento = "stable";
             FechaDeVersion = new DateTime(2020,12,29);
             NumeroDeVersion = String.Format("{0}.{1}.{2}-{3}",VersionMayor,VersionDeCompativilidad,VersionDeCompilado,Complemento);
