@@ -58,8 +58,6 @@ namespace Mod.Entity
         public virtual DbSet<ViBitacora> ViBitacora { get; set; }
         public virtual DbSet<VentaTotal> VentaTotal { get; set; }
         public virtual DbSet<ViVentaTotal> ViVentaTotal { get; set; }
-        public virtual DbSet<Producto> Producto { get; set; }
-        public virtual DbSet<ViProducto> ViProducto { get; set; }
         public virtual DbSet<ConfiguraMayoreo> ConfiguraMayoreo { get; set; }
         public virtual DbSet<ViConfiguraMayoreo> ViConfiguraMayoreo { get; set; }
         public virtual DbSet<Surtido> Surtido { get; set; }
@@ -71,6 +69,8 @@ namespace Mod.Entity
         public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
         public virtual DbSet<ConfiguraMayoreoAudit> ConfiguraMayoreoAudit { get; set; }
         public virtual DbSet<ConfiguraPaqueteAudit> ConfiguraPaqueteAudit { get; set; }
+        public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
+        public virtual DbSet<ViProducto> ViProducto { get; set; }
     }
 }

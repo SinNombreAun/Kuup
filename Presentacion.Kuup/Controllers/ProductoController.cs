@@ -129,12 +129,16 @@ namespace Presentacion.Kuup.Controllers
                                            CantidadDeProductoTotal = q.CantidadDeProductoTotal,
                                            NombreDeProducto = q.NombreDeProducto,
                                            Descripcion = q.Descripcion,
+                                           CveTipoDeProducto = q.CveTipoDeProducto,
+                                           CveMarca = q.CveMarca,
                                            CveAviso = q.CveAviso,
                                            CveCorreoSurtido = q.CveCorreoSurtido,
                                            CantidadMinima = q.CantidadMinima,
                                            NumeroDeProveedor = q.NumeroDeProveedor,
                                            PrecioUnitario = q.PrecioUnitario,
                                            CveDeEstatus = q.CveDeEstatus,
+                                           TextoTipoDeProducto =q.TextoTipoDeProducto,
+                                           TextoMarca = q.TextoMarca,
                                            TextoAviso = q.TextoAviso,
                                            TextoCorreoSurtido = q.TextoCorreoSurtido,
                                            NombreDeProveedor = q.NombreDeProveedor,
@@ -174,12 +178,16 @@ namespace Presentacion.Kuup.Controllers
                                                           CantidadDeProductoTotal = q.CantidadDeProductoTotal,
                                                           NombreDeProducto = q.NombreDeProducto,
                                                           Descripcion = q.Descripcion,
+                                                          CveTipoDeProducto = q.CveTipoDeProducto,
+                                                          CveMarca =q.CveMarca,
                                                           CveAviso = q.CveAviso,
                                                           CveCorreoSurtido = q.CveCorreoSurtido,
                                                           CantidadMinima = q.CantidadMinima,
                                                           NumeroDeProveedor = q.NumeroDeProveedor,
                                                           PrecioUnitario = q.PrecioUnitario,
                                                           CveDeEstatus = q.CveDeEstatus,
+                                                          TextoTipoDeProducto = q.TextoTipoDeProducto,
+                                                          TextoMarca = q.TextoMarca,
                                                           TextoAviso = q.TextoAviso,
                                                           TextoCorreoSurtido = q.TextoCorreoSurtido,
                                                           NombreDeProveedor = q.NombreDeProveedor,
@@ -198,6 +206,8 @@ namespace Presentacion.Kuup.Controllers
             {
                 productos.NombreDeProducto = RegistroCapturado.NombreDeProducto;
                 productos.Descripcion = RegistroCapturado.Descripcion;
+                productos.CveTipoDeProducto = RegistroCapturado.CveTipoDeProducto;
+                productos.CveMarca = RegistroCapturado.CveMarca;
                 productos.PrecioUnitario = RegistroCapturado.PrecioUnitario;
                 productos.CveAviso = RegistroCapturado.CveAviso;
                 productos.CveCorreoSurtido = RegistroCapturado.CveCorreoSurtido;
@@ -576,6 +586,8 @@ namespace Presentacion.Kuup.Controllers
         }
         private void CargaCombos(ProductoModel Entidad)
         {
+            ViewBag.CveTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboClave(12, Entidad.CveTipoDeProducto.ToString());
+            ViewBag.CveMarca = ClsAdicional.ClsCargaCombo.CargaComboClave(13, Entidad.CveMarca.ToString());
             ViewBag.CveAviso = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveAviso.ToString());
             ViewBag.CveCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveCorreoSurtido.ToString());
             ViewBag.NumeroDeProveedor = ClsAdicional.ClsCargaCombo.CargaComboProveedor(Entidad.NumeroDeProveedor);

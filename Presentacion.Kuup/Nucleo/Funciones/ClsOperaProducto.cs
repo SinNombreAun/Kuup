@@ -180,6 +180,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 Recursos.Textos.Producto_CodigoDeBarras,
                 Recursos.Textos.Producto_NombreDeProducto,
                 Recursos.Textos.Producto_Descripcion,
+                "Tipo de Producto",
+                "Marca",
                 Recursos.Textos.Producto_CantidadDeProductoTotal,
                 Recursos.Textos.Producto_PrecioUnitario,
                 Recursos.Textos.Producto_CveAviso,
@@ -195,6 +197,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 Recursos.Textos.Producto_CodigoDeBarras,
                 Recursos.Textos.Producto_NombreDeProducto,
                 Recursos.Textos.Producto_Descripcion,
+                "Tipo de Producto",
+                "Marca",
                 Recursos.Textos.Producto_CantidadDeProductoTotal,
                 Recursos.Textos.Producto_PrecioUnitario,
                 Recursos.Textos.Producto_CveAviso,
@@ -214,6 +218,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 "000000",
                 "Producto",
                 "Alguna descripción del producto",
+                "Tipo de producto",
+                "Marca",
                 "0",
                 "0.0",
                 "SI/NO",
@@ -230,6 +236,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 "000000",
                 "Producto",
                 "Alguna descripción del producto",
+                "Tipo de producto",
+                "Marca",
                 "0",
                 "0.0",
                 "SI/NO",
@@ -257,6 +265,10 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     CodigoDeBarras = Valores["CodigoDeBarras"],
                     NombreDeProducto = Valores["NombreDeProducto"],
                     Descripcion = Valores["Descripcion"],
+                    CveTipoDeProducto = Valores["CveTipoDeProducto"],
+                    TextoTipoDeProducto = Valores["TextoTipoDeProducto"],
+                    CveMarca = Valores["CveMarca"],
+                    TextoMarca =Valores["TextoMarca"],
                     CantidadDeProductoTotal = Valores["CantidadDeProductoTotal"],
                     PrecioUnitario = Valores["PrecioUnitario"],
                     CveAviso = Valores["CveAviso"],
@@ -280,6 +292,10 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     CodigoDeBarras = Valores["CodigoDeBarras"],
                     NombreDeProducto = Valores["NombreDeProducto"],
                     Descripcion = Valores["Descripcion"],
+                    CveTipoDeProducto = Valores["CveTipoDeProducto"],
+                    TextoTipoDeProducto = Valores["TextoTipoDeProducto"],
+                    CveMarca = Valores["CveMarca"],
+                    TextoMarca = Valores["TextoMarca"],
                     CantidadDeProductoTotal = Valores["CantidadDeProductoTotal"],
                     PrecioUnitario = Valores["PrecioUnitario"],
                     CveAviso = Valores["CveAviso"],
@@ -331,6 +347,18 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     col++;
                     Campo = Recursos.Textos.Producto_Descripcion;
                     Resultado = ClsAdicional.ClsValida.ValidaCampoStringCapacidad("Descripcion", Campo, false, 500, reg[col], row, ref Registros);
+                    Respuesta.Add(Resultado);
+                    Mensajes.Add(Resultado.Mensaje);
+
+                    col++;
+                    Campo = "Tipo de Producto";
+                    Resultado = ClsAdicional.ClsValida.ValidaClave("TextoTipoDeProducto", "CveTipoDeProducto", Campo, 12, reg[col], row, ref Registros);
+                    Respuesta.Add(Resultado);
+                    Mensajes.Add(Resultado.Mensaje);
+
+                    col++;
+                    Campo = "Marca";
+                    Resultado = ClsAdicional.ClsValida.ValidaClave("TextoMarca", "CveMarca", Campo, 13, reg[col], row, ref Registros);
                     Respuesta.Add(Resultado);
                     Mensajes.Add(Resultado.Mensaje);
 
