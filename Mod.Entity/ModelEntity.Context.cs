@@ -69,8 +69,12 @@ namespace Mod.Entity
         public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
         public virtual DbSet<ConfiguraMayoreoAudit> ConfiguraMayoreoAudit { get; set; }
         public virtual DbSet<ConfiguraPaqueteAudit> ConfiguraPaqueteAudit { get; set; }
+        public virtual DbSet<AsignaMarca> AsignaMarca { get; set; }
+        public virtual DbSet<Marca> Marca { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
+        public virtual DbSet<ViAsignaMarca> ViAsignaMarca { get; set; }
+        public virtual DbSet<ViMarca> ViMarca { get; set; }
         public virtual DbSet<ViProducto> ViProducto { get; set; }
     }
 }
