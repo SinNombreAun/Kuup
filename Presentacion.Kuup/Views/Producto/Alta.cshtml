@@ -97,7 +97,8 @@
     let ClsProducto;
     $(function () {
         ClsProducto = Objeto.Constructor({
-            Funcionalidad: 'ALTA'
+            Funcionalidad: 'ALTA',
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo")'
         });
         ClsProducto.Inicio();
     });

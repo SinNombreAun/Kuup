@@ -826,6 +826,14 @@ namespace Funciones.Kuup.Adicionales
                 }
                 return Productos;
             }
+            public static List<SelectListItem> CargaComboMarcaPorTipo(byte CveTipoDeProducto, String ValorPorDefecto)
+            {
+                byte ValorPorDefectoN = Convert<byte>(ValorPorDefecto);
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    return (from q in db.ViAsignaMarca where q.AMA_CVE_TIPO_PRODUCTO == CveTipoDeProducto select new SelectListItem { Text = q.AMA_NUM_MARCA.ToString() + " / " + q.AMA_NOM_MARCA, Value = q.AMA_NUM_MARCA.ToString(), Selected = q.AMA_NUM_MARCA == ValorPorDefectoN }).ToList();
+                }
+            }
         }
         #endregion
     }

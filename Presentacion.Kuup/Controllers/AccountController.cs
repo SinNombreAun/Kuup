@@ -35,38 +35,81 @@ namespace Presentacion.Kuup.Controllers
                     List<ClsUsuarios> lstUsuario = (from q in ClsUsuarios.getList() where q.NombreDeUsuario == Account.NombreDeUsuario && MoCifrado.Descifrado(q.PasswordUsuario) == Account.Password && q.CveDeEstatus == 1 select q).ToList();
                     if (lstUsuario.Count == 1)
                     {
-                        List<ClsIPRegistradas> lstIPRegistrada = (from q in ClsIPRegistradas.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario && q.Terminal.ToUpper() == Account.Terminal.ToUpper() && q.IP == Account.IP select q).ToList();
-                        if (lstIPRegistrada.Count == 1)
+                        List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ValidaIP" select q).ToList();
+                        if (Parametro.Count() == 1)
                         {
-                            List<ClsUsuariosPerfil> lstUsuarioPerfil = (from q in ClsUsuariosPerfil.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario select q).ToList();
-                            if (lstUsuarioPerfil.Count == 1)
+                        
+                            List<ClsIPRegistradas> lstIPRegistrada = (from q in ClsIPRegistradas.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario && q.Terminal.ToUpper() == Account.Terminal.ToUpper() && q.IP == Account.IP select q).ToList();
+                            if(Parametro.FirstOrDefault().ValorDeParametro == "SI")
                             {
-                                MoSesion.NumeroDeUsuario = lstUsuario.FirstOrDefault().NumeroDeUsuario;
-                                MoSesion.NombreDeUsuario = lstUsuario.FirstOrDefault().NombreDeUsuario;
-                                MoSesion.NombreDePersona = lstUsuario.FirstOrDefault().NombreDePersona;
-                                MoSesion.ApellidoPaterno = lstUsuario.FirstOrDefault().ApellidoPaterno;
-                                MoSesion.ApellidoMaterno = lstUsuario.FirstOrDefault().ApellidoMaterno;
-                                MoSesion.IPDeUsuario = lstIPRegistrada.FirstOrDefault().IP;
-                                MoSesion.TerminalDeUsuario = lstIPRegistrada.FirstOrDefault().Terminal;
-                                MoSesion.CveTipoDeAcceso = lstIPRegistrada.FirstOrDefault().CveTipoDeAcceso;
-                                MoSesion.TextoTipoDeAccedo = lstIPRegistrada.FirstOrDefault().TextoTipoDeAccedo;
-                                MoSesion.NumeroDePerfil = lstUsuarioPerfil.FirstOrDefault().NumeroDePerfil;
-                                MoSesion.NombreDePerfil = lstUsuarioPerfil.FirstOrDefault().NombreDePerfil;
-                                MoSesion.Browser = Request.Browser.Browser + " " + Request.Browser.Version;
-                                if (!MvcApplication.ListaDeSesionesActivas.ContainsKey(MoSesion.IDSesion))
+                                if (lstIPRegistrada.Count == 1)
                                 {
-                                    MvcApplication.ListaDeSesionesActivas.Add(MoSesion.IDSesion, new SesionActiva() { NumeroDeUsuario = MoSesion.NumeroDeUsuario, NumeroDePerfil = MoSesion.NumeroDePerfil, Deslogueado = false });
+                                    List<ClsUsuariosPerfil> lstUsuarioPerfil = (from q in ClsUsuariosPerfil.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario select q).ToList();
+                                    if (lstUsuarioPerfil.Count == 1)
+                                    {
+                                        MoSesion.NumeroDeUsuario = lstUsuario.FirstOrDefault().NumeroDeUsuario;
+                                        MoSesion.NombreDeUsuario = lstUsuario.FirstOrDefault().NombreDeUsuario;
+                                        MoSesion.NombreDePersona = lstUsuario.FirstOrDefault().NombreDePersona;
+                                        MoSesion.ApellidoPaterno = lstUsuario.FirstOrDefault().ApellidoPaterno;
+                                        MoSesion.ApellidoMaterno = lstUsuario.FirstOrDefault().ApellidoMaterno;
+                                        MoSesion.IPDeUsuario = lstIPRegistrada.FirstOrDefault().IP;
+                                        MoSesion.TerminalDeUsuario = lstIPRegistrada.FirstOrDefault().Terminal;
+                                        MoSesion.CveTipoDeAcceso = lstIPRegistrada.FirstOrDefault().CveTipoDeAcceso;
+                                        MoSesion.TextoTipoDeAccedo = lstIPRegistrada.FirstOrDefault().TextoTipoDeAccedo;
+                                        MoSesion.NumeroDePerfil = lstUsuarioPerfil.FirstOrDefault().NumeroDePerfil;
+                                        MoSesion.NombreDePerfil = lstUsuarioPerfil.FirstOrDefault().NombreDePerfil;
+                                        MoSesion.Browser = Request.Browser.Browser + " " + Request.Browser.Version;
+                                        if (!MvcApplication.ListaDeSesionesActivas.ContainsKey(MoSesion.IDSesion))
+                                        {
+                                            MvcApplication.ListaDeSesionesActivas.Add(MoSesion.IDSesion, new SesionActiva() { NumeroDeUsuario = MoSesion.NumeroDeUsuario, NumeroDePerfil = MoSesion.NumeroDePerfil, Deslogueado = false });
+                                        }
+                                        return RedirectToAction("Index", "Home");
+                                    }
+                                    else
+                                    {
+                                        ViewData["Informacion"] = Recursos.Textos.Account_ValidaPerfil;
+                                    }
                                 }
-                                return RedirectToAction("Index", "Home");
+                                else
+                                {
+                                    ViewData["Informacion"] = String.Format(Recursos.Textos.Account_ValidaEquipo, Account.Terminal, Account.IP);
+                                }
                             }
                             else
                             {
-                                ViewData["Informacion"] = Recursos.Textos.Account_ValidaPerfil;
+                                lstIPRegistrada = new List<ClsIPRegistradas>();
+                                ClsIPRegistradas Ips = new ClsIPRegistradas();
+                                Ips.IP = Account.IP;
+                                Ips.Terminal = Account.Terminal;
+                                Ips.CveTipoDeAcceso = 1;
+                                List<ClsUsuariosPerfil> lstUsuarioPerfil = (from q in ClsUsuariosPerfil.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario select q).ToList();
+                                if (lstUsuarioPerfil.Count == 1)
+                                {
+                                    MoSesion.NumeroDeUsuario = lstUsuario.FirstOrDefault().NumeroDeUsuario;
+                                    Ips.NumeroDeUsuario = MoSesion.NumeroDeUsuario;
+                                    lstIPRegistrada.Add(Ips);
+                                    MoSesion.NombreDeUsuario = lstUsuario.FirstOrDefault().NombreDeUsuario;
+                                    MoSesion.NombreDePersona = lstUsuario.FirstOrDefault().NombreDePersona;
+                                    MoSesion.ApellidoPaterno = lstUsuario.FirstOrDefault().ApellidoPaterno;
+                                    MoSesion.ApellidoMaterno = lstUsuario.FirstOrDefault().ApellidoMaterno;
+                                    MoSesion.IPDeUsuario = lstIPRegistrada.FirstOrDefault().IP;
+                                    MoSesion.TerminalDeUsuario = lstIPRegistrada.FirstOrDefault().Terminal;
+                                    MoSesion.CveTipoDeAcceso = lstIPRegistrada.FirstOrDefault().CveTipoDeAcceso;
+                                    MoSesion.TextoTipoDeAccedo = lstIPRegistrada.FirstOrDefault().TextoTipoDeAccedo;
+                                    MoSesion.NumeroDePerfil = lstUsuarioPerfil.FirstOrDefault().NumeroDePerfil;
+                                    MoSesion.NombreDePerfil = lstUsuarioPerfil.FirstOrDefault().NombreDePerfil;
+                                    MoSesion.Browser = Request.Browser.Browser + " " + Request.Browser.Version;
+                                    if (!MvcApplication.ListaDeSesionesActivas.ContainsKey(MoSesion.IDSesion))
+                                    {
+                                        MvcApplication.ListaDeSesionesActivas.Add(MoSesion.IDSesion, new SesionActiva() { NumeroDeUsuario = MoSesion.NumeroDeUsuario, NumeroDePerfil = MoSesion.NumeroDePerfil, Deslogueado = false });
+                                    }
+                                    return RedirectToAction("Index", "Home");
+                                }
+                                else
+                                {
+                                    ViewData["Informacion"] = Recursos.Textos.Account_ValidaPerfil;
+                                }
                             }
-                        }
-                        else
-                        {
-                            ViewData["Informacion"] = String.Format(Recursos.Textos.Account_ValidaEquipo, Account.Terminal, Account.IP);
                         }
                     }
                     else

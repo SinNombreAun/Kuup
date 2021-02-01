@@ -116,9 +116,10 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Detalle", "Producto", new { NumeroDeProducto });
             }
+            String Filtro = String.Empty;
+            Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", NumeroDeProducto, CodigoDeBarras);
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
-            ProductoModel productos = (from q in ClsProductos.getList()
-                                       where q.NumeroDeProducto == NumeroDeProducto && q.CodigoDeBarras == CodigoDeBarras
+            ProductoModel productos = (from q in ClsProductos.getList(Filtro)
                                        select new ProductoModel()
                                        {
                                            NumeroDeProducto = q.NumeroDeProducto,
@@ -166,8 +167,9 @@ namespace Presentacion.Kuup.Controllers
                 return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto });
             }
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, "Producto Actualizado de forma correcta");
-            ProductoModel productos = (ProductoModel)(from q in ClsProductos.getList()
-                                                      where q.NumeroDeProducto == RegistroCapturado.NumeroDeProducto && q.CodigoDeBarras == RegistroCapturado.CodigoDeBarras
+            String Filtro = String.Empty;
+            Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", RegistroCapturado.NumeroDeProducto, RegistroCapturado.CodigoDeBarras);
+            ProductoModel productos = (ProductoModel)(from q in ClsProductos.getList(Filtro)
                                                       select new ProductoModel()
                                                       {
                                                           NumeroDeProducto = q.NumeroDeProducto,
@@ -597,6 +599,7 @@ namespace Presentacion.Kuup.Controllers
         }
         private void CargaCombosParaTabla()
         {
+            ViewBag.TextoTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(12, "TextoTipoDeProducto");
             ViewBag.TextoAviso = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoAviso");
             ViewBag.TextoCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoCorreoSurtido");
             ViewBag.TextoDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(1, "TextoDeEstatus");
@@ -618,6 +621,10 @@ namespace Presentacion.Kuup.Controllers
         public ActionResult GeneraPDFCodigoDeBarras()
         {
             return new ViewAsPdf("CodigosDeBarras") { FileName = "CodigosDeBarras.pdf"};
+        }
+        public JsonResult ObtenMarcaPorTipo(byte TipoDeProducto, String Marca)
+        {
+            return Json(ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(TipoDeProducto, Marca), JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

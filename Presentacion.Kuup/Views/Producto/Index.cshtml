@@ -12,17 +12,17 @@
             <table id="Tabla" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">@Recursos.Textos.Producto_NumeroDeProducto</th>
-                        <th scope="col">@Recursos.Textos.Producto_CodigoDeBarras</th>
-                        <th scope="col">@Recursos.Textos.Producto_NombreDeProducto</th>
-                        <th scope="col">Tipo de Producto</th>
-                        <th scope="col">Marca</th>
-                        <th scope="col">@Recursos.Textos.Producto_CantidadDeProductoTotal</th>
-                        <th scope="col">@Recursos.Textos.Producto_PrecioUnitario</th>
-                        <th scope="col">@Recursos.Textos.Producto_TextoAviso</th>
-                        <th scope="col">@Recursos.Textos.Producto_TextoCorreoSurtido</th>
-                        <th scope="col">@Recursos.Textos.Producto_TextoDeEstatus</th>
-                        <th></th>
+                        <th id="NumeroDeProducto" scope="col">@Recursos.Textos.Producto_NumeroDeProducto</th>
+                        <th id="CodigoDeBarras" scope="col">@Recursos.Textos.Producto_CodigoDeBarras</th>
+                        <th id="NombreDeProducto" scope="col">@Recursos.Textos.Producto_NombreDeProducto</th>
+                        <th id="TextoTipoDeProducto" scope="col">Tipo de Producto</th>
+                        <th id="TextoMarca" scope="col">Marca</th>
+                        <th id="CantidadDeProductoTotal" scope="col">@Recursos.Textos.Producto_CantidadDeProductoTotal</th>
+                        <th id="PrecioUnitario" scope="col">@Recursos.Textos.Producto_PrecioUnitario</th>
+                        <th id="TextoAviso" scope="col">@Recursos.Textos.Producto_TextoAviso</th>
+                        <th id="TextoCorreoSurtido" scope="col">@Recursos.Textos.Producto_TextoCorreoSurtido</th>
+                        <th id="TextoDeEstatus" scope="col">@Recursos.Textos.Producto_TextoDeEstatus</th>
+                        <th id="boton"></th>
                     </tr>
                 </thead>
             </table>
@@ -46,9 +46,10 @@
             UrlCargaGrid: '@Url.Action("Json", "Producto")',
             UrlDetalle: '@Url.Action("Detalle","Producto")',
             CombosParaTabla: [
+                "@Html.Raw(ViewBag.TextoTipoDeProducto)",
                 "@Html.Raw(ViewBag.TextoAviso)",
-                "@Html.Raw(@ViewBag.TextoCorreoSurtido)",
-                "@Html.Raw(@ViewBag.TextoDeEstatus)"
+                "@Html.Raw(ViewBag.TextoCorreoSurtido)",
+                "@Html.Raw(ViewBag.TextoDeEstatus)"
             ]
         });
         ClsProducto.Inicio();
