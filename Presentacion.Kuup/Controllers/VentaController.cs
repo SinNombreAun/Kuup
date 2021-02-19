@@ -29,6 +29,7 @@ namespace Presentacion.Kuup.Controllers
         }
         public JsonResult ObtenVentas(String fFechaInicial, String fFechaFinal)
         {
+            String filtro = String.Empty;
             if (string.IsNullOrEmpty(fFechaInicial))
             {
                 fFechaInicial = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
@@ -39,8 +40,9 @@ namespace Presentacion.Kuup.Controllers
                 fFechaFinal = DateTime.Now.ToString("yyyy-MM-dd");
             }
             DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal).AddHours(23).AddMinutes(59).AddSeconds(59);
-            var VentasTotales = (from q in ClsVentasTotales.getList()
-                                 where q.FechaDeOperacion >= DFechaInicial && q.FechaDeOperacion <= DFechaFinal
+            filtro = String.Format("FechaDeOperacion >= DateTime({0},{1},{2},{3},{4},{5})", DFechaInicial.Year, DFechaInicial.Month, DFechaInicial.Day, DFechaInicial.Hour, DFechaInicial.Minute, DFechaInicial.Second);
+            filtro += String.Format("&& FechaDeOperacion <= DateTime({0},{1},{2},{3},{4},{5})", DFechaFinal.Year, DFechaFinal.Month, DFechaFinal.Day, DFechaFinal.Hour, DFechaFinal.Minute, DFechaFinal.Second);
+            var VentasTotales = (from q in ClsVentasTotales.getList(filtro)
                                  select new
                                  {
                                      q.FolioDeOperacion,
@@ -55,8 +57,8 @@ namespace Presentacion.Kuup.Controllers
         }
         public JsonResult ObtenDetalleDeVentas(short fFolioDeOperacion)
         {
-            var DetalleDeVenta = (from q in ClsVentas.getList()
-                                  where q.FolioDeOperacion == fFolioDeOperacion
+            String filtro = "FolioDeOperacion == " + fFolioDeOperacion.ToString();
+            var DetalleDeVenta = (from q in ClsVentas.getList(filtro)
                                   select new {
                                       q.FolioDeOperacion,
                                       q.NombreDeProducto,
