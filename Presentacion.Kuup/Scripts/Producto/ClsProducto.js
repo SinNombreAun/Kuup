@@ -206,7 +206,7 @@
                         { "data": "NumeroDeMayoreo" },
                         { "data": "CantidadMinima" },
                         { "data": "CantidadMaxima" },
-                        { "data": "PrecioDeMayoreo" },
+                        { "data": "PrecioDeMayoreo", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "defaultContent": "<button type='button' class='btndelete btn btn-danger'><i class='far fa-trash-alt'></i></button>" }
                     ],
                     "paging": false,
@@ -284,7 +284,7 @@
                         { "data": "CodigoDeBarras" },
                         { "data": "NombreDeProducto" },
                         { "data": "CantidadDeProductoTotal" },
-                        { "data": "PrecioUnitario" },
+                        { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "data": "TextoAviso" },
                         { "data": "TextoCorreoSurtido" },
                         { "data": "TextoDeEstatus" },
