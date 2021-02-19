@@ -1,13 +1,9 @@
 ﻿using Mod.Entity;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Migrations.Builders;
-using System.IO.Pipes;
 using System.Linq;
-using System.Security.Permissions;
+using System.Linq.Dynamic;
 
 namespace Negocio.Kuup.Clases
 {
@@ -162,7 +158,7 @@ namespace Negocio.Kuup.Clases
             Tabla.VEN_IMPORTE_PRODUCTO = this.ImporteDeProducto;
             return Tabla;
         }
-        public static List<ClsVentas> getList(bool EsVista = true)
+        public static List<ClsVentas> getList(String filtro = "", bool EsVista = true)
         {
             try
             {
@@ -170,7 +166,7 @@ namespace Negocio.Kuup.Clases
                 {
                     if (EsVista)
                     {
-                        return (from q in db.ViVenta
+                        var Query = (from q in db.ViVenta
                                 select new ClsVentas()
                                 {
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
@@ -180,11 +176,16 @@ namespace Negocio.Kuup.Clases
                                     PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                     NombreDeProducto = q.VEN_NOM_PRODUCTO
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                     else
                     {
-                        return (from q in db.Venta
+                        var Query = (from q in db.Venta
                                 select new ClsVentas()
                                 {
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
@@ -193,7 +194,12 @@ namespace Negocio.Kuup.Clases
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                 }
             }
