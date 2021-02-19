@@ -98,11 +98,11 @@
                     "columns": [
                         { "data": "CodigoDeBarrasPadre" },
                         { "data": "NombreDeProductoPadre" },
-                        { "data": "PrecioDeProductoPadre" },
+                        { "data": "PrecioDeProductoPadre", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "data": "CodigoDeBarrasHijo" },
                         { "data": "NombreDeProductoHijo" },
-                        { "data": "PrecioDeProductoHijo" },
-                        { "data": "ImporteTotal" }
+                        { "data": "PrecioDeProductoHijo", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "data": "ImporteTotal", "render": $.fn.dataTable.render.number(',', '.', 2, '$') }
                     ],
                     "rowGroup": {
                         "dataSrc": 'NombreDeProductoPadre'
