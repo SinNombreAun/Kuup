@@ -1,4 +1,8 @@
-﻿$(document).ajaxStart(function () { $.blockUI({ message: '<img src="/Content/Imagenes/BlockUI/cargakuup.gif" style="width: 60%" />' }); }).ajaxStop($.unblockUI);
+﻿$(document).ajaxStart(function () {
+    $.blockUI({
+        message: $("#loadingKuup")
+    });
+}).ajaxStop($.unblockUI);
 
 function CreaFiltrosTabla(idTabla,table, itemSelect, itemSelectValue) {
     $('#' + idTabla + ' thead tr').clone(true).appendTo('#' + idTabla + ' thead');

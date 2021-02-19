@@ -63,7 +63,7 @@
                     "scrollY": 300,
                     "scrollX": true,
                     "scrollCollapse": false,
-                    "pageLength": 100,
+                    "pageLength": 10000000,
                     "columns": [
                         { "data": "FolioDeOperacion" },
                         { "data": "FechaDeOperacion" },
@@ -193,7 +193,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: UrlCargaGrid,
-                                async: false,
+                                //async: false,
                                 data: { fFechaInicial: $('#' + Elementos_Venta.FechaInicial).val(), fFechaFinal: $('#' + Elementos_Venta.FechaFinal).val() },
                                 success: function (data) {
                                     TablaVentasTotales.clear().draw();
