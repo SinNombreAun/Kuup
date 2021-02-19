@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Runtime.InteropServices;
+using System.Linq.Dynamic;
 
 namespace Negocio.Kuup.Clases
 {
@@ -204,7 +204,7 @@ namespace Negocio.Kuup.Clases
             Tabla.VET_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
-        public static List<ClsVentasTotales> getList(bool EsVista = true)
+        public static List<ClsVentasTotales> getList(String filtro = "", bool EsVista = true)
         {
             try
             {
@@ -212,7 +212,7 @@ namespace Negocio.Kuup.Clases
                 {
                     if (EsVista)
                     {
-                        return (from q in db.ViVentaTotal
+                        var Query = (from q in db.ViVentaTotal
                                 select new ClsVentasTotales()
                                 {
                                     FolioDeOperacion = q.VET_FOLIO_OPERACION,
@@ -230,11 +230,16 @@ namespace Negocio.Kuup.Clases
                                     NombreDeUsuario = q.VET_NOM_USUARIO,
                                     TextoDeAplicaDescuento = q.VET_TXT_APLICADESCUENTO,
                                     TextoDeEstatus = q.VET_TXT_ESTATUS
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                     else
                     {
-                        return (from q in db.VentaTotal
+                        var Query = (from q in db.VentaTotal
                                 select new ClsVentasTotales()
                                 {
                                     FolioDeOperacion = q.VET_FOLIO_OPERACION,
@@ -249,7 +254,12 @@ namespace Negocio.Kuup.Clases
                                     ImporteEntregado = q.VET_IMPORTE_ENTREGADO,
                                     ImporteCambio = q.VET_IMPORTE_CAMBIO,
                                     CveDeEstatus = q.VET_CVE_ESTATUS
-                                }).ToList();
+                                }).AsQueryable();
+                        if (!String.IsNullOrEmpty(filtro))
+                        {
+                            Query = Query.Where(filtro);
+                        }
+                        return Query.ToList();
                     }
                 }
             }

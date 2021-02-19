@@ -93,8 +93,8 @@
                         { "data": "CodigoDeBarras" },
                         { "data": "NombreDeProducto" },
                         { "data": "CantidadDeProducto" },
-                        { "data": "PrecioUnitario" },
-                        { "data": "ImporteDeProducto" },
+                        { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "data": "ImporteDeProducto", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "defaultContent": "<button type='button' class='btndelete btn btn-danger'><i class='far fa-trash-alt'></i></button>" }
                     ],
                     "paging": false,
