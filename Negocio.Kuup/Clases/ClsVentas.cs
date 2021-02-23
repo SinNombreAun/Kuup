@@ -209,5 +209,20 @@ namespace Negocio.Kuup.Clases
             }
             return new List<ClsVentas>();
         }
+        public static List<VentasTotalesDetalle_Result> VentaDetalle(DateTime fechaInicio, DateTime fechaFin, short folioDeOperacion)
+        {
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    return db.VentasTotalesDetalle(fechaInicio, fechaFin, folioDeOperacion).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return new List<VentasTotalesDetalle_Result>();
+        }
     }
 }
