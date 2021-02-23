@@ -10,16 +10,9 @@
 namespace Mod.Entity
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class VentaTotal
+    public partial class VentasTotalesDetalle_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public VentaTotal()
-        {
-            this.Venta = new HashSet<Venta>();
-        }
-    
         public short VET_FOLIO_OPERACION { get; set; }
         public System.DateTime VET_FECHA_OPERACION { get; set; }
         public short VET_NUM_USUARIO { get; set; }
@@ -32,9 +25,15 @@ namespace Mod.Entity
         public decimal VET_IMPORTE_ENTREGADO { get; set; }
         public decimal VET_IMPORTE_CAMBIO { get; set; }
         public byte VET_CVE_ESTATUS { get; set; }
-    
-        public virtual Usuario Usuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Venta> Venta { get; set; }
+        public string VET_NOM_USUARIO { get; set; }
+        public string VET_TXT_APLICADESCUENTO { get; set; }
+        public string VET_TXT_ESTATUS { get; set; }
+        public short VEN_FOLIO_OPERACION { get; set; }
+        public short VEN_NUM_PRODUCTO { get; set; }
+        public string VEN_CODIGO_BARRAS { get; set; }
+        public short VEN_CANT_PRODUCTO { get; set; }
+        public decimal VEN_PRECIO_UNITARIO { get; set; }
+        public decimal VEN_IMPORTE_PRODUCTO { get; set; }
+        public string VEN_NOM_PRODUCTO { get; set; }
     }
 }

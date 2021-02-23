@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Mod.Entity.VentasTotalesDetalle_Result>
+
+@{
+    Layout = "~/Views/Shared/_LayoutReporte.cshtml";
+    String FechaInicio = ViewData["FechaInicio"].ToString();
+    String FechaFin = ViewData["FechaFin"].ToString();
+    String TextoPeriodo = String.Empty;
+    bool Web = (Boolean)ViewData["Web"];
+    if (FechaInicio != FechaFin)
+    {
+        TextoPeriodo = FechaInicio + " al " + FechaFin;
+    }
+    else
+    {
+        TextoPeriodo = FechaInicio;
+    }
+    int Renglones = 48, RenglonesGastados = 0;
+}
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+            </div>
+            <div class="col">
+                <div class="text-center text-center-abajo">
+                    <h3>Sistema de Inventario y Ventas Kuup</h3>
+                    <h6>Desarrollado por SIR</h6>
+                    <br />
+                    <h6>Reporte de ventas del @TextoPeriodo</h6>
+                </div>
+            </div>
+            <div class="col" style="text-align: right;">
+                <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            @foreach (var item in Model.Select(x => x.VET_NOM_USUARIO).OrderBy(x => x).Distinct())
+            {
+                bool llevaFooter = (item == Model.Select(x => x.VET_NOM_USUARIO).OrderBy(x => x).Distinct().LastOrDefault());
+                RenglonesGastados += 2 + (llevaFooter ? 1 : 0);
+                if (RenglonesGastados >= Renglones)
+                {
+                    if (!Web)
+                    {
+                        <p style="page-break-before: always;">&nbsp;</p>
+                        <header>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-center text-center-abajo">
+                                            <h3>Sistema de Inventario y Ventas Kuup</h3>
+                                            <h6>Desarrollado por SIR</h6>
+                                            <br />
+                                            <h6>Reporte de ventas del @TextoPeriodo</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col" style="text-align: right;">
+                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        RenglonesGastados = 2 + (llevaFooter ? 1 : 0) + 4;
+                    }
+                }
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Numero de Ventas</th>
+                            <th scope="col">Total de Ventas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var NumeroDeVentas = (from q in Model where q.VET_NOM_USUARIO == item select new { q.VET_IMPORTE_NETO, q.VET_FOLIO_OPERACION }).Distinct().ToList().Count();
+                            var TotalDeVentas = (from q in Model where q.VET_NOM_USUARIO == item select new { q.VET_IMPORTE_NETO,q.VET_FOLIO_OPERACION}).Distinct().Sum(y => y.VET_IMPORTE_NETO);
+                        }
+                        <tr>
+                            <td>@item</td>
+                            <td>@NumeroDeVentas</td>
+                            <td>@TotalDeVentas.ToString("C2")</td>
+                        </tr>
+                    </tbody>
+                    @{
+                        if (llevaFooter)
+                        {
+                            <tfoot class="table-dark">
+                                <tr>
+                                    @{
+                                        var NumeroDeVentasTotales = (from q in Model select q.VET_FOLIO_OPERACION).Distinct().ToList().Count();
+                                        var TotalDeVentasTotales = (from q in Model select new { q.VET_FOLIO_OPERACION, q.VET_IMPORTE_NETO }).Distinct().Sum(y => y.VET_IMPORTE_NETO);
+                                    }
+                                    <th scope="col">Ventas Totales</th>
+                                    <th scope="col">@NumeroDeVentasTotales</th>
+                                    <th scope="col">@TotalDeVentasTotales.ToString("C2")</th>
+                                </tr>
+                            </tfoot>
+                        }
+                    }
+                </table>
+            }
+            <br />
+            @foreach (var folioDeOperacion in Model.Select(x => x.VET_FOLIO_OPERACION).Distinct().OrderBy(y => y).ToList())
+            {
+                RenglonesGastados += Model.Where(x => x.VET_FOLIO_OPERACION == folioDeOperacion).ToList().Count() + 3;
+                if (RenglonesGastados >= Renglones)
+                {
+                    if (!Web)
+                    {
+                        <p style="page-break-before: always;">&nbsp;</p>
+                        <header>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+                                    </div>
+                                    <div class="col">
+                                        <div class="text-center text-center-abajo">
+                                            <h3>Sistema de Inventario y Ventas Kuup</h3>
+                                            <h6>Desarrollado por SIR</h6>
+                                            <br />
+                                            <h6>Reporte de ventas del @TextoPeriodo</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col" style="text-align: right;">
+                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                        RenglonesGastados = Model.Where(x => x.VET_FOLIO_OPERACION == folioDeOperacion).ToList().Count() + 7;
+                    }
+                }
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Folio de Venta</th>
+                            <th scope="col">Fecha de Venta</th>
+                            <th scope="col">Nombre de Usuario</th>
+                            <th scope="col">Estatus</th>
+                            <th scope="col">Importe Entregado</th>
+                            <th scope="col">Cambio</th>
+                            <th scope="col">Importe Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            bool Primero = true;
+                            foreach (var ventaDetalle in Model.Where(x => x.VET_FOLIO_OPERACION == folioDeOperacion).ToList())
+                            {
+                                if (Primero)
+                                {
+                                    Primero = false;
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => ventaDetalle.VET_FOLIO_OPERACION)</td>
+                                        <td>@Html.DisplayFor(modelItem => ventaDetalle.VET_FECHA_OPERACION)</td>
+                                        <td>@Html.DisplayFor(modelItem => ventaDetalle.VET_NOM_USUARIO)</td>
+                                        <td>@Html.DisplayFor(modelItem => ventaDetalle.VET_TXT_ESTATUS)</td>
+                                        <td>@ventaDetalle.VET_IMPORTE_ENTREGADO.ToString("C2")</td>
+                                        <td>@ventaDetalle.VET_IMPORTE_CAMBIO.ToString("C2")</td>
+                                        <td>@ventaDetalle.VET_IMPORTE_NETO.ToString("C2")</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="4">@Html.DisplayFor(modelItem => ventaDetalle.VEN_NOM_PRODUCTO)</td>
+                                    <td>@Html.DisplayFor(modelItem => ventaDetalle.VEN_CANT_PRODUCTO)</td>
+                                    <td>@ventaDetalle.VEN_PRECIO_UNITARIO.ToString("C2")</td>
+                                    <td>@ventaDetalle.VEN_IMPORTE_PRODUCTO.ToString("C2")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot class="thead-dark">
+                        <tr>
+                            <th scope="col" colspan="6">Total de Venta</th>
+                            <th scope="col">@Model.Where(x => x.VET_FOLIO_OPERACION == folioDeOperacion).Select(y => y.VEN_IMPORTE_PRODUCTO).Sum()</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
