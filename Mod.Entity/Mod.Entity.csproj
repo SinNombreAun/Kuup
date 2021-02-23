@@ -140,6 +140,9 @@
     <Compile Include="Venta.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="VentasTotalesDetalle_Result.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="VentaTotal.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>

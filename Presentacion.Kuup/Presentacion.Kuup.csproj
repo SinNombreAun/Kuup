@@ -114,6 +114,7 @@
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_777777_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Imagenes\Kuup\logoKuup.png" />
     <Content Include="Content\Imagenes\Kuup\logo.png" />
     <Content Include="Content\Librerias\Alertify\alertify.css" />
     <Content Include="Content\Librerias\Alertify\alertify.js" />
@@ -268,6 +269,7 @@
     <Content Include="Views\Producto\CodigosDeBarras.cshtml" />
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
+    <Content Include="Views\Venta\ReporteVenta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
