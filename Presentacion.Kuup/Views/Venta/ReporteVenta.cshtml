@@ -2,10 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutReporte.cshtml";
-    String FechaInicio = ViewData["FechaInicio"].ToString();
-    String FechaFin = ViewData["FechaFin"].ToString();
+    String FechaInicio = TempData["FechaInicio"].ToString();
+    String FechaFin = TempData["FechaFin"].ToString();
     String TextoPeriodo = String.Empty;
-    bool Web = (Boolean)ViewData["Web"];
+    bool Web = (Boolean)TempData["Web"];
     if (FechaInicio != FechaFin)
     {
         TextoPeriodo = FechaInicio + " al " + FechaFin;
@@ -20,7 +20,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+                <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;"></img>
             </div>
             <div class="col">
                 <div class="text-center text-center-abajo">
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col" style="text-align: right;">
-                <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+                <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;"></img>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+                                        <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;"></img>
                                     </div>
                                     <div class="col">
                                         <div class="text-center text-center-abajo">
@@ -63,7 +63,7 @@
                                         </div>
                                     </div>
                                     <div class="col" style="text-align: right;">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+                                        <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;"></img>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
+                                        <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;"></img>
                                     </div>
                                     <div class="col">
                                         <div class="text-center text-center-abajo">
@@ -132,7 +132,7 @@
                                         </div>
                                     </div>
                                     <div class="col" style="text-align: right;">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
+                                        <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;"></img>
                                     </div>
                                 </div>
                             </div>

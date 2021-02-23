@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using Rotativa.MVC;
 using Mod.Entity;
 
 namespace Presentacion.Kuup.Controllers
@@ -603,10 +602,10 @@ namespace Presentacion.Kuup.Controllers
             }).OrderBy(x => x.NumeroDeProducto).ToList();
             return View(CodigoDeBarras);
         }
-        public ActionResult GeneraPDFCodigoDeBarras()
-        {
-            return new ViewAsPdf("CodigosDeBarras") { FileName = "CodigosDeBarras.pdf"};
-        }
+        //public ActionResult GeneraPDFCodigoDeBarras()
+        //{
+        //    return new ViewAsPdf("CodigosDeBarras") { FileName = "CodigosDeBarras.pdf"};
+        //}
         #endregion
     }
 }
