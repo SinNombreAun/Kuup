@@ -45,6 +45,9 @@ namespace Presentacion.Kuup.Controllers
                     case (byte)ClsEnumerables.Funcionalidades.IMPORTAR:
                         Resultado.Mensaje = "No cuenta con privilegios de Importación";
                         break;
+                    case (byte)ClsEnumerables.Funcionalidades.REPORTE:
+                        Resultado.Mensaje = "No cuenta con privilegios de Reporteria";
+                        break;
                 }
                 Resultado.Resultado = false;
                 TempData["Resultado"] = Resultado.MensajeController();

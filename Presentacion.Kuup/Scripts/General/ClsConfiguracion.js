@@ -1,6 +1,6 @@
 ﻿$(document).ajaxStart(function () {
     $.blockUI({
-        message: $("#loadingKuup")
+        message: '<img src="/Content/Imagenes/BlockUI/cargakuup.gif" style="width: 60%" />'
     });
 }).ajaxStop($.unblockUI);
 
@@ -39,9 +39,6 @@ function CurrencyFormat(d, thousands, decimal, precision, prefix, postfix) {
     var negative = d < 0 ? '-' : '';
     var flo = parseFloat(d);
 
-    // If NaN then there isn't much formatting that we can do - just
-    // return immediately, escaping any HTML (this was supposed to
-    // be a number after all)
     if (isNaN(flo)) {
         return htmlEscapeEntitiesGen(d);
     }
@@ -50,23 +47,10 @@ function CurrencyFormat(d, thousands, decimal, precision, prefix, postfix) {
     d = Math.abs(flo);
 
     var intPart = parseInt(d, 10);
-    var floatPart = precision ?
-        decimal + (d - intPart).toFixed(precision).substring(2) :
-        '';
+    var floatPart = precision ? decimal + (d - intPart).toFixed(precision).substring(2) : '';
 
-    return negative + (prefix || '') +
-        intPart.toString().replace(
-            /\B(?=(\d{3})+(?!\d))/g, thousands
-        ) +
-        floatPart +
-        (postfix || '');
+    return negative + (prefix || '') + intPart.toString().replace(/\B(?=(\d{3})+(?!\d))/g, thousands) + floatPart + (postfix || '');
 }
 function htmlEscapeEntitiesGen(d) {
-    return typeof d === 'string' ?
-        d
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;') :
-        d;
+    return typeof d === 'string' ? d.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : d;
 };

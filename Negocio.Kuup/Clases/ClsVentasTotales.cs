@@ -268,6 +268,7 @@ namespace Negocio.Kuup.Clases
 
             }
             return new List<ClsVentasTotales>();
+        
         }
     }
 }
