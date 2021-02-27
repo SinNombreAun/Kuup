@@ -157,6 +157,7 @@
     <Content Include="Content\Styles\Account\all.css" />
     <Content Include="Content\Styles\Account\font-awesome.css" />
     <Content Include="Content\Styles\Account\style.css" />
+    <Content Include="Content\Styles\Site\ReportesPDF.css" />
     <Content Include="Content\Styles\Site\Reportes.css" />
     <Content Include="Content\Styles\Site\Site.css" />
     <Content Include="Content\Imagenes\favicon.ico" />
@@ -255,6 +256,7 @@
     <Content Include="Content\Fonts\Site\fa-solid-900.woff" />
     <Content Include="Content\Fonts\Site\fa-solid-900.woff2" />
     <Content Include="Content\Librerias\DataTables\dataTablesEspanol.json" />
+    <Content Include="App_Code\HelpersCode.cshtml" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Alta.cshtml" />
