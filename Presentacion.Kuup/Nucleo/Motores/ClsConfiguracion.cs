@@ -69,39 +69,15 @@ namespace Presentacion.Kuup.Nucleo.Motores
                 viewEngineResult.View.Render(viewContext, stringWriter);
                 String HtmlString = stringWriter.ToString();
 
-                //Document Pdf = new Document(PageSize.A4);
-                //StringReader stringReader = new StringReader(HtmlString);
-
-                //PdfWriter write = PdfWriter.GetInstance(Pdf, stream);
-                //Pdf.Open();
-                //XMLWorkerHelper.GetInstance().ParseXHtml(write, Pdf, stringReader);
-                //Pdf.Close();
-                //using(FileStream fileStream = System.IO.File.Create(ruta + nombreDeReporte + ".pdf"))
-                //{
-                //    fileStream.Write(stream.ToArray(), 0, stream.ToArray().Length);
-                //}
-
-                //stringWriter.WriteLine(HtmlString);
-                //StringReader stringReader = new StringReader(stringWriter.ToString());
-                //Document document = new Document();
-                //HTMLWorker html = new HTMLWorker(document);
-                //PdfWriter.GetInstance(document, new FileStream(ruta + nombreDeReporte + ".pdf", FileMode.Create));
-                //document.Open();
-                //html.Parse(stringReader);
-                //document.Close();
                 List<string> cssFiles = new List<string>();
                 cssFiles.Add("~/Content/Styles/Site/Site.css");
-                cssFiles.Add("~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css");
                 cssFiles.Add("~/Content/Styles/Account/all.css");
                 cssFiles.Add("~/Content/Librerias/JQuery.UI/jquery-ui.theme.css");
                 cssFiles.Add("~/Content/Librerias/JQuery.UI/jquery-ui.structure.css");
-                cssFiles.Add("~/Content/Styles/Site/Reportes.css");
-
+                cssFiles.Add("~/Content/Styles/Site/ReportesPDF.css");
 
                 Document Pdf = new Document(PageSize.A4);
-                
                 StringReader stringReader = new StringReader(HtmlString);
-
                 PdfWriter write = PdfWriter.GetInstance(Pdf, stream);
                 write.CloseStream = false;
                 Pdf.Open();
@@ -113,14 +89,11 @@ namespace Presentacion.Kuup.Nucleo.Motores
                 XMLWorker xMLWorkerHelper = new XMLWorker(pipeline,true);
                 XMLParser xMLParse = new XMLParser(xMLWorkerHelper);
                 xMLParse.Parse(new MemoryStream(Encoding.UTF8.GetBytes(HtmlString)));
-
-                //XMLWorkerHelper.GetInstance().ParseXHtml(write, Pdf, stringReader);
                 Pdf.Close();
                 using (FileStream fileStream = System.IO.File.Create(ruta + nombreDeReporte + ".pdf"))
                 {
                     fileStream.Write(stream.ToArray(), 0, stream.ToArray().Length);
                 }
-
                 return File(ruta + nombreDeReporte + ".pdf", System.Net.Mime.MediaTypeNames.Application.Octet, nombreDeReporte + ".pdf");
             }
         }

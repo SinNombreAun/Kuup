@@ -230,7 +230,7 @@
                             debugger
                             let UrlGeneraReporteParam = "/?fFechaInicial=" + $('#' + Elementos_Venta.FechaInicial).val()
                                 + "&fFechaFinal=" + $('#' + Elementos_Venta.FechaFinal).val() 
-                                + "&Tipo=Web" 
+                                + "&Tipo=PDF" 
                             window.open(UrlGeneraReporte + UrlGeneraReporteParam, "_blank");
                         });
                         break;

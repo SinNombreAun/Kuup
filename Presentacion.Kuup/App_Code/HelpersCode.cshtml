@@ -1,0 +1,45 @@
+﻿@using System.Web.Mvc;
+@helper TutuloReporte(String Titulo1, String SubTitulo, String Complemento, bool Web, UrlHelper Url)
+{
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table-titulo">
+                        <tr>
+                            <th style="width: 25%;">
+                                @if (Web)
+                                {
+                                    <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;"></img>
+                                }
+                                else
+                                {
+                                    <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logo.png")" style="width: 100px;"></img>
+                                }
+                            </th>
+                            <th style="width: 50%;">
+                                <div class="text-center text-center-abajo">
+                                    <h3>@Titulo1</h3>
+                                    <h6>@SubTitulo</h6>
+                                    <br />
+                                    <h6>@Complemento</h6>
+                                </div>
+                            </th>
+                            <th style="width: 25%;" class="text-right">
+                                @if (Web)
+                                {
+                                    <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;"></img>
+                                }
+                                else
+                                {
+                                    <img src="@Context.Server.MapPath("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 100px;"></img>
+                                }
+                            </th>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </header>
+}
