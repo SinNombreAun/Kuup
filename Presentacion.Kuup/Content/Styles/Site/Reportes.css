@@ -4,9 +4,12 @@
 .text-center-abajo {
     padding-top: 10%;
 }
-saltoDePagina {
+.saltoDePagina {
     page-break-after: always;
     border: none;
     margin: 0;
     padding: 0;
+}
+.table-titulo {
+    width: 100%;
 }

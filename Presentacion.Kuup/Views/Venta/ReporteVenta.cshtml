@@ -2,10 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutReporte.cshtml";
-    String FechaInicio = ViewData["FechaInicio"].ToString();
-    String FechaFin = ViewData["FechaFin"].ToString();
+    String FechaInicio = TempData["FechaInicio"].ToString();
+    String FechaFin = TempData["FechaFin"].ToString();
     String TextoPeriodo = String.Empty;
-    bool Web = (Boolean)ViewData["Web"];
+    bool Web = (Boolean)TempData["Web"];
     if (FechaInicio != FechaFin)
     {
         TextoPeriodo = FechaInicio + " al " + FechaFin;
@@ -14,28 +14,9 @@
     {
         TextoPeriodo = FechaInicio;
     }
-    int Renglones = 48, RenglonesGastados = 0;
+    int Renglones = 44, RenglonesGastados = 0;
 }
-<header>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
-            </div>
-            <div class="col">
-                <div class="text-center text-center-abajo">
-                    <h3>Sistema de Inventario y Ventas Kuup</h3>
-                    <h6>Desarrollado por SIR</h6>
-                    <br />
-                    <h6>Reporte de ventas del @TextoPeriodo</h6>
-                </div>
-            </div>
-            <div class="col" style="text-align: right;">
-                <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
-            </div>
-        </div>
-    </div>
-</header>
+@HelpersCode.TutuloReporte("Sistema de Inventario y Ventas Kuup","Desarrollado por SIR","Reporte de Ventas del " + TextoPeriodo,Web,Url)
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -48,26 +29,8 @@
                     if (!Web)
                     {
                         <p style="page-break-before: always;">&nbsp;</p>
-                        <header>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-center text-center-abajo">
-                                            <h3>Sistema de Inventario y Ventas Kuup</h3>
-                                            <h6>Desarrollado por SIR</h6>
-                                            <br />
-                                            <h6>Reporte de ventas del @TextoPeriodo</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col" style="text-align: right;">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </header>
+                        
+                        @HelpersCode.TutuloReporte("Sistema de Inventario y Ventas Kuup","Desarrollado por SIR","Reporte de Ventas del " + TextoPeriodo,Web,Url)
                         RenglonesGastados = 2 + (llevaFooter ? 1 : 0) + 4;
                     }
                 }
@@ -117,26 +80,8 @@
                     if (!Web)
                     {
                         <p style="page-break-before: always;">&nbsp;</p>
-                        <header>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;">
-                                    </div>
-                                    <div class="col">
-                                        <div class="text-center text-center-abajo">
-                                            <h3>Sistema de Inventario y Ventas Kuup</h3>
-                                            <h6>Desarrollado por SIR</h6>
-                                            <br />
-                                            <h6>Reporte de ventas del @TextoPeriodo</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col" style="text-align: right;">
-                                        <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </header>
+                        
+                        @HelpersCode.TutuloReporte("Sistema de Inventario y Ventas Kuup","Desarrollado por SIR","Reporte de Ventas del " + TextoPeriodo,Web,Url)
                         RenglonesGastados = Model.Where(x => x.VET_FOLIO_OPERACION == folioDeOperacion).ToList().Count() + 7;
                     }
                 }
@@ -186,6 +131,7 @@
                         </tr>
                     </tfoot>
                 </table>
+                <br />
             }
         </div>
     </div>
