@@ -227,6 +227,91 @@ namespace Presentacion.Kuup.Controllers
             return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto });
         }
         #endregion
+        #region Baja
+        public ActionResult Baja(short NumeroDeProducto, String CodigoDeBarras)
+        {
+            if (!ValidaSesion())
+            {
+                return RedirectToAction("LoginOut","Account");
+            }
+            if(!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.BAJA))
+            {
+                return RedirectToAction("Index", "Producto");
+            }
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado();
+            var ProductoClase = ClsProductos.getList(String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", NumeroDeProducto, CodigoDeBarras));
+            ProductoModel Producto = new ProductoModel(ProductoClase.FirstOrDefault());
+            if (Producto == null)
+            {
+                Resultado.Resultado = false;
+                Resultado.Mensaje = "El producto no se encuentra";
+            }
+            else
+            {
+                List<ClsConfiguraMayoreos> Mayoreos = ClsConfiguraMayoreos.getList(String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", Producto.NumeroDeProducto, Producto.CodigoDeBarras));
+                List<ClsConfiguraPaquetes> Paquetes = ClsConfiguraPaquetes.getList(String.Format("(NumeroDeProductoPadre == {0} && CodigoDeBarrasPadre == \"{1}\") || (NumeroDeProductoHijo == {0} && CodigoDeBarrasHijo == \"{1}\")", Producto.NumeroDeProducto, Producto.CodigoDeBarras));
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    using (var Transaccion = db.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            if(Mayoreos.Count() != 0)
+                            {
+                                foreach(var item in Mayoreos)
+                                {
+                                    if (!item.Delete())
+                                    {
+                                        Transaccion.Rollback();
+                                        Resultado.Resultado = false;
+                                        Resultado.Mensaje = "No fue posible realizar la baja de la configuracion de mayoreo asignada a este producto";
+                                        return Json(Resultado, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                            }
+                            if(Paquetes.Count() != 0)
+                            {
+                                foreach(var item in Paquetes)
+                                {
+                                    if (!item.Delete())
+                                    {
+                                        Transaccion.Rollback();
+                                        Resultado.Resultado = false;
+                                        Resultado.Mensaje = "No fue posible realizar la baja de los paquetes asignados al producto";
+                                        return Json(Resultado, JsonRequestBehavior.AllowGet);
+                                    }
+                                }
+                            }
+                            Producto.CveDeEstatus = 2;
+                            if (!Producto.Update())
+                            {
+                                Resultado.Resultado = false;
+                                Resultado.Mensaje = "No fue posible realizar la baja del producto";
+                                Transaccion.Rollback();
+                            }
+                            else
+                            {
+                                ClsSequence Sequence = new ClsSequence((new DBKuupEntities()).Database);
+                                ClsAudit Audit = Nucleo.Clases.ClsAuditInsert.RegistraAudit(Sequence.SQ_FolioAudit(), "BAJA");
+                                Producto.InsertAudit(Audit);
+                                Resultado.Resultado = true;
+                                Resultado.Mensaje = "Baja correcto";
+                                Transaccion.Commit();
+                            }
+                        }
+                        catch (Exception e) 
+                        {
+                            Transaccion.Rollback();
+                            Resultado.Resultado = false;
+                            Resultado.Mensaje = Recursos.Textos.Bitacora_TextoTryCatchGenerico;
+                            ClsBitacora.GeneraBitacora(NumeroDePantalla, 4, "Baja", String.Format(Recursos.Textos.Bitacora_TextoDeError, e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+                        }
+                    } 
+                }
+            }
+            return Json(Resultado, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
         #region Detalle
         [HttpGet]
         public ActionResult Detalle(short NumeroDeProducto)
