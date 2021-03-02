@@ -78,10 +78,12 @@ namespace Presentacion.Kuup.Controllers
                             else
                             {
                                 lstIPRegistrada = new List<ClsIPRegistradas>();
-                                ClsIPRegistradas Ips = new ClsIPRegistradas();
-                                Ips.IP = Account.IP;
-                                Ips.Terminal = Account.Terminal;
-                                Ips.CveTipoDeAcceso = 1;
+                                ClsIPRegistradas Ips = new ClsIPRegistradas
+                                {
+                                    IP = Account.IP,
+                                    Terminal = Account.Terminal,
+                                    CveTipoDeAcceso = 1
+                                };
                                 List<ClsUsuariosPerfil> lstUsuarioPerfil = (from q in ClsUsuariosPerfil.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario select q).ToList();
                                 if (lstUsuarioPerfil.Count == 1)
                                 {
