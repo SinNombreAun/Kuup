@@ -129,10 +129,12 @@ namespace Presentacion.Kuup.Controllers
             }
             DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal).AddHours(23).AddMinutes(59).AddSeconds(59);
 
-            TempDataDictionary temporalData = new TempDataDictionary();
-            temporalData.Add("FechaInicio", DFechaInicial.ToString("yyyy-MM-dd"));
-            temporalData.Add("FechaFin", DFechaFinal.ToString("yyyy-MM-dd"));
-            temporalData.Add("Web", (Tipo == "Web"));
+            TempDataDictionary temporalData = new TempDataDictionary
+            {
+                { "FechaInicio", DFechaInicial.ToString("yyyy-MM-dd") },
+                { "FechaFin", DFechaFinal.ToString("yyyy-MM-dd") },
+                { "Web", (Tipo == "Web") }
+            };
 
             List<Mod.Entity.VentasTotalesDetalle_Result> VentasTotales = ClsVentas.VentaDetalle(DFechaInicial, DFechaFinal, 0);
             String FileName = String.Format("VentaTotal-{0}{1}{2}",DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day);
