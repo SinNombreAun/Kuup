@@ -3,8 +3,9 @@
   "version": "1.0.3",
   "description": "Sistema de inventario y administracion de ventas",
   "main": "Kuup.sln",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "husky install"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,9 @@
     "url": "https://github.com/SinNombreAun/Kuup/issues"
   },
   "homepage": "https://github.com/SinNombreAun/Kuup#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "husky": "^5.1.3"
+  }
 }
