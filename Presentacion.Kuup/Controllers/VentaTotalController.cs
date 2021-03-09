@@ -369,5 +369,17 @@ namespace Presentacion.Kuup.Controllers
         {
             return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult DevolucionCambios()
+        {
+            if (!ValidaSesion())
+            {
+                return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.BAJA) && !ValidaFuncionalidad(NumeroDePantalla,(byte)ClsEnumerables.Funcionalidades.EDITA))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
     }
 }

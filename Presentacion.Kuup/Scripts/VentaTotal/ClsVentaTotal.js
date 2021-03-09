@@ -3,6 +3,7 @@
         let _Nucleo = function () {
             let Elementos_VentaTotal = {
                 CodigoONombreDeProducto: 'fCodigoONombreDeProducto',
+                FolioDeVenta: 'fFolioDeVenta',
                 CantidadDeProducto: 'fCantidadDeProducto',
                 Paquetes: 'fPaquetes',
                 ImporteTotal: 'fImporteTotal',
@@ -202,6 +203,8 @@
                                 alertify.error('No se aregistrado ningun Producto o el Importe es 0');
                             }
                         });
+                        break;
+                    case "CAMBIODEVOLUCION":
                         break;
                 }
             }

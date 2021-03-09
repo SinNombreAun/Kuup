@@ -277,6 +277,7 @@
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
     <Content Include="Views\Venta\ReporteVenta.cshtml" />
+    <Content Include="Views\VentaTotal\DevolucionCambios.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
