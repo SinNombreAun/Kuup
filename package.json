@@ -1,6 +1,6 @@
 {
   "name": "kuup",
-  "version": "1.0.3",
+  "version": "1.0.9",
   "description": "Sistema de inventario y administracion de ventas",
   "main": "Kuup.sln",
   "private": true,
