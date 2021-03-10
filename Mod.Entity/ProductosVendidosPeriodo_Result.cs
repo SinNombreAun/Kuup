@@ -10,15 +10,13 @@
 namespace Mod.Entity
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PantallaPerfil
+    public partial class ProductosVendidosPeriodo_Result
     {
-        public short PAP_NUM_PANTALLA { get; set; }
-        public byte PAP_NUM_PERFIL { get; set; }
-        public byte PAP_CVE_ESTATUS { get; set; }
-    
-        public virtual Perfil Perfil { get; set; }
-        public virtual Pantalla Pantalla { get; set; }
+        public short VEN_NUM_PRODUCTO { get; set; }
+        public string VEN_CODIGO_BARRAS { get; set; }
+        public string VEN_NOM_PRODUCTO { get; set; }
+        public Nullable<int> VEN_CANT_PRODUCTO { get; set; }
+        public string VEN_TXT_ESTATUS { get; set; }
     }
 }

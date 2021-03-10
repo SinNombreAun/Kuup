@@ -70,40 +70,7 @@ namespace Presentacion.Kuup.Controllers
                                   });
             return Json(new { data = DetalleDeVenta }, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult ReporteVenta(String fFechaInicial, String fFechaFinal, bool sessionValid = false)
-        //{
-        //    if (!sessionValid)
-        //    {
-        //        if (!ValidaSesion())
-        //        {
-        //            return RedirectToAction("LoginOut", "Account");
-        //        }
-        //        if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.REPORTE))
-        //        {
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //    }
-        //    if (string.IsNullOrEmpty(fFechaInicial))
-        //    {
-        //        fFechaInicial = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
-        //    }
-        //    DateTime DFechaInicial = Convert.ToDateTime(fFechaInicial).AddHours(00).AddMinutes(00).AddSeconds(00);
-        //    if (String.IsNullOrEmpty(fFechaFinal))
-        //    {
-        //        fFechaFinal = DateTime.Now.ToString("yyyy-MM-dd");
-        //    }
-        //    DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal).AddHours(23).AddMinutes(59).AddSeconds(59);
-        //    ViewData["FechaInicio"] = DFechaInicial.ToString("yyyy-MM-dd");
-        //    ViewData["FechaFin"] = DFechaFinal.ToString("yyyy-MM-dd");
-        //    List<Mod.Entity.VentasTotalesDetalle_Result> VentasTotales = ClsVentas.VentaDetalle(DFechaInicial,DFechaFinal,0);
-        //    ViewData["Web"] = true;
-        //    if (sessionValid)
-        //    {
-        //        ViewData["Web"] = false;
-        //    }
-        //    return View(VentasTotales);
-        //}
-        public ActionResult ReporteVenta(String fFechaInicial, String fFechaFinal,String Tipo)
+        public ActionResult ReporteVenta(String fFechaInicial, String fFechaFinal, String Tipo)
         {
             if (!ValidaSesion())
             {
@@ -135,17 +102,52 @@ namespace Presentacion.Kuup.Controllers
             temporalData.Add("Web", (Tipo == "Web"));
 
             List<Mod.Entity.VentasTotalesDetalle_Result> VentasTotales = ClsVentas.VentaDetalle(DFechaInicial, DFechaFinal, 0);
-            String FileName = String.Format("VentaTotal-{0}{1}{2}",DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day);
+            String FileName = String.Format("VentaTotal-{0}{1}{2}", DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             PDFBuild<List<Mod.Entity.VentasTotalesDetalle_Result>> pDFBuild = new PDFBuild<List<Mod.Entity.VentasTotalesDetalle_Result>>(ControllerContext, "ReporteVenta", FileName, Ruta, temporalData, VentasTotales);
-            if(Tipo != "Web")
+            if (Tipo != "Web")
             {
                 return pDFBuild.generaPDF();
             }
-            foreach(var tempdata in temporalData)
+            foreach (var tempdata in temporalData)
             {
                 TempData[tempdata.Key] = tempdata.Value;
             }
             return View(VentasTotales);
+        }
+        public ActionResult ProductosVendidos()
+        {
+            if (!ValidaSesion())
+            {
+                return RedirectToAction("LoginOut", "Account");
+            }
+            if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.REPORTE))
+            {
+                return RedirectToAction("Index", "Venta");
+            }
+            ViewBag.FechaInicialLimite = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
+            return View();
+        }
+        public JsonResult ObtenProducto(String fFechaInicial, String fFechaFinal)
+        {
+            if (string.IsNullOrEmpty(fFechaInicial))
+            {
+                fFechaInicial = (from q in ClsVentasTotales.getList() select q.FechaDeOperacion).Min(x => x).ToString("yyyy-MM-dd");
+            }
+            DateTime DFechaInicial = Convert.ToDateTime(fFechaInicial).AddHours(00).AddMinutes(00).AddSeconds(00);
+            if (String.IsNullOrEmpty(fFechaFinal))
+            {
+                fFechaFinal = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            DateTime DFechaFinal = Convert.ToDateTime(fFechaFinal).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var ProductosVendidos = (from q in ClsVentas.ProductosVendidosPeriodo(DFechaInicial, DFechaFinal) 
+                                  select new {
+                                      NumeroDeProducto = q.VEN_NUM_PRODUCTO,
+                                      CodigoDeBarras = q.VEN_CODIGO_BARRAS,
+                                      NombreDeProducto = q.VEN_NOM_PRODUCTO,
+                                      CantidadVendida = q.VEN_CANT_PRODUCTO,
+                                      TextoDeEstatus = q.VEN_TXT_ESTATUS
+                                  }).OrderByDescending(x => x.CantidadVendida);
+            return Json(new { data = ProductosVendidos }, JsonRequestBehavior.AllowGet);
         }
     }
 }

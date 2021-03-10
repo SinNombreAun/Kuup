@@ -224,5 +224,20 @@ namespace Negocio.Kuup.Clases
             }
             return new List<VentasTotalesDetalle_Result>();
         }
+        public static List<ProductosVendidosPeriodo_Result> ProductosVendidosPeriodo(DateTime fechaInicio, DateTime fechaFin)
+        {
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    return db.ProductosVendidosPeriodo(fechaInicio, fechaFin).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            return new List<ProductosVendidosPeriodo_Result>();
+        }
     }
 }

@@ -173,6 +173,7 @@
     <Content Include="Scripts\Surtido\ClsSurtido.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
     <Content Include="Scripts\VentaTotal\ClsVentaTotal.js" />
+    <Content Include="Scripts\Venta\ClsRepProductos.js" />
     <Content Include="Scripts\Venta\ClsVenta.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -277,6 +278,7 @@
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
     <Content Include="Views\Venta\ReporteVenta.cshtml" />
+    <Content Include="Views\Venta\ProductosVendidos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
