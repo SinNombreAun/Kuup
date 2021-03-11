@@ -131,6 +131,9 @@
     <Content Include="Content\Librerias\Bootstrap\bootstrap.css" />
     <Content Include="Content\Librerias\Bootstrap\bootstrap.js" />
     <Content Include="Content\Librerias\Bootstrap\Themes\Solar\bootstrap.css" />
+    <Content Include="Content\Librerias\Chart\Chart.bundle.js" />
+    <Content Include="Content\Librerias\Chart\Chart.css" />
+    <Content Include="Content\Librerias\Chart\Chart.js" />
     <Content Include="Content\Librerias\DataTables\datatables.css" />
     <Content Include="Content\Librerias\DataTables\dataTables.fixedHeader.js" />
     <Content Include="Content\Librerias\DataTables\datatables.js" />
