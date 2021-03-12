@@ -8,7 +8,8 @@
                 FechaFinal: 'fFechaFinal',
                 Consulta: 'Consulta',
                 Guardar: 'Guardar',
-                GeneraReporte: 'GeneraReporte'
+                GeneraReporte: 'GeneraReporte',
+                GraficaProductos: 'GraficaProductos'
             };
             let Funcionalidad = '',
                 UrlCargaGrid = '',
@@ -109,6 +110,7 @@
                                     debugger
                                     TablaProductos.clear().draw();
                                     if (data.data.length > 0) {
+                                        let labels = [], cantidad = [], colores = [];
                                         for (var i = 0; i < data.data.length; i++) {
                                             TablaProductos.row.add({
                                                 "NumeroDeProducto": data.data[i].NumeroDeProducto,
@@ -117,7 +119,11 @@
                                                 "CantidadVendida": data.data[i].CantidadVendida,
                                                 "TextoDeEstatus": data.data[i].TextoDeEstatus
                                             }).draw();
+                                            labels.push(data.data[i].NombreDeProducto);
+                                            cantidad.push(data.data[i].CantidadVendida);
+                                            colores.push(random_rgba());
                                         }
+                                        _CreaGrafica({ labels: labels, datasets: [{ label: 'Produtos Vendidos', data: cantidad, backgroundColor: colores, fill: false }] });
                                     }
                                 },
                                 error: function () {
@@ -137,6 +143,34 @@
                     case 'DETALLE':
                         break;
                 }
+            }
+            let _CreaGrafica = function (data) {
+                let chartOptions = {
+                    startAngle: -Math.PI / data.datasets[0].data.legend,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.yLabel;
+                            }
+                        }
+                    },
+                    animation: {
+                        animateRotate: false
+                    }
+                }
+                let GraficaCanvas = document.getElementById(Elementos_RepProductos.GraficaProductos).getContext('2d');
+                let Grafica = new Chart(GraficaCanvas, {
+                    data: data,
+                    type: 'polarArea',
+                    options: chartOptions
+                });
+            }
+            function random_rgba() {
+                var o = Math.round, r = Math.random, s = 255;
+                return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
             }
             return {
                 Configuracion: {
