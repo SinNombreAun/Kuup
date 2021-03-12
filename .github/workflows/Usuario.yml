@@ -2,6 +2,7 @@ name: Nombre de Usuario
 on: push
 jobs:
   job1:
+    runs-on: ubuntu-latest
     steps:
       - name: Usuario
         run: |
