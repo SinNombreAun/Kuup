@@ -38,9 +38,8 @@ namespace Presentacion.Kuup.Controllers
                         List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ValidaIP" select q).ToList();
                         if (Parametro.Count() == 1)
                         {
-
                             List<ClsIPRegistradas> lstIPRegistrada = (from q in ClsIPRegistradas.getList() where q.NumeroDeUsuario == lstUsuario.FirstOrDefault().NumeroDeUsuario && q.Terminal.ToUpper() == Account.Terminal.ToUpper() && q.IP == Account.IP select q).ToList();
-                            if (Parametro.FirstOrDefault().ValorDeParametro == "SI")
+                            if(Parametro.FirstOrDefault().ValorDeParametro == "SI")
                             {
                                 if (lstIPRegistrada.Count == 1)
                                 {

@@ -34,6 +34,14 @@
                     @Html.TextAreaFor(model => model.fDescripcion, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
                 <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCveTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
+                    @Html.DropDownListFor(model => model.fCveTipoDeProducto, (IEnumerable<SelectListItem>)ViewBag.CveTipoDeProducto, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCveMarca, new { @class = "col-sm-3 col-form-label" })
+                    @Html.DropDownListFor(model => model.fCveMarca, (IEnumerable<SelectListItem>)ViewBag.CveMarca, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                </div>
+                <div class="from-group from-group-margin">
                     @Html.LabelFor(model => model.fCantidadDeProductoTotal, new { @class = "col-sm-3 col-form-label" })
                     @Html.TextBoxFor(model => model.fCantidadDeProductoTotal, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>

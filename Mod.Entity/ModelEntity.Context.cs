@@ -60,8 +60,6 @@ namespace Mod.Entity
         public virtual DbSet<ViBitacora> ViBitacora { get; set; }
         public virtual DbSet<VentaTotal> VentaTotal { get; set; }
         public virtual DbSet<ViVentaTotal> ViVentaTotal { get; set; }
-        public virtual DbSet<Producto> Producto { get; set; }
-        public virtual DbSet<ViProducto> ViProducto { get; set; }
         public virtual DbSet<ConfiguraMayoreo> ConfiguraMayoreo { get; set; }
         public virtual DbSet<ViConfiguraMayoreo> ViConfiguraMayoreo { get; set; }
         public virtual DbSet<Surtido> Surtido { get; set; }
@@ -73,8 +71,13 @@ namespace Mod.Entity
         public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
         public virtual DbSet<ConfiguraMayoreoAudit> ConfiguraMayoreoAudit { get; set; }
         public virtual DbSet<ConfiguraPaqueteAudit> ConfiguraPaqueteAudit { get; set; }
+        public virtual DbSet<AsignaMarca> AsignaMarca { get; set; }
+        public virtual DbSet<Marca> Marca { get; set; }
+        public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
-    
+        public virtual DbSet<ViAsignaMarca> ViAsignaMarca { get; set; }
+        public virtual DbSet<ViMarca> ViMarca { get; set; }
+        public virtual DbSet<ViProducto> ViProducto { get; set; }
         public virtual ObjectResult<VentasTotalesDetalle_Result> VentasTotalesDetalle(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<short> folioOperacion)
         {
             var fechaInicioParameter = fechaInicio.HasValue ?
