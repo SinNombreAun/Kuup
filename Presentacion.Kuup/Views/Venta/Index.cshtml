@@ -24,6 +24,9 @@
             <button type="button" id="Consulta" class="btn btn-primary">Consultar</button>
             <br />
             <br />
+            <button type="button" id="GeneraReporte" class="btn btn-secondary">Generar Reporte</button>
+            <br />
+            <br />
             <table id="VentasTotales" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                     <tr>
@@ -38,13 +41,8 @@
                 </thead>
                 <tfoot class="thead-dark">
                     <tr>
-                        <th scope="col">Folio de Operacion</th>
-                        <th scope="col">Fecha de Operacion</th>
-                        <th scope="col">Nombre de Usuario</th>
-                        <th scope="col">Importe Entregado</th>
-                        <th scope="col">Importe Cambio</th>
-                        <th scope="col">Importe Neto</th>
-                        <th scope="col">Estatus</th>
+                        <th colspan="3" style="text-align:right">Total:</th>
+                        <th></th>
                     </tr>
                 </tfoot>
             </table>
@@ -87,6 +85,7 @@
         ClsVenta = Objeto.Constructor({
             Funcionalidad: 'INDEX',
             UrlCargaGrid: '@Url.Action("ObtenVentas", "Venta")',
+            UrlGeneraReporte: '@Url.Action("ReporteVenta", "Venta")',
             UrlDetalle: '@Url.Action("ObtenDetalleDeVentas", "Venta")',
             FechaInicialLimite: '@ViewBag.FechaInicialLimite'
         });

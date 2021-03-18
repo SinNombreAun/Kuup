@@ -8,10 +8,12 @@
                 FechaFinal: 'fFechaFinal',
                 Consulta: 'Consulta',
                 ContVentas: 'ContVentas',
-                Guardar: 'Guardar'
+                Guardar: 'Guardar',
+                GeneraReporte: 'GeneraReporte'
             };
             let Funcionalidad = '',
                 UrlCargaGrid = '',
+                UrlGeneraReporte = '',
                 UrlDetalle = '',
                 FechaInicialLimite = '',
                 TablaVentasTotales = null,
@@ -30,6 +32,13 @@
                     return UrlCargaGrid;
                 }
             };
+            let _UrlGeneraReporte = function (UrlGeneraReporteSet) {
+                if (typeof (UrlGeneraReporteSet) != 'undefined') {
+                    UrlGeneraReporte = UrlGeneraReporteSet;
+                } else {
+                    return UrlGeneraReporte;
+                }
+            }
             let _UrlDetalle = function (UrlDetalleSet) {
                 if (typeof (UrlDetalleSet) != 'undefined') {
                     UrlDetalle = UrlDetalleSet;
@@ -63,16 +72,49 @@
                     "scrollY": 300,
                     "scrollX": true,
                     "scrollCollapse": false,
-                    "pageLength": 100,
+                    "lengthChange": false,
+                    "pageLength": 10000000,
                     "columns": [
                         { "data": "FolioDeOperacion" },
                         { "data": "FechaDeOperacion" },
                         { "data": "NombreDeUsuario" },
-                        { "data": "ImporteEntregado" },
-                        { "data": "ImporteCambio" },
-                        { "data": "ImporteNeto" },
+                        { "data": "ImporteEntregado", "render": $.fn.dataTable.render.number(',', '.', 2, '$' )  },
+                        { "data": "ImporteCambio", "render": $.fn.dataTable.render.number(',', '.', 2, '$' )  },
+                        { "data": "ImporteNeto", "render": $.fn.dataTable.render.number(',', '.', 2, '$') }, 
                         { "data": "TextoDeEstatus" }
                     ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        // Remove the formatting to get integer data for summation
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '') * 1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        // Total over all pages
+                        total = api
+                            .column(5)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+                        // Total over this page
+                        pageTotal = api
+                            .column(5, { page: 'current' })
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+                        // Update footer
+                        $(api.column(3).footer()).html(
+                            CurrencyFormat(pageTotal, ',', '.', 2, '$')  + ' ( ' + CurrencyFormat(total,',', '.', 2, '$') + ' total)'
+                        );
+                    },
                     "language": LenguajeEN()
                 });
                 $('#' + Elementos_Venta.VentasTotales + ' tbody').on('dblclick', 'tr', function () {
@@ -96,11 +138,11 @@
                     "paging": false,
                     "searching": false,
                     "columns": [
-                        { "data": "FolioDeOperacion" },
+                        { "data": "FolioDeOperacion"},
                         { "data": "NombreDeProducto" },
                         { "data": "CantidadDeProducto" },
-                        { "data": "PrecioUnitario" },
-                        { "data": "ImporteDeProducto" }
+                        { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "data": "ImporteDeProducto", "render": $.fn.dataTable.render.number(',', '.', 2, '$') }
                     ],
                     "language": LenguajeEN()
                 });
@@ -161,7 +203,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: UrlCargaGrid,
-                                async: false,
+                                //async: false,
                                 data: { fFechaInicial: $('#' + Elementos_Venta.FechaInicial).val(), fFechaFinal: $('#' + Elementos_Venta.FechaFinal).val() },
                                 success: function (data) {
                                     TablaVentasTotales.clear().draw();
@@ -184,6 +226,13 @@
                                 }
                             });
                         });
+                        $('#' + Elementos_Venta.GeneraReporte).click(function () {
+                            debugger
+                            let UrlGeneraReporteParam = "/?fFechaInicial=" + $('#' + Elementos_Venta.FechaInicial).val()
+                                + "&fFechaFinal=" + $('#' + Elementos_Venta.FechaFinal).val() 
+                                + "&Tipo=PDF" 
+                            window.open(UrlGeneraReporte + UrlGeneraReporteParam, "_blank");
+                        });
                         break;
                     case 'ALTA':
                         break;
@@ -195,6 +244,7 @@
                 Configuracion: {
                     Funcionalidad: _Funcionalidad,
                     UrlCargaGrid: _UrlCargaGrid,
+                    UrlGeneraReporte: _UrlGeneraReporte,
                     UrlDetalle: _UrlDetalle,
                     FechaInicialLimite: _FechaInicialLimite
                 },
@@ -205,6 +255,7 @@
             let NucleoConfigurado = _Nucleo();
             NucleoConfigurado.Configuracion.Funcionalidad(ObjetoConfiguracion.Funcionalidad);
             NucleoConfigurado.Configuracion.UrlCargaGrid(ObjetoConfiguracion.UrlCargaGrid);
+            NucleoConfigurado.Configuracion.UrlGeneraReporte(ObjetoConfiguracion.UrlGeneraReporte);
             NucleoConfigurado.Configuracion.UrlDetalle(ObjetoConfiguracion.UrlDetalle);
             NucleoConfigurado.Configuracion.FechaInicialLimite(ObjetoConfiguracion.FechaInicialLimite);
             return NucleoConfigurado;

@@ -1,0 +1,11 @@
+name: Nombre de Usuario
+on: push
+jobs:
+  job1:
+    runs-on: windows-2019
+    steps:
+      - name: Usuario
+        run: |
+          echo $USER_NAME
+        env: 
+          USER_NAME: ${{ secrets.USER_NAME }}

@@ -34,7 +34,10 @@
                 PreciosProducto: "PreciosProducto",
                 GuardarPrecios: "GuardarPrecios",
                 TablaFilter: "Tabla_filter",
-                SelectTablas: ["TextoTipoDeProducto", "TextoAviso", "TextoCorreoSurtido", "TextoDeEstatus"]
+                MayoreoContenedor: "MayoreoContenedor",
+                Cancelar: "Cancelar",
+                Edita: "Edita",
+                SelectTablas: ["TextoAviso", "TextoCorreoSurtido", "TextoDeEstatus"]
             };
             let Funcionalidad = "",
                 NumeroDeProductoModel = "",
@@ -216,7 +219,7 @@
                         { "data": "NumeroDeMayoreo" },
                         { "data": "CantidadMinima" },
                         { "data": "CantidadMaxima" },
-                        { "data": "PrecioDeMayoreo" },
+                        { "data": "PrecioDeMayoreo", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "defaultContent": "<button type='button' class='btndelete btn btn-danger'><i class='far fa-trash-alt'></i></button>" }
                     ],
                     "paging": false,
@@ -296,7 +299,7 @@
                         { "data": "TextoTipoDeProducto" },
                         { "data": "TextoMarca" },
                         { "data": "CantidadDeProductoTotal" },
-                        { "data": "PrecioUnitario" },
+                        { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "data": "TextoAviso" },
                         { "data": "TextoCorreoSurtido" },
                         { "data": "TextoDeEstatus" },
@@ -481,6 +484,27 @@
                         });
                         break;
                     case "DETALLE":
+                        $("#" + Elementos_Producto.Cancelar).change(function () {
+                            $.ajax({
+                                type: "POST",
+                                url: UrlDeBaja,
+                                data: { NumeroDeProducto: $("#" + Elementos_Producto.NumeroDeProducto).val(), CodigoDeBarras: $("#"+ Elementos_Producto.CodigoDeBarras).val() },
+                                success: function (data) {
+                                    if (data.Resultado) {
+                                        alertify.success(data.Mensaje);
+                                        $("#" + Elementos_Producto.Edita).hide();
+                                        $("#" + Elementos_Producto.MayoreoContenedor).hide();
+                                    } else {
+                                        alertify.error(data.Mensaje);
+                                    }
+                                },
+                                error: function () {
+                                    alertify.error(
+                                        "Ocurrio un error al realizar la accion de carga de archivo"
+                                    );
+                                },
+                            });
+                        });
                         $("#" + Elementos_Producto.CveAviso).change(function () {
                             if (this.value == 1) {
                                 $("#" + Elementos_Producto.CveCorreoSurtido).parent().show();

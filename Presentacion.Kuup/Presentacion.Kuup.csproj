@@ -42,6 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -50,16 +53,19 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rotativa.Core.2.0.0\lib\net45\Rotativa.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Rotativa.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
@@ -114,6 +120,7 @@
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_777777_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Imagenes\Kuup\logoKuup.png" />
     <Content Include="Content\Imagenes\Kuup\logo.png" />
     <Content Include="Content\Librerias\Alertify\alertify.css" />
     <Content Include="Content\Librerias\Alertify\alertify.js" />
@@ -150,11 +157,11 @@
     <Content Include="Content\Styles\Account\all.css" />
     <Content Include="Content\Styles\Account\font-awesome.css" />
     <Content Include="Content\Styles\Account\style.css" />
+    <Content Include="Content\Styles\Site\ReportesPDF.css" />
     <Content Include="Content\Styles\Site\Reportes.css" />
     <Content Include="Content\Styles\Site\Site.css" />
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
     <Content Include="Scripts\ConfiguraPaquete\ClsConfiguraPaquete.js" />
     <Content Include="Scripts\General\ClsConfiguracion.js" />
@@ -249,6 +256,7 @@
     <Content Include="Content\Fonts\Site\fa-solid-900.woff" />
     <Content Include="Content\Fonts\Site\fa-solid-900.woff2" />
     <Content Include="Content\Librerias\DataTables\dataTablesEspanol.json" />
+    <Content Include="App_Code\HelpersCode.cshtml" />
     <None Include="Properties\PublishProfiles\Admin.pubxml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Alta.cshtml" />
@@ -268,6 +276,7 @@
     <Content Include="Views\Producto\CodigosDeBarras.cshtml" />
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
+    <Content Include="Views\Venta\ReporteVenta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
