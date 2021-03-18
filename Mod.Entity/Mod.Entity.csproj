@@ -53,6 +53,9 @@
     <Compile Include="Agenda.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="AsignaMarca.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bitacora.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -85,6 +88,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="IPRegistradas.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Marca.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Menu.cs">
@@ -149,6 +155,9 @@
     <Compile Include="ViAgenda.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViAsignaMarca.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViBitacora.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -174,6 +183,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViIPRegistradas.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViMarca.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViMenu.cs">

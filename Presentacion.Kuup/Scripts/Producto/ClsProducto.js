@@ -12,6 +12,8 @@
                 CantidadDeProductoTotal: "fCantidadDeProductoTotal",
                 NombreDeProducto: "fNombreDeProducto",
                 Descripcion: "fDescripcion",
+                CveTipoDeProducto: "fCveTipoDeProducto",
+                CveMarca: "fCveMarca",
                 CveAviso: "fCveAviso",
                 CveCorreoSurtido: "fCveCorreoSurtido",
                 CantidadMinima: "fCantidadMinima",
@@ -50,6 +52,7 @@
                 UrlCargaMayoreo = "",
                 UrlCargaPrecios = "",
                 UrlPreciosActualizados = "",
+                UrlObtenMarcaPorTipo = "",
                 TablaM = null,
                 CombosParaTabla = [],
                 Ids = [];
@@ -144,6 +147,13 @@
                     return UrlPreciosActualizados;
                 }
             };
+            let _UrlObtenMarcaPorTipo = function (UrlObtenMarcaPorTipoSet) {
+                if (typeof UrlObtenMarcaPorTipoSet != "") {
+                    UrlObtenMarcaPorTipo = UrlObtenMarcaPorTipoSet;
+                } else {
+                    return UrlObtenMarcaPorTipo;
+                }
+            }
             let _CombosParaTabla = function (CombosParaTablaSet) {
                 if (typeof CombosParaTablaSet != "") {
                     CombosParaTabla = CombosParaTablaSet;
@@ -286,6 +296,8 @@
                         { "data": "NumeroDeProducto" },
                         { "data": "CodigoDeBarras" },
                         { "data": "NombreDeProducto" },
+                        { "data": "TextoTipoDeProducto" },
+                        { "data": "TextoMarca" },
                         { "data": "CantidadDeProductoTotal" },
                         { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "data": "TextoAviso" },
@@ -330,6 +342,10 @@
                         { "data": "CodigoDeBarras" },
                         { "data": "NombreDeProducto" },
                         { "data": "Descripcion" },
+                        { "data": "CveTipoDeProducto" },
+                        { "data": "TextoTipoDeProducto" },
+                        { "data": "CveMarca" },
+                        { "data": "TextoMarca" },
                         { "data": "CantidadDeProductoTotal" },
                         { "data": "PrecioUnitario" },
                         { "data": "CveAviso" },
@@ -403,12 +419,15 @@
                 switch (Funcionalidad) {
                     case "ALTA":
                         $("#" + Elementos_Producto.CveAviso).change();
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change();
                         break;
                     case "EDITA":
                         $("#" + Elementos_Producto.CveAviso).change();
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change();
                         break;
                     case "DETALLE":
                         $("#" + Elementos_Producto.CveAviso).change();
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change();
                         break;
                 }
             }
@@ -426,6 +445,18 @@
                                 $("#" + Elementos_Producto.CantidadMinima).val("");
                             }
                         });
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change(function () {
+                            $.get(UrlObtenMarcaPorTipo, { TipoDeProducto: $("#" + Elementos_Producto.CveTipoDeProducto).val(), Marca: $("#" + Elementos_Producto.CveMarca).val() },
+                                function (rep) {
+                                    var CveTipoMarca = $("#" + Elementos_Producto.CveMarca);
+                                    $("#" + Elementos_Producto.CveMarca + " > option").val();
+                                    if (rep.length) {
+                                        for (var i = 0; i < rep.length; i++) {
+                                            CveTipoMarca.append($("<option/>").val(rep[i].Value).text(rep[i].Text));
+                                        }
+                                    }
+                                });    
+                        });
                         break;
                     case "EDITA":
                         $("#" + Elementos_Producto.CveAviso).change(function () {
@@ -438,6 +469,18 @@
                                 $("#" + Elementos_Producto.CantidadMinima).parent().hide();
                                 $("#" + Elementos_Producto.CantidadMinima).val("");
                             }
+                        });
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change(function () {
+                            $.get(UrlObtenMarcaPorTipo, { TipoDeProducto: $("#" + Elementos_Producto.CveTipoDeProducto).val(), Marca: $("#" + Elementos_Producto.CveMarca).val() },
+                                function (rep) {
+                                    var CveTipoMarca = $("#" + Elementos_Producto.CveMarca);
+                                    $("#" + Elementos_Producto.CveMarca + " > option").val();
+                                    if (rep.length) {
+                                        for (var i = 0; i < rep.length; i++) {
+                                            CveTipoMarca.append($("<option/>").val(rep[i].Value).text(rep[i].Text));
+                                        }
+                                    }
+                                });
                         });
                         break;
                     case "DETALLE":
@@ -472,6 +515,18 @@
                                 $("#" + Elementos_Producto.CantidadMinima).parent().hide();
                                 $("#" + Elementos_Producto.CantidadMinima).val("");
                             }
+                        });
+                        $("#" + Elementos_Producto.CveTipoDeProducto).change(function () {
+                            $.get(UrlObtenMarcaPorTipo, { TipoDeProducto: $("#" + Elementos_Producto.CveTipoDeProducto).val(), Marca: $("#" + Elementos_Producto.CveMarca).val() },
+                                function (rep) {
+                                    var CveTipoMarca = $("#" + Elementos_Producto.CveMarca);
+                                    $("#" + Elementos_Producto.CveMarca + " > option").val();
+                                    if (rep.length) {
+                                        for (var i = 0; i < rep.length; i++) {
+                                            CveTipoMarca.append($("<option/>").val(rep[i].Value).text(rep[i].Text));
+                                        }
+                                    }
+                                });
                         });
                         $("#" + Elementos_Producto.AgregarPrecioM).click(function () {
                             CreaDialog(Elementos_Producto.AgregaPrecioMayoreo, "Registra Precio de Mayoreo", CreaBotonesDialog(), 400, 420);
@@ -769,6 +824,7 @@
                     UrlCargaMayoreo: _UrlCargaMayoreo,
                     UrlCargaPrecios: _UrlCargaPrecios,
                     UrlPreciosActualizados: _UrlPreciosActualizados,
+                    UrlObtenMarcaPorTipo: _UrlObtenMarcaPorTipo,
                     CombosParaTabla: _CombosParaTabla
                 },
                 Inicio: _Inicio,
@@ -792,6 +848,7 @@
             NucleoConfigurado.Configuracion.UrlCargaMayoreo(ObjetoConfiguracion.UrlCargaMayoreo);
             NucleoConfigurado.Configuracion.UrlCargaPrecios(ObjetoConfiguracion.UrlCargaPrecios);
             NucleoConfigurado.Configuracion.UrlPreciosActualizados(ObjetoConfiguracion.UrlPreciosActualizados);
+            NucleoConfigurado.Configuracion.UrlObtenMarcaPorTipo(ObjetoConfiguracion.UrlObtenMarcaPorTipo);
             NucleoConfigurado.Configuracion.CombosParaTabla(ObjetoConfiguracion.CombosParaTabla);
             return NucleoConfigurado;
         };
