@@ -6,7 +6,7 @@
     String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
 }
 <script src="~/Scripts/VentaTotal/ClsVentaTotal.js"></script>
-<h2 class="TituloPagina">VENTA <i class="fas fa-cart-arrow-down"></i></h2>
+<h2 class="TituloPagina">DEVOLUCIONES Y CAMBIOS DE VENTA <i class="fas fa-cart-arrow-down"></i></h2>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -14,7 +14,10 @@
                 @Html.Label("fFolioDeVenta", "Folio de Venta", new { @class = "col-sm col-form-label" })
                 @Html.TextBox("fFolioDeVenta", null, new { @class = "form-control" })
             </div>
+            <button type="button" id="BuscaVentaFolio" class="btn btn-primary">Buscar Venta</button>
+            <br />
         </div>
+        <div class="col">
             <div class="from-group from-group-margin">
                 @Html.Label("fImporteTotal", "Total de Venta", new { @class = "col-sm col-form-label" })
                 <div class="input-group mb-3">
@@ -36,7 +39,6 @@
                         <th scope="col">Precio Unitario</th>
                         <th scope="col">Importe de Producto</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tfoot class="thead-dark">
@@ -47,7 +49,6 @@
                         <th scope="col">Cantidad de Producto</th>
                         <th scope="col">Precio Unitario</th>
                         <th scope="col">Importe de Producto</th>
-                        <th></th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -120,6 +121,49 @@
         </div>
     </fieldset>
 </div>
+<div id="CambioDeProducto">
+    <fieldset>
+        <div class="form-group from-group-margin">
+            <label form="fNombreDeProducto" class="col-sm-5 col-form-label">Nombre de Producto</label>
+            <div class="col-sm-7">
+                <select id="fNombreDeProducto" class="form-control">
+                    <option value="">@TextoComboRequerido</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group from-group-margin Oculto">
+            <label form="fNombreDeProductoHijo" class="col-sm-5 col-form-label">Producto de Paquete</label>
+            <div class="col-sm-7">
+                <select id="fNombreDeProductoHijo" class="form-control">
+                    <option value="">@TextoComboRequerido</option>
+                </select>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="from-group row from-group-margin">
+            <label from="fCodigoONombreDeProducto" class="col-sm-5 col-form-label">Codigo de Barras o Nombre</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="fCodigoONombreDeProducto" />
+            </div>
+        </div>
+        <div class="form-group from-group-margin">
+            <label form="fNombreDeProductoCambio" class="col-sm-5 col-form-label">Nombre de Producto</label>
+            <div class="col-sm-7">
+                <select id="fNombreDeProductoCambio" class="form-control">
+                    <option value="">@TextoComboRequerido</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group from-group-margin Oculto">
+            <label form="fNombreDeProductoHijoCambio" class="col-sm-5 col-form-label">Producto de Paquete</label>
+            <div class="col-sm-7">
+                <select id="fNombreDeProductoHijoCambio" class="form-control">
+                    <option value="">@TextoComboRequerido</option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+</div>
 <script type="text/javascript">
     let ClsVentaTotal;
     $(function () {
@@ -129,7 +173,9 @@
             UrlCargaProducto: '@Url.Action("CargaProducto","VentaTotal")',
             UrlProductoATabla: '@Url.Action("ProductoParaTabla","VentaTotal")',
             UrlDeleteProducto: '@Url.Action("DeleteDeProducto","VentaTotal")',
-            UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")'
+            UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")',
+            UrlBuscaVentaFolio: '@Url.Action("BuscarVentaPorFolio","VentaTotal")',
+            UrlCambioDeProducto: '@Url.Action("CambioDeProducto","VentaTotal")'
         });
         ClsVentaTotal.Inicio();
     });

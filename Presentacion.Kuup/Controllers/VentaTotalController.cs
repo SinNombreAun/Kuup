@@ -381,5 +381,20 @@ namespace Presentacion.Kuup.Controllers
             }
             return View();
         }
+        public JsonResult BuscarVentaPorFolio(short FolioDeVenta)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            try
+            {
+                List<ClsVentas> VentaDetalle = ClsVentas.getList(String.Format("FolioDeOperacion == {0}", FolioDeVenta)).ToList();
+                return Json(new { Resultado, Registro = VentaDetalle }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                Resultado.Resultado = false;
+                Resultado.Mensaje = "Ocurrio un error al realizar la busqueda de venta por el folio: " + FolioDeVenta.ToString();
+            }
+            return Json(new { Resultado, Registro = new List<Object>() }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

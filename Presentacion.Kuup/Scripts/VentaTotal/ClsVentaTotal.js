@@ -17,14 +17,19 @@
                 ImporteCambio: 'fImporteCambio',
                 NombreDeProducto: 'fNombreDeProducto',
                 ProductosSelect: 'fProductosSelect',
-                Tabla: 'Tabla'
+                NombreDeProductoHijo: 'fNombreDeProductoHijo',
+                NombreDeProductoHijoCambio: 'fNombreDeProductoHijoCambio',
+                Tabla: 'Tabla',
+                BuscaVentaFolio: 'BuscaVentaFolio',
+                CambioDeProducto: 'CambioDeProducto'
             };
             let Funcionalidad = '',
                 UrlCargaProducto = '',
                 UrlAutoCompleteProducto = '',
                 UrlProductoATabla = '',
                 UrlDeleteProducto = '',
-                UrlRegistraVenta = '';
+                UrlRegistraVenta = '',
+                UrlBuscaVentaFolio = '';
             TablaVentas = null;
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
@@ -60,14 +65,21 @@
                 } else {
                     return UrlDeleteProducto;
                 }
-            }
+            };
             let _UrlRegistraVenta = function (UrlRegistraVentaSet) {
                 if (typeof (UrlRegistraVentaSet) != 'undefined') {
                     UrlRegistraVenta = UrlRegistraVentaSet;
                 } else {
                     return UrlRegistraVenta;
                 }
-            }
+            };
+            let _UrlBuscaVentaFolio = function (UrlBuscaVentaFolioSet) {
+                if (typeof (UrlBuscaVentaFolioSet) != 'undefined') {
+                    UrlBuscaVentaFolio = UrlBuscaVentaFolioSet;
+                } else {
+                    return UrlBuscaVentaFolio;
+                }
+            };
             let _Inicio = function () {
                 OcultaCampos();
                 AgregaEvento();
@@ -75,6 +87,8 @@
                     $('#' + Elementos_VentaTotal.ImporteTotal).val(0);
                     GeneraGridDeProducto();
                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).focus();
+                } else if (Funcionalidad = 'CAMBIODEVOLUCION') {
+                    GeneraGridDevolucionCambio();
                 }
             };
             function GeneraGridDeProducto() {
@@ -146,6 +160,60 @@
                     });
                 });
             }
+            function GeneraGridDevolucionCambio() {
+                TablaVentas = $('#' + Elementos_VentaTotal.Tabla).DataTable({
+                    "destroy": true,
+                    "responsive": false,
+                    "scrollY": 500,
+                    "scrollX": true,
+                    "select": true,
+                    "fixedColumns": {
+                        "leftColumns": 2,
+                        "rightColumns": 2
+                    },
+                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }],
+                    "columns": [
+                        { "data": "NumeroDeProducto" },
+                        { "data": "CodigoDeBarras" },
+                        { "data": "NombreDeProducto" },
+                        { "data": "CantidadDeProducto" },
+                        { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "data": "ImporteDeProducto", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "defaultContent": "<button type='button' class='btndevolucion btn btn-danger'><i class='far fa-trash-alt'></i></button><button type='button' class='btncambio btn btn-danger'><i class='fa fa-retweet'></i></button>" }
+                    ],
+                    "paging": false,
+                    "searching": false,
+                    "language": LenguajeEN()
+                });
+                AccionBotonesDevolucionCambio('#' + Elementos_VentaTotal.Tabla + ' tbody', TablaVentas);
+            }
+            var AccionBotonesDevolucionCambio = function (tbody, table) {
+                $(tbody).on('click', 'button.btncambio', function () {
+                    let data = table.row($(this).parents('tr')).data();
+                    if (typeof (data) == 'undefined') {
+                        data = table.row($(this).parents('li')).data();
+                    }
+                    let JsonData = '';
+                    JsonData = JSON.stringify(data);
+                    $.ajax({
+                        type: "POST",
+                        url: UrlDeleteProducto,
+                        async: false,
+                        data: { RegistroCambio: JsonData },
+                        success: function (data) {
+                            CreaDialog(Elementos_VentaTotal.CambioDeProducto, 'Cambio de Producto', CargaBotonesCambio(data.MuestraParcial), 400, 500);
+                            if (data.ManejaPaquete) {
+                                $('#' + Elementos_VentaTotal.NombreDeProductoHijo).show();
+                                $('#' + Elementos_VentaTotal.NombreDeProductoHijoCambio).show();
+                            }
+                            AgregaEventoDeProducto();
+                        },
+                        error: function () {
+                            alertify.error("Ocurrio un error al realizar la eliminación del registro");
+                        }
+                    });
+                });
+            }
             function OcultaCampos() {
                 switch (Funcionalidad) {
                     case 'INDEX':
@@ -155,35 +223,7 @@
             function AgregaEvento() {
                 switch (Funcionalidad) {
                     case 'INDEX':
-                        $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).autocomplete({
-                            source: function (request, response) {
-                                $.ajax({
-                                    url: UrlAutoCompleteProducto,
-                                    type: "POST",
-                                    dataType: "json",
-                                    data: { Prefix: request.term },
-                                    async: false,
-                                    success: function (data) {
-                                        try {
-                                            response($.map(data, function (item) {
-                                                return { label: item.NombreDeProducto, value: item.NombreDeProducto };
-                                            }));
-                                        } catch (e) {
-                                            //Excepcion controlada 
-                                        }
-                                    }
-                                })
-                            },
-                            messages: {
-                                noResults: "", results: ""
-                            }
-                        });
-                        $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).keydown(function (event) {
-                            let keycode = (event.keyCode ? event.keyCode : event.which);
-                            if (keycode == 13) {
-                                ConsultaProducto(0);
-                            }
-                        });
+                        AgregaEventoDeProducto();
                         $('#' + Elementos_VentaTotal.VentaTotal).click(function () {
                             if ($('#' + Elementos_VentaTotal.ImporteTotal).val() != '') {
                                 if (parseFloat($('#' + Elementos_VentaTotal.ImporteTotal).val()) != parseFloat('0')) {
@@ -205,6 +245,37 @@
                         });
                         break;
                     case "CAMBIODEVOLUCION":
+                        $('#' + Elementos_VentaTotal.BuscaVentaFolio).click(function () {
+                            $.ajax({
+                                type: "POST",
+                                url: UrlBuscaVentaFolio,
+                                async: false,
+                                data: { FolioDeVenta: $('#' + Elementos_VentaTotal.FolioDeVenta).val() },
+                                success: function (data) {
+                                    if (data.Resultado.Resultado) {
+                                        let ImporteTotal = 0;
+                                        for (var i = 0; i < data.Registro.length; i++) {
+                                            TablaVentas.row.add({
+                                                "NumeroDeProducto": data.Registro[i].NumeroDeProducto,
+                                                "CodigoDeBarras": data.Registro[i].CodigoDeBarras,
+                                                "NombreDeProducto": data.Registro[i].NombreDeProducto,
+                                                "CantidadDeProducto": data.Registro[i].CantidadDeProducto,
+                                                "PrecioUnitario": data.Registro[i].PrecioUnitario,
+                                                "ImporteDeProducto": data.Registro[i].ImporteDeProducto
+                                            }).draw();
+                                            ImporteTotal = ImporteTotal + parseFloat(data.Registro[i].ImporteDeProducto);
+                                        }
+                                        $('#' + Elementos_VentaTotal.ImporteTotal).val(ImporteTotal.toFixed(2));
+                                    } else {
+                                        alertify.error(data.Resultado.Mensaje);
+                                    }
+                                },
+                                error: function () {
+                                    alertify.error("Ocurrio un error al realizar la carga de la Venta");
+                                }
+                            });
+
+                        });
                         break;
                 }
             }
@@ -213,7 +284,7 @@
                     type: "POST",
                     url: UrlCargaProducto,
                     async: true,
-                    data: { NombreOCodigoDeProducto: $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val(), NumeroDeProducto: NumeroDeProducto},
+                    data: { NombreOCodigoDeProducto: $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val(), NumeroDeProducto: NumeroDeProducto },
                     success: function (data) {
                         if (data.Resultado.Resultado) {
                             if (data.Productos.length > 1) {
@@ -413,6 +484,50 @@
                     }
                 }
             }
+            function CargaBotonesCambio(MuestraParcial) {
+                let Parcial = {
+                    id: 'CambioParcial',
+                    text: 'Cambio Parcial',
+                    class: 'btn btn-primay',
+                    click: function () {
+
+                    }
+                };
+                let Completo = {
+                    id: 'CambioCompleto',
+                    text: 'Cambio Completo',
+                    class: 'btn btn-primay',
+                    click: function () {
+
+                    }
+                }
+                if (MuestraParcial) {
+                    return {
+                        'CambioParcial': Parcial,
+                        'CambioCompleto': Completo,
+                        'Cancelar': {
+                            id: 'Cancelar',
+                            text: 'Cancelar',
+                            class: 'btn btn-danger',
+                            click: function () {
+                                $('#' + Elementos_VentaTotal.CambioDeProducto).dialog('close');
+                            }
+                        }
+                    }
+                } else {
+                    return {
+                        'CambioCompleto': Completo,
+                        'Cancelar': {
+                            id: 'Cancelar',
+                            text: 'Cancelar',
+                            class: 'btn btn-danger',
+                            click: function () {
+                                $('#' + Elementos_VentaTotal.CambioDeProducto).dialog('close');
+                            }
+                        }
+                    }
+                }
+            }
             function AgregaProducto(Producto) {
                 let TablaRows = TablaVentas.rows().data();
                 let JsonObj = [];
@@ -472,6 +587,37 @@
                     }
                 });
             }
+            function AgregaEventoDeProducto() {
+                $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: UrlAutoCompleteProducto,
+                            type: "POST",
+                            dataType: "json",
+                            data: { Prefix: request.term },
+                            async: false,
+                            success: function (data) {
+                                try {
+                                    response($.map(data, function (item) {
+                                        return { label: item.NombreDeProducto, value: item.NombreDeProducto };
+                                    }));
+                                } catch (e) {
+                                    //Excepcion controlada 
+                                }
+                            }
+                        })
+                    },
+                    messages: {
+                        noResults: "", results: ""
+                    }
+                });
+                $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).keydown(function (event) {
+                    let keycode = (event.keyCode ? event.keyCode : event.which);
+                    if (keycode == 13) {
+                        ConsultaProducto(0);
+                    }
+                });
+            }
             function LimpiaCantidad() {
                 $('#' + Elementos_VentaTotal.CantidadDeProducto).val('');
                 $('#' + Elementos_VentaTotal.Paquetes).val('');
@@ -486,7 +632,8 @@
                     UrlCargaProducto: _UrlCargaProducto,
                     UrlProductoATabla: _UrlProductoATabla,
                     UrlDeleteProducto: _UrlDeleteProducto,
-                    UrlRegistraVenta: _UrlRegistraVenta
+                    UrlRegistraVenta: _UrlRegistraVenta,
+                    UrlBuscaVentaFolio: _UrlBuscaVentaFolio
                 },
                 Inicio: _Inicio
             }
@@ -499,6 +646,7 @@
             NucleoConfigurado.Configuracion.UrlProductoATabla(ObjetoConfiguracion.UrlProductoATabla);
             NucleoConfigurado.Configuracion.UrlDeleteProducto(ObjetoConfiguracion.UrlDeleteProducto);
             NucleoConfigurado.Configuracion.UrlRegistraVenta(ObjetoConfiguracion.UrlRegistraVenta);
+            NucleoConfigurado.Configuracion.UrlBuscaVentaFolio(ObjetoConfiguracion.UrlBuscaVentaFolio);
             return NucleoConfigurado;
         }
         return {
