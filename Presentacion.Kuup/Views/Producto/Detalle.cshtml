@@ -74,32 +74,41 @@
                 </div>
             </fieldset>
             <br />
-            <button type="button" class="btn btn-info" id="AgregarPrecioM">Agregar Precio de Mayoreo</button>
-            <table id="TablaMayoreo" class="table display nowrap" cellspacing="0" width="100%">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Orden</th>
-                        <th scope="col">Cantidad Minima</th>
-                        <th scope="col">Cantidad Maxima</th>
-                        <th scope="col">Precio de Mayoreo</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tfoot class="thead-dark">
-                    <tr>
-                        <th scope="col">Orden</th>
-                        <th scope="col">Cantidad Minima</th>
-                        <th scope="col">Cantidad Maxima</th>
-                        <th scope="col">Precio de Mayoreo</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <button type="button" class="btn btn-primary" id="GuardaPrecioM">Guarda Precio de Mayoreo</button>
-            <br />
+            @if (Model.fCveDeEstatus == 1)
+            {
+                <div id="MayoreoContenedor">
+                    <button type="button" class="btn btn-info" id="AgregarPrecioM">Agregar Precio de Mayoreo</button>
+                    <table id="TablaMayoreo" class="table display nowrap" cellspacing="0" width="100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Orden</th>
+                                <th scope="col">Cantidad Minima</th>
+                                <th scope="col">Cantidad Maxima</th>
+                                <th scope="col">Precio de Mayoreo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot class="thead-dark">
+                            <tr>
+                                <th scope="col">Orden</th>
+                                <th scope="col">Cantidad Minima</th>
+                                <th scope="col">Cantidad Maxima</th>
+                                <th scope="col">Precio de Mayoreo</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" class="btn btn-primary" id="GuardaPrecioM">Guarda Precio de Mayoreo</button>
+                    <br />
+                </div>
+            }
             <hr class="my-4">
             @Html.ActionLink("Regresar a la Consulta", "Index", "Producto", null, new { @class = "btn btn-secondary" })
-            @Html.ActionLink("Edita", "Edita", "Producto", new { Model.NumeroDeProducto, Model.CodigoDeBarras }, new { @class = "btn btn-info" })
+            @if (Model.fCveDeEstatus == 1)
+            {
+                @Html.ActionLink("Edita", "Edita", "Producto", new { Model.NumeroDeProducto, Model.CodigoDeBarras }, new { @class = "btn btn-info" })
+                <button type="button" class="btn btn-danger" id="Cancelar">Cancelar</button>
+            }
             @Html.ActionLink("Alta", "Alta", "Producto", null, new { @class = "btn btn-primary" })
             <br />
             <br />
