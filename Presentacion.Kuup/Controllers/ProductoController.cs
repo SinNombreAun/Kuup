@@ -382,7 +382,7 @@ namespace Presentacion.Kuup.Controllers
             }
             catch (Exception e)
             {
-
+                ClsBitacora.GeneraBitacora(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA, "GuardaMayoreo", String.Format("GuardaMayoreo", "Excepcion de Typo: {0}, Mensaje: {1}", e.GetType().ToString(), e.Message));
             }
             return Json(Resultado, JsonRequestBehavior.AllowGet);
         }
@@ -460,6 +460,7 @@ namespace Presentacion.Kuup.Controllers
             {
                 ResultadoGeneral.Resultado = false;
                 ResultadoGeneral.Mensaje = "Ocurrio un error al dar de alta algun registro de producto, consultar bitacora";
+                ClsBitacora.GeneraBitacora(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.ALTA, "AltaMasiva", String.Format("GuardaMayoreo", "Excepcion de Typo: {0}, Mensaje: {1}", e.GetType().ToString(), e.Message));
             }
             return Json(new { Resultado = ResultadoGeneral, NombreDeArchivo = (String.IsNullOrEmpty(NombreDeArchivo) ? String.Empty : NombreDeArchivo.Split('.')[0]), Extencion = "txt" }, JsonRequestBehavior.AllowGet);
         }
@@ -650,6 +651,7 @@ namespace Presentacion.Kuup.Controllers
                     catch (Exception e)
                     {
                         Resultado += "Ocurrio un error inesperado" + "</div>";
+                        ClsBitacora.GeneraBitacora(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.IMPORTAR, "SubirArchivo", String.Format("GuardaMayoreo", "Excepcion de Typo: {0}, Mensaje: {1}", e.GetType().ToString(), e.Message));
                     }
                 }
                 else

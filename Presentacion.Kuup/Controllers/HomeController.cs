@@ -65,7 +65,7 @@ namespace Presentacion.Kuup.Controllers
         #region Agenda
         public JsonResult CargaEventos()
         {
-            List<ClsAgenda> Eventos = (from q in ClsAgenda.getList() where q.NumeroDeUsuario == MoSesion.NumeroDeUsuario select q).ToList();
+            List<ClsAgenda> Eventos = (from q in ClsAgenda.GetList() where q.NumeroDeUsuario == MoSesion.NumeroDeUsuario select q).ToList();
             return Json(new { eventos = Eventos }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
@@ -100,7 +100,7 @@ namespace Presentacion.Kuup.Controllers
         public JsonResult GetAgenda()
         {
             String JsonText = String.Empty;
-            foreach (var Evento in ClsAgenda.getList())
+            foreach (var Evento in ClsAgenda.GetList())
             {
                 if (JsonText != String.Empty)
                 {
@@ -149,9 +149,9 @@ namespace Presentacion.Kuup.Controllers
         public JsonResult EliminaAgenda(short NumeroDeAgenda)
         {
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado();
-            if ((from q in ClsAgenda.getList() where q.NumeroDeAgenda == NumeroDeAgenda select q).Count() != 0)
+            if ((from q in ClsAgenda.GetList() where q.NumeroDeAgenda == NumeroDeAgenda select q).Count() != 0)
             {
-                ClsAgenda Agenda = (from q in ClsAgenda.getList() where q.NumeroDeAgenda == NumeroDeAgenda select q).FirstOrDefault();
+                ClsAgenda Agenda = (from q in ClsAgenda.GetList() where q.NumeroDeAgenda == NumeroDeAgenda select q).FirstOrDefault();
                 if (Agenda.Delete())
                 {
                     Resultado.Resultado = true;
