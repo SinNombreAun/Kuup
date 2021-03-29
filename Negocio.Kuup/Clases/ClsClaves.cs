@@ -18,12 +18,12 @@ namespace Negocio.Kuup.Clases
             get { return 13; }
         }
         private ViClaves Claves = new ViClaves();
-        public short NumeroDeClave
+        public byte NumeroDeClave
         {
             get { return Claves.CVE_NUM_CLAVE; }
             set { Claves.CVE_NUM_CLAVE = value; }
         }
-        public short NumeroDeSecuencial
+        public byte NumeroDeSecuencial
         {
             get { return Claves.CVE_NUM_SEC_CLAVE; }
             set { Claves.CVE_NUM_SEC_CLAVE = value; }
