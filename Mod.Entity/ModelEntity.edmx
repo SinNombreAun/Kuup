@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -38,7 +38,7 @@
           <Property Name="BIM_FECHA_BITACORA" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.BitacoraCorreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.BitacoraCorreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="BitacoraCorreo">
           <Key>
             <PropertyRef Name="BIM_NUM_PANTALLA" />
@@ -63,8 +63,8 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.BitacoraCorreo' no tien
             <PropertyRef Name="CVE_NUM_CLAVE" />
             <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
           </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="smallint" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="smallint" Nullable="false" />
+          <Property Name="CVE_NUM_CLAVE" Type="tinyint" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="tinyint" Nullable="false" />
           <Property Name="CVE_NOM_CLAVE" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="CVE_DESCRIPCION" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CVE_DATO_ADICIONAL_I" Type="nvarchar" MaxLength="500" />
@@ -465,7 +465,7 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViAgenda' no tiene definida ning
           <Property Name="AGN_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViAsignaMarca' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViAsignaMarca' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViAsignaMarca">
           <Key>
             <PropertyRef Name="AMA_NUM_TIPO_PRODUCTO" />
@@ -478,7 +478,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViAsignaMarca' no tiene
           <Property Name="AMA_NOM_MARCA" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViBitacora' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViBitacora' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViBitacora">
           <Key>
             <PropertyRef Name="BIT_NUM_BITACORA" />
@@ -500,7 +500,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViBitacora' no tiene de
           <Property Name="BIT_NOM_FUNCIONALIDAD" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViBitacoraCorreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViBitacoraCorreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViBitacoraCorreo">
           <Key>
             <PropertyRef Name="BIM_NUM_PANTALLA" />
@@ -533,8 +533,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViClaves' no tiene definida ning
             <PropertyRef Name="CVE_DESCRIPCION" />
             <PropertyRef Name="CVE_CVE_ESTATUS" />
           </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="smallint" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="smallint" Nullable="false" />
+          <Property Name="CVE_NUM_CLAVE" Type="tinyint" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="tinyint" Nullable="false" />
           <Property Name="CVE_NOM_CLAVE" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="CVE_DESCRIPCION" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="CVE_DATO_ADICIONAL_I" Type="nvarchar" MaxLength="500" />
@@ -3005,8 +3005,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <PropertyRef Name="CVE_NUM_CLAVE" />
             <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
           </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="Int16" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NUM_CLAVE" Type="Byte" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="Byte" Nullable="false" />
           <Property Name="CVE_NOM_CLAVE" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CVE_DESCRIPCION" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -3021,8 +3021,8 @@ advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida 
             <PropertyRef Name="CVE_DESCRIPCION" />
             <PropertyRef Name="CVE_CVE_ESTATUS" />
           </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="Int16" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NUM_CLAVE" Type="Byte" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="Byte" Nullable="false" />
           <Property Name="CVE_NOM_CLAVE" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CVE_DESCRIPCION" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
