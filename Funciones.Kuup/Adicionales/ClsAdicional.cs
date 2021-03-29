@@ -556,6 +556,10 @@ namespace Funciones.Kuup.Adicionales
                             Registros.Add(Campo, ValorDeDato);
                         }
                     }
+                    else
+                    {
+                        Registros.Add(Campo, ValorDeDato);
+                    }
                 }
                 else
                 {
@@ -801,7 +805,7 @@ namespace Funciones.Kuup.Adicionales
                         if (Parametro.PAR_VALOR_PARAMETRO == "SI")
                         {
                             Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
-                            if(Productos.Count() == 0)
+                            if (Productos.Count() == 0)
                             {
                                 Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             }
@@ -809,7 +813,7 @@ namespace Funciones.Kuup.Adicionales
                         else
                         {
                             Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
-                            if(Productos.Count() == 0)
+                            if (Productos.Count() == 0)
                             {
                                 Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             }
@@ -826,12 +830,80 @@ namespace Funciones.Kuup.Adicionales
                 }
                 return Productos;
             }
-            public static List<SelectListItem> CargaComboMarcaPorTipo(byte CveTipoDeProducto, String ValorPorDefecto)
+            public static List<Object> AutoCompleteMarcaOTipProducto(String Prefix, String Origen)
+            {
+                var TipoMarca = new List<Object>();
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    Parametro Parametro = (from q in db.Parametro where q.PAR_NOM_PARAMETRO == "ActivaLike" select q).FirstOrDefault();
+                    if (Parametro != null)
+                    {
+                        if (Parametro.PAR_VALOR_PARAMETRO == "SI")
+                        {
+                            if (Origen == "Tipo")
+                            {
+                                TipoMarca = (from q in db.TipoProducto where q.TPO_NOM_TIPO_PRODUCTO.ToUpper().Contains(Prefix.ToUpper()) && q.TPO_CVE_ESTATUS == 1 select new { NomTipoMarca = q.TPO_NOM_TIPO_PRODUCTO, NumTipoMarca = q.TPO_NUM_TIPO_PRODUCTO }).ToList<Object>();
+                            }
+                            else 
+                            { 
+                                TipoMarca = (from q in db.Marca where q.MRA_NOM_MARCA.ToUpper().Contains(Prefix.ToUpper()) && q.MRA_CVE_ESTATUS == 1 select new { NomTipoMarca = q.MRA_NOM_MARCA, NumTipoMarca = q.MRA_NUM_MARCA }).ToList<Object>();
+                            }
+
+                        }
+                        else
+                        {
+                            if (Origen == "Tipo")
+                            {
+                                TipoMarca = (from q in db.TipoProducto where q.TPO_NOM_TIPO_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.TPO_CVE_ESTATUS == 1 select new { NomTipoMarca = q.TPO_NOM_TIPO_PRODUCTO, NumTipoMarca = q.TPO_NUM_TIPO_PRODUCTO }).ToList<Object>();
+                            }
+                            else 
+                            { 
+                                TipoMarca = (from q in db.Marca where q.MRA_NOM_MARCA.ToUpper().StartsWith(Prefix.ToUpper()) && q.MRA_CVE_ESTATUS == 1 select new { NomTipoMarca = q.MRA_NOM_MARCA, NumTipoMarca = q.MRA_NUM_MARCA }).ToList<Object>();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Origen == "Tipo")
+                        {
+                            TipoMarca = (from q in db.TipoProducto where q.TPO_NOM_TIPO_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.TPO_CVE_ESTATUS == 1 select new { NomTipoMarca = q.TPO_NOM_TIPO_PRODUCTO, NumTipoMarca = q.TPO_NUM_TIPO_PRODUCTO }).ToList<Object>();
+                        }
+                        else 
+                        { 
+                            TipoMarca = (from q in db.Marca where q.MRA_NOM_MARCA.ToUpper().StartsWith(Prefix.ToUpper()) && q.MRA_CVE_ESTATUS == 1 select new { NomTipoMarca = q.MRA_NOM_MARCA, NumTipoMarca = q.MRA_NUM_MARCA }).ToList<Object>();
+                        }
+                    }
+                }
+                return TipoMarca;
+            }
+            public static List<SelectListItem> CargaComboTipoDeProducto(String ValorPorDefecto)
+            {
+                short ValorPorDefectoN = Convert<short>(ValorPorDefecto);
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    return (from q in db.TipoProducto select new SelectListItem { Text = q.TPO_NUM_TIPO_PRODUCTO.ToString() + " / " + q.TPO_NOM_TIPO_PRODUCTO, Value = q.TPO_NUM_TIPO_PRODUCTO.ToString(), Selected = q.TPO_NUM_TIPO_PRODUCTO == ValorPorDefectoN }).ToList();
+                }
+            }
+            public static String CargaComboTipoDeProductoParaTabla(String idDeCombo)
+            {
+                String SelectText = String.Format("<select  id='{0}'>", idDeCombo);
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    SelectText += "<option value=''>--SELECCIONE--</option>";
+                    foreach (TipoProducto tipoProducto in (from q in db.TipoProducto  select q).ToList())
+                    {
+                        SelectText += String.Format("<option value='{1}'>{0} / {1}</option>", tipoProducto.TPO_NUM_TIPO_PRODUCTO, tipoProducto.TPO_NOM_TIPO_PRODUCTO);
+                    }
+                }
+                SelectText += "</select>";
+                return SelectText;
+            }
+            public static List<SelectListItem> CargaComboMarcaPorTipo(short NumeroDeTipoDeProducto, String ValorPorDefecto)
             {
                 byte ValorPorDefectoN = Convert<byte>(ValorPorDefecto);
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
-                    return (from q in db.ViAsignaMarca where q.AMA_CVE_TIPO_PRODUCTO == CveTipoDeProducto select new SelectListItem { Text = q.AMA_NUM_MARCA.ToString() + " / " + q.AMA_NOM_MARCA, Value = q.AMA_NUM_MARCA.ToString(), Selected = q.AMA_NUM_MARCA == ValorPorDefectoN }).ToList();
+                    return (from q in db.ViAsignaMarca where q.AMA_NUM_TIPO_PRODUCTO == NumeroDeTipoDeProducto select new SelectListItem { Text = q.AMA_NUM_MARCA.ToString() + " / " + q.AMA_NOM_MARCA, Value = q.AMA_NUM_MARCA.ToString(), Selected = q.AMA_NUM_MARCA == ValorPorDefectoN }).ToList();
                 }
             }
         }

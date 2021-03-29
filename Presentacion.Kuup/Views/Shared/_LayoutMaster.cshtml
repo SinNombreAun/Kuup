@@ -58,7 +58,12 @@
                 ObjetoResultado: '@Html.Raw(TempData["Resultado"])'
             });
             Resultado.GeneraMensaje();
+
+            $('.Mayusculas').keyup(function () {
+                javascript: this.value = this.value.toUpperCase();
+            });
         });
+        
     </script>
 </body>
 </html>

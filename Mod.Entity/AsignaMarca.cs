@@ -14,7 +14,7 @@ namespace Mod.Entity
     
     public partial class AsignaMarca
     {
-        public byte AMA_NUM_MARCA { get; set; }
-        public byte AMA_CVE_TIPO_PRODUCTO { get; set; }
+        public short AMA_NUM_TIPO_PRODUCTO { get; set; }
+        public short AMA_NUM_MARCA { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Mod.Entity
     
     public partial class Marca
     {
-        public byte MRA_NUM_MARCA { get; set; }
+        public short MRA_NUM_MARCA { get; set; }
         public string MRA_NOM_MARCA { get; set; }
         public byte MRA_CVE_ESTATUS { get; set; }
     }

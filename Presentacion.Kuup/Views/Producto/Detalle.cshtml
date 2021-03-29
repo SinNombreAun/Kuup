@@ -17,6 +17,7 @@
                 </div>
             }
             <fieldset>
+                @Html.HiddenFor(model => model.fNumeroDeProducto)
                 <div class="from-group from-group-margin">
                     @Html.LabelFor(model => model.fFechaDeRegistro, new { @class = "col-sm-3 col-form-label" })
                     @Html.TextBoxFor(model => model.fFechaDeRegistro, "{0:yyyy-MM-dd}", new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
@@ -34,12 +35,12 @@
                     @Html.TextAreaFor(model => model.fDescripcion, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
                 <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fCveTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
-                    @Html.DropDownListFor(model => model.fCveTipoDeProducto, (IEnumerable<SelectListItem>)ViewBag.CveTipoDeProducto, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                    @Html.LabelFor(model => model.fNumeroDeTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
+                    @Html.DropDownListFor(model => model.fNumeroDeTipoDeProducto, (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
                 <div class="from-group from-group-margin">
-                    @Html.LabelFor(model => model.fCveMarca, new { @class = "col-sm-3 col-form-label" })
-                    @Html.DropDownListFor(model => model.fCveMarca, (IEnumerable<SelectListItem>)ViewBag.CveMarca, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                    @Html.LabelFor(model => model.fNumeroDeMarca, new { @class = "col-sm-3 col-form-label" })
+                    @Html.DropDownListFor(model => model.fNumeroDeMarca, (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
                 </div>
                 <div class="from-group from-group-margin">
                     @Html.LabelFor(model => model.fCantidadDeProductoTotal, new { @class = "col-sm-3 col-form-label" })
@@ -152,7 +153,9 @@
             UrlGuardaTablaMayoreo: '@Url.Action("GuardaMayoreo","Producto")',
             NumeroDeProductoModel: '@Model.NumeroDeProducto',
             CodigoDeBarrasModel: '@Model.CodigoDeBarras',
-            UrlCargaMayoreo: '@Url.Action("CargaMayoreo","Producto")'
+            UrlCargaMayoreo: '@Url.Action("CargaMayoreo","Producto")',
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo")',
+            UrlDeBaja: '@Url.Action("Baja","Producto")'
         });
         ClsProducto.Inicio();
     });

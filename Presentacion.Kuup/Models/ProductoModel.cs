@@ -1,10 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.EnterpriseServices.Internal;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Web.Management;
 
 namespace Presentacion.Kuup.Models
 {
@@ -21,16 +16,16 @@ namespace Presentacion.Kuup.Models
             this.CantidadDeProductoTotal = Producto.CantidadDeProductoTotal;
             this.NombreDeProducto = Producto.NombreDeProducto;
             this.Descripcion = Producto.Descripcion;
-            this.CveTipoDeProducto = Producto.CveTipoDeProducto;
-            this.CveMarca = Producto.CveMarca;
+            this.NumeroDeTipoDeProducto = Producto.NumeroDeTipoDeProducto;
+            this.NumeroDeMarca = Producto.NumeroDeMarca;
             this.CveAviso = Producto.CveAviso;
             this.CveCorreoSurtido = Producto.CveCorreoSurtido;
             this.CantidadMinima = Producto.CantidadMinima;
             this.NumeroDeProveedor = Producto.NumeroDeProveedor;
             this.PrecioUnitario = Producto.PrecioUnitario;
             this.CveDeEstatus = Producto.CveDeEstatus;
-            this.TextoTipoDeProducto = Producto.TextoTipoDeProducto;
-            this.TextoMarca = Producto.TextoMarca;
+            this.NombreDeTipoDeProducto = Producto.NombreDeTipoDeProducto;
+            this.NombreDeMarca = Producto.NombreDeMarca;
             this.TextoAviso = Producto.TextoAviso;
             this.TextoCorreoSurtido = Producto.TextoCorreoSurtido;
             this.NombreDeProveedor = Producto.NombreDeProveedor;
@@ -93,17 +88,17 @@ namespace Presentacion.Kuup.Models
         }
         [Required]
         [Display(Name = "Tipo de Producto")]
-        public byte fCveTipoDeProducto
+        public short fNumeroDeTipoDeProducto
         {
-            get { return this.CveTipoDeProducto; }
-            set { this.CveTipoDeProducto = value; }
+            get { return this.NumeroDeTipoDeProducto; }
+            set { this.NumeroDeTipoDeProducto = value; }
         }
         [Required]
         [Display(Name = "Marca")]
-        public byte fCveMarca
+        public short fNumeroDeMarca
         {
-            get { return this.CveMarca; }
-            set { this.CveMarca = value;}
+            get { return this.NumeroDeMarca; }
+            set { this.NumeroDeMarca = value;}
         }
         [Required]
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_CveAviso")]
@@ -147,16 +142,16 @@ namespace Presentacion.Kuup.Models
             set { this.CveDeEstatus = value; }
         }
         [Display(Name = "Tipo de Producto")]
-        public String fTextoTipoDeProducto
+        public String fNombreDeTipoDeProducto
         {
-            get { return this.TextoTipoDeProducto; }
-            set { this.TextoTipoDeProducto = value; }
+            get { return this.NombreDeTipoDeProducto; }
+            set { this.NombreDeTipoDeProducto = value; }
         }
         [Display(Name ="Marca")]
-        public String fTextoMarca
+        public String fNombreDeMarca
         {
-            get { return this.TextoMarca; }
-            set { this.TextoMarca = value; }
+            get { return this.NombreDeMarca; }
+            set { this.NombreDeMarca = value; }
         }
         [Display(ResourceType = typeof(Recursos.Textos), Name = "Producto_TextoAviso")]
         public String fTextoAviso

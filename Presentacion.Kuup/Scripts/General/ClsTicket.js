@@ -29,6 +29,7 @@ function ImprimirTicket(ObjetoTicket) {
         impresora.write('Tel: ' + ObjetoTicket.Tel + '\n');
     }
     impresora.setAlign("left");
+    impresora.write("Folio de Venta: " + ObjetoTicket.FolioDeVenta + '\n');
     impresora.write("Le Atendio: " + ObjetoTicket.Atiende + '\n');
     impresora.setAlign("center");
     impresora.write(ObjetoTicket.Fecha + '\n');
@@ -43,11 +44,13 @@ function ImprimirTicket(ObjetoTicket) {
     impresora.write('Importe Total:     $' + ObjetoTicket.ImporteTotal + '\n');
     impresora.write('Importe Entregado: $' + ObjetoTicket.ImporteEntregado + '\n');
     impresora.write('Importe Cambio:    $' + ObjetoTicket.Cambio + '\n');
+    if (ObjetoTicket.TextoFinal != '') {
+        impresora.write('\n' + ObjetoTicket.TextoFinal);
+    }
     impresora.cut();
     impresora.cutPartial();
-    impresora.end()
-        .then(valor => {
-            alertify.success("Ticket impreso");
-        })
+    impresora.end().then(valor => {
+        alertify.success("Ticket impreso");
+    });
 }
 refrescarNombreDeImpresoraSeleccionada();
