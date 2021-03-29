@@ -18,8 +18,8 @@ namespace Presentacion.Kuup.Nucleo.Clases
         public ClsVersion()
         {
             VersionMayor = 1;
-            VersionDeCompativilidad = 0;
-            VersionDeCompilado = 10;
+            VersionDeCompativilidad = 1;
+            VersionDeCompilado = 0;
             Complemento = "stable";
             FechaDeVersion = new DateTime(2021,3,18);
             NumeroDeVersion = String.Format("{0}.{1}.{2}-{3}",VersionMayor,VersionDeCompativilidad,VersionDeCompilado,Complemento);
