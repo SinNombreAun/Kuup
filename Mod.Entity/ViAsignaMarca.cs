@@ -14,9 +14,9 @@ namespace Mod.Entity
     
     public partial class ViAsignaMarca
     {
-        public byte AMA_NUM_MARCA { get; set; }
-        public byte AMA_CVE_TIPO_PRODUCTO { get; set; }
+        public short AMA_NUM_TIPO_PRODUCTO { get; set; }
+        public short AMA_NUM_MARCA { get; set; }
+        public string AMA_NOM_TIPO_PRODUCTO { get; set; }
         public string AMA_NOM_MARCA { get; set; }
-        public string AMA_TXT_TIPO_PRODUCTO { get; set; }
     }
 }

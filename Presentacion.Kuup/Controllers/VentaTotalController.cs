@@ -26,7 +26,8 @@ namespace Presentacion.Kuup.Controllers
             }
             return View();
         }
-        public JsonResult RegistraVentaTotal(decimal ImporteEntregado, decimal ImporteCambio, String RegistroVenta)
+        [HttpPost]
+        public JsonResult RegistraVentaTotal(decimal importeEntregado, decimal importeCambio, String registroVenta)
         {
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (!ValidaSesion())
@@ -37,7 +38,7 @@ namespace Presentacion.Kuup.Controllers
             {
                 return Json(new { UrlFun = Url.Action("Index", "VentaTotal") }, JsonRequestBehavior.AllowGet);
             }
-            return Json(Opera.RegistroDeVenta(ImporteEntregado, ImporteCambio, RegistroVenta), JsonRequestBehavior.AllowGet);
+            return Json(Opera.RegistroDeVenta(importeEntregado, importeCambio, registroVenta), JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargaProducto(String NombreOCodigoDeProducto, short NumeroDeProducto = 0)
         {

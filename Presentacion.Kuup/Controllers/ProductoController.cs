@@ -129,16 +129,16 @@ namespace Presentacion.Kuup.Controllers
                                            CantidadDeProductoTotal = q.CantidadDeProductoTotal,
                                            NombreDeProducto = q.NombreDeProducto,
                                            Descripcion = q.Descripcion,
-                                           CveTipoDeProducto = q.CveTipoDeProducto,
-                                           CveMarca = q.CveMarca,
+                                           NumeroDeTipoDeProducto = q.NumeroDeTipoDeProducto,
+                                           NumeroDeMarca = q.NumeroDeMarca,
                                            CveAviso = q.CveAviso,
                                            CveCorreoSurtido = q.CveCorreoSurtido,
                                            CantidadMinima = q.CantidadMinima,
                                            NumeroDeProveedor = q.NumeroDeProveedor,
                                            PrecioUnitario = q.PrecioUnitario,
                                            CveDeEstatus = q.CveDeEstatus,
-                                           TextoTipoDeProducto =q.TextoTipoDeProducto,
-                                           TextoMarca = q.TextoMarca,
+                                           NombreDeTipoDeProducto = q.NombreDeTipoDeProducto,
+                                           NombreDeMarca = q.NombreDeMarca,
                                            TextoAviso = q.TextoAviso,
                                            TextoCorreoSurtido = q.TextoCorreoSurtido,
                                            NombreDeProveedor = q.NombreDeProveedor,
@@ -163,9 +163,9 @@ namespace Presentacion.Kuup.Controllers
             }
             if (!ValidaFuncionalidad(NumeroDePantalla, (byte)ClsEnumerables.Funcionalidades.EDITA))
             {
-                return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.NumeroDeProducto });
+                return RedirectToAction("Detalle", "Producto", new { RegistroCapturado.fNumeroDeProducto });
             }
-            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, "Producto Actualizado de forma correcta");
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, "Producto actualizado de forma correcta");
             String Filtro = String.Empty;
             Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", RegistroCapturado.NumeroDeProducto, RegistroCapturado.CodigoDeBarras);
             ProductoModel productos = (ProductoModel)(from q in ClsProductos.getList(Filtro)
@@ -179,16 +179,16 @@ namespace Presentacion.Kuup.Controllers
                                                           CantidadDeProductoTotal = q.CantidadDeProductoTotal,
                                                           NombreDeProducto = q.NombreDeProducto,
                                                           Descripcion = q.Descripcion,
-                                                          CveTipoDeProducto = q.CveTipoDeProducto,
-                                                          CveMarca =q.CveMarca,
+                                                          NumeroDeTipoDeProducto = q.NumeroDeTipoDeProducto,
+                                                          NumeroDeMarca =q.NumeroDeMarca,
                                                           CveAviso = q.CveAviso,
                                                           CveCorreoSurtido = q.CveCorreoSurtido,
                                                           CantidadMinima = q.CantidadMinima,
                                                           NumeroDeProveedor = q.NumeroDeProveedor,
                                                           PrecioUnitario = q.PrecioUnitario,
                                                           CveDeEstatus = q.CveDeEstatus,
-                                                          TextoTipoDeProducto = q.TextoTipoDeProducto,
-                                                          TextoMarca = q.TextoMarca,
+                                                          NombreDeTipoDeProducto = q.NombreDeTipoDeProducto,
+                                                          NombreDeMarca = q.NombreDeMarca,
                                                           TextoAviso = q.TextoAviso,
                                                           TextoCorreoSurtido = q.TextoCorreoSurtido,
                                                           NombreDeProveedor = q.NombreDeProveedor,
@@ -207,8 +207,8 @@ namespace Presentacion.Kuup.Controllers
             {
                 productos.NombreDeProducto = RegistroCapturado.NombreDeProducto;
                 productos.Descripcion = RegistroCapturado.Descripcion;
-                productos.CveTipoDeProducto = RegistroCapturado.CveTipoDeProducto;
-                productos.CveMarca = RegistroCapturado.CveMarca;
+                productos.NumeroDeTipoDeProducto = RegistroCapturado.NumeroDeTipoDeProducto;
+                productos.NumeroDeMarca = RegistroCapturado.NumeroDeMarca;
                 productos.PrecioUnitario = RegistroCapturado.PrecioUnitario;
                 productos.CveAviso = RegistroCapturado.CveAviso;
                 productos.CveCorreoSurtido = RegistroCapturado.CveCorreoSurtido;
@@ -216,7 +216,7 @@ namespace Presentacion.Kuup.Controllers
                 if (!productos.Update())
                 {
                     Resultado.Resultado = false;
-                    Resultado.Mensaje = "Ocurrio un problema al Actualizar el reigstro";
+                    Resultado.Mensaje = "Ocurrio un problema al actualizar el reigstro";
                 }
                 else
                 {
@@ -240,6 +240,7 @@ namespace Presentacion.Kuup.Controllers
         }
         #endregion
         #region Baja
+        [HttpPost]
         public ActionResult Baja(short NumeroDeProducto, String CodigoDeBarras)
         {
             if (!ValidaSesion())
@@ -256,7 +257,7 @@ namespace Presentacion.Kuup.Controllers
             if (Producto == null)
             {
                 Resultado.Resultado = false;
-                Resultado.Mensaje = "El producto no se encuentra";
+                Resultado.Mensaje = "El producto no se encuentra o no cuenta con el estatus correcto";
             }
             else
             {
@@ -672,8 +673,8 @@ namespace Presentacion.Kuup.Controllers
         }
         private void CargaCombos(ProductoModel Entidad)
         {
-            ViewBag.CveTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboClave(12, Entidad.CveTipoDeProducto.ToString());
-            ViewBag.CveMarca = ClsAdicional.ClsCargaCombo.CargaComboClave(13, Entidad.CveMarca.ToString());
+            ViewBag.NumeroDeTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboTipoDeProducto(Entidad.NumeroDeTipoDeProducto.ToString());
+            ViewBag.NumeroDeMarca = ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(Entidad.NumeroDeTipoDeProducto,Entidad.NumeroDeMarca.ToString());
             ViewBag.CveAviso = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveAviso.ToString());
             ViewBag.CveCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClave(4, Entidad.CveCorreoSurtido.ToString());
             ViewBag.NumeroDeProveedor = ClsAdicional.ClsCargaCombo.CargaComboProveedor(Entidad.NumeroDeProveedor);
@@ -683,7 +684,7 @@ namespace Presentacion.Kuup.Controllers
         }
         private void CargaCombosParaTabla()
         {
-            ViewBag.TextoTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(12, "TextoTipoDeProducto");
+            ViewBag.NombreDeTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboTipoDeProductoParaTabla("NombreDeTipoDeProducto");
             ViewBag.TextoAviso = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoAviso");
             ViewBag.TextoCorreoSurtido = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(4, "TextoCorreoSurtido");
             ViewBag.TextoDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(1, "TextoDeEstatus");
@@ -701,6 +702,10 @@ namespace Presentacion.Kuup.Controllers
                 fRutaDeArchivo = q.RutaDeArchivo
             }).OrderBy(x => x.NumeroDeProducto).ToList();
             return View(CodigoDeBarras);
+        }
+        public JsonResult ObtenMarcaPorTipo(short TipoDeProducto, short Marca = 0)
+        {
+            return Json(ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(TipoDeProducto, Marca.ToString()), JsonRequestBehavior.AllowGet);
         }
         //public ActionResult GeneraPDFCodigoDeBarras()
         //{

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8cf050325cc74f5e8fcca37c7e7b42df" Name="Diagram1" ZoomLevel="35">
+      <Diagram DiagramId="8cf050325cc74f5e8fcca37c7e7b42df" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="DBKuupModel.Agenda" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Claves" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Funcionalidad" Width="1.5" PointX="11" PointY="4.25" IsExpanded="true" />
@@ -62,19 +62,23 @@
         <EntityTypeShape EntityType="DBKuupModel.ConfiguraPaquete" Width="1.5" PointX="22.625" PointY="15.625" />
         <EntityTypeShape EntityType="DBKuupModel.ConfiguraMayoreoAudit" Width="1.5" PointX="22.375" PointY="19.75" />
         <EntityTypeShape EntityType="DBKuupModel.ConfiguraPaqueteAudit" Width="1.5" PointX="13.375" PointY="24.75" />
-        <EntityTypeShape EntityType="DBKuupModel.AsignaMarca" Width="1.5" PointX="5.5" PointY="5.75" />
-        <EntityTypeShape EntityType="DBKuupModel.Marca" Width="1.75" PointX="0.5" PointY="21.75" />
-        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="20.5" PointY="6.5" />
-        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="15.5" PointY="20.75" />
-        <EntityTypeShape EntityType="DBKuupModel.ViAsignaMarca" Width="1.5" PointX="2.5" PointY="19.75" />
-        <EntityTypeShape EntityType="DBKuupModel.ViMarca" Width="1.5" PointX="4.5" PointY="19.75" />
-        <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="17.5" PointY="21.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Marca" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViMarca" Width="1.5" PointX="4.75" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.MarcaAudit" Width="1.5" PointX="24.375" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.AsignaMarca" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="20.375" PointY="6.5" />
+        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="15.375" PointY="20.75" />
+        <EntityTypeShape EntityType="DBKuupModel.TipoProducto" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBKuupModel.TipoProductoAudit" Width="1.5" PointX="17.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViAsignaMarca" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViTipoProducto" Width="1.5" PointX="24.375" PointY="0.75" />
         <AssociationConnector Association="DBKuupModel.FK_CodigoDeBarras_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraMayoreo_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto2" />
         <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" />
+        <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="19.375" PointY="24.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

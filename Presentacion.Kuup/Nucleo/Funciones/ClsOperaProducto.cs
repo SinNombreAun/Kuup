@@ -218,8 +218,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                 "000000",
                 "Producto",
                 "Alguna descripción del producto",
-                "Tipo de producto",
-                "Marca",
+                "Nombre de Tipo de producto",
+                "Nombre de Marca",
                 "0",
                 "0.0",
                 "SI/NO",
@@ -265,10 +265,10 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     CodigoDeBarras = Valores["CodigoDeBarras"],
                     NombreDeProducto = Valores["NombreDeProducto"],
                     Descripcion = Valores["Descripcion"],
-                    CveTipoDeProducto = Valores["CveTipoDeProducto"],
-                    TextoTipoDeProducto = Valores["TextoTipoDeProducto"],
-                    CveMarca = Valores["CveMarca"],
-                    TextoMarca =Valores["TextoMarca"],
+                    NumeroDeTipoDeProducto = Valores["NumeroDeTipoDeProducto"],
+                    NombreDeTipoDeProducto = Valores["NombreDeTipoDeProducto"],
+                    NumeroDeMarca = Valores["NumeroDeMarca"],
+                    NombreDeMarca =Valores["NombreDeMarca"],
                     CantidadDeProductoTotal = Valores["CantidadDeProductoTotal"],
                     PrecioUnitario = Valores["PrecioUnitario"],
                     CveAviso = Valores["CveAviso"],
@@ -292,10 +292,10 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     CodigoDeBarras = Valores["CodigoDeBarras"],
                     NombreDeProducto = Valores["NombreDeProducto"],
                     Descripcion = Valores["Descripcion"],
-                    CveTipoDeProducto = Valores["CveTipoDeProducto"],
-                    TextoTipoDeProducto = Valores["TextoTipoDeProducto"],
-                    CveMarca = Valores["CveMarca"],
-                    TextoMarca = Valores["TextoMarca"],
+                    NumeroDeTipoDeProducto = Valores["NumeroDeTipoDeProducto"],
+                    NombreDeTipoDeProducto = Valores["NombreDeTipoDeProducto"],
+                    NumeroDeMarca = Valores["NumeroDeMarca"],
+                    NombreDeMarca = Valores["NombreDeMarca"],
                     CantidadDeProductoTotal = Valores["CantidadDeProductoTotal"],
                     PrecioUnitario = Valores["PrecioUnitario"],
                     CveAviso = Valores["CveAviso"],
@@ -324,7 +324,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             foreach (var reg in Info)
             {
                 row++;
-                if (reg.Count >= 11)
+                if (reg.Count >= 13)
                 {
                     Registros = new Dictionary<String, String>();
                     Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
@@ -352,13 +352,13 @@ namespace Presentacion.Kuup.Nucleo.Funciones
 
                     col++;
                     Campo = "Tipo de Producto";
-                    Resultado = ClsAdicional.ClsValida.ValidaClave("TextoTipoDeProducto", "CveTipoDeProducto", Campo, 12, reg[col], row, ref Registros);
+                    Resultado = ValidaTipoDeProducto(reg[col], row, ref Registros);
                     Respuesta.Add(Resultado);
                     Mensajes.Add(Resultado.Mensaje);
 
                     col++;
                     Campo = "Marca";
-                    Resultado = ClsAdicional.ClsValida.ValidaClave("TextoMarca", "CveMarca", Campo, 13, reg[col], row, ref Registros);
+                    Resultado = ValidaMarcaDeProducto(reg[col], row, ref Registros);
                     Respuesta.Add(Resultado);
                     Mensajes.Add(Resultado.Mensaje);
 
@@ -443,7 +443,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                     if ((from q in NombresYCodigoDeBarras where q.CodigoDeBarras == CodigoDeBarras select q.CodigoDeBarras).Count() == 0)
                     {
                         Registros.Add("CodigoDeBarras", CodigoDeBarras);
-                        NombresYCodigoDeBarras.Add(new ClsProductos() { CodigoDeBarras = CodigoDeBarras });
+                        NombresYCodigoDeBarras.Add(new ClsProductos() { CodigoDeBarras = CodigoDeBarras,NombreDeProducto = String.Empty });
                     }
                     else
                     {
@@ -472,7 +472,8 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
             if (!String.IsNullOrEmpty(NombreDeProducto))
             {
-                if ((from q in ClsProductos.getList() where q.NombreDeProducto.Trim().ToUpper() == NombreDeProducto.Trim().ToUpper() && q.CveDeEstatus == 1 select q.NombreDeProducto).Count() == 0)
+                List<ClsProductos> Producto = ClsProductos.getList("NombreDeProducto.Trim().ToUpper() == \"" + NombreDeProducto.Trim().ToUpper() + "\" && CveDeEstatus == 1");
+                if (Producto.Count() == 0)
                 {
                     if ((from q in NombresYCodigoDeBarras where q.NombreDeProducto.Trim().ToUpper() == NombreDeProducto.Trim().ToUpper() select q.NombreDeProducto).Count() == 0)
                     {
@@ -509,6 +510,67 @@ namespace Presentacion.Kuup.Nucleo.Funciones
             }
             return Resultado;
         }
-
+        private ClsAdicional.ClsResultado ValidaTipoDeProducto(String NombreDeTipoDeProducto, int row, ref Dictionary<String, String> Registros)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            if (!String.IsNullOrEmpty(NombreDeTipoDeProducto))
+            {
+                List<ClsTiposDeProductos> TiposDeProducto = ClsTiposDeProductos.getList("NombreDeTipoDeProducto.Trim() == \"" + NombreDeTipoDeProducto.Trim() + "\" && CveDeEstatus == 1");
+                if (TiposDeProducto.Count() == 0)
+                {
+                    Resultado.Resultado = false;
+                    Resultado.Mensaje = "El campo Tipo de Producto a registrar no se encuentra dentro del catalogo de Tipos de Producto";
+                    Registros.Add("NumeroDeTipoDeProducto", "0");
+                    Registros.Add("NombreDeTipoDeProducto", NombreDeTipoDeProducto.Trim().ToUpper());
+                }
+                else
+                {
+                    Registros.Add("NumeroDeTipoDeProducto", TiposDeProducto.FirstOrDefault().NumeroDeTipoDeProducto.ToString());
+                    Registros.Add("NombreDeTipoDeProducto", NombreDeTipoDeProducto.Trim().ToUpper());
+                }
+            }
+            else
+            {
+                Resultado.Resultado = false;
+                Resultado.Mensaje = "El campo Tipo de Producto es requerido";
+                Registros.Add("NumeroDeTipoDeProducto", "0");
+                Registros.Add("NombreDeTipoDeProducto", String.Empty);
+            }
+            return Resultado;
+        }
+        private ClsAdicional.ClsResultado ValidaMarcaDeProducto(String NombreDeMarca, int row, ref Dictionary<String, String> Registros)
+        {
+            ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
+            if (!String.IsNullOrEmpty(NombreDeMarca))
+            {
+                if (Registros["NumeroDeTipoDeProducto"] != "0")
+                {
+                    List<ClsAsignaMarcas> AsiganMarcas = ClsAsignaMarcas.getList("NumeroDeTipoDeProducto == " + Registros["NumeroDeTipoDeProducto"] + " && NombreDeMarca.Trim() == \"" + NombreDeMarca.Trim() + "\"");
+                    if (AsiganMarcas.Count() == 0)
+                    {
+                        Resultado.Resultado = false;
+                        Resultado.Mensaje = "El campo Marca a registrar no se encuentra dentro del catalogo de Marcas o no esta asignado al tipo de producto: " + Registros["NombreDeTipoDeProducto"];
+                        Registros.Add("NumeroDeMarca", "0");
+                        Registros.Add("NombreDeMarca", NombreDeMarca.Trim().ToUpper());
+                    }
+                    else
+                    {
+                        Registros.Add("NumeroDeMarca", AsiganMarcas.FirstOrDefault().NumeroDeTipoDeProducto.ToString());
+                        Registros.Add("NombreDeMarca", NombreDeMarca.Trim().ToUpper());
+                    }
+                }
+                else
+                {
+                    Registros.Add("NumeroDeMarca", "0");
+                    Registros.Add("NombreDeMarca", NombreDeMarca.Trim().ToUpper());
+                }
+            }
+            else
+            {
+                Registros.Add("NumeroDeMarca", "0");
+                Registros.Add("NombreDeMarca", String.Empty);
+            }
+            return Resultado;
+        }
     }
 }

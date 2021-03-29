@@ -93,6 +93,9 @@
     <Compile Include="Marca.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="MarcaAudit.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -111,6 +114,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelEntity.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoAsignadosPorOrigen_Result.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Pantalla.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
@@ -135,6 +141,12 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Surtido.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoProducto.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoProductoAudit.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Usuario.cs">
@@ -210,6 +222,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViSurtido.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViTipoProducto.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViUsuario.cs">

@@ -163,14 +163,17 @@
     <Content Include="Content\Imagenes\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Agenda\ClsAgenda.js" />
+    <Content Include="Scripts\AsignaMarca\ClsAsingaMarca.js" />
     <Content Include="Scripts\ConfiguraPaquete\ClsConfiguraPaquete.js" />
     <Content Include="Scripts\General\ClsConfiguracion.js" />
     <Content Include="Scripts\General\ClsImportarArchivos.js" />
     <Content Include="Scripts\General\ClsResultado.js" />
     <Content Include="Scripts\General\ClsTicket.js" />
     <Content Include="Scripts\General\CreaFormulario.js" />
+    <Content Include="Scripts\Marca\ClsMarca.js" />
     <Content Include="Scripts\Producto\ClsProducto.js" />
     <Content Include="Scripts\Surtido\ClsSurtido.js" />
+    <Content Include="Scripts\TipoDeProducto\ClsTipoDeProducto.js" />
     <Content Include="Scripts\Usuario\ClsUsuario.js" />
     <Content Include="Scripts\VentaTotal\ClsVentaTotal.js" />
     <Content Include="Scripts\Venta\ClsVenta.js" />
@@ -178,14 +181,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AsignaMarcaController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConfiguraPaqueteController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MarcaController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\SurtidoController.cs" />
+    <Compile Include="Controllers\TipoDeProductoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Controllers\VentaTotalController.cs" />
@@ -198,16 +204,20 @@
     <Compile Include="Models\ConfiguraMayoreoModel.cs" />
     <Compile Include="Models\ConfiguraPaqueteModel.cs" />
     <Compile Include="Models\GeneralModel.cs" />
+    <Compile Include="Models\MarcaModel.cs" />
     <Compile Include="Models\ParametroModel.cs" />
     <Compile Include="Models\FuncionalidadModel.cs" />
     <Compile Include="Models\FuncionPerfilModel.cs" />
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\SurtidoModel.cs" />
+    <Compile Include="Models\TipoDeProductoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Nucleo\Clases\ClsAuditInsert.cs" />
     <Compile Include="Nucleo\Clases\ClsVersion.cs" />
+    <Compile Include="Nucleo\Funciones\ClsOperaMarca.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaProducto.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaSurtido.cs" />
+    <Compile Include="Nucleo\Funciones\ClsOperaTipoDeProducto.cs" />
     <Compile Include="Nucleo\Funciones\ClsOperaVentaTotal.cs" />
     <Compile Include="Nucleo\Motores\ClsConfiguracion.cs" />
     <Compile Include="Nucleo\Motores\ClsEnumerables.cs" />
@@ -277,6 +287,15 @@
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
     <Content Include="Views\Venta\ReporteVenta.cshtml" />
+    <Content Include="Views\Marca\Index.cshtml" />
+    <Content Include="Views\Marca\Alta.cshtml" />
+    <Content Include="Views\Marca\Detalle.cshtml" />
+    <Content Include="Views\Marca\Edita.cshtml" />
+    <Content Include="Views\TipoDeProducto\Alta.cshtml" />
+    <Content Include="Views\TipoDeProducto\Detalle.cshtml" />
+    <Content Include="Views\TipoDeProducto\Edita.cshtml" />
+    <Content Include="Views\TipoDeProducto\Index.cshtml" />
+    <Content Include="Views\AsignaMarca\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

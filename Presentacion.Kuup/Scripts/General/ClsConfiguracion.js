@@ -54,3 +54,4 @@ function CurrencyFormat(d, thousands, decimal, precision, prefix, postfix) {
 function htmlEscapeEntitiesGen(d) {
     return typeof d === 'string' ? d.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') : d;
 };
+

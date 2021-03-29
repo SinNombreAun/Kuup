@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "Asignar " + (ViewBag.Origen == "Tipo" ? "Tipo de producto" : "Marca");
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String Origen = String.Empty;
+    if (Request.QueryString.Count == 0)
+    {
+        Origen = ViewBag.Origen;
+    }
+    else
+    {
+        Origen = Request.QueryString["Origen"].ToString();
+    }
+}
+<script src="~/Scripts/AsignaMarca/ClsAsingaMarca.js"></script>
+<h2 class="TituloPagina">ASIGNAR @(Origen == "Tipo" ? "TIPO DE PRODUCTO A MARCA" : "MARCA A TIPO DE PRODUCTO") <i class="fa fa-archive"></i></h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
+                <button type="button" id="BtnOrigen" class="btn btn-primary">Asignar @(Origen == "Tipo" ? "por Marca" : "por Tipo de Producto") </button>
+            </div>
+            <div class="from-group from-group-margin">
+                @Html.Label("fTipoDeProductoMarca", (Origen == "Tipo" ? "Tipo de Producto" : "Marca"), new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fTipoDeProductoMarca", null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-sm-12">
+            <hr class="my-4">
+            <div id="Asignados">
+                <button type="button" id="BtnNoAsignados" class="btn btn-primary">No asignados</button>
+                <br />
+                <br />
+                <h3>ASIGNADOS</h3>
+                <table id="TablaTipoOMarca" class="table display nowrap" cellspacing="0" width="100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 25%;" scope="col">@(Origen == "Tipo" ? "Número Marca" : "Número Tipo de Producto")</th>
+                            <th style="width: 50%;" scope="col">@(Origen == "Tipo" ? "Marca" : "Tipo de Producto")</th>
+                            <th style="width: 25%;" ></th>
+                        </tr>
+                    </thead>
+                    <tfoot class="thead-dark">
+                        <tr>
+                            <th style="width: 25%;" scope="col">@(Origen == "Tipo" ? "Número Marca" : "Número Tipo de Producto")</th>
+                            <th style="width: 50%;" scope="col">@(Origen == "Tipo" ? "Marca" : "Tipo de Producto")</th>
+                            <th style="width: 25%;"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div id="NoAsignados">
+                <button type="button" id="BtnAsignados" class="btn btn-primary">Asignados</button>
+                <br />
+                <br />
+                <h3>NO ASIGNADOS</h3>
+                <table id="TablaTipoOMarcaNoAsignados" class="table display nowrap" cellspacing="0" width="100%">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th style="width: 25%;" scope="col">@(Origen == "Tipo" ? "Número Marca" : "Número Tipo de Producto")</th>
+                            <th style="width: 50%;" scope="col">@(Origen == "Tipo" ? "Marca" : "Tipo de Producto")</th>
+                            <th style="width: 25%;" ></th>
+                        </tr>
+                    </thead>
+                    <tfoot class="thead-dark">
+                        <tr>
+                            <th style="width: 25%;" scope="col">@(Origen == "Tipo" ? "Número Marca" : "Número Tipo de Producto")</th>
+                            <th style="width: 50%;" scope="col">@(Origen == "Tipo" ? "Marca" : "Tipo de Producto")</th>
+                            <th style="width: 25%;"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            @{
+                if (!String.IsNullOrEmpty(ViewBag.ControllerOrigen))
+                {
+                    String Controlador = ViewBag.ControllerOrigen;
+                    short NumeroDeElemento = ViewBag.NumeroDeElemento;
+                    @Html.ActionLink("Regresar al Detalle", "Detalle", Controlador, new { NumeroDeElemento }, new { @class = "btn btn-secondary" })
+                }
+            }
+            <br />
+            <br />
+            <hr class="my-4">
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let ClsAsignaMarca;
+    $(function () {
+        ClsAsignaMarca = Objeto.Constructor({
+            Origen: '@Origen',
+            Url: '@Url.Action("Index", "AsignaMarca")',
+            UrlAutoCompleteMarcaOTipProducto: '@Url.Action("AutoCompleteMarcaOTipProducto", "AsignaMarca")',
+            UrlCargaAsignados: '@Url.Action("CargaAsignados", "AsignaMarca")',
+            UrlCargaNoAsignados: '@Url.Action("CargaNoAsignados", "AsignaMarca")',
+            UrlAgregaElemento: '@Url.Action("AgregaElemento", "AsignaMarca")',
+            UrlRemueveElemento: '@Url.Action("RemueveElemento", "AsignaMarca")',
+            TipoDeProductoMarca: '@Html.Raw(ViewBag.TipoDeProductoMarca)'
+        });
+        ClsAsignaMarca.Inicio();
+    });
+</script>
