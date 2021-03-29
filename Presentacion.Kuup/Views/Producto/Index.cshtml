@@ -15,6 +15,8 @@
                         <th id="NumeroDeProducto" scope="col">@Recursos.Textos.Producto_NumeroDeProducto</th>
                         <th id="CodigoDeBarras" scope="col">@Recursos.Textos.Producto_CodigoDeBarras</th>
                         <th id="NombreDeProducto" scope="col">@Recursos.Textos.Producto_NombreDeProducto</th>
+                        <th id="NombreDeTipoDeProducto" scope="col">Tipo de Producto</th>
+                        <th id="NombreDeMarca" scope="col">Marca</th>
                         <th id="CantidadDeProductoTotal" scope="col">@Recursos.Textos.Producto_CantidadDeProductoTotal</th>
                         <th id="PrecioUnitario" scope="col">@Recursos.Textos.Producto_PrecioUnitario</th>
                         <th id="TextoAviso" scope="col">@Recursos.Textos.Producto_TextoAviso</th>
@@ -44,9 +46,10 @@
             UrlCargaGrid: '@Url.Action("Json", "Producto")',
             UrlDetalle: '@Url.Action("Detalle","Producto")',
             CombosParaTabla: [
+                "@Html.Raw(ViewBag.NombreDeTipoDeProducto)",
                 "@Html.Raw(ViewBag.TextoAviso)",
-                "@Html.Raw(@ViewBag.TextoCorreoSurtido)",
-                "@Html.Raw(@ViewBag.TextoDeEstatus)"
+                "@Html.Raw(ViewBag.TextoCorreoSurtido)",
+                "@Html.Raw(ViewBag.TextoDeEstatus)"
             ]
         });
         ClsProducto.Inicio();
