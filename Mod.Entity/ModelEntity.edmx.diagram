@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="8cf050325cc74f5e8fcca37c7e7b42df" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="DBKuupModel.Agenda" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.Claves" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Funcionalidad" Width="1.5" PointX="11" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.FuncionPerfil" Width="1.5" PointX="13.375" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.Menu" Width="1.5" PointX="7.75" PointY="2.375" IsExpanded="true" />
@@ -19,7 +18,6 @@
         <EntityTypeShape EntityType="DBKuupModel.BitacoraCorreo" Width="1.5" PointX="11" PointY="9.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViAgenda" Width="1.5" PointX="7.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViBitacoraCorreo" Width="1.5" PointX="9.75" PointY="14.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBKuupModel.ViClaves" Width="1.5" PointX="11.75" PointY="14.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViMenu" Width="1.5" PointX="13.75" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViPantalla" Width="1.5" PointX="15.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBKuupModel.ViPantallaPerfil" Width="1.5" PointX="15.75" PointY="6.375" IsExpanded="true" />
@@ -79,6 +77,9 @@
         <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" />
         <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="19.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="24.375" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Claves" Width="1.5" PointX="0.75" PointY="19.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViClaves" Width="1.5" PointX="2.75" PointY="19.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

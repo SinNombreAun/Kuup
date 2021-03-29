@@ -69,7 +69,7 @@ namespace Presentacion.Kuup
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("Excepcion Type: " + ex.GetType().ToString() + " Mensaje:" + ex.Message);
                 }
                 try
                 {
@@ -77,7 +77,7 @@ namespace Presentacion.Kuup
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("Excepcion Type: " + ex.GetType().ToString() + " Mensaje:" + ex.Message);
                 }
             }
         }

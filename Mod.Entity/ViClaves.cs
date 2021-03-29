@@ -14,8 +14,8 @@ namespace Mod.Entity
     
     public partial class ViClaves
     {
-        public byte CVE_NUM_CLAVE { get; set; }
-        public byte CVE_NUM_SEC_CLAVE { get; set; }
+        public short CVE_NUM_CLAVE { get; set; }
+        public short CVE_NUM_SEC_CLAVE { get; set; }
         public string CVE_NOM_CLAVE { get; set; }
         public string CVE_DESCRIPCION { get; set; }
         public string CVE_DATO_ADICIONAL_I { get; set; }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -439,7 +439,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.BitacoraCorreo' no tien
           <Property Name="VET_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViAgenda' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViAgenda' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViAgenda">
           <Key>
             <PropertyRef Name="AGN_NUM_AGENDA" />
@@ -524,7 +524,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViBitacoraCorreo' no ti
           <Property Name="BIM_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViClaves' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViClaves' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViClaves">
           <Key>
             <PropertyRef Name="CVE_NUM_CLAVE" />
@@ -543,7 +543,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViClaves' no tiene defi
           <Property Name="CVE_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViCodigoDeBarras' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViCodigoDeBarras' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViCodigoDeBarras">
           <Key>
             <PropertyRef Name="COB_CODIGO_BARRAS" />
@@ -562,7 +562,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViCodigoDeBarras' no ti
           <Property Name="COB_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViConfiguraMayoreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViConfiguraMayoreo' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViConfiguraMayoreo">
           <Key>
             <PropertyRef Name="COM_NUM_MAYOREO" />
@@ -583,7 +583,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViConfiguraMayoreo' no 
           <Property Name="COM_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViConfiguraPaquete' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViConfiguraPaquete' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViConfiguraPaquete">
           <Key>
             <PropertyRef Name="CNP_NUM_PRODUCTO_PADRE" />
@@ -608,7 +608,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViConfiguraPaquete' no 
           <Property Name="CNP_NOM_PRODUCTO_HIJO" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViFuncionalidad' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViFuncionalidad' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViFuncionalidad">
           <Key>
             <PropertyRef Name="FUN_NUM_PANTALLA" />
@@ -625,7 +625,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViFuncionalidad' no tie
           <Property Name="FUN_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViFuncionPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViFuncionPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViFuncionPerfil">
           <Key>
             <PropertyRef Name="FUP_NUM_PANTALLA" />
@@ -646,7 +646,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViFuncionPerfil' no tie
           <Property Name="FUP_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViIPRegistradas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViIPRegistradas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViIPRegistradas">
           <Key>
             <PropertyRef Name="IPR_NUM_USUARIO" />
@@ -663,7 +663,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViIPRegistradas' no tie
           <Property Name="IPR_TXT_TIPOACCESO" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMarca' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViMarca' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViMarca">
           <Key>
             <PropertyRef Name="MRA_NUM_MARCA" />
@@ -676,7 +676,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMarca' no tiene defin
           <Property Name="MRA_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMenu' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViMenu' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViMenu">
           <Key>
             <PropertyRef Name="MEN_NUM_MENU" />
@@ -697,7 +697,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMenu' no tiene defini
           <Property Name="MEN_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPantalla' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViPantalla' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViPantalla">
           <Key>
             <PropertyRef Name="PAN_NUM_PANTALLA" />
@@ -719,7 +719,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPantalla' no tiene de
           <Property Name="PAN_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPantallaPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViPantallaPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViPantallaPerfil">
           <Key>
             <PropertyRef Name="PAP_NUM_PANTALLA" />
@@ -738,7 +738,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPantallaPerfil' no ti
           <Property Name="PAP_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViParametro' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViParametro' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViParametro">
           <Key>
             <PropertyRef Name="PAR_CVE_TIPO" />
@@ -752,7 +752,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViParametro' no tiene d
           <Property Name="PAR_TXT_TIPO" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViPerfil">
           <Key>
             <PropertyRef Name="PER_NUM_PERFIL" />
@@ -768,7 +768,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViPerfil' no tiene defi
           <Property Name="PER_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViProducto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViProducto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViProducto">
           <Key>
             <PropertyRef Name="PRO_NUM_PRODUCTO" />
@@ -811,7 +811,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViProducto' no tiene de
           <Property Name="PRO_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViProveedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViProveedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViProveedor">
           <Key>
             <PropertyRef Name="PRV_NUM_PROVEEDOR" />
@@ -832,7 +832,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViProveedor' no tiene d
           <Property Name="PRV_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViSurtido' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViSurtido' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViSurtido">
           <Key>
             <PropertyRef Name="SUR_FOLIO_SURTIDO" />
@@ -864,7 +864,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViSurtido' no tiene def
           <Property Name="SUR_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViTipoProducto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViTipoProducto' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViTipoProducto">
           <Key>
             <PropertyRef Name="TPO_NUM_TIPO_PRODUCTO" />
@@ -877,7 +877,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViTipoProducto' no tien
           <Property Name="TPO_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViUsuario' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViUsuario' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViUsuario">
           <Key>
             <PropertyRef Name="USU_NUM_USUARIO" />
@@ -903,7 +903,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViUsuario' no tiene def
           <Property Name="USU_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViUsuarioPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViUsuarioPerfil' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViUsuarioPerfil">
           <Key>
             <PropertyRef Name="USP_NUM_PERFIL" />
@@ -922,7 +922,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViUsuarioPerfil' no tie
           <Property Name="USP_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVenta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVenta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViVenta">
           <Key>
             <PropertyRef Name="VEN_FOLIO_OPERACION" />
@@ -942,7 +942,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVenta' no tiene defin
           <Property Name="VEN_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'DBKuup.Kuup.ViVentaTotal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="ViVentaTotal">
           <Key>
             <PropertyRef Name="VET_FOLIO_OPERACION" />
@@ -1679,19 +1679,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Name="AGN_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Agenda_Usuario" FromRole="Agenda" ToRole="Usuario" />
         </EntityType>
-        <EntityType Name="Claves">
-          <Key>
-            <PropertyRef Name="CVE_NUM_CLAVE" />
-            <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
-          </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="Byte" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="Byte" Nullable="false" />
-          <Property Name="CVE_NOM_CLAVE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CVE_DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CVE_DATO_ADICIONAL_II" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CVE_CVE_ESTATUS" Type="Byte" Nullable="false" />
-        </EntityType>
         <EntityType Name="Funcionalidad">
           <Key>
             <PropertyRef Name="FUN_NUM_PANTALLA" />
@@ -1870,23 +1857,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Name="BIM_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <Property Name="BIM_NOM_PANTALLA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BIM_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ViClaves">
-          <Key>
-            <PropertyRef Name="CVE_NUM_CLAVE" />
-            <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
-            <PropertyRef Name="CVE_NOM_CLAVE" />
-            <PropertyRef Name="CVE_DESCRIPCION" />
-            <PropertyRef Name="CVE_CVE_ESTATUS" />
-          </Key>
-          <Property Name="CVE_NUM_CLAVE" Type="Byte" Nullable="false" />
-          <Property Name="CVE_NUM_SEC_CLAVE" Type="Byte" Nullable="false" />
-          <Property Name="CVE_NOM_CLAVE" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CVE_DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CVE_DATO_ADICIONAL_II" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CVE_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <Property Name="CVE_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViMenu">
           <Key>
@@ -2106,7 +2076,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
         </Association>
         <EntityContainer Name="DBKuupEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Agenda" EntityType="Self.Agenda" />
-          <EntitySet Name="Claves" EntityType="Self.Claves" />
           <EntitySet Name="Funcionalidad" EntityType="Self.Funcionalidad" />
           <EntitySet Name="FuncionPerfil" EntityType="Self.FuncionPerfil" />
           <EntitySet Name="Menu" EntityType="Self.Menu" />
@@ -2119,7 +2088,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <EntitySet Name="BitacoraCorreo" EntityType="Self.BitacoraCorreo" />
           <EntitySet Name="ViAgenda" EntityType="Self.ViAgenda" />
           <EntitySet Name="ViBitacoraCorreo" EntityType="Self.ViBitacoraCorreo" />
-          <EntitySet Name="ViClaves" EntityType="Self.ViClaves" />
           <EntitySet Name="ViMenu" EntityType="Self.ViMenu" />
           <EntitySet Name="ViPantalla" EntityType="Self.ViPantalla" />
           <EntitySet Name="ViPantallaPerfil" EntityType="Self.ViPantallaPerfil" />
@@ -2245,6 +2213,8 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
             <Parameter Name="registro" Mode="In" Type="Int16" />
             <Parameter Name="origen" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Claves" EntityType="DBKuupModel.Claves" />
+          <EntitySet Name="ViClaves" EntityType="DBKuupModel.ViClaves" />
           </EntityContainer>
         <EntityType Name="ViCodigoDeBarras">
           <Key>
@@ -3030,6 +3000,36 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Type="Int16" Name="NUMERO" Nullable="false" />
           <Property Type="String" Name="NOMBRE" Nullable="false" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="Claves">
+          <Key>
+            <PropertyRef Name="CVE_NUM_CLAVE" />
+            <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
+          </Key>
+          <Property Name="CVE_NUM_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NOM_CLAVE" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DESCRIPCION" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DATO_ADICIONAL_II" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_CVE_ESTATUS" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViClaves">
+          <Key>
+            <PropertyRef Name="CVE_NUM_CLAVE" />
+            <PropertyRef Name="CVE_NUM_SEC_CLAVE" />
+            <PropertyRef Name="CVE_NOM_CLAVE" />
+            <PropertyRef Name="CVE_DESCRIPCION" />
+            <PropertyRef Name="CVE_CVE_ESTATUS" />
+          </Key>
+          <Property Name="CVE_NUM_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NUM_SEC_CLAVE" Type="Int16" Nullable="false" />
+          <Property Name="CVE_NOM_CLAVE" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DESCRIPCION" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DATO_ADICIONAL_I" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_DATO_ADICIONAL_II" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CVE_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <Property Name="CVE_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3047,19 +3047,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
                 <ScalarProperty Name="AGN_CVE_NOTIFICA" ColumnName="AGN_CVE_NOTIFICA" />
                 <ScalarProperty Name="AGN_DESCRIPCION" ColumnName="AGN_DESCRIPCION" />
                 <ScalarProperty Name="AGN_CVE_ESTATUS" ColumnName="AGN_CVE_ESTATUS" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Claves">
-            <EntityTypeMapping TypeName="DBKuupModel.Claves">
-              <MappingFragment StoreEntitySet="Claves">
-                <ScalarProperty Name="CVE_NUM_CLAVE" ColumnName="CVE_NUM_CLAVE" />
-                <ScalarProperty Name="CVE_NUM_SEC_CLAVE" ColumnName="CVE_NUM_SEC_CLAVE" />
-                <ScalarProperty Name="CVE_NOM_CLAVE" ColumnName="CVE_NOM_CLAVE" />
-                <ScalarProperty Name="CVE_DESCRIPCION" ColumnName="CVE_DESCRIPCION" />
-                <ScalarProperty Name="CVE_DATO_ADICIONAL_I" ColumnName="CVE_DATO_ADICIONAL_I" />
-                <ScalarProperty Name="CVE_DATO_ADICIONAL_II" ColumnName="CVE_DATO_ADICIONAL_II" />
-                <ScalarProperty Name="CVE_CVE_ESTATUS" ColumnName="CVE_CVE_ESTATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3207,20 +3194,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
                 <ScalarProperty Name="BIM_CVE_ESTATUS" ColumnName="BIM_CVE_ESTATUS" />
                 <ScalarProperty Name="BIM_NOM_PANTALLA" ColumnName="BIM_NOM_PANTALLA" />
                 <ScalarProperty Name="BIM_TXT_ESTATUS" ColumnName="BIM_TXT_ESTATUS" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViClaves">
-            <EntityTypeMapping TypeName="DBKuupModel.ViClaves">
-              <MappingFragment StoreEntitySet="ViClaves">
-                <ScalarProperty Name="CVE_NUM_CLAVE" ColumnName="CVE_NUM_CLAVE" />
-                <ScalarProperty Name="CVE_NUM_SEC_CLAVE" ColumnName="CVE_NUM_SEC_CLAVE" />
-                <ScalarProperty Name="CVE_NOM_CLAVE" ColumnName="CVE_NOM_CLAVE" />
-                <ScalarProperty Name="CVE_DESCRIPCION" ColumnName="CVE_DESCRIPCION" />
-                <ScalarProperty Name="CVE_DATO_ADICIONAL_I" ColumnName="CVE_DATO_ADICIONAL_I" />
-                <ScalarProperty Name="CVE_DATO_ADICIONAL_II" ColumnName="CVE_DATO_ADICIONAL_II" />
-                <ScalarProperty Name="CVE_CVE_ESTATUS" ColumnName="CVE_CVE_ESTATUS" />
-                <ScalarProperty Name="CVE_TXT_ESTATUS" ColumnName="CVE_TXT_ESTATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3864,6 +3837,33 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Claves">
+            <EntityTypeMapping TypeName="DBKuupModel.Claves">
+              <MappingFragment StoreEntitySet="Claves">
+                <ScalarProperty Name="CVE_CVE_ESTATUS" ColumnName="CVE_CVE_ESTATUS" />
+                <ScalarProperty Name="CVE_DATO_ADICIONAL_II" ColumnName="CVE_DATO_ADICIONAL_II" />
+                <ScalarProperty Name="CVE_DATO_ADICIONAL_I" ColumnName="CVE_DATO_ADICIONAL_I" />
+                <ScalarProperty Name="CVE_DESCRIPCION" ColumnName="CVE_DESCRIPCION" />
+                <ScalarProperty Name="CVE_NOM_CLAVE" ColumnName="CVE_NOM_CLAVE" />
+                <ScalarProperty Name="CVE_NUM_SEC_CLAVE" ColumnName="CVE_NUM_SEC_CLAVE" />
+                <ScalarProperty Name="CVE_NUM_CLAVE" ColumnName="CVE_NUM_CLAVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViClaves">
+            <EntityTypeMapping TypeName="DBKuupModel.ViClaves">
+              <MappingFragment StoreEntitySet="ViClaves">
+                <ScalarProperty Name="CVE_TXT_ESTATUS" ColumnName="CVE_TXT_ESTATUS" />
+                <ScalarProperty Name="CVE_CVE_ESTATUS" ColumnName="CVE_CVE_ESTATUS" />
+                <ScalarProperty Name="CVE_DATO_ADICIONAL_II" ColumnName="CVE_DATO_ADICIONAL_II" />
+                <ScalarProperty Name="CVE_DATO_ADICIONAL_I" ColumnName="CVE_DATO_ADICIONAL_I" />
+                <ScalarProperty Name="CVE_DESCRIPCION" ColumnName="CVE_DESCRIPCION" />
+                <ScalarProperty Name="CVE_NOM_CLAVE" ColumnName="CVE_NOM_CLAVE" />
+                <ScalarProperty Name="CVE_NUM_SEC_CLAVE" ColumnName="CVE_NUM_SEC_CLAVE" />
+                <ScalarProperty Name="CVE_NUM_CLAVE" ColumnName="CVE_NUM_CLAVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
