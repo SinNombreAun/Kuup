@@ -13,66 +13,79 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-                <fieldset>
+            <fieldset>
+                @Html.HiddenFor(model => model.fNumeroDeProducto)
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCodigoDeBarras, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fCodigoDeBarras, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.fCodigoDeBarras, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fNombreDeProducto, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fNombreDeProducto, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.fNombreDeProducto, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fDescripcion, new { @class = "col-sm-3 col-form-label" })
+                    @Html.TextAreaFor(model => model.fDescripcion, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fNumeroDeTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fNumeroDeTipoDeProducto, null, new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.fNumeroDeTipoDeProducto, (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fNumeroDeMarca, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fNumeroDeMarca, null, new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.fNumeroDeMarca, (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCantidadDeProductoTotal, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fCantidadDeProductoTotal, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.fCantidadDeProductoTotal, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fPrecioUnitario, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fPrecioUnitario, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.fPrecioUnitario, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCveAviso, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fCveAviso, null, new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.fCveAviso, (IEnumerable<SelectListItem>)ViewBag.CveAviso, TextoComboRequerido, new { @class = "form-control" })
+                </div>
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCveCorreoSurtido, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fCveCorreoSurtido, null, new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.fCveCorreoSurtido, (IEnumerable<SelectListItem>)ViewBag.CveCorreoSurtido, TextoComboRequerido, new { @class = "form-control" })
+                </div>
+                @if (ViewBag.ManejaProveedor)
+                {
                     <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCodigoDeBarras, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCodigoDeBarras, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fCodigoDeBarras, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.LabelFor(model => model.fNumeroDeProveedor, new { @class = "col-sm-3 col-form-label" })
+                        @Html.DropDownListFor(model => model.fNumeroDeProveedor, (IEnumerable<SelectListItem>)ViewBag.NumeroDeProveedor, TextoComboRequerido, new { @class = "form-control" })
                     </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fNombreDeProducto, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fNombreDeProducto, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fNombreDeProducto, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fDescripcion, new { @class = "col-sm-3 col-form-label" })
-                        @Html.TextAreaFor(model => model.fDescripcion, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCantidadDeProductoTotal, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCantidadDeProductoTotal, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fCantidadDeProductoTotal, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fPrecioUnitario, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fPrecioUnitario, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fPrecioUnitario, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCveAviso, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCveAviso, null, new { @class = "text-danger" })
-                        @Html.DropDownListFor(model => model.fCveAviso, (IEnumerable<SelectListItem>)ViewBag.CveAviso, TextoComboRequerido, new { @class = "form-control" })
-                    </div>
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCveCorreoSurtido, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCveCorreoSurtido, null, new { @class = "text-danger" })
-                        @Html.DropDownListFor(model => model.fCveCorreoSurtido, (IEnumerable<SelectListItem>)ViewBag.CveCorreoSurtido, TextoComboRequerido, new { @class = "form-control" })
-                    </div>
-                    @if (ViewBag.ManejaProveedor)
-                    {
-                        <div class="from-group from-group-margin">
-                            @Html.LabelFor(model => model.fNumeroDeProveedor, new { @class = "col-sm-3 col-form-label" })
-                            @Html.DropDownListFor(model => model.fNumeroDeProveedor, (IEnumerable<SelectListItem>)ViewBag.NumeroDeProveedor, TextoComboRequerido, new { @class = "form-control" })
-                        </div>
-                    }
-                    <div class="from-group from-group-margin">
-                        @Html.LabelFor(model => model.fCantidadMinima, new { @class = "col-sm-3 col-form-label" })
-                        <a class="captura-requerida">*&ensp;</a>
-                        @Html.ValidationMessageFor(model => model.fCantidadMinima, null, new { @class = "text-danger" })
-                        @Html.TextBoxFor(model => model.fCantidadMinima, new { @class = "form-control" })
-                    </div>
-                </fieldset>
+                }
+                <div class="from-group from-group-margin">
+                    @Html.LabelFor(model => model.fCantidadMinima, new { @class = "col-sm-3 col-form-label" })
+                    <a class="captura-requerida">*&ensp;</a>
+                    @Html.ValidationMessageFor(model => model.fCantidadMinima, null, new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.fCantidadMinima, new { @class = "form-control" })
+                </div>
+            </fieldset>
                 <button type="button" id="Guardar" class="btn btn-primary">Guardar</button>
                 <br />
                 <br />
                 <hr class="my-4">
-                @Html.ActionLink("Regresar al Detalle", "Detalle", "Producto", null, new { @class = "btn btn-secondary" })
+                @Html.ActionLink("Regresar al Detalle", "Detalle", "Producto", new { Model.NumeroDeProducto }, new { @class = "btn btn-info" })
                 <br />
                 <br />
                 <br />
@@ -84,6 +97,7 @@
     let ClsProducto;
     $(function () {
         ClsProducto = Objeto.Constructor({
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo")',
             Funcionalidad: 'EDITA'
         });
         ClsProducto.Inicio();

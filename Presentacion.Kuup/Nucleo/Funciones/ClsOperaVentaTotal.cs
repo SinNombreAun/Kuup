@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
-using System.Security.Cryptography;
-using Funciones.Kuup.Adicionales;
-using Funciones.Kuup.CodigoDeBarras;
-using Funciones.Kuup.Tecket;
+﻿using Funciones.Kuup.Adicionales;
 using Mod.Entity;
 using Negocio.Kuup.Clases;
-using Presentacion.Kuup.Models;
 using Presentacion.Kuup.Nucleo.Motores;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Presentacion.Kuup.Nucleo.Funciones
 {
@@ -49,7 +43,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             VentasTotales.ImporteCambio = ImporteCambio;
                             if (VentasTotales.Insert())
                             {
-                                var Productos = ClsProductos.getList().Where(x => RegistrosDeVentas.Exists(y => y.NumeroDeProducto == x.NumeroDeProducto)).ToList();
+                                var Productos = ClsProductos.getList(listaProductos: (from q in RegistrosDeVentas select q.NumeroDeProducto).ToList());
                                 foreach (var Ventas in RegistrosDeVentas)
                                 {
                                     if (Resultado.Resultado)
@@ -161,6 +155,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
 
                 Object TicketObj = new
                 {
+                    FolioDeVenta = FolioDeVenta,
                     Empresa = (from q in ParametrosTicket where q.NombreDeParametro == "Empresa" select q.ValorDeParametro).FirstOrDefault(),
                     Dir = (from q in ParametrosTicket where q.NombreDeParametro == "Direccion" select q.ValorDeParametro).FirstOrDefault(),
                     Tel = (from q in ParametrosTicket where q.NombreDeParametro == "Telefono" select q.ValorDeParametro).FirstOrDefault(),

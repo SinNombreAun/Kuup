@@ -53,6 +53,9 @@
     <Compile Include="Agenda.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="AsignaMarca.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bitacora.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -87,6 +90,12 @@
     <Compile Include="IPRegistradas.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Marca.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MarcaAudit.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -105,6 +114,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelEntity.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoAsignadosPorOrigen_Result.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Pantalla.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
@@ -131,6 +143,12 @@
     <Compile Include="Surtido.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="TipoProducto.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoProductoAudit.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Usuario.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -147,6 +165,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViAgenda.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViAsignaMarca.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViBitacora.cs">
@@ -176,6 +197,9 @@
     <Compile Include="ViIPRegistradas.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViMarca.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViMenu.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
@@ -198,6 +222,9 @@
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViSurtido.cs">
+      <DependentUpon>ModelEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ViTipoProducto.cs">
       <DependentUpon>ModelEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="ViUsuario.cs">

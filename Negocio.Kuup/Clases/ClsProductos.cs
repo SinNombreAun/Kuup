@@ -55,6 +55,16 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_DESCRIPCION; }
             set { Producto.PRO_DESCRIPCION = value; }
         }
+        public short NumeroDeTipoDeProducto
+        {
+            get { return Producto.PRO_NUM_TIPO_PRODUCTO; }
+            set { Producto.PRO_NUM_TIPO_PRODUCTO = value; }
+        }
+        public short NumeroDeMarca
+        {
+            get { return Producto.PRO_NUM_MARCA; }
+            set { Producto.PRO_NUM_MARCA = value; }
+        }
         public byte CveAviso
         {
             get { return Producto.PRO_CVE_AVISO; }
@@ -84,6 +94,16 @@ namespace Negocio.Kuup.Clases
         {
             get { return Producto.PRO_CVE_ESTATUS; }
             set { Producto.PRO_CVE_ESTATUS = value; }
+        }
+        public String NombreDeTipoDeProducto
+        {
+            get { return Producto.PRO_NOM_TIPO_PRODUCTO; }
+            set { Producto.PRO_NOM_TIPO_PRODUCTO = value; }
+        }
+        public String NombreDeMarca
+        {
+            get { return Producto.PRO_NOM_MARCA; }
+            set { Producto.PRO_NOM_MARCA = value; }
         }
         public String TextoAviso
         {
@@ -116,6 +136,8 @@ namespace Negocio.Kuup.Clases
             CantidadDeProductoTotal = Producto.PRO_CANT_PRODUCTO_TOTAL;
             NombreDeProducto = Producto.PRO_NOM_PRODUCTO;
             Descripcion = Producto.PRO_DESCRIPCION;
+            NumeroDeTipoDeProducto = Producto.PRO_NUM_TIPO_PRODUCTO;
+            NumeroDeMarca = Producto.PRO_NUM_MARCA;
             CveAviso = Producto.PRO_CVE_AVISO;
             CveCorreoSurtido = Producto.PRO_CVE_CORREO_SURTIDO;
             CantidadMinima = Producto.PRO_CAT_MINIMA;
@@ -199,12 +221,16 @@ namespace Negocio.Kuup.Clases
                 Audit.PRO_CANT_PRODUCTO_TOTAL = Producto.PRO_CANT_PRODUCTO_TOTAL;
                 Audit.PRO_NOM_PRODUCTO = Producto.PRO_NOM_PRODUCTO;
                 Audit.PRO_DESCRIPCION = Producto.PRO_DESCRIPCION;
+                Audit.PRO_NUM_TIPO_PRODUCTO = Producto.PRO_NUM_TIPO_PRODUCTO;
+                Audit.PRO_NUM_MARCA = Producto.PRO_NUM_MARCA;
                 Audit.PRO_CVE_AVISO = Producto.PRO_CVE_AVISO;
                 Audit.PRO_CVE_CORREO_SURTIDO = Producto.PRO_CVE_CORREO_SURTIDO;
                 Audit.PRO_CAT_MINIMA = Producto.PRO_CAT_MINIMA;
                 Audit.PRO_NUM_PROVEEDOR = Producto.PRO_NUM_PROVEEDOR;
                 Audit.PRO_PRECIO_UNITARIO = Producto.PRO_PRECIO_UNITARIO;
                 Audit.PRO_CVE_ESTATUS = Producto.PRO_CVE_ESTATUS;
+                Audit.PRO_NOM_TIPO_PRODUCTO = Producto.PRO_NOM_TIPO_PRODUCTO;
+                Audit.PRO_NOM_MARCA = Producto.PRO_NOM_MARCA;
                 Audit.PRO_TXT_AVISO = Producto.PRO_TXT_AVISO;
                 Audit.PRO_TXT_CORREO_SURTIDO = Producto.PRO_TXT_CORREO_SURTIDO;
                 Audit.PRO_NOM_PROVEEDOR = Producto.PRO_NOM_PROVEEDOR;
@@ -301,7 +327,6 @@ namespace Negocio.Kuup.Clases
             {
                 ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "Update", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
                 return false;
-
             }
         }
         public Producto ToTable()
@@ -315,6 +340,8 @@ namespace Negocio.Kuup.Clases
             Tabla.PRO_CANT_PRODUCTO_TOTAL = this.CantidadDeProductoTotal;
             Tabla.PRO_NOM_PRODUCTO = this.NombreDeProducto;
             Tabla.PRO_DESCRIPCION = this.Descripcion;
+            Tabla.PRO_NUM_TIPO_PRODUCTO = this.NumeroDeTipoDeProducto;
+            Tabla.PRO_NUM_MARCA = this.NumeroDeMarca;
             Tabla.PRO_CVE_AVISO = this.CveAviso;
             Tabla.PRO_CVE_CORREO_SURTIDO = this.CveCorreoSurtido;
             Tabla.PRO_CAT_MINIMA = this.CantidadMinima;
@@ -323,7 +350,7 @@ namespace Negocio.Kuup.Clases
             Tabla.PRO_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
-        public static List<ClsProductos> getList(String filtro = "", bool EsVista = true)
+        public static List<ClsProductos> getList(String filtro = "", bool EsVista = true,List<short> listaProductos = null)
         {
             try
             {
@@ -342,19 +369,31 @@ namespace Negocio.Kuup.Clases
                                          CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
                                          NombreDeProducto = q.PRO_NOM_PRODUCTO,
                                          Descripcion = q.PRO_DESCRIPCION,
+                                         NumeroDeTipoDeProducto = q.PRO_NUM_TIPO_PRODUCTO,
+                                         NumeroDeMarca =q.PRO_NUM_MARCA,
                                          CveAviso = q.PRO_CVE_AVISO,
                                          CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
                                          CantidadMinima = q.PRO_CAT_MINIMA,
                                          NumeroDeProveedor = q.PRO_NUM_PROVEEDOR,
                                          PrecioUnitario = q.PRO_PRECIO_UNITARIO,
                                          CveDeEstatus = q.PRO_CVE_ESTATUS,
+                                         NombreDeTipoDeProducto = q.PRO_NOM_TIPO_PRODUCTO,
+                                         NombreDeMarca = q.PRO_NOM_MARCA,
                                          TextoAviso = q.PRO_TXT_AVISO,
                                          TextoCorreoSurtido = q.PRO_TXT_CORREO_SURTIDO,
                                          TextoDeEstatus = q.PRO_TXT_ESTATUS
                                      }).AsQueryable();
                         if (!String.IsNullOrEmpty(filtro))
                         {
-                            Query = Query.Where(filtro);
+                            if (listaProductos == null)
+                            {
+                                Query = Query.Where(filtro);
+                            }
+                            else
+                            {
+                                Query = Query.Where("NumeroDeProducto.Contains(@0)", listaProductos);
+                            }
+                           
                         }
                         return Query.ToList();
                     }
@@ -371,6 +410,8 @@ namespace Negocio.Kuup.Clases
                                          CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
                                          NombreDeProducto = q.PRO_NOM_PRODUCTO,
                                          Descripcion = q.PRO_DESCRIPCION,
+                                         NumeroDeTipoDeProducto = q.PRO_NUM_TIPO_PRODUCTO,
+                                         NumeroDeMarca = q.PRO_NUM_MARCA,
                                          CveAviso = q.PRO_CVE_AVISO,
                                          CveCorreoSurtido = q.PRO_CVE_CORREO_SURTIDO,
                                          CantidadMinima = q.PRO_CAT_MINIMA,
@@ -412,6 +453,8 @@ namespace Negocio.Kuup.Clases
                                  NumeroDeProducto = q.PRO_NUM_PRODUCTO,
                                  CodigoDeBarras = q.PRO_CODIGO_BARRAS,
                                  NombreDeProducto = q.PRO_NOM_PRODUCTO,
+                                 NombreDeTipoDeProducto = q.PRO_NOM_TIPO_PRODUCTO,
+                                 NombreDeMarca = q.PRO_NOM_MARCA,
                                  CantidadDeProductoTotal = q.PRO_CANT_PRODUCTO_TOTAL,
                                  PrecioUnitario = q.PRO_PRECIO_UNITARIO,
                                  TextoAviso = q.PRO_TXT_AVISO,
@@ -449,7 +492,7 @@ namespace Negocio.Kuup.Clases
                     {
                         sql += " && ";
                     }
-                    sql += String.Format("CantidadDeProductoTotal.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[3][search][value]").FirstOrDefault().Trim().ToUpper());
+                    sql += String.Format("NombreDeTipoDeProducto.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[3][search][value]").FirstOrDefault().Trim().ToUpper());
                 }
                 if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[4][search][value]").FirstOrDefault()))
                 {
@@ -457,7 +500,7 @@ namespace Negocio.Kuup.Clases
                     {
                         sql += " && ";
                     }
-                    sql += String.Format("PrecioUnitario.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[4][search][value]").FirstOrDefault().Trim().ToUpper());
+                    sql += String.Format("NombreDeMarca.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[4][search][value]").FirstOrDefault().Trim().ToUpper());
                 }
                 if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[5][search][value]").FirstOrDefault()))
                 {
@@ -465,7 +508,7 @@ namespace Negocio.Kuup.Clases
                     {
                         sql += " && ";
                     }
-                    sql += String.Format("TextoAviso.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[5][search][value]").FirstOrDefault().Trim().ToUpper());
+                    sql += String.Format("CantidadDeProductoTotal.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[5][search][value]").FirstOrDefault().Trim().ToUpper());
                 }
                 if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[6][search][value]").FirstOrDefault()))
                 {
@@ -473,7 +516,7 @@ namespace Negocio.Kuup.Clases
                     {
                         sql += " && ";
                     }
-                    sql += String.Format("TextoCorreoSurtido.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[6][search][value]").FirstOrDefault().Trim().ToUpper());
+                    sql += String.Format("PrecioUnitario.ToString().Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[6][search][value]").FirstOrDefault().Trim().ToUpper());
                 }
                 if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[7][search][value]").FirstOrDefault()))
                 {
@@ -481,7 +524,23 @@ namespace Negocio.Kuup.Clases
                     {
                         sql += " && ";
                     }
-                    sql += String.Format("TextoDeEstatus.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[7][search][value]").FirstOrDefault().Trim().ToUpper());
+                    sql += String.Format("TextoAviso.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[7][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[8][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("TextoCorreoSurtido.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[8][search][value]").FirstOrDefault().Trim().ToUpper());
+                }
+                if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[9][search][value]").FirstOrDefault()))
+                {
+                    if (!String.IsNullOrEmpty(sql))
+                    {
+                        sql += " && ";
+                    }
+                    sql += String.Format("TextoDeEstatus.Trim().ToUpper().Contains(\"{0}\")", RequesDT.Form.GetValues("columns[9][search][value]").FirstOrDefault().Trim().ToUpper());
                 }
                 if (!String.IsNullOrEmpty(sql))
                 {

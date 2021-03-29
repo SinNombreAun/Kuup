@@ -29,12 +29,16 @@ namespace Mod.Entity
         public short PRO_CANT_PRODUCTO_TOTAL { get; set; }
         public string PRO_NOM_PRODUCTO { get; set; }
         public string PRO_DESCRIPCION { get; set; }
+        public short PRO_NUM_TIPO_PRODUCTO { get; set; }
+        public short PRO_NUM_MARCA { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }
         public Nullable<byte> PRO_NUM_PROVEEDOR { get; set; }
         public decimal PRO_PRECIO_UNITARIO { get; set; }
         public byte PRO_CVE_ESTATUS { get; set; }
+        public string PRO_NOM_TIPO_PRODUCTO { get; set; }
+        public string PRO_NOM_MARCA { get; set; }
         public string PRO_TXT_AVISO { get; set; }
         public string PRO_TXT_CORREO_SURTIDO { get; set; }
         public string PRO_NOM_PROVEEDOR { get; set; }

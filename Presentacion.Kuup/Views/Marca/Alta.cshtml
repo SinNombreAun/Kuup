@@ -1,0 +1,45 @@
+﻿@model Presentacion.Kuup.Models.MarcaModel
+
+@{
+    ViewBag.Title = "Alta de Marca";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
+}
+<script src="~/Scripts/Marca/ClsMarca.js"></script>
+<h2 class="TituloPagina">ALTA DE MARCA <i class="fa fa-archive"></i></h2>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fNombreDeMarca, new { @class = "col-sm-3 col-form-label" })
+                        <a class="captura-requerida">*&ensp;</a>
+                        @Html.ValidationMessageFor(model => model.fNombreDeMarca, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.fNombreDeMarca, new { @class = "form-control Mayusculas" })
+                    </div>
+                </fieldset>
+                <button type="button" id="Guardar" class="btn btn-primary">Guardar</button>
+                <br />
+                <br />
+                <hr class="my-4">
+                @Html.ActionLink("Regresar a la Consulta", "Index", "Marca", null, new { @class = "btn btn-secondary" })
+                <br />
+                <br />
+                <br />
+                @Html.Hidden("fAsignaMarcas")
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let ClsMarca;
+    $(function () {
+        ClsMarca = Objeto.Constructor({
+            Funcionalidad: 'ALTA',
+        });
+        ClsMarca.Inicio();
+    });
+</script>

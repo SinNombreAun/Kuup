@@ -1,0 +1,50 @@
+﻿@model Presentacion.Kuup.Models.TipoDeProductoModel
+
+@{
+    ViewBag.Title = "Edita de Tipo de Producto";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
+}
+<script src="~/Scripts/TipoDeProducto/ClsTipoDeProducto.js"></script>
+<h2 class="TituloPagina">ALTA DE TIPO DE PRODUCTO <i class="fa fa-archive"></i></h2>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fNumeroDeTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
+                        <a class="captura-requerida">*&ensp;</a>
+                        @Html.ValidationMessageFor(model => model.fNumeroDeTipoDeProducto, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.fNumeroDeTipoDeProducto, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(model => model.fNombreDeTipoDeProducto, new { @class = "col-sm-3 col-form-label" })
+                        <a class="captura-requerida">*&ensp;</a>
+                        @Html.ValidationMessageFor(model => model.fNombreDeTipoDeProducto, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.fNombreDeTipoDeProducto, new { @class = "form-control Mayusculas" })
+                    </div>
+                </fieldset>
+                <button type="button" id="Guardar" class="btn btn-primary">Guardar</button>
+                <br />
+                <br />
+                <hr class="my-4">
+                @Html.ActionLink("Regresar al Detalle", "Detalle", "TipoDeProducto", new { NumeroDeElemento = Model.NumeroDeTipoDeProducto }, new { @class = "btn btn-info" })
+                <br />
+                <br />
+                <br />
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    let ClsTipoDeProducto;
+    $(function () {
+        ClsTipoDeProducto = Objeto.Constructor({
+            Funcionalidad: 'EDITA'
+        });
+        ClsTipoDeProducto.Inicio();
+    });
+</script>

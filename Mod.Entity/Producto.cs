@@ -18,11 +18,11 @@ namespace Mod.Entity
         public Producto()
         {
             this.CodigoDeBarras = new HashSet<CodigoDeBarras>();
-            this.Venta = new HashSet<Venta>();
             this.ConfiguraMayoreo = new HashSet<ConfiguraMayoreo>();
-            this.Surtido = new HashSet<Surtido>();
             this.ConfiguraPaquete = new HashSet<ConfiguraPaquete>();
             this.ConfiguraPaquete1 = new HashSet<ConfiguraPaquete>();
+            this.Surtido = new HashSet<Surtido>();
+            this.Venta = new HashSet<Venta>();
         }
     
         public short PRO_NUM_PRODUCTO { get; set; }
@@ -33,6 +33,8 @@ namespace Mod.Entity
         public short PRO_CANT_PRODUCTO_TOTAL { get; set; }
         public string PRO_NOM_PRODUCTO { get; set; }
         public string PRO_DESCRIPCION { get; set; }
+        public short PRO_NUM_TIPO_PRODUCTO { get; set; }
+        public short PRO_NUM_MARCA { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }
@@ -43,14 +45,14 @@ namespace Mod.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CodigoDeBarras> CodigoDeBarras { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Venta> Venta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConfiguraMayoreo> ConfiguraMayoreo { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Surtido> Surtido { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConfiguraPaquete> ConfiguraPaquete { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConfiguraPaquete> ConfiguraPaquete1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Surtido> Surtido { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Venta> Venta { get; set; }
     }
 }
