@@ -13,7 +13,7 @@ namespace Negocio.Kuup.Clases
         {
             get { return 11; }
         }
-        ViAgenda Agenda = new ViAgenda();
+        readonly ViAgenda Agenda = new ViAgenda();
         public short NumeroDeAgenda
         {
             get { return Agenda.AGN_NUM_AGENDA; }
@@ -195,18 +195,20 @@ namespace Negocio.Kuup.Clases
         }
         public Agenda ToTable()
         {
-            Agenda Tabla = new Agenda();
-            Tabla.AGN_NUM_AGENDA = this.NumeroDeAgenda;
-            Tabla.AGN_FECHA_ALTA = this.FechaDeAlta;
-            Tabla.AGN_FECHA_INI_EVENTO = this.FechaDeInicioDeEvento;
-            Tabla.AGN_FECHA_FIN_EVENTO = this.FechaDeFinDeEvento;
-            Tabla.AGN_NUM_USUARIO = this.NumeroDeUsuario;
-            Tabla.AGN_CVE_NOTIFICA = this.CveDeNotifica;
-            Tabla.AGN_DESCRIPCION = this.Descripcion;
-            Tabla.AGN_CVE_ESTATUS = this.CveDeEstatus;
+            Agenda Tabla = new Agenda
+            {
+                AGN_NUM_AGENDA = this.NumeroDeAgenda,
+                AGN_FECHA_ALTA = this.FechaDeAlta,
+                AGN_FECHA_INI_EVENTO = this.FechaDeInicioDeEvento,
+                AGN_FECHA_FIN_EVENTO = this.FechaDeFinDeEvento,
+                AGN_NUM_USUARIO = this.NumeroDeUsuario,
+                AGN_CVE_NOTIFICA = this.CveDeNotifica,
+                AGN_DESCRIPCION = this.Descripcion,
+                AGN_CVE_ESTATUS = this.CveDeEstatus
+            };
             return Tabla;
         }
-        public static List<ClsAgenda> getList(bool EsVista = true)
+        public static List<ClsAgenda> GetList(bool EsVista = true)
         {
             try
             {
@@ -248,8 +250,8 @@ namespace Negocio.Kuup.Clases
                 }
             }
             catch (Exception e)
-            {
-
+            {                
+                ClsBitacora.GeneraBitacora((new ClsAgenda()).NumeroDePantallaKuup, 2, "GetList", string.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
             }
             return new List<ClsAgenda>();
         }
