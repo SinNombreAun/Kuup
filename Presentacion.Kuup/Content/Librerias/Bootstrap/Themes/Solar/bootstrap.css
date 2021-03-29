@@ -5659,7 +5659,7 @@ input[type="button"].btn-block {
     margin-left: -1px;
     line-height: 1.25;
     color: #2AA198;
-    background-color: transparent;
+    background-color: #adb5bd;
     border: 1px solid #073642;
 }
 
@@ -5700,7 +5700,7 @@ input[type="button"].btn-block {
     color: #073642;
     pointer-events: none;
     cursor: auto;
-    background-color: transparent;
+    background-color: #adb5bd;
     border-color: #073642;
 }
 
