@@ -73,15 +73,15 @@ namespace Mod.Entity
         public virtual DbSet<ViMarca> ViMarca { get; set; }
         public virtual DbSet<MarcaAudit> MarcaAudit { get; set; }
         public virtual DbSet<AsignaMarca> AsignaMarca { get; set; }
-        public virtual DbSet<Producto> Producto { get; set; }
-        public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
         public virtual DbSet<TipoProducto> TipoProducto { get; set; }
         public virtual DbSet<TipoProductoAudit> TipoProductoAudit { get; set; }
         public virtual DbSet<ViAsignaMarca> ViAsignaMarca { get; set; }
         public virtual DbSet<ViTipoProducto> ViTipoProducto { get; set; }
-        public virtual DbSet<ViProducto> ViProducto { get; set; }
         public virtual DbSet<Claves> Claves { get; set; }
         public virtual DbSet<ViClaves> ViClaves { get; set; }
+        public virtual DbSet<Producto> Producto { get; set; }
+        public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
+        public virtual DbSet<ViProducto> ViProducto { get; set; }
     
         public virtual ObjectResult<VentasTotalesDetalle_Result> VentasTotalesDetalle(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<short> folioOperacion)
         {

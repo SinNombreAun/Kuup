@@ -9,7 +9,12 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsProductos : Interfaces.InterfazGen<ClsProductos>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities _db = null;
+        public DBKuupEntities db 
+        { 
+            get { return _db; } 
+            set { _db = value; } 
+        }
         public short NumeroDePantallaKuup
         {
             get { return 5; }
@@ -60,7 +65,7 @@ namespace Negocio.Kuup.Clases
             get { return Producto.PRO_NUM_TIPO_PRODUCTO; }
             set { Producto.PRO_NUM_TIPO_PRODUCTO = value; }
         }
-        public short NumeroDeMarca
+        public Nullable<short> NumeroDeMarca
         {
             get { return Producto.PRO_NUM_MARCA; }
             set { Producto.PRO_NUM_MARCA = value; }
@@ -183,16 +188,16 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToInsert(db);
                     }
                 }
                 else
                 {
-                    return ToInsert(db);
+                    return ToInsert(_db);
                 }
             }
             catch (Exception e)
@@ -235,9 +240,9 @@ namespace Negocio.Kuup.Clases
                 Audit.PRO_TXT_CORREO_SURTIDO = Producto.PRO_TXT_CORREO_SURTIDO;
                 Audit.PRO_NOM_PROVEEDOR = Producto.PRO_NOM_PROVEEDOR;
                 Audit.PRO_TXT_ESTATUS = Producto.PRO_TXT_ESTATUS;
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         db.ProductoAudit.Add(Audit);
                         db.Entry(Audit).State = EntityState.Added;
@@ -251,10 +256,10 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    db.ProductoAudit.Add(Audit);
-                    db.Entry(Audit).State = EntityState.Added;
-                    db.SaveChanges();
-                    if ((from q in db.ProductoAudit where q.PRO_ID_AUDIT == Audit.PRO_ID_AUDIT && q.PRO_NUM_PRODUCTO == Audit.PRO_NUM_PRODUCTO select q).Count() != 0)
+                    _db.ProductoAudit.Add(Audit);
+                    _db.Entry(Audit).State = EntityState.Added;
+                    _db.SaveChanges();
+                    if ((from q in _db.ProductoAudit where q.PRO_ID_AUDIT == Audit.PRO_ID_AUDIT && q.PRO_NUM_PRODUCTO == Audit.PRO_NUM_PRODUCTO select q).Count() != 0)
                     {
                         return true;
                     }
@@ -281,7 +286,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -290,7 +295,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToDelete(db);
+                    return ToDelete(_db);
                 }
             }
             catch (Exception e)
@@ -311,7 +316,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -320,7 +325,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToUpdate(db);
+                    return ToUpdate(_db);
                 }
             }
             catch (Exception e)

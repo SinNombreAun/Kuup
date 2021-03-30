@@ -363,11 +363,11 @@
                                 }
                                 if (!isNaN($('#' + Elementos_VentaTotal.ImporteRecibido).val())) {
                                     if ($('#' + Elementos_VentaTotal.ImporteRecibido).val() != '') {
-                                        let Entregado = $('#' + Elementos_VentaTotal.ImporteRecibido).val();
-                                        let Cambio = $('#' + Elementos_VentaTotal.ImporteCambio).val();
                                         $.ajax({
-                                            url: UrlRegistraVenta + '/?importeEntregado=' + Entregado + '&importeCambio=' + Cambio + '&registroVenta=' + JsonString,
                                             type: "POST",
+                                            url: UrlRegistraVenta,
+                                            async: false,
+                                            data: { ImporteEntregado: $('#' + Elementos_VentaTotal.ImporteRecibido).val(), ImporteCambio: $('#' + Elementos_VentaTotal.ImporteCambio).val(), RegistroVenta: JsonString },
                                             success: function (data) {
                                                 if (typeof (data.UrlAccount) != 'undefined') {
                                                     windows.location = data.UrlAccount;
@@ -396,7 +396,7 @@
                                                 }
                                             },
                                             error: function () {
-                                                alertify.error("Ocurrio un error al realizar la venta");
+                                                alertify.error("Ocurrio un error al realizar la carga del Producto");
                                             }
                                         });
                                     } else {

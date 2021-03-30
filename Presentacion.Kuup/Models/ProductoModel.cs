@@ -93,9 +93,8 @@ namespace Presentacion.Kuup.Models
             get { return this.NumeroDeTipoDeProducto; }
             set { this.NumeroDeTipoDeProducto = value; }
         }
-        [Required]
         [Display(Name = "Marca")]
-        public short fNumeroDeMarca
+        public Nullable<short> fNumeroDeMarca
         {
             get { return this.NumeroDeMarca; }
             set { this.NumeroDeMarca = value;}

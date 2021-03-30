@@ -12,7 +12,12 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsPantallas : Interfaces.InterfazGen<ClsPantallas>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities _db = null;
+        public DBKuupEntities db
+        {
+            get { return _db; }
+            set { _db = value; }
+        }
         public short NumeroDePantallaKuup
         {
             get { return 17; }
@@ -80,16 +85,16 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToInsert(db);
                     }
                 }
                 else
                 {
-                    return ToInsert(db);
+                    return ToInsert(_db);
                 }
             }
             catch (Exception e)
@@ -112,7 +117,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -121,7 +126,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToDelete(db);
+                    return ToDelete(_db);
                 }
             }
             catch (Exception e)
@@ -142,7 +147,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -151,7 +156,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToUpdate(db);
+                    return ToUpdate(_db);
                 }
             }
             catch (Exception e)

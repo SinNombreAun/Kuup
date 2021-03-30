@@ -38,7 +38,6 @@
                 </div>
                 <div class="from-group from-group-margin">
                     @Html.LabelFor(model => model.fNumeroDeMarca, new { @class = "col-sm-3 col-form-label" })
-                    <a class="captura-requerida">*&ensp;</a>
                     @Html.ValidationMessageFor(model => model.fNumeroDeMarca, null, new { @class = "text-danger" })
                     @Html.DropDownListFor(model => model.fNumeroDeMarca, (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
                 </div>
