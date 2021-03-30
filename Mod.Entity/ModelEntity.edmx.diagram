@@ -64,21 +64,21 @@
         <EntityTypeShape EntityType="DBKuupModel.ViMarca" Width="1.5" PointX="4.75" PointY="19.75" />
         <EntityTypeShape EntityType="DBKuupModel.MarcaAudit" Width="1.5" PointX="24.375" PointY="19.75" />
         <EntityTypeShape EntityType="DBKuupModel.AsignaMarca" Width="1.5" PointX="5.375" PointY="5.75" />
-        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="20.375" PointY="6.5" />
-        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="15.375" PointY="20.75" />
         <EntityTypeShape EntityType="DBKuupModel.TipoProducto" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="DBKuupModel.TipoProductoAudit" Width="1.5" PointX="17.375" PointY="21.75" />
         <EntityTypeShape EntityType="DBKuupModel.ViAsignaMarca" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="DBKuupModel.ViTipoProducto" Width="1.5" PointX="24.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Claves" Width="1.5" PointX="21.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViClaves" Width="1.5" PointX="24.375" PointY="23.75" />
+        <EntityTypeShape EntityType="DBKuupModel.Producto" Width="1.5" PointX="20.375" PointY="6.5" />
+        <EntityTypeShape EntityType="DBKuupModel.ProductoAudit" Width="1.5" PointX="9.375" PointY="25.75" />
+        <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="25.375" PointY="11.75" />
         <AssociationConnector Association="DBKuupModel.FK_CodigoDeBarras_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraMayoreo_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_ConfiguraPaquete_Producto2" />
         <AssociationConnector Association="DBKuupModel.FK_Surtido_Producto" />
         <AssociationConnector Association="DBKuupModel.FK_Venta_Producto" />
-        <EntityTypeShape EntityType="DBKuupModel.ViProducto" Width="1.5" PointX="19.375" PointY="24.75" />
-        <EntityTypeShape EntityType="DBKuupModel.Claves" Width="1.5" PointX="21.375" PointY="24.75" />
-        <EntityTypeShape EntityType="DBKuupModel.ViClaves" Width="1.5" PointX="24.375" PointY="23.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

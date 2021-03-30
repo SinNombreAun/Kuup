@@ -10,7 +10,12 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsConfiguraPaquetes : Interfaces.InterfazGen<ClsConfiguraPaquetes>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities _db = null;
+        public DBKuupEntities db
+        {
+            get { return _db; }
+            set { _db = value; }
+        }
         public short NumeroDePantallaKuup
         {
             get { return 7; }
@@ -83,16 +88,16 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToInsert(db);
                     }
                 }
                 else
                 {
-                    return ToInsert(db);
+                    return ToInsert(_db);
                 }
             }
             catch (Exception e)
@@ -123,9 +128,9 @@ namespace Negocio.Kuup.Clases
             Audit.CNP_NOM_PRODUCTO_HIJO = ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO;
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         db.ConfiguraPaqueteAudit.Add(Audit);
                         db.Entry(Audit).State = EntityState.Added;
@@ -139,10 +144,10 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    db.ConfiguraPaqueteAudit.Add(Audit);
-                    db.Entry(Audit).State = EntityState.Added;
-                    db.SaveChanges();
-                    if ((from q in db.ConfiguraPaqueteAudit where q.CNP_ID_AUDIT == Audit.CNP_ID_AUDIT && q.CNP_NUM_PRODUCTO_PADRE == Audit.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == Audit.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == Audit.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == Audit.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
+                    _db.ConfiguraPaqueteAudit.Add(Audit);
+                    _db.Entry(Audit).State = EntityState.Added;
+                    _db.SaveChanges();
+                    if ((from q in _db.ConfiguraPaqueteAudit where q.CNP_ID_AUDIT == Audit.CNP_ID_AUDIT && q.CNP_NUM_PRODUCTO_PADRE == Audit.CNP_NUM_PRODUCTO_PADRE && q.CNP_CODIGO_BARRAS_PADRE == Audit.CNP_CODIGO_BARRAS_PADRE && q.CNP_NUM_PRODUCTO_HIJO == Audit.CNP_NUM_PRODUCTO_HIJO && q.CNP_CODIGO_BARRAS_HIJO == Audit.CNP_CODIGO_BARRAS_HIJO select q).Count() != 0)
                     {
                         return true;
                     }
@@ -169,7 +174,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -178,7 +183,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToDelete(db);
+                    return ToDelete(_db);
                 }
             }
             catch (Exception e)
@@ -199,7 +204,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -208,7 +213,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToUpdate(db);
+                    return ToUpdate(_db);
                 }
             }
             catch (Exception e)

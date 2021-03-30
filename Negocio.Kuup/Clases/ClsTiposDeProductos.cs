@@ -9,7 +9,12 @@ namespace Negocio.Kuup.Clases
 {
     public class ClsTiposDeProductos : Interfaces.InterfazGen<ClsTiposDeProductos>
     {
-        public DBKuupEntities db { get; set; }
+        private DBKuupEntities _db = null;
+        public DBKuupEntities db
+        {
+            get { return _db; }
+            set { _db = value; }
+        }
         public short NumeroDePantallaKuup
         {
             get { return 25; }
@@ -80,16 +85,16 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         return ToInsert(db);
                     }
                 }
                 else
                 {
-                    return ToInsert(db);
+                    return ToInsert(_db);
                 }
             }
             catch (Exception e)
@@ -116,9 +121,9 @@ namespace Negocio.Kuup.Clases
                     TPO_CVE_ESTATUS = TipoProducto.TPO_CVE_ESTATUS,
                     TPO_TXT_ESTATUS = TipoProducto.TPO_TXT_ESTATUS
                 };
-                if (db == null)
+                if (_db == null)
                 {
-                    using (db = new DBKuupEntities())
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
                         db.TipoProductoAudit.Add(Audit);
                         db.Entry(Audit).State = EntityState.Added;
@@ -132,10 +137,10 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    db.TipoProductoAudit.Add(Audit);
-                    db.Entry(Audit).State = EntityState.Added;
-                    db.SaveChanges();
-                    if ((from q in db.TipoProductoAudit where q.TPO_ID_AUDIT == Audit.TPO_ID_AUDIT && q.TPO_NUM_TIPO_PRODUCTO == Audit.TPO_NUM_TIPO_PRODUCTO select q).Count() != 0)
+                    _db.TipoProductoAudit.Add(Audit);
+                    _db.Entry(Audit).State = EntityState.Added;
+                    _db.SaveChanges();
+                    if ((from q in _db.TipoProductoAudit where q.TPO_ID_AUDIT == Audit.TPO_ID_AUDIT && q.TPO_NUM_TIPO_PRODUCTO == Audit.TPO_NUM_TIPO_PRODUCTO select q).Count() != 0)
                     {
                         return true;
                     }
@@ -163,7 +168,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -172,7 +177,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToDelete(db);
+                    return ToDelete(_db);
                 }
             }
             catch (Exception e)
@@ -193,7 +198,7 @@ namespace Negocio.Kuup.Clases
         {
             try
             {
-                if (db == null)
+                if (_db == null)
                 {
                     using (DBKuupEntities db = new DBKuupEntities())
                     {
@@ -202,7 +207,7 @@ namespace Negocio.Kuup.Clases
                 }
                 else
                 {
-                    return ToUpdate(db);
+                    return ToUpdate(_db);
                 }
             }
             catch (Exception e)
