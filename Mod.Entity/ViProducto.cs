@@ -23,7 +23,7 @@ namespace Mod.Entity
         public string PRO_NOM_PRODUCTO { get; set; }
         public string PRO_DESCRIPCION { get; set; }
         public short PRO_NUM_TIPO_PRODUCTO { get; set; }
-        public short PRO_NUM_MARCA { get; set; }
+        public Nullable<short> PRO_NUM_MARCA { get; set; }
         public byte PRO_CVE_AVISO { get; set; }
         public byte PRO_CVE_CORREO_SURTIDO { get; set; }
         public short PRO_CAT_MINIMA { get; set; }

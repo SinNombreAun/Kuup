@@ -128,13 +128,13 @@ namespace Presentacion.Kuup.Controllers
         {
             foreach(var TipoProducto in ClsTiposDeProductos.getList())
             {
-                List<short> ListaMarcas = (from q in ClsProductos.getList("NumeroDeTipoDeProducto == " + TipoProducto.NumeroDeTipoDeProducto.ToString()) where q.NumeroDeMarca != 0 select q.NumeroDeMarca).Distinct().ToList();
+                List<short?> ListaMarcas = (from q in ClsProductos.getList("NumeroDeTipoDeProducto == " + TipoProducto.NumeroDeTipoDeProducto.ToString()) where q.NumeroDeMarca != 0 select q.NumeroDeMarca).Distinct().ToList();
                 foreach(var Marca in ListaMarcas)
                 {
                     ClsAsignaMarcas AsignaMarcaAtipoProducto = new ClsAsignaMarcas()
                     {
                         NumeroDeTipoDeProducto = TipoProducto.NumeroDeTipoDeProducto,
-                        NumeroDeMarca = Marca
+                        NumeroDeMarca = (short)Marca
                     };
                     if (!AsignaMarcaAtipoProducto.Insert())
                     {
