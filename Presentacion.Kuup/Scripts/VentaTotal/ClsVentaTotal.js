@@ -155,6 +155,7 @@
                 switch (Funcionalidad) {
                     case 'INDEX':
                         $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).autocomplete({
+                            minLength: 3,
                             source: function (request, response) {
                                 $.ajax({
                                     url: UrlAutoCompleteProducto,

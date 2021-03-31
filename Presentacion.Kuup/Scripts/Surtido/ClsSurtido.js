@@ -223,6 +223,7 @@
                 switch (Funcionalidad) {
                     case 'ALTA':
                         $('#' + Elementos_Surtido.CodigoONombreDeProducto).autocomplete({
+                            minLength: 3,
                             source: function (request, response) {
                                 $.ajax({
                                     url: UrlAutoCompleteProducto,

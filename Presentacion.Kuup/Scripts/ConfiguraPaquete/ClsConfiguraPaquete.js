@@ -134,6 +134,7 @@
                         break;
                     case 'ALTA':
                         $('#' + Elementos_ConfiguraPaquete.CodigoONombreDeProducto).autocomplete({
+                            minLength: 3,
                             source: function (request, response) {
                                 $.ajax({
                                     url: UrlAutoCompleteProducto,

@@ -571,6 +571,7 @@
                         break;
                     case "ACTUALIZAPRECIOS":
                         $("#" + Elementos_Producto.CodigoONombreDeProducto).autocomplete({
+                            minLength: 3,
                             source: function (request, response) {
                                 $.ajax({
                                     url: UrlAutoCompleteProducto,
