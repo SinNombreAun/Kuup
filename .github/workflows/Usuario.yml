@@ -1,5 +1,5 @@
 name: Nombre de Usuario
-on: push
+on: [push, pull_request]
 jobs:
   job1:
     runs-on: windows-2019
