@@ -217,6 +217,7 @@
                     location.href = Url + "?Origen=" + (Origen == "Tipo" ? "Marca" : "Tipo") + "&Registro=" + RegistroVal;
                 });
                 $('#' + Elementos_AsingaMarca.TipoDeProductoMarca).autocomplete({
+                    minLength: 3,
                     source: function (request, response) {
                         $.ajax({
                             url: UrlAutoCompleteMarcaOTipProducto,
