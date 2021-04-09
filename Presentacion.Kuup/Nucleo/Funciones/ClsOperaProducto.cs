@@ -77,7 +77,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                         configuraMayoreos.CodigoDeBarras = Producto.CodigoDeBarras;
                                         configuraMayoreos.CveDeAplicaPaquetes = 1;
                                         configuraMayoreos.CantidadMinima = M.CantidadMinimaMayoreo;
-                                        configuraMayoreos.CantidadMaxima = null;
+                                        configuraMayoreos.CantidadMaxima = 255;
                                         configuraMayoreos.PrecioDeMayoreo = M.PrecioMayoreo;
                                         configuraMayoreos.Insert();
                                     }

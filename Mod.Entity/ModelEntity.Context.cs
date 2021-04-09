@@ -52,7 +52,6 @@ namespace Mod.Entity
         public virtual DbSet<CodigoDeBarras> CodigoDeBarras { get; set; }
         public virtual DbSet<Pantalla> Pantalla { get; set; }
         public virtual DbSet<IPRegistradas> IPRegistradas { get; set; }
-        public virtual DbSet<Venta> Venta { get; set; }
         public virtual DbSet<ViIPRegistradas> ViIPRegistradas { get; set; }
         public virtual DbSet<Bitacora> Bitacora { get; set; }
         public virtual DbSet<ViBitacora> ViBitacora { get; set; }
@@ -64,7 +63,6 @@ namespace Mod.Entity
         public virtual DbSet<ViSurtido> ViSurtido { get; set; }
         public virtual DbSet<ViFuncionalidad> ViFuncionalidad { get; set; }
         public virtual DbSet<ViFuncionPerfil> ViFuncionPerfil { get; set; }
-        public virtual DbSet<ViVenta> ViVenta { get; set; }
         public virtual DbSet<ViConfiguraPaquete> ViConfiguraPaquete { get; set; }
         public virtual DbSet<ConfiguraPaquete> ConfiguraPaquete { get; set; }
         public virtual DbSet<ConfiguraMayoreoAudit> ConfiguraMayoreoAudit { get; set; }
@@ -82,6 +80,21 @@ namespace Mod.Entity
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
         public virtual DbSet<ViProducto> ViProducto { get; set; }
+        public virtual DbSet<Venta> Venta { get; set; }
+        public virtual DbSet<ViVenta> ViVenta { get; set; }
+    
+        public virtual ObjectResult<NoAsignadosPorOrigen_Result> NoAsignadosPorOrigen(Nullable<short> registro, string origen)
+        {
+            var registroParameter = registro.HasValue ?
+                new ObjectParameter("registro", registro) :
+                new ObjectParameter("registro", typeof(short));
+    
+            var origenParameter = origen != null ?
+                new ObjectParameter("origen", origen) :
+                new ObjectParameter("origen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NoAsignadosPorOrigen_Result>("NoAsignadosPorOrigen", registroParameter, origenParameter);
+        }
     
         public virtual ObjectResult<VentasTotalesDetalle_Result> VentasTotalesDetalle(Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin, Nullable<short> folioOperacion)
         {
@@ -98,19 +111,6 @@ namespace Mod.Entity
                 new ObjectParameter("folioOperacion", typeof(short));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentasTotalesDetalle_Result>("VentasTotalesDetalle", fechaInicioParameter, fechaFinParameter, folioOperacionParameter);
-        }
-    
-        public virtual ObjectResult<NoAsignadosPorOrigen_Result> NoAsignadosPorOrigen(Nullable<short> registro, string origen)
-        {
-            var registroParameter = registro.HasValue ?
-                new ObjectParameter("registro", registro) :
-                new ObjectParameter("registro", typeof(short));
-    
-            var origenParameter = origen != null ?
-                new ObjectParameter("origen", origen) :
-                new ObjectParameter("origen", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NoAsignadosPorOrigen_Result>("NoAsignadosPorOrigen", registroParameter, origenParameter);
         }
     }
 }

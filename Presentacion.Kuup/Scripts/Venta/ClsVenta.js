@@ -227,7 +227,6 @@
                             });
                         });
                         $('#' + Elementos_Venta.GeneraReporte).click(function () {
-                            debugger
                             let UrlGeneraReporteParam = "/?fFechaInicial=" + $('#' + Elementos_Venta.FechaInicial).val()
                                 + "&fFechaFinal=" + $('#' + Elementos_Venta.FechaFinal).val() 
                                 + "&Tipo=PDF" 

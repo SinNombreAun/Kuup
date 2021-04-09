@@ -21,6 +21,8 @@
                 NombreDeUsuario: 'fNombreDeUsuario',
                 NombreDeProducto: 'fNombreDeProducto',
                 TextoDeEstatus: 'fTextoDeEstatus',
+                NumeroDeTipoDeProducto: 'fNumeroDeTipoDeProducto',
+                NumeroDeMarca: 'fNumeroDeMarca',
                 ProductosSelect: 'fProductosSelect',
                 Tabla: 'Tabla',
                 TablaSurtido: 'TablaSurtido',
@@ -35,6 +37,7 @@
                 UrlAutoCompleteProducto = '',
                 UrlCargaGrid = '',
                 UrlDetalle = '',
+                UrlObtenMarcaPorTipo = '',
                 TablaS = null,
                 CombosParaTabla = [];
             let _Funcionalidad = function (FuncionalidadSet) {
@@ -79,6 +82,13 @@
                     return UrlDetalle;
                 }
             };
+            let _UrlObtenMarcaPorTipo = function (UrlObtenMarcaPorTipoSet) {
+                if (typeof (UrlObtenMarcaPorTipoSet) != 'undefined') {
+                    UrlObtenMarcaPorTipo = UrlObtenMarcaPorTipoSet;
+                } else {
+                    return UrlObtenMarcaPorTipo;
+                }
+            }
             let _CombosParaTabla = function (CombosParaTablaSet) {
                 if (typeof CombosParaTablaSet != "") {
                     CombosParaTabla = CombosParaTablaSet;
@@ -229,7 +239,7 @@
                                     url: UrlAutoCompleteProducto,
                                     type: "POST",
                                     dataType: "json",
-                                    data: { Prefix: request.term },
+                                    data: { Prefix: request.term, NumeroDeTipoDeProducto: $('#' + Elementos_Surtido.NumeroDeTipoDeProducto).val(), NumeroDeMarca: $('#' + Elementos_Surtido.NumeroDeMarca).val() },
                                     async: false,
                                     success: function (data) {
                                         try {
@@ -259,14 +269,33 @@
                                     $('.rcantidad').html('El campo Cantidad Nueva es obligatorio');
                                 } else {
                                     if (!isNaN($('#' + Elementos_Surtido.CantidadNueva).val())) {
-                                        TablaS.row.add({
-                                            "NumeroDeProducto": $('#' + Elementos_Surtido.NumeroDeProducto).val(),
-                                            "CodigoDeBarras": $('#' + Elementos_Surtido.CodigoDeBarras).val(),
-                                            "NombreDeProducto": $('#' + Elementos_Surtido.NombreDeProducto).val(),
-                                            "CantidadPrevia": $('#' + Elementos_Surtido.CantidadPrevia).val(),
-                                            "CantidadNueva": $('#' + Elementos_Surtido.CantidadNueva).val(),
-                                            "CantidadTotal": parseInt($('#' + Elementos_Surtido.CantidadPrevia).val()) + parseInt($('#' + Elementos_Surtido.CantidadNueva).val())
-                                        }).draw();
+                                        let TablaRows = TablaS.rows().data();
+                                        let index = null;
+                                        for (var i = 0; i < TablaRows.rows()[0].length; i++) {
+                                            if (TablaS.rows(i).data()[0].NumeroDeProducto == $('#' + Elementos_Surtido.NumeroDeProducto).val()) {
+                                                index = i;
+                                            }
+                                        }
+                                        if (index == null) {
+                                            TablaS.row.add({
+                                                "NumeroDeProducto": $('#' + Elementos_Surtido.NumeroDeProducto).val(),
+                                                "CodigoDeBarras": $('#' + Elementos_Surtido.CodigoDeBarras).val(),
+                                                "NombreDeProducto": $('#' + Elementos_Surtido.NombreDeProducto).val(),
+                                                "CantidadPrevia": $('#' + Elementos_Surtido.CantidadPrevia).val(),
+                                                "CantidadNueva": $('#' + Elementos_Surtido.CantidadNueva).val(),
+                                                "CantidadTotal": parseInt($('#' + Elementos_Surtido.CantidadPrevia).val()) + parseInt($('#' + Elementos_Surtido.CantidadNueva).val())
+                                            }).draw();
+                                        } else {
+                                            $('#' + Elementos_Surtido.TablaSurtido).dataTable().fnUpdate({
+                                                "NumeroDeProducto": $('#' + Elementos_Surtido.NumeroDeProducto).val(),
+                                                "CodigoDeBarras": $('#' + Elementos_Surtido.CodigoDeBarras).val(),
+                                                "NombreDeProducto": $('#' + Elementos_Surtido.NombreDeProducto).val(),
+                                                "CantidadPrevia": $('#' + Elementos_Surtido.CantidadPrevia).val(),
+                                                "CantidadNueva": parseInt(parseInt(TablaS.rows(index).data()[0].CantidadNueva) + parseInt($('#' + Elementos_Surtido.CantidadNueva).val())),
+                                                "CantidadTotal": parseInt($('#' + Elementos_Surtido.CantidadPrevia).val()) + parseInt((parseInt(TablaS.rows(index).data()[0].CantidadNueva) + parseInt($('#' + Elementos_Surtido.CantidadNueva).val())))
+                                            }, index, undefined, false);
+                                            TablaS.columns.adjust().draw();
+                                        }
                                         LimpiarCampos();
                                         $('#' + Elementos_Surtido.Guardar).show();
                                     } else {
@@ -310,6 +339,18 @@
                                     alertify.error("Ocurrio un error al realizar la accion de carga de archivo");
                                 }
                             });
+                        });
+                        $("#" + Elementos_Surtido.NumeroDeTipoDeProducto).change(function () {
+                            $.get(UrlObtenMarcaPorTipo, { TipoDeProducto: $("#" + Elementos_Surtido.NumeroDeTipoDeProducto).val(), Marca: $("#" + Elementos_Surtido.NumeroDeMarca).val() },
+                                function (rep) {
+                                    var CveTipoMarca = $("#" + Elementos_Surtido.NumeroDeMarca);
+                                    $("#" + Elementos_Surtido.NumeroDeMarca + " > option").val();
+                                    if (rep.length) {
+                                        for (var i = 0; i < rep.length; i++) {
+                                            CveTipoMarca.append($("<option/>").val(rep[i].Value).text(rep[i].Text));
+                                        }
+                                    }
+                                });
                         });
                         break;
                     case 'DETALLE':
@@ -387,6 +428,7 @@
                     UrlCargaProducto: _UrlCargaProducto,
                     UrlCargaGrid: _UrlCargaGrid,
                     UrlDetalle: _UrlDetalle,
+                    UrlObtenMarcaPorTipo: _UrlObtenMarcaPorTipo,
                     CombosParaTabla: _CombosParaTabla
                 },
                 Inicio: _Inicio,
@@ -400,6 +442,7 @@
             NucleoConfigurado.Configuracion.UrlCargaProducto(ObjetoConfiguracion.UrlCargaProducto);
             NucleoConfigurado.Configuracion.UrlCargaGrid(ObjetoConfiguracion.UrlCargaGrid);
             NucleoConfigurado.Configuracion.UrlDetalle(ObjetoConfiguracion.UrlDetalle);
+            NucleoConfigurado.Configuracion.UrlObtenMarcaPorTipo(ObjetoConfiguracion.UrlObtenMarcaPorTipo);
             NucleoConfigurado.Configuracion.CombosParaTabla(ObjetoConfiguracion.CombosParaTabla);
             return NucleoConfigurado;
         }

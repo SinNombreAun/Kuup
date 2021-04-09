@@ -16,6 +16,8 @@
                 ImporteCambio: 'fImporteCambio',
                 NombreDeProducto: 'fNombreDeProducto',
                 ProductosSelect: 'fProductosSelect',
+                NumeroDeTipoDeProducto: 'fNumeroDeTipoDeProducto',
+                NumeroDeMarca: 'fNumeroDeMarca',
                 Tabla: 'Tabla'
             };
             let Funcionalidad = '',
@@ -23,7 +25,8 @@
                 UrlAutoCompleteProducto = '',
                 UrlProductoATabla = '',
                 UrlDeleteProducto = '',
-                UrlRegistraVenta = '';
+                UrlRegistraVenta = '',
+                UrlObtenMarcaPorTipo = '';
             TablaVentas = null;
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
@@ -59,12 +62,19 @@
                 } else {
                     return UrlDeleteProducto;
                 }
-            }
+            };
             let _UrlRegistraVenta = function (UrlRegistraVentaSet) {
                 if (typeof (UrlRegistraVentaSet) != 'undefined') {
                     UrlRegistraVenta = UrlRegistraVentaSet;
                 } else {
                     return UrlRegistraVenta;
+                }
+            };
+            let _UrlObtenMarcaPorTipo = function (UrlObtenMarcaPorTipoSet) {
+                if (typeof (UrlObtenMarcaPorTipoSet) != 'undefined') {
+                    UrlObtenMarcaPorTipo = UrlObtenMarcaPorTipoSet;
+                } else {
+                    return UrlObtenMarcaPorTipo;
                 }
             }
             let _Inicio = function () {
@@ -87,10 +97,12 @@
                         "leftColumns": 2,
                         "rightColumns": 2
                     },
-                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }],
+                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }, { "targets": [2], "visible": false, "searchable": false }, { "targets": [3], "visible": false, "searchable": false }],
                     "columns": [
                         { "data": "NumeroDeProducto" },
                         { "data": "CodigoDeBarras" },
+                        { "data": "NumeroDeTipoDeProducto" },
+                        { "data": "NumeroDeMarca" },
                         { "data": "NombreDeProducto" },
                         { "data": "CantidadDeProducto" },
                         { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
@@ -128,11 +140,16 @@
                         success: function (data) {
                             let ImporteTotal = 0;
                             TablaRows = TablaVentas.rows().data();
-                            for (var i = 0; i < TablaRows.rows()[0].length; i++) {
-                                for (var ii = 0; ii < data.Registro.length; ii++) {
-                                    if (data.Registro[ii].CodigoDeBarras == TablaVentas.rows(i).data()[0].CodigoDeBarras) {
-                                        ImporteTotal = parseFloat(ImporteTotal) + parseFloat(TablaVentas.rows(i).data()[0].ImporteDeProducto);
-                                        TablaRows.row(i).remove().draw();
+                            for (var ii = 0; ii < data.Registro.length; ii++) {
+                                for (var i = 0; i < TablaRows.rows()[0].length; i++) {
+                                    if (data.Registro[ii].NumeroDeProducto == TablaVentas.rows(i).data()[0].NumeroDeProducto) {
+                                        if (data.Registro[ii].CantidadDeProducto == 0) {
+                                            ImporteTotal = parseFloat(ImporteTotal) + parseFloat(TablaVentas.rows(i).data()[0].ImporteDeProducto);
+                                            TablaRows.row(i).remove().draw();
+                                        } else {
+                                            ImporteTotal = parseFloat(ImporteTotal) + parseFloat(TablaVentas.rows(i).data()[0].ImporteDeProducto);
+                                            $('#' + Elementos_VentaTotal.Tabla).dataTable().fnUpdate(data.Registro[ii], i, undefined, false);
+                                        }
                                     }
                                 }
                             }
@@ -161,7 +178,7 @@
                                     url: UrlAutoCompleteProducto,
                                     type: "POST",
                                     dataType: "json",
-                                    data: { Prefix: request.term },
+                                    data: { Prefix: request.term, NumeroDeTipoDeProducto: $('#' + Elementos_VentaTotal.NumeroDeTipoDeProducto).val(), NumeroDeMarca: $('#' + Elementos_VentaTotal.NumeroDeMarca).val() },
                                     async: false,
                                     success: function (data) {
                                         try {
@@ -202,6 +219,18 @@
                             } else {
                                 alertify.error('No se aregistrado ningun Producto o el Importe es 0');
                             }
+                        });
+                        $("#" + Elementos_VentaTotal.NumeroDeTipoDeProducto).change(function () {
+                            $.get(UrlObtenMarcaPorTipo, { TipoDeProducto: $("#" + Elementos_VentaTotal.NumeroDeTipoDeProducto).val(), Marca: $("#" + Elementos_VentaTotal.NumeroDeMarca).val() },
+                                function (rep) {
+                                    var CveTipoMarca = $("#" + Elementos_VentaTotal.NumeroDeMarca);
+                                    $("#" + Elementos_VentaTotal.NumeroDeMarca + " > option").val();
+                                    if (rep.length) {
+                                        for (var i = 0; i < rep.length; i++) {
+                                            CveTipoMarca.append($("<option/>").val(rep[i].Value).text(rep[i].Text));
+                                        }
+                                    }
+                                });
                         });
                         break;
                 }
@@ -258,6 +287,8 @@
                                         $('#' + Elementos_VentaTotal.Paquetes).parent().parent().hide();
                                     }
                                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).val('');
+                                    $('#' + Elementos_VentaTotal.NumeroDeTipoDeProducto).val('');
+                                    $('#' + Elementos_VentaTotal.NumeroDeMarca).val('');
                                     $('#' + Elementos_VentaTotal.CodigoONombreDeProducto).blur();
                                     CreaDialog(Elementos_VentaTotal.AgregaProducto, 'Agrega Producto', CreaBotonesDialog(data.Producto, false), DimencionesX, DimencionesY);
                                     $('#' + Elementos_VentaTotal.AgregaProducto).dialog('open');
@@ -445,6 +476,8 @@
                                     TablaVentas.row.add({
                                         "NumeroDeProducto": data.Registro[i].NumeroDeProducto,
                                         "CodigoDeBarras": data.Registro[i].CodigoDeBarras,
+                                        "NumeroDeTipoDeProducto": data.Registro[i].NumeroDeTipoDeProducto,
+                                        "NumeroDeMarca": data.Registro[i].NumeroDeMarca,
                                         "NombreDeProducto": data.Registro[i].NombreDeProducto,
                                         "CantidadDeProducto": data.Registro[i].CantidadDeProducto,
                                         "PrecioUnitario": data.Registro[i].PrecioUnitario,
@@ -484,7 +517,8 @@
                     UrlCargaProducto: _UrlCargaProducto,
                     UrlProductoATabla: _UrlProductoATabla,
                     UrlDeleteProducto: _UrlDeleteProducto,
-                    UrlRegistraVenta: _UrlRegistraVenta
+                    UrlRegistraVenta: _UrlRegistraVenta,
+                    UrlObtenMarcaPorTipo: _UrlObtenMarcaPorTipo
                 },
                 Inicio: _Inicio
             }
@@ -497,6 +531,7 @@
             NucleoConfigurado.Configuracion.UrlProductoATabla(ObjetoConfiguracion.UrlProductoATabla);
             NucleoConfigurado.Configuracion.UrlDeleteProducto(ObjetoConfiguracion.UrlDeleteProducto);
             NucleoConfigurado.Configuracion.UrlRegistraVenta(ObjetoConfiguracion.UrlRegistraVenta);
+            NucleoConfigurado.Configuracion.UrlObtenMarcaPorTipo(ObjetoConfiguracion.UrlObtenMarcaPorTipo);
             return NucleoConfigurado;
         }
         return {

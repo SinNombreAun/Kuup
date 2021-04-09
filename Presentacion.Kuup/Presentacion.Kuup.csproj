@@ -120,6 +120,7 @@
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_777777_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_cc0000_256x240.png" />
     <Content Include="Content\Imagenes\JQuery.UI\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Imagenes\Kuup\Firma correo.png" />
     <Content Include="Content\Imagenes\Kuup\logoKuup.png" />
     <Content Include="Content\Imagenes\Kuup\logo.png" />
     <Content Include="Content\Librerias\Alertify\alertify.css" />
@@ -154,6 +155,7 @@
     <Content Include="Content\Librerias\JQuery.UI\TimePicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Content\Librerias\JQuery.UI\TimePicker\jquery-ui-timepicker-es.js" />
     <Content Include="Content\Librerias\JQuery\JQuery-3.5.1.slim.js" />
+    <Content Include="Content\Plantillas\EnvioKuup.html" />
     <Content Include="Content\Styles\Account\all.css" />
     <Content Include="Content\Styles\Account\font-awesome.css" />
     <Content Include="Content\Styles\Account\style.css" />
@@ -296,6 +298,8 @@
     <Content Include="Views\TipoDeProducto\Edita.cshtml" />
     <Content Include="Views\TipoDeProducto\Index.cshtml" />
     <Content Include="Views\AsignaMarca\Index.cshtml" />
+    <Content Include="Views\ConfiguraPaquete\Detalle.cshtml" />
+    <Content Include="Views\Account\Contacto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -335,6 +339,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

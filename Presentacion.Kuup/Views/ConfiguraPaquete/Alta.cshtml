@@ -1,34 +1,143 @@
-﻿
+﻿@model Presentacion.Kuup.Models.ConfiguraPaqueteModel
+
 @{
     ViewBag.Title = "Alta de Configuracion de Paquetes";
     Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+    String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
 }
 <script src="~/Scripts/ConfiguraPaquete/ClsConfiguraPaquete.js"></script>
 <h2 class="TituloPagina">ALTA DE CONFIGURACION DE PAQUETES  <i class="fa fa-archive"></i></h2>
 
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="from-group from-group-margin">
-                @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
-                @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col">
+                <div class="from-group from-group-margin">
+                    @Html.Label("fNumeroDeTipoDeProducto", "Tipo de Producto", new { @class = "col-sm col-form-label" })
+                    @Html.DropDownList("fNumeroDeTipoDeProducto", (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col">
+                <div class="from-group from-group-margin">
+                    @Html.Label("fNumeroDeMarca", "Marca", new { @class = "col-sm col-form-label" })
+                    @Html.DropDownList("fNumeroDeMarca", (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
+                </div>
             </div>
         </div>
-        <div class="col"></div>
-        <div class="col-sm-12">
-            <br />
-            <br />
-            <hr class="my-4">
-            @Html.ActionLink("Regresar a la Consulta", "Index", "Producto", null, new { @class = "btn btn-secondary" })
+        <div class="row">
+            <div class="col">
+                <div class="from-group from-group-margin">
+                    @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
+                    @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col"></div>
         </div>
-    </div>
+        <div id="configura">
+            <div class="row">
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fNombreDeProductoPadre, new { @class = "col-sm col-form-label" })
+                        @Html.TextBoxFor(x => x.fNombreDeProductoPadre, null, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                        @Html.HiddenFor(x => x.fNumeroDeProductoPadre)
+                        @Html.HiddenFor(x => x.fCodigoDeBarrasPadre)
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fPrecioDeProductoPadre, new { @class = "col-sm col-form-label" })
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text color-label-white">$</span>
+                            </div>
+                            @Html.TextBoxFor(x => x.fPrecioDeProductoPadre, null, new { @class = "form-control color-label-white" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.Label("fNumeroDeTipoDeProducto2", "Tipo de Producto", new { @class = "col-sm col-form-label" })
+                        @Html.DropDownList("fNumeroDeTipoDeProducto2", (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.Label("fNumeroDeMarca2", "Marca", new { @class = "col-sm col-form-label" })
+                        @Html.DropDownList("fNumeroDeMarca2", (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.Label("fCodigoONombreDeProducto2", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
+                        @Html.TextBox("fCodigoONombreDeProducto2", null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fNombreDeProductoHijo, new { @class = "col-sm col-form-label" })
+                        @Html.TextBoxFor(x => x.fNombreDeProductoHijo, null, new { @class = "form-control", disabled = "disabled", @readonly = "readonly" })
+                        @Html.HiddenFor(x => x.fNumeroDeProductoHijo)
+                        @Html.HiddenFor(x => x.fCodigoDeBarrasHijo)
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fPrecioDeProductoHijo, new { @class = "col-sm col-form-label" })
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text color-label-white">$</span>
+                            </div>
+                            @Html.TextBoxFor(x => x.fPrecioDeProductoHijo, null, new { @class = "form-control color-label-white" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fCantidadASalir, new { @class = "col-sm col-form-label" })
+                        @Html.TextBoxFor(x => x.fCantidadASalir, null, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="from-group from-group-margin">
+                        @Html.LabelFor(x => x.fImporteTotal, new { @class = "col-sm col-form-label" })
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text color-label-white">$</span>
+                            </div>
+                            @Html.TextBoxFor(x => x.fImporteTotal, null, new { @class = "form-control color-label-white", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary" id="GuardaConfiguracion">Guardar Configuración</button>
+        </div>
+        <br />
+        <hr class="my-4">
+        @Html.ActionLink("Regresar a la Consulta", "Index", "ConfiguraPaquete", null, new { @class = "btn btn-secondary" })
+    }
 </div>
 <script type="text/javascript">
     let ClsConfiguraPaquete;
     $(function () {
         ClsConfiguraPaquete = Objeto.Constructor({
             Funcionalidad: 'ALTA',
-            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "ConfiguraPaquete")'
+            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "ConfiguraPaquete")',
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo", "ConfiguraPaquete")',
+            UrlBuscaPrecioDeProducto: '@Url.Action("UrlBuscaPrecioDeProducto", "ConfiguraPaquete")',
+            UrlGuardaConfiguracion: '@Url.Action("GuardaConfiguracion","ConfiguraPaquete")',
+            UrlDetalle: '@Url.Action("Detalle","ConfiguraPaquete")'
         });
         ClsConfiguraPaquete.Inicio();
     });

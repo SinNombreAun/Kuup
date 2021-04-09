@@ -24,6 +24,7 @@ namespace Presentacion.Kuup.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            CargaCombos();
             return View();
         }
         [HttpPost]
@@ -81,215 +82,164 @@ namespace Presentacion.Kuup.Controllers
             }
             return Json(new { Resultado, Producto, TienePaquetes = Paquetes.Count() != 0, Paquetes , Productos }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ProductoParaTabla(short NumeroDeProducto, short Cantidad, String Paquetes, String RegistrosPrevios)
+        public JsonResult ProductoParaTablaV2(short NumeroDeProducto, short Cantidad, String Paquetes, String RegistrosPrevios)
         {
             List<ClsVentas> RegistrosPrev = ClsAdicional.Deserializar<List<ClsVentas>>(RegistrosPrevios);
             if (RegistrosPrev == null)
             {
                 RegistrosPrev = new List<ClsVentas>();
             }
-            List<ClsProductos> Productos = new List<ClsProductos>();
             List<ClsVentas> Registro = new List<ClsVentas>();
             List<ClsConfiguraPaquetes> ListaPaquetes = new List<ClsConfiguraPaquetes>();
             String Filtro = String.Empty;
-            if (!string.IsNullOrEmpty(Paquetes))
+            short CantidadFija = Cantidad;
+            if (!String.IsNullOrEmpty(Paquetes))
             {
                 Filtro = String.Format("NumeroDeProductoPadre == {0} && NumeroDeProductoHijo == {1}", ClsAdicional.Convert<short>(Paquetes.Split('_')[0]), ClsAdicional.Convert<short>(Paquetes.Split('_')[1]));
                 ListaPaquetes = ClsConfiguraPaquetes.getList(Filtro);
                 if (ListaPaquetes.Count() == 1)
                 {
-                    if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre))
+                    if(RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre))
                     {
-                        Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}",ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
-                        Productos = ClsProductos.getList(Filtro);
-                                   
-                        decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
-
-                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == {1}", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
-                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
-                        if (Mayoreo.Count() > 0)
-                        {
-                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
-                            {
-                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
-                                {
-                                    if (Cantidad >= mayoreo.CantidadMinima)
-                                    {
-                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                        break;
-                                    }
-                                }
-                                else if (Cantidad >= mayoreo.CantidadMinima && Cantidad <= mayoreo.CantidadMaxima)
-                                {
-                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                    break;
-                                }
-                            }
-                        }
-                        Registro.Add(new ClsVentas()
-                        {
-                            NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre,
-                            CodigoDeBarras = Productos.FirstOrDefault().CodigoDeBarras,
-                            CantidadDeProducto = Cantidad,
-                            ImporteDeProducto = Math.Round(Cantidad * PrecioUnitario, 2),
-                            PrecioUnitario = PrecioUnitario,
-                            NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoPadre
-                        });
+                        CantidadFija = (short)(CantidadFija + RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre).FirstOrDefault().CantidadDeProducto);
                     }
-                    else
+                    ClsProductos Producto = ClsProductos.getList("NumeroDeProducto == " + ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre.ToString() + " && CodigoDeBarras == \"" + ListaPaquetes.FirstOrDefault().CodigoDeBarrasPadre + "\" && CveDeEstatus == " + (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO).FirstOrDefault();
+                    decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
+                    short CantidadParaMayoreo = CantidadFija;
+                    if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
                     {
-                        var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre).FirstOrDefault();
-
-                        decimal PrecioUnitario = ListaPaquetes.FirstOrDefault().PrecioDeProductoPadre;
-                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", Previo.NumeroDeProducto, Previo.CodigoDeBarras);
-                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
-                        if (Mayoreo.Count() > 0)
-                        {
-                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
-                            {
-                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
-                                {
-                                    if (((Cantidad + Previo.CantidadDeProducto) + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima)
-                                    {
-                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                        break;
-                                    }
-                                }
-                                else if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima && (Cantidad + Previo.CantidadDeProducto) <= mayoreo.CantidadMaxima)
-                                {
-                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                    break;
-                                }
-                            }
-                        }
-                        Registro.Add(new ClsVentas()
-                        {
-                            NumeroDeProducto = Previo.NumeroDeProducto,
-                            CodigoDeBarras = Previo.CodigoDeBarras,
-                            CantidadDeProducto = (short)(Cantidad + Previo.CantidadDeProducto),
-                            ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * PrecioUnitario, 2),
-                            PrecioUnitario = PrecioUnitario,
-                            NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoPadre
-                        });
+                        CantidadParaMayoreo = (short)(RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca).Sum(y => y.CantidadDeProducto) + CantidadFija);
                     }
-                    if (!RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo))
-                    {
-                        Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}",ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
-                        Productos = ClsProductos.getList(Filtro);
-                        Registro.Add(new ClsVentas()
-                        {
-                            NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo,
-                            CodigoDeBarras = Productos.FirstOrDefault().CodigoDeBarras,
-                            CantidadDeProducto = (short)(Cantidad * ListaPaquetes.FirstOrDefault().CantidadASalir),
-                            ImporteDeProducto = Math.Round(Cantidad * (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo, 2),
-                            PrecioUnitario = (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo,
-                            NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoHijo
-                        });
-                    }
-                    else
-                    {
-                        var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo).FirstOrDefault();
-                        Registro.Add(new ClsVentas()
-                        {
-                            NumeroDeProducto = Previo.NumeroDeProducto,
-                            CodigoDeBarras = Previo.CodigoDeBarras,
-                            CantidadDeProducto = (short)(((short)(Cantidad * ListaPaquetes.FirstOrDefault().CantidadASalir)) + Previo.CantidadDeProducto),
-                            ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo, 2),
-                            PrecioUnitario = (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo,
-                            NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoHijo
-                        });
-                    }
-                }
-            }
-            else
-            {
-                bool Existe = false;
-                if (RegistrosPrev.Exists(x => x.NumeroDeProducto == NumeroDeProducto))
-                {
-                    NumeroDeProducto = RegistrosPrev.Where(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault().NumeroDeProducto;
-                    Existe = true;
-                }
-                else if (RegistrosPrev.Exists(x => x.NumeroDeProducto == NumeroDeProducto))
-                {
-                    NumeroDeProducto = RegistrosPrev.Where(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault().NumeroDeProducto;
-                    Existe = true;
-                }
-                if (!Existe)
-                {
-                    Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
-                    Productos = ClsProductos.getList(Filtro);
-                    if (Productos.Count != 0)
-                    {
-                        decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-                        Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
-                        List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
-                        if (Mayoreo.Count() > 0)
-                        {
-                            foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
-                            {
-                                if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
-                                {
-                                    if (Cantidad >= mayoreo.CantidadMinima)
-                                    {
-                                        PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                        break;
-                                    }
-                                }
-                                else if (Cantidad >= mayoreo.CantidadMinima && Cantidad <= mayoreo.CantidadMaxima)
-                                {
-                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                    break;
-                                }
-                            }
-                        }
-                        Registro.Add(new ClsVentas()
-                        {
-                            NumeroDeProducto = Productos.FirstOrDefault().NumeroDeProducto,
-                            CodigoDeBarras = Productos.FirstOrDefault().CodigoDeBarras,
-                            CantidadDeProducto = Cantidad,
-                            ImporteDeProducto = Math.Round(Cantidad * PrecioUnitario, 2),
-                            PrecioUnitario = PrecioUnitario,
-                            NombreDeProducto = Productos.FirstOrDefault().NombreDeProducto
-                        });
-                    }
-                }
-                else
-                {
-                    var Previo = RegistrosPrev.FindAll(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault();
-                    Filtro = String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO);
-                    Productos = ClsProductos.getList(Filtro);
-                    decimal PrecioUnitario = Productos.FirstOrDefault().PrecioUnitario;
-                    Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\"", Productos.FirstOrDefault().NumeroDeProducto, Productos.FirstOrDefault().CodigoDeBarras);
+                    Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre, ListaPaquetes.FirstOrDefault().CodigoDeBarrasPadre, CantidadParaMayoreo);
                     List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
-                    if (Mayoreo.Count() > 0)
+                    if (Mayoreo.Count() != 0)
                     {
-                        foreach (var mayoreo in Mayoreo.OrderBy(x => x.NumeroDeMayoreo))
+                        PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                    }
+                    if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                    {
+                        foreach (ClsVentas venta in RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
                         {
-                            if (mayoreo.CantidadMaxima == null || mayoreo.CantidadMaxima == 0)
+                            Registro.Add(new ClsVentas()
                             {
-                                if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima)
-                                {
-                                    PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                    break;
-                                }
-                            }
-                            else if ((Cantidad + Previo.CantidadDeProducto) >= mayoreo.CantidadMinima && (Cantidad + Previo.CantidadDeProducto) <= mayoreo.CantidadMaxima)
-                            {
-                                PrecioUnitario = mayoreo.PrecioDeMayoreo;
-                                break;
-                            }
+                                NumeroDeProducto = venta.NumeroDeProducto,
+                                CodigoDeBarras = venta.CodigoDeBarras,
+                                NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
+                                NumeroDeMarca = venta.NumeroDeMarca,
+                                CantidadDeProducto = venta.CantidadDeProducto,
+                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
+                                PrecioUnitario = PrecioUnitario,
+                                NombreDeProducto = venta.NombreDeProducto
+                            });
                         }
                     }
                     Registro.Add(new ClsVentas()
                     {
-                        NumeroDeProducto = Previo.NumeroDeProducto,
-                        CodigoDeBarras = Previo.CodigoDeBarras,
-                        CantidadDeProducto = (short)(Cantidad + Previo.CantidadDeProducto),
-                        ImporteDeProducto = Math.Round((short)(Cantidad + Previo.CantidadDeProducto) * PrecioUnitario, 2),
+                        NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre,
+                        CodigoDeBarras = ListaPaquetes.FirstOrDefault().CodigoDeBarrasPadre,
+                        NumeroDeTipoDeProducto = Producto.NumeroDeTipoDeProducto,
+                        NumeroDeMarca = Producto.NumeroDeMarca,
+                        CantidadDeProducto = CantidadFija,
+                        ImporteDeProducto = Math.Round(CantidadFija * PrecioUnitario, 2),
                         PrecioUnitario = PrecioUnitario,
-                        NombreDeProducto = Previo.NombreDeProducto
+                        NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoPadre
+                    });
+                    CantidadFija = Cantidad;
+                    if (RegistrosPrev.Exists(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo))
+                    {
+                        CantidadFija = (short)(CantidadFija + RegistrosPrev.FindAll(x => x.NumeroDeProducto == ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo).FirstOrDefault().CantidadDeProducto);
+                    }
+                    Producto = ClsProductos.getList("NumeroDeProducto == " + ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo.ToString() + " && CodigoDeBarras == \"" + ListaPaquetes.FirstOrDefault().CodigoDeBarrasHijo + "\" && CveDeEstatus == " + (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO).FirstOrDefault();
+                    PrecioUnitario = (decimal)ListaPaquetes.FirstOrDefault().PrecioDeProductoHijo;
+                    CantidadParaMayoreo = CantidadFija;
+                    if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                    {
+                        CantidadParaMayoreo = (short)(RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca).Sum(y => y.CantidadDeProducto) + CantidadFija);
+                    }
+                    Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo, ListaPaquetes.FirstOrDefault().CodigoDeBarrasHijo, CantidadParaMayoreo);
+                    Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
+                    if (Mayoreo.Count() != 0)
+                    {
+                        PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                    }
+                    if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                    {
+                        foreach (ClsVentas venta in RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                        {
+                            Registro.Add(new ClsVentas()
+                            {
+                                NumeroDeProducto = venta.NumeroDeProducto,
+                                CodigoDeBarras = venta.CodigoDeBarras,
+                                NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
+                                NumeroDeMarca = venta.NumeroDeMarca,
+                                CantidadDeProducto = venta.CantidadDeProducto,
+                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
+                                PrecioUnitario = PrecioUnitario,
+                                NombreDeProducto = venta.NombreDeProducto
+                            });
+                        }
+                    }
+                    Registro.Add(new ClsVentas()
+                    {
+                        NumeroDeProducto = ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo,
+                        CodigoDeBarras = ListaPaquetes.FirstOrDefault().CodigoDeBarrasHijo,
+                        NumeroDeTipoDeProducto = Producto.NumeroDeTipoDeProducto,
+                        NumeroDeMarca = Producto.NumeroDeMarca,
+                        CantidadDeProducto = CantidadFija,
+                        ImporteDeProducto = Math.Round(CantidadFija * PrecioUnitario, 2),
+                        PrecioUnitario = PrecioUnitario,
+                        NombreDeProducto = ListaPaquetes.FirstOrDefault().NombreDeProductoHijo
                     });
                 }
+            }
+            else
+            {
+                CantidadFija = Cantidad;
+                if (RegistrosPrev.Exists(x => x.NumeroDeProducto == NumeroDeProducto))
+                {
+                    CantidadFija = (short)(CantidadFija + RegistrosPrev.FindAll(x => x.NumeroDeProducto == NumeroDeProducto).FirstOrDefault().CantidadDeProducto);
+                }
+                ClsProductos Producto = ClsProductos.getList("NumeroDeProducto == " + NumeroDeProducto.ToString() + " && CveDeEstatus == " + (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO).FirstOrDefault();
+                decimal PrecioUnitario = Producto.PrecioUnitario;
+                short CantidadParaMayoreo = CantidadFija;
+                if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != NumeroDeProducto))
+                {
+                    CantidadParaMayoreo = (short)(RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca).Sum(y => y.CantidadDeProducto) + CantidadFija);
+                }
+                Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", Producto.NumeroDeProducto, Producto.CodigoDeBarras, CantidadParaMayoreo);
+                List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
+                if (Mayoreo.Count() != 0)
+                {
+                    PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                }
+                if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                {
+                    foreach (ClsVentas venta in RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
+                    {
+                        Registro.Add(new ClsVentas()
+                        {
+                            NumeroDeProducto = venta.NumeroDeProducto,
+                            CodigoDeBarras = venta.CodigoDeBarras,
+                            NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
+                            NumeroDeMarca = venta.NumeroDeMarca,
+                            CantidadDeProducto = venta.CantidadDeProducto,
+                            ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
+                            PrecioUnitario = PrecioUnitario,
+                            NombreDeProducto = venta.NombreDeProducto
+                        });
+                    }
+                }
+                Registro.Add(new ClsVentas()
+                {
+                    NumeroDeProducto = Producto.NumeroDeProducto,
+                    CodigoDeBarras = Producto.CodigoDeBarras,
+                    NumeroDeTipoDeProducto = Producto.NumeroDeTipoDeProducto,
+                    NumeroDeMarca = Producto.NumeroDeMarca,
+                    CantidadDeProducto = CantidadFija,
+                    ImporteDeProducto = Math.Round(CantidadFija * PrecioUnitario, 2),
+                    PrecioUnitario = PrecioUnitario,
+                    NombreDeProducto = Producto.NombreDeProducto
+                });
             }
             return Json(new { Registro }, JsonRequestBehavior.AllowGet);
         }
@@ -298,43 +248,95 @@ namespace Presentacion.Kuup.Controllers
             List<ClsVentas> Registro = new List<ClsVentas>();
             ClsVentas RegistroPrev = ClsAdicional.Deserializar<ClsVentas>(RegistroPrevio);
             List<ClsVentas> RegistrosPrev = ClsAdicional.Deserializar<List<ClsVentas>>(RegistrosPrevios);
+            List<ClsConfiguraPaquetes> Paquete = new List<ClsConfiguraPaquetes>();
             String Filtro = String.Empty;
-            Filtro = String.Format("NumeroDeProductoPadre == {0}", RegistroPrev.NumeroDeProducto);
-            List<ClsConfiguraPaquetes> Paquete = (from q in ClsConfiguraPaquetes.getList() where q.NumeroDeProductoPadre == RegistroPrev.NumeroDeProducto select q).ToList();
-            if (Paquete.Count == 0)
+            bool EsHijo = false;
+            if (RegistrosPrev.FindAll(x => x.NumeroDeProducto != RegistroPrev.NumeroDeProducto).Count() != 0)
             {
-                Filtro = String.Format("NumeroDeProductoHijo == {0}", RegistroPrev.NumeroDeProducto);
-                Paquete = ClsConfiguraPaquetes.getList(Filtro);
-            }
-            if (Paquete.Count != 0)
-            {
-                List<ClsVentas> RegistrosAEliminar = RegistrosPrev.FindAll(x => x.NumeroDeProducto == Paquete.FirstOrDefault().NumeroDeProductoPadre || x.NumeroDeProducto == Paquete.FirstOrDefault().NumeroDeProductoHijo).ToList();
-                if (RegistrosAEliminar.Count() == 2)
+                foreach (var item in RegistrosPrev.FindAll(x => x.NumeroDeProducto != RegistroPrev.NumeroDeProducto))
                 {
-                    foreach (var RegistroEliminado in RegistrosAEliminar)
+                    Filtro = String.Format("NumeroDeProductoPadre == {0} && NumeroDeProductoHijo == {1}", RegistroPrev.NumeroDeProducto, item.NumeroDeProducto);
+                    var Encontrado = ClsConfiguraPaquetes.getList(Filtro);
+                    if (Encontrado.Count() != 0)
                     {
-                        Registro.Add(new ClsVentas()
+                        Paquete.AddRange(Encontrado);
+                    }
+                    else
+                    {
+                        Filtro = String.Format("NumeroDeProductoPadre == {0} && NumeroDeProductoHijo == {1}", item.NumeroDeProducto, RegistroPrev.NumeroDeProducto);
+                        Encontrado = ClsConfiguraPaquetes.getList(Filtro);
+                        if(Encontrado.Count() != 0)
                         {
-                            NumeroDeProducto = RegistroEliminado.NumeroDeProducto,
-                            CodigoDeBarras = RegistroEliminado.CodigoDeBarras,
+                            EsHijo = true;
+                            Paquete.AddRange(Encontrado);
+                        }
+                    }
+                }
+            }
+            if(Paquete.Count() != 0)
+            {
+                Registro.Add(new ClsVentas() {
+                    NumeroDeProducto = RegistroPrev.NumeroDeProducto,
+                    CodigoDeBarras = RegistroPrev.CodigoDeBarras,
+                    NumeroDeTipoDeProducto = RegistroPrev.NumeroDeTipoDeProducto,
+                    NumeroDeMarca = RegistroPrev.NumeroDeMarca,
+                    CantidadDeProducto = 0,
+                    ImporteDeProducto = 0,
+                    PrecioUnitario = 0,
+                    NombreDeProducto = RegistroPrev.NombreDeProducto
+                });
+                short Cantidad = RegistroPrev.CantidadDeProducto;
+                foreach(var pac in Paquete)
+                {
+                    var Item = RegistrosPrev.Find(x => x.NumeroDeProducto == pac.NumeroDeProductoHijo);
+                    if (EsHijo)
+                    {
+                        Item = RegistrosPrev.Find(x => x.NumeroDeProducto == pac.NumeroDeProductoPadre);
+                    }
+                    if (Cantidad > Item.CantidadDeProducto)
+                    {
+                        Cantidad = (short)(Cantidad - Item.CantidadDeProducto);
+                        Registro.Add(new ClsVentas() {
+                            NumeroDeProducto = Item.NumeroDeProducto,
+                            CodigoDeBarras = Item.CodigoDeBarras,
+                            NumeroDeTipoDeProducto = Item.NumeroDeTipoDeProducto,
+                            NumeroDeMarca = Item.NumeroDeMarca,
                             CantidadDeProducto = 0,
                             ImporteDeProducto = 0,
                             PrecioUnitario = 0,
-                            NombreDeProducto = RegistroEliminado.NombreDeProducto
+                            NombreDeProducto = Item.NombreDeProducto
                         });
                     }
-                }
-                else if (RegistrosAEliminar.Count() == 1)
-                {
-                    Registro.Add(new ClsVentas()
+                    else if (Cantidad < Item.CantidadDeProducto)
                     {
-                        NumeroDeProducto = RegistroPrev.NumeroDeProducto,
-                        CodigoDeBarras = RegistroPrev.CodigoDeBarras,
-                        CantidadDeProducto = 0,
-                        ImporteDeProducto = 0,
-                        PrecioUnitario = 0,
-                        NombreDeProducto = RegistroPrev.NombreDeProducto
-                    });
+                        Registro.Add(new ClsVentas()
+                        {
+                            NumeroDeProducto = Item.NumeroDeProducto,
+                            CodigoDeBarras = Item.CodigoDeBarras,
+                            NumeroDeTipoDeProducto = Item.NumeroDeTipoDeProducto,
+                            NumeroDeMarca = Item.NumeroDeMarca,
+                            CantidadDeProducto = (short)(Item.CantidadDeProducto - Cantidad),
+                            ImporteDeProducto = 0,
+                            PrecioUnitario = 0,
+                            NombreDeProducto = Item.NombreDeProducto
+                        });
+                        Cantidad = 0;
+                    }
+                    else
+                    {
+                        Registro.Add(new ClsVentas()
+                        {
+                            NumeroDeProducto = Item.NumeroDeProducto,
+                            CodigoDeBarras = Item.CodigoDeBarras,
+                            NumeroDeTipoDeProducto = Item.NumeroDeTipoDeProducto,
+                            NumeroDeMarca = Item.NumeroDeMarca,
+                            CantidadDeProducto = 0,
+                            ImporteDeProducto = 0,
+                            PrecioUnitario = 0,
+                            NombreDeProducto = Item.NombreDeProducto
+                        });
+                        Cantidad = 0;
+                    } 
                 }
             }
             else
@@ -343,17 +345,118 @@ namespace Presentacion.Kuup.Controllers
                 {
                     NumeroDeProducto = RegistroPrev.NumeroDeProducto,
                     CodigoDeBarras = RegistroPrev.CodigoDeBarras,
+                    NumeroDeTipoDeProducto = RegistroPrev.NumeroDeTipoDeProducto,
+                    NumeroDeMarca = RegistroPrev.NumeroDeMarca,
                     CantidadDeProducto = 0,
                     ImporteDeProducto = 0,
                     PrecioUnitario = 0,
                     NombreDeProducto = RegistroPrev.NombreDeProducto
                 });
+    
             }
+            List<ClsVentas> RegistroTemp = new List<ClsVentas>();
+            foreach(var reg in Registro)
+            {
+                if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == reg.NumeroDeTipoDeProducto && x.NumeroDeMarca == reg.NumeroDeMarca && x.NumeroDeProducto != reg.NumeroDeProducto))
+                {
+                    List<ClsVentas> RegistroImplicados = RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == reg.NumeroDeTipoDeProducto && x.NumeroDeMarca == reg.NumeroDeMarca && x.NumeroDeProducto != reg.NumeroDeProducto);
+                    short CantidadMayore = (short)(RegistroImplicados.Sum(x => x.CantidadDeProducto) + reg.CantidadDeProducto);
+                    List<ClsConfiguraMayoreos> Mayoreos = ClsConfiguraMayoreos.getList(String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", reg.NumeroDeProducto, reg.CodigoDeBarras, CantidadMayore));
+                    if (Mayoreos.Count() != 0)
+                    {
+                        if (Mayoreos.FirstOrDefault().PrecioDeMayoreo != RegistroImplicados.FirstOrDefault().PrecioUnitario)
+                        {
+                            foreach (var item in RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == reg.NumeroDeTipoDeProducto && x.NumeroDeMarca == reg.NumeroDeMarca && x.NumeroDeProducto != reg.NumeroDeProducto))
+                            {
+                                if (!Registro.Exists(x => x.NumeroDeProducto == item.NumeroDeProducto))
+                                {
+                                    RegistroTemp.Add(new ClsVentas()
+                                    {
+                                        NumeroDeProducto = item.NumeroDeProducto,
+                                        CodigoDeBarras = item.CodigoDeBarras,
+                                        NumeroDeTipoDeProducto = item.NumeroDeTipoDeProducto,
+                                        NumeroDeMarca = item.NumeroDeMarca,
+                                        CantidadDeProducto = item.CantidadDeProducto,
+                                        ImporteDeProducto = Math.Round(item.CantidadDeProducto * Mayoreos.FirstOrDefault().PrecioDeMayoreo, 2),
+                                        PrecioUnitario = Mayoreos.FirstOrDefault().PrecioDeMayoreo,
+                                        NombreDeProducto = item.NombreDeProducto
+                                    });
+                                }
+                                else
+                                {
+                                    var previo = Registro.Find(x => x.NumeroDeProducto == item.NumeroDeProducto);
+                                    if (previo.CantidadDeProducto != 0)
+                                    {
+                                        previo.PrecioUnitario = Mayoreos.FirstOrDefault().PrecioDeMayoreo;
+                                        previo.ImporteDeProducto = Math.Round(reg.CantidadDeProducto * reg.PrecioUnitario, 2);
+                                    }
+                                }
+                            }
+                            if (reg.CantidadDeProducto != 0)
+                            {
+                                reg.PrecioUnitario = Mayoreos.FirstOrDefault().PrecioDeMayoreo;
+                                reg.ImporteDeProducto = Math.Round(reg.CantidadDeProducto * reg.PrecioUnitario,2);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        foreach (var item in RegistrosPrev.FindAll(x => x.NumeroDeTipoDeProducto == reg.NumeroDeTipoDeProducto && x.NumeroDeMarca == reg.NumeroDeMarca && x.NumeroDeProducto != reg.NumeroDeProducto))
+                        {
+                            if (!Registro.Exists(x => x.NumeroDeProducto == item.NumeroDeProducto))
+                            {
+                                ClsProductos producto = ClsProductos.getList("NumeroDeProducto == " + item.NumeroDeProducto + " && CodigoDeBarras == \"" + item.CodigoDeBarras + "\"").FirstOrDefault();
+                                if (producto.PrecioUnitario != item.PrecioUnitario)
+                                {
+                                    RegistroTemp.Add(new ClsVentas()
+                                    {
+                                        NumeroDeProducto = item.NumeroDeProducto,
+                                        CodigoDeBarras = item.CodigoDeBarras,
+                                        NumeroDeTipoDeProducto = item.NumeroDeTipoDeProducto,
+                                        NumeroDeMarca = item.NumeroDeMarca,
+                                        CantidadDeProducto = item.CantidadDeProducto,
+                                        ImporteDeProducto = Math.Round(item.CantidadDeProducto * producto.PrecioUnitario, 2),
+                                        PrecioUnitario = producto.PrecioUnitario,
+                                        NombreDeProducto = item.NombreDeProducto
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                var previo = Registro.Find(x => x.NumeroDeProducto == item.NumeroDeProducto);
+                                if (previo.CantidadDeProducto != 0)
+                                {
+                                    ClsProductos producto = ClsProductos.getList("NumeroDeProducto == " + previo.NumeroDeProducto + " && CodigoDeBarras == \"" + previo.CodigoDeBarras + "\"").FirstOrDefault();
+                                    previo.PrecioUnitario = producto.PrecioUnitario;
+                                    previo.ImporteDeProducto = Math.Round(previo.CantidadDeProducto * previo.PrecioUnitario, 2);
+                                }
+                            }
+                        }
+                        if (reg.CantidadDeProducto != 0)
+                        {
+                            ClsProductos producto = ClsProductos.getList("NumeroDeProducto == " + reg.NumeroDeProducto + " && CodigoDeBarras == \"" + reg.CodigoDeBarras + "\"").FirstOrDefault();
+                            reg.PrecioUnitario = producto.PrecioUnitario;
+                            reg.ImporteDeProducto = Math.Round(reg.CantidadDeProducto * reg.PrecioUnitario, 2);
+                        }
+                    }
+                }
+            }
+            Registro.AddRange(RegistroTemp);
             return Json(new { Registro }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult AutoCompleteProducto(String Prefix)
+        public JsonResult AutoCompleteProducto(String Prefix, short NumeroDeTipoDeProducto = 0, short NumeroDeMarca = 0)
         {
-            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix), JsonRequestBehavior.AllowGet);
+            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix, NumeroDeTipoDeProducto, NumeroDeMarca), JsonRequestBehavior.AllowGet);
+        }
+        public void CargaCombos()
+        {
+            ViewBag.NumeroDeTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboTipoDeProducto(String.Empty);
+            ViewBag.NumeroDeMarca = ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(0, String.Empty);
+        }
+        public JsonResult ObtenMarcaPorTipo(short TipoDeProducto, short Marca = 0)
+        {
+            return Json(ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(TipoDeProducto, Marca.ToString()), JsonRequestBehavior.AllowGet);
         }
     }
 }

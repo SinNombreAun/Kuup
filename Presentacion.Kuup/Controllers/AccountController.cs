@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.EnterpriseServices;
 using System.Linq;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentacion.Kuup.Controllers
 {
@@ -28,6 +29,14 @@ namespace Presentacion.Kuup.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (MvcApplication.ObjVersion.NumeroDeVersion.Contains("Demo"))
+                    {
+                        MoSesion.Demo = true;
+                    }
+                    else
+                    {
+                        MoSesion.Demo = false;
+                    }
                     Account.IP = ClsAdicional.ClsGetHostNameAndIP.GetIPv4Address(Request.UserHostAddress);
                     Account.Terminal = ClsAdicional.ClsGetHostNameAndIP.GetHostName(Request.UserHostAddress);
                     var eer = MoCifrado.Cifrado(Account.Password);
@@ -128,10 +137,95 @@ namespace Presentacion.Kuup.Controllers
             return View();
         }
         [HttpGet]
+        public ActionResult Contacto()
+        {
+            Contacto contacto = new Contacto();
+            contacto.Asunto = "Acceso";
+            contacto.Mensaje = "Por este medio, me permito solicitar acceso a la demo";
+            return View(contacto);
+        }
+        [HttpPost]
+        public ActionResult Contacto(Contacto Registro)
+        {
+            if (ModelState.IsValid)
+            {
+                List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.CveTipo == 3 select q).ToList();
+                ClsAdicional.EnvioDeCorreos envio = new ClsAdicional.EnvioDeCorreos(Parametro.Where(x => x.NombreDeParametro == "CorresoContacto").Select(y => y.ValorDeParametro).FirstOrDefault(), Registro.Asunto, Registro.Mensaje);
+                String ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
+                if (!String.IsNullOrEmpty(ContenidoPlantilla))
+                {
+                    ContenidoPlantilla = ContenidoPlantilla.Replace("#Contenido#", Registro.Mensaje);
+                    ContenidoPlantilla = ContenidoPlantilla.Replace("#DeclaratoriaFooter#", Parametro.Where(x => x.NombreDeParametro == "DeclaratoriaFooter").Select(y => y.Descripcion).FirstOrDefault());
+                    ContenidoPlantilla = ContenidoPlantilla.Replace("#DireccionWebEmpresa#", Parametro.Where(x => x.NombreDeParametro == "DireccionWebEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                    ContenidoPlantilla = ContenidoPlantilla.Replace("#NombreDeLaEmpresa#", Parametro.Where(x => x.NombreDeParametro == "NombreDeLaEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                    ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
+                    envio.Mensaje = ContenidoPlantilla;
+                }
+                Dictionary<String, String> imagen = new Dictionary<string, string>();
+                imagen.Add("RutaDeLogoParaReportes", Server.MapPath("~/Content/Imagenes/Kuup/Firma correo.png"));
+                if (envio.EnviarCorreo(imagen))
+                {
+                    ClsUsuarios usuario = new ClsUsuarios();
+                    usuario.NombreDeUsuario = usuario.UsuarioParaDemo();//Registro.ApellidoPaterno.ToCharArray()[0].ToString().ToUpper() + Registro.Nombre.Split(' ')[0].ToUpper();
+                    usuario.NombreDePersona = Registro.Nombre.Trim();
+                    usuario.ApellidoPaterno = Registro.ApellidoPaterno.Trim();
+                    usuario.ApellidoMaterno = Registro.ApellidoMaterno.Trim();
+                    usuario.CorreoDeUsuario = Registro.Correo.Trim();
+                    usuario.FechaDeRegistro = DateTime.Now;
+                    usuario.PasswordUsuario = MoCifrado.Cifrado(Registro.Nombre.Trim().ToCharArray()[0].ToString().ToUpper() + Registro.ApellidoPaterno.Trim().ToCharArray()[0].ToString().ToUpper() + Registro.ApellidoPaterno.Trim().Substring(1, Registro.ApellidoPaterno.Trim().Length - 1) + "001"); 
+                    usuario.CveDeEstatus = 1;
+                    if (usuario.Insert())
+                    {
+                        ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
+                        if (!String.IsNullOrEmpty(ContenidoPlantilla))
+                        {
+                            ContenidoPlantilla = ContenidoPlantilla.Replace("#Contenido#", String.Format(Parametro.Where(x => x.NombreDeParametro == "MensajeParaUsuario").Select(y => y.Descripcion).FirstOrDefault(),usuario.NombreDeUsuario,MoCifrado.Descifrado(usuario.PasswordUsuario)));
+                            ContenidoPlantilla = ContenidoPlantilla.Replace("#DeclaratoriaFooter#", Parametro.Where(x => x.NombreDeParametro == "DeclaratoriaFooter").Select(y => y.Descripcion).FirstOrDefault());
+                            ContenidoPlantilla = ContenidoPlantilla.Replace("#DireccionWebEmpresa#", Parametro.Where(x => x.NombreDeParametro == "DireccionWebEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                            ContenidoPlantilla = ContenidoPlantilla.Replace("#NombreDeLaEmpresa#", Parametro.Where(x => x.NombreDeParametro == "NombreDeLaEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                            ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
+                            envio.Mensaje = ContenidoPlantilla;
+                        }
+                        envio = new ClsAdicional.EnvioDeCorreos(Registro.Correo, Registro.Asunto, Registro.Mensaje);
+                        if (envio.EnviarCorreo(imagen))
+                        {
+                            ViewData["Informacion"] = "Se le ha enviado usuario y contraseña para el acceso a la Demo";
+                        }
+                        else
+                        {
+                            ViewData["Informacion"] = "No fue posible realizar el envió de usuario y contraseña para su acceso a la Demo";
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ViewData["Informacion"] = "Los registros no son válidos para la solicitud";
+            }
+            return RedirectToAction("Login", "Account");
+        }
+        [HttpGet]
         public ActionResult LoginOut()
         {
+            if (MoSesion.Demo)
+            {
+                ClsUsuarios usurio = new ClsUsuarios();
+                usurio.BajaUsuarioDemo(MoSesion.NumeroDeUsuario);
+            }
             MoSesion.LimpiaSesion();
             return RedirectToAction("Login", "Account");
         }
+    }
+    public class Contacto
+    {
+        [Required, EmailAddress]
+        public String Correo { get; set; }
+        [Required]
+        public String Nombre { get; set; }
+        public String ApellidoPaterno { get; set; }
+        public String ApellidoMaterno { get; set; }
+        [Required]
+        public String Asunto { get; set; }
+        public String Mensaje { get; set; }
     }
 }

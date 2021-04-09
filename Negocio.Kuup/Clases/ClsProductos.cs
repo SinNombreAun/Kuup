@@ -396,9 +396,12 @@ namespace Negocio.Kuup.Clases
                             }
                             else
                             {
-                                Query = Query.Where("NumeroDeProducto.Contains(@0)", listaProductos);
+                                Query = Query.Where(x => listaProductos.Contains(x.NumeroDeProducto));
                             }
                            
+                        }else if(listaProductos != null)
+                        {
+                            Query = Query.Where(x => listaProductos.Contains(x.NumeroDeProducto));
                         }
                         return Query.ToList();
                     }
@@ -426,7 +429,19 @@ namespace Negocio.Kuup.Clases
                                      }).AsQueryable();
                         if (!String.IsNullOrEmpty(filtro))
                         {
-                            Query = Query.Where(filtro);
+                            if (listaProductos == null)
+                            {
+                                Query = Query.Where(filtro);
+                            }
+                            else
+                            {
+                                Query = Query.Where(x => listaProductos.Contains(x.NumeroDeProducto));
+                            }
+
+                        }
+                        else if (listaProductos != null)
+                        {
+                            Query = Query.Where(x => listaProductos.Contains(x.NumeroDeProducto));
                         }
                         return Query.ToList();
                     }

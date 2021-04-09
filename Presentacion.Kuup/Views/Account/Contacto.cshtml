@@ -1,0 +1,125 @@
+﻿@model Presentacion.Kuup.Controllers.Contacto
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Styles/Site/Site.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/Alertify/alertify.css" rel="stylesheet" />
+    <link href="~/Content/Styles/Account/all.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/FullCalendar/main.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/JQuery.UI/jquery-ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/JQuery.UI/jquery-ui.structure.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/DataTables/datatables.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/DataTables/responsive.dataTables.css" rel="stylesheet" />
+    <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="16x16">
+    <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="32X32">
+    <link href="~/Content/Imagenes/favicon.ico" rel="icon" type="image/x-icon" sizes="16x16 32x32">
+    <link href="~/Content/Librerias/DataTables/rowGroup.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/DataTables/fixedHeader.dataTables.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/Content/Librerias/JQuery/JQuery-3.5.1.slim.js"></script>
+    <script src="~/Content/Librerias/Impresoras/Impresora.js"></script>
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.js"></script>
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.bundle.js"></script>
+    <script src="~/Content/Librerias/Alertify/alertify.js"></script>
+    <script src="~/Content/Librerias/FullCalendar/main.js"></script>
+    <script src="~/Content/Librerias/FullCalendar/locales/es.js"></script>
+    <script src="~/Content/Librerias/JQuery.UI/jquery-ui.js"></script>
+    <script src="~/Scripts/General/CreaFormulario.js"></script>
+    <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/Librerias/JQuery.UI/TimePicker/jquery-ui-timepicker-es.js"></script>
+    <script src="~/Content/Librerias/JQuery.UI/jquery.ui.datepicker-es.js"></script>
+    <script src="~/Content/Librerias/DataTables/datatables.js"></script>
+    <script src="~/Content/Librerias/DataTables/dataTables.responsive.js"></script>
+    <script src="~/Scripts/General/ClsResultado.js"></script>
+    <script src="~/Scripts/General/ClsTicket.js"></script>
+    <script src="~/Content/Librerias/JQuery.BlockUI/jquery.blockUI.js"></script>
+    <script src="~/Scripts/General/ClsConfiguracion.js"></script>
+    <script src="~/Content/Librerias/DataTables/dataTables.rowGroup.min.js"></script>
+    <script src="~/Content/Librerias/DataTables/dataTables.fixedHeader.js"></script>
+    <div>
+        <br />
+        <h2 class="TituloPagina">SOLICITUD DE ACCESO A KUUP DEMO <i class="fa fa-archive"></i></h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <fieldset>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.Correo, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.Correo, null, new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.Correo, new { @class = "form-control" })
+                            </div>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.Nombre, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.Nombre, null, new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                            </div>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.ApellidoPaterno, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.ApellidoPaterno, null, new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+                            </div>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.ApellidoMaterno, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.ApellidoMaterno, null, new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control" })
+                            </div>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.Asunto, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.Asunto, null, new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.Asunto, new { @class = "form-control" })
+                            </div>
+                            <div class="from-group from-group-margin">
+                                @Html.LabelFor(model => model.Mensaje, new { @class = "col-sm-3 col-form-label" })
+                                <a class="captura-requerida">*&ensp;</a>
+                                @Html.ValidationMessageFor(model => model.Mensaje, null, new { @class = "text-danger" })
+                                @Html.TextAreaFor(model => model.Mensaje, 7, 60, new { @class = "form-control" })
+                            </div>
+                        </fieldset>
+                        <input type="submit" class="btn btn-primary" value="Solicitar Acceso" />
+                        <br />
+                        <br />
+                        <hr class="my-4">
+                        @Html.ActionLink("Regresar a Login", "Login", "Account", null, new { @class = "btn btn-secondary" })
+                        <br />
+                        <br />
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <footer><p>@MvcApplication.ObjVersion.TextoDeVersion <br /> &copy; @Html.Raw(Recursos.Textos.Kuup_Aplicacion)</p></footer>
+    <script type="text/javascript">
+        $(function () {
+            $('.nav-link').trigger("click");
+            $(".nav-link").blur();
+
+            let Resultado = ObjetoResult.Constructor({
+                ObjetoResultado: '@Html.Raw(TempData["Resultado"])'
+            });
+            Resultado.GeneraMensaje();
+
+            $('.Mayusculas').keyup(function () {
+                javascript: this.value = this.value.toUpperCase();
+            });
+        });
+
+    </script>
+</body>
+</html>

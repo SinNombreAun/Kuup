@@ -84,6 +84,11 @@ namespace Presentacion.Kuup.Nucleo.Motores
             get { return (String)HttpContext.Current.Session["Browser"]; }
             set { HttpContext.Current.Session["Browser"] = value; }
         }
+        public static  bool Demo
+        {
+            get { return (bool)HttpContext.Current.Session["Demo"]; }
+            set { HttpContext.Current.Session["Demo"] = value; }
+        }
     }
     public class SesionActiva
     {

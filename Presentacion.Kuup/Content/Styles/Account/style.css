@@ -130,9 +130,35 @@ form {
     -o-transition: 0.5s ease-in-out;
     -ms-transition: 0.5s ease-in-out;
 }
+.actionlink {
+	text-align: center;
+	border: 0;
+	color: #ffffff;
+	font-size: 17px;
+	font-weight: 600;
+	padding: 14px 90px;
+	background-color: rgba(0, 0, 0, 0.34);
+	border: 3px solid rgba(255, 255, 255, 0.43);
+	-webkit-box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.71);
+	-moz-box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.71);
+	box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.71);
+	outline: none;
+	cursor: pointer;
+	font-family: 'Open Sans', sans-serif;
+	letter-spacing: 1px;
+	transition: 0.5s ease-in-out;
+	-webkit-transition: 0.5s ease-in-out;
+	-moz-transition: 0.5s ease-in-out;
+	-o-transition: 0.5s ease-in-out;
+	-ms-transition: 0.5s ease-in-out;
+}
 .submit-agileits input[type="submit"]:hover {
-    color: #ffffff;
-    border-color: #073642;
+	color: #ffffff;
+	border-color: #073642;
+}
+.actionlink:hover {
+	color: #ffffff;
+	border-color: #073642;
 }
 /*-- checkbox --*/
 .anim {
@@ -362,6 +388,9 @@ input.checkbox:checked:after {
 	.submit-agileits input[type="submit"] {
 		padding: 11px 90px;
 	}
+	.actionlink {
+		padding: 11px 90px;
+	}
 }
 @media screen and (max-width: 991px) {
 	h1 {
@@ -572,6 +601,10 @@ input.checkbox:checked:after {
 		left: 59px;
 	}
 	.submit-agileits input[type="submit"] {
+		padding: 8px 68px;
+		font-size: 15px;
+	}
+	.actionlink {
 		padding: 8px 68px;
 		font-size: 15px;
 	}

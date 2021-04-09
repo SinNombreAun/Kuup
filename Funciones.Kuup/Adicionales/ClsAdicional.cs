@@ -1,23 +1,19 @@
-﻿using System;
+﻿using Mod.Entity;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.ComponentModel;
-using System.Web.Mvc;
-using Mod.Entity;
-using Newtonsoft.Json;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Web.Management;
-using System.Data.Entity.Core.Common.CommandTrees;
-using System.Web.Security.AntiXss;
-using System.Web.WebPages;
-using System.Data.SqlTypes;
-using System.Web.Configuration;
 using System.Web;
-using System.Collections;
-using System.Data.Entity.Validation;
+using System.Web.Mvc;
+using System.Linq.Dynamic;
+using System.Net.Mail;
+using System.Net.Mime;
+using Funciones.Kuup.Cifrado;
 
 namespace Funciones.Kuup.Adicionales
 {
@@ -794,37 +790,52 @@ namespace Funciones.Kuup.Adicionales
                     return (from q in db.Proveedor where q.PRV_NUM_PROVEEDOR == NumeroDeProveedor select new SelectListItem { Text = q.PRV_NUM_PROVEEDOR.ToString() + " / " + q.PRV_NOM_PROVEEDOR, Value = q.PRV_NUM_PROVEEDOR.ToString(), Selected = q.PRV_NUM_PROVEEDOR == NumeroDeProveedor }).ToList();
                 }
             }
-            public static List<Object> AutoCompleteProducto(String Prefix)
+            public static List<Object> AutoCompleteProducto(String Prefix, short NumeroDeTipoDeProducto = 0, short NumeroDeMarca = 0)
             {
                 var Productos = new List<Object>();
                 using (DBKuupEntities db = new DBKuupEntities())
                 {
                     Parametro Parametro = (from q in db.Parametro where q.PAR_NOM_PARAMETRO == "ActivaLike" select q).FirstOrDefault();
+                    String Filtro = String.Empty;
+                    if(NumeroDeTipoDeProducto != 0)
+                    {
+                        Filtro = " && PRO_NUM_TIPO_PRODUCTO == " + NumeroDeTipoDeProducto.ToString();
+                    }
+                    if(NumeroDeMarca != 0)
+                    {
+                        Filtro += " && PRO_NUM_MARCA == " + NumeroDeMarca.ToString();
+                    }
                     if (Parametro != null)
                     {
                         if (Parametro.PAR_VALOR_PARAMETRO == "SI")
                         {
-                            Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            Productos = db.Producto.AsQueryable().Where("PRO_CODIGO_BARRAS.ToUpper().Contains(\"" + Prefix.ToUpper() + "\") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            //Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             if (Productos.Count() == 0)
                             {
-                                Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                                Productos = db.Producto.AsQueryable().Where("PRO_NOM_PRODUCTO.ToUpper().Contains(\"" + Prefix.ToUpper() + "\") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                                //Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().Contains(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             }
                         }
                         else
                         {
-                            Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            Productos = db.Producto.AsQueryable().Where("PRO_CODIGO_BARRAS.ToUpper().StartsWith(\"" + Prefix.ToUpper() + "\") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            //Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             if (Productos.Count() == 0)
                             {
-                                Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                                Productos = db.Producto.AsQueryable().Where("PRO_NOM_PRODUCTO.ToUpper().StartsWith(\"" + Prefix.ToUpper() + "\") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                                //Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                             }
                         }
                     }
                     else
                     {
-                        Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                        Productos = db.Producto.AsQueryable().Where("PRO_CODIGO_BARRAS.ToUpper().StartsWith(\"" + Prefix.ToUpper() + "\") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                        //Productos = (from q in db.Producto where q.PRO_CODIGO_BARRAS.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                         if (Productos.Count() == 0)
                         {
-                            Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            Productos = db.Producto.AsQueryable().Where("PRO_NOM_PRODUCTO.ToUpper().StartsWith(\"" + Prefix.ToUpper() + ") && PRO_CVE_ESTATUS == 1" + Filtro).Select(q => new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
+                            //Productos = (from q in db.Producto where q.PRO_NOM_PRODUCTO.ToUpper().StartsWith(Prefix.ToUpper()) && q.PRO_CVE_ESTATUS == 1 select new { NombreDeProducto = q.PRO_NOM_PRODUCTO, CodigoDeBarras = q.PRO_CODIGO_BARRAS }).ToList<Object>();
                         }
                     }
                 }
@@ -907,6 +918,85 @@ namespace Funciones.Kuup.Adicionales
                 }
             }
         }
+        #endregion
+        #region Envio de Correo
+        public class EnvioDeCorreos
+        {
+            public String Para { get; set; }
+            public String Asunto { get; set; }
+            public String Mensaje { get; set; }
+            public HttpPostedFileBase Adjunto { get; set; }
+            public EnvioDeCorreos(String _Para, String _Asunto, String _Mensaje, HttpPostedFileBase _Adjunto = null)
+            {
+                Para = _Para;
+                Asunto = _Asunto;
+                Mensaje = _Mensaje;
+                Adjunto = _Adjunto;
+            } 
+            public String PlantillaHtml(String NombreDePlantilla)
+            {
+                String Plantilla = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"Content\Plantillas\", NombreDePlantilla);
+                String Contenido = String.Empty;
+                if (File.Exists(Plantilla))
+                {
+                    Contenido = File.ReadAllText(Plantilla);
+                }
+                return Contenido;
+            }
+            public bool EnviarCorreo(Dictionary<String,String> Imagenes = null)
+            {
+                try
+                {
+                    List<Parametro> parametros = new List<Parametro>();
+                    using (DBKuupEntities db = new DBKuupEntities()) {
+                        parametros = (from q in db.Parametro where q.PAR_CVE_TIPO == 4 select q).ToList();
+                    }
+                    SmtpClient smtpClient = new SmtpClient();
+                    MailMessage mail = new MailMessage();
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Usuario").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()), MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Password").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                    smtpClient.Port = Convert<int>(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Port").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                    smtpClient.Host = MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Host").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault());
+
+                    mail.From = new MailAddress(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Form").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                    foreach (var item in Para.Split(';'))
+                    {
+                        if (!String.IsNullOrEmpty(item))
+                        {
+                            mail.To.Add(item);
+                        }
+                    }
+                    mail.Subject = Asunto;
+                    mail.IsBodyHtml = Mensaje.Contains("html");
+                    if (Imagenes != null)
+                    {
+                        AlternateView alternateView = AlternateView.CreateAlternateViewFromString(Mensaje, null, MediaTypeNames.Text.Html);
+                        foreach (var imagen in Imagenes)
+                        {
+                            LinkedResource pic1 = new LinkedResource(imagen.Value, MediaTypeNames.Image.Jpeg);
+                            pic1.ContentId = imagen.Key;
+                            alternateView.LinkedResources.Add(pic1);
+                        }
+                        mail.AlternateViews.Add(alternateView);
+                    }
+                    else
+                    {
+                        mail.Body = Mensaje;
+                    }
+
+                    smtpClient.Send(mail);
+                }
+                catch (SmtpException exm)
+                {
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                return true;
+            }
+        } 
         #endregion
     }
 }

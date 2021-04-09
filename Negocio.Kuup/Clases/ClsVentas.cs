@@ -35,6 +35,16 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_CODIGO_BARRAS; }
             set { Venta.VEN_CODIGO_BARRAS = value; }
         }
+        public short NumeroDeTipoDeProducto
+        {
+            get { return Venta.VEN_NUM_TIPO_PRODUCTO; }
+            set { Venta.VEN_NUM_TIPO_PRODUCTO = value; }
+        }
+        public Nullable<short> NumeroDeMarca
+        {
+            get { return Venta.VEN_NUM_MARCA; }
+            set { Venta.VEN_NUM_MARCA = value; }
+        }
         public short CantidadDeProducto
         {
             get { return Venta.VEN_CANT_PRODUCTO; }
@@ -54,6 +64,16 @@ namespace Negocio.Kuup.Clases
         {
             get { return Venta.VEN_NOM_PRODUCTO; }
             set { Venta.VEN_NOM_PRODUCTO = value; }
+        }
+        public String NombreDeTipoDeProducto
+        {
+            get { return Venta.VEN_NOM_TIPO_PRODUCTO; }
+            set { Venta.VEN_NOM_TIPO_PRODUCTO = value; }
+        }
+        public String NombreDeMarca
+        {
+            get { return Venta.VEN_NOM_MARCA; }
+            set { Venta.VEN_NOM_MARCA = value; }
         }
         public ClsVentas() { }
         private bool ToInsert(DBKuupEntities db)
@@ -158,6 +178,8 @@ namespace Negocio.Kuup.Clases
             Tabla.VEN_FOLIO_OPERACION = this.FolioDeOperacion;
             Tabla.VEN_NUM_PRODUCTO = this.NumeroDeProducto;
             Tabla.VEN_CODIGO_BARRAS = this.CodigoDeBarras;
+            Tabla.VEN_NUM_TIPO_PRODUCTO = this.NumeroDeTipoDeProducto;
+            Tabla.VEN_NUM_MARCA = this.NumeroDeMarca;
             Tabla.VEN_CANT_PRODUCTO = this.CantidadDeProducto;
             Tabla.VEN_PRECIO_UNITARIO = this.PrecioUnitario;
             Tabla.VEN_IMPORTE_PRODUCTO = this.ImporteDeProducto;
@@ -177,10 +199,14 @@ namespace Negocio.Kuup.Clases
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
+                                    NumeroDeTipoDeProducto = q.VEN_NUM_TIPO_PRODUCTO,
+                                    NumeroDeMarca = q.VEN_NUM_MARCA,
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
-                                    NombreDeProducto = q.VEN_NOM_PRODUCTO
+                                    NombreDeProducto = q.VEN_NOM_PRODUCTO,
+                                    NombreDeTipoDeProducto = q.VEN_NOM_TIPO_PRODUCTO,
+                                    NombreDeMarca = q.VEN_NOM_MARCA
                                 }).AsQueryable();
                         if (!String.IsNullOrEmpty(filtro))
                         {
@@ -196,6 +222,8 @@ namespace Negocio.Kuup.Clases
                                     FolioDeOperacion = q.VEN_FOLIO_OPERACION,
                                     NumeroDeProducto = q.VEN_NUM_PRODUCTO,
                                     CodigoDeBarras = q.VEN_CODIGO_BARRAS,
+                                    NumeroDeTipoDeProducto = q.VEN_NUM_TIPO_PRODUCTO,
+                                    NumeroDeMarca = q.VEN_NUM_MARCA,
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,

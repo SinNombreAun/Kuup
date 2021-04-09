@@ -11,6 +11,20 @@
     <div class="row">
         <div class="col">
             <div class="from-group from-group-margin">
+                @Html.Label("fNumeroDeTipoDeProducto", "Tipo de Producto", new { @class = "col-sm col-form-label" })
+                @Html.DropDownList("fNumeroDeTipoDeProducto", (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fNumeroDeMarca", "Marca", new { @class = "col-sm col-form-label" })
+                @Html.DropDownList("fNumeroDeMarca", (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
                 @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
                 @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
             </div>
@@ -32,6 +46,8 @@
                     <tr>
                         <th scope="col">Numero de Producto</th>
                         <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Numero de Tipo de Producto</th>
+                        <th scope="col">Numero de Marca</th>
                         <th scope="col">Nombre de Producto</th>
                         <th scope="col">Cantidad de Producto</th>
                         <th scope="col">Precio Unitario</th>
@@ -43,6 +59,8 @@
                     <tr>
                         <th scope="col">Numero de Producto</th>
                         <th scope="col">Codigo de Barras</th>
+                        <th scope="col">Numero de Tipo de Producto</th>
+                        <th scope="col">Numero de Marca</th>
                         <th scope="col">Nombre de Producto</th>
                         <th scope="col">Cantidad de Producto</th>
                         <th scope="col">Precio Unitario</th>
@@ -126,9 +144,10 @@
             Funcionalidad: 'INDEX',
             UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "VentaTotal")',
             UrlCargaProducto: '@Url.Action("CargaProducto","VentaTotal")',
-            UrlProductoATabla: '@Url.Action("ProductoParaTabla","VentaTotal")',
+            UrlProductoATabla: '@Url.Action("ProductoParaTablaV2", "VentaTotal")',
             UrlDeleteProducto: '@Url.Action("DeleteDeProducto","VentaTotal")',
-            UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")'
+            UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")',
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo", "VentaTotal")'
         });
         ClsVentaTotal.Inicio();
     });

@@ -104,6 +104,51 @@ namespace Negocio.Kuup.Clases
             CveDeEstatus = Registro.USU_CVE_ESTATUS;
             TextoDeEstatus = Registro.USU_TXT_ESTATUS;
         }
+        public String UsuarioParaDemo(int cont = 0)
+        {
+            List<String> UsuarioDemo = new List<string> {"Balam","Axolotl","Océlotl","Aayín","Chamak","Cho'","Coot","Likim","Juub","Kai","Kekén","Koh","Miss","Peek'"};
+            if (UsuarioDemo.Count() == cont)
+            {
+                return "No hay usuarios desponibles";
+            }
+            cont++;
+            Random usu = new Random();
+            String Usuario = UsuarioDemo[usu.Next(0, UsuarioDemo.Count() - 1)];
+            using(DBKuupEntities db = new DBKuupEntities())
+            {
+                if ((from q in db.Usuario where q.USU_NOM_USUARIO == Usuario && q.USU_CVE_ESTATUS == 1 select q).Count() == 0)
+                {
+                    return Usuario;
+                }
+                else
+                {
+                    return UsuarioParaDemo(cont);
+                }
+            }
+        }
+        public bool BajaUsuarioDemo(short NumeroDeUsuario)
+        {
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    if ((from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).Count() != 0)
+                    {
+                        var Usu = (from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).FirstOrDefault();
+                        Usu.USU_CVE_ESTATUS = 2;
+                        db.Usuario.Attach(Usu);
+                        db.Entry(Usu).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return true;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                ClsBitacora.GeneraBitacora(NumeroDePantallaKuup, 1, "BajaUsuarioDemo", String.Format("Excepción de tipo: {0} Mensaje: {1} Código de Error: {2}", e.GetType().ToString(), e.Message.Trim(), e.GetHashCode().ToString()));
+            }
+            return false;
+        }
         private bool ToInsert(DBKuupEntities db)
         {
             Usuario Usuario = this.ToTable();
