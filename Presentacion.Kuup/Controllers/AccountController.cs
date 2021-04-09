@@ -207,7 +207,7 @@ namespace Presentacion.Kuup.Controllers
         [HttpGet]
         public ActionResult LoginOut()
         {
-            if (MoSesion.Demo)
+            if (MvcApplication.ObjVersion.NumeroDeVersion.Contains("Demo"))
             {
                 ClsUsuarios usurio = new ClsUsuarios();
                 usurio.BajaUsuarioDemo(MoSesion.NumeroDeUsuario);
