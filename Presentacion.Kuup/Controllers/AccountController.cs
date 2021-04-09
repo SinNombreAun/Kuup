@@ -150,7 +150,7 @@ namespace Presentacion.Kuup.Controllers
             if (ModelState.IsValid)
             {
                 List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.CveTipo == 3 select q).ToList();
-                ClsAdicional.EnvioDeCorreos envio = new ClsAdicional.EnvioDeCorreos(Parametro.Where(x => x.NombreDeParametro == "CorresoContacto").Select(y => y.ValorDeParametro).FirstOrDefault(), Registro.Asunto, Registro.Mensaje);
+                ClsAdicional.EnvioDeCorreos envio = new ClsAdicional.EnvioDeCorreos(Parametro.Where(x => x.NombreDeParametro == "CorreosContacto").Select(y => y.ValorDeParametro).FirstOrDefault(), Registro.Asunto, Registro.Mensaje);
                 String ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
                 if (!String.IsNullOrEmpty(ContenidoPlantilla))
                 {
@@ -207,10 +207,10 @@ namespace Presentacion.Kuup.Controllers
         [HttpGet]
         public ActionResult LoginOut()
         {
-            if (MvcApplication.ObjVersion.NumeroDeVersion.Contains("Demo"))
+            if (MvcApplication.ObjVersion.NumeroDeVersion.ToUpper().Contains("DEMO"))
             {
                 ClsUsuarios usurio = new ClsUsuarios();
-                usurio.BajaUsuarioDemo(MoSesion.NumeroDeUsuario);
+                usurio.BajaUsuarioDemo(MoSesion.NumeroDeUsuario,MoSesion.NombreDeUsuario);
             }
             MoSesion.LimpiaSesion();
             return RedirectToAction("Login", "Account");

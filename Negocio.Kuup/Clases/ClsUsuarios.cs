@@ -126,22 +126,27 @@ namespace Negocio.Kuup.Clases
                 }
             }
         }
-        public bool BajaUsuarioDemo(short NumeroDeUsuario)
+        public bool BajaUsuarioDemo(short NumeroDeUsuario, String NombreDeUsuario)
         {
             try
             {
-                using (DBKuupEntities db = new DBKuupEntities())
+                List<String> UsuarioDemo = new List<string> {"Balam","Axolotl","Océlotl","Aayín","Chamak","Cho'","Coot","Likim","Juub","Kai","Kekén","Koh","Miss","Peek'"};
+                if (UsuarioDemo.Exists(x => x.ToUpper().Equals(NombreDeUsuario.ToUpper())))
                 {
-                    if ((from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).Count() != 0)
+                    using (DBKuupEntities db = new DBKuupEntities())
                     {
-                        var Usu = (from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).FirstOrDefault();
-                        Usu.USU_CVE_ESTATUS = 2;
-                        db.Usuario.Attach(Usu);
-                        db.Entry(Usu).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return true;
+                        if ((from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).Count() != 0)
+                        {
+                            var Usu = (from q in db.Usuario where q.USU_NUM_USUARIO == NumeroDeUsuario && q.USU_CVE_ESTATUS == 1 select q).FirstOrDefault();
+                            Usu.USU_CVE_ESTATUS = 2;
+                            db.Usuario.Attach(Usu);
+                            db.Entry(Usu).State = EntityState.Modified;
+                            db.SaveChanges();
+                            return true;
+                        }
                     }
                 }
+                return true;
             }
             catch(Exception e)
             {
