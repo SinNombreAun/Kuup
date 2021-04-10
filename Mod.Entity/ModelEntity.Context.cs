@@ -24,7 +24,7 @@ namespace Mod.Entity
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            modelBuilder.HasDefaultSchema("Kuup");
         }
     
         public virtual DbSet<Agenda> Agenda { get; set; }
