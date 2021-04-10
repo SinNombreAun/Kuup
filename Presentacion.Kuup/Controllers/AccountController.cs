@@ -176,6 +176,7 @@ namespace Presentacion.Kuup.Controllers
                     usuario.CveDeEstatus = 1;
                     if (usuario.Insert())
                     {
+                        envio = new ClsAdicional.EnvioDeCorreos(Registro.Correo, Registro.Asunto, Registro.Mensaje);
                         ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
                         if (!String.IsNullOrEmpty(ContenidoPlantilla))
                         {
@@ -186,7 +187,6 @@ namespace Presentacion.Kuup.Controllers
                             ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
                             envio.Mensaje = ContenidoPlantilla;
                         }
-                        envio = new ClsAdicional.EnvioDeCorreos(Registro.Correo, Registro.Asunto, Registro.Mensaje);
                         if (envio.EnviarCorreo(imagen))
                         {
                             ViewData["Informacion"] = "Se le ha enviado usuario y contraseña para el acceso a la Demo";
