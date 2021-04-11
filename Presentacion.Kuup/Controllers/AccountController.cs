@@ -198,6 +198,8 @@ namespace Presentacion.Kuup.Controllers
                                 ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
                                 envio.Mensaje = ContenidoPlantilla;
                             }
+                            imagen = new Dictionary<string, string>();
+                            imagen.Add("RutaDeLogoParaReportes", Server.MapPath("~/Content/Imagenes/Kuup/Firma correo.png"));
                             Resultado = envio.EnviarCorreo(imagen);
                             if (Resultado.Resultado)
                             {
