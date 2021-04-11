@@ -300,6 +300,7 @@
     <Content Include="Views\AsignaMarca\Index.cshtml" />
     <Content Include="Views\ConfiguraPaquete\Detalle.cshtml" />
     <Content Include="Views\Account\Contacto.cshtml" />
+    <Content Include="Views\Account\EnvioDeSolicitud.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -149,6 +149,7 @@ namespace Presentacion.Kuup.Controllers
         {
             if (ModelState.IsValid)
             {
+                ClsAdicional.ClsResultado Resultado = new ClsAdicional.ClsResultado(true, String.Empty);
                 List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.CveTipo == 3 select q).ToList();
                 ClsAdicional.EnvioDeCorreos envio = new ClsAdicional.EnvioDeCorreos(Parametro.Where(x => x.NombreDeParametro == "CorreosContacto").Select(y => y.ValorDeParametro).FirstOrDefault(), Registro.Asunto, Registro.Mensaje);
                 String ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
@@ -163,7 +164,8 @@ namespace Presentacion.Kuup.Controllers
                 }
                 Dictionary<String, String> imagen = new Dictionary<string, string>();
                 imagen.Add("RutaDeLogoParaReportes", Server.MapPath("~/Content/Imagenes/Kuup/Firma correo.png"));
-                if (envio.EnviarCorreo(imagen))
+                Resultado = envio.EnviarCorreo(imagen);
+                if (Resultado.Resultado)
                 {
                     ClsUsuarios usuario = new ClsUsuarios();
                     usuario.NombreDeUsuario = usuario.UsuarioParaDemo();//Registro.ApellidoPaterno.ToCharArray()[0].ToString().ToUpper() + Registro.Nombre.Split(' ')[0].ToUpper();
@@ -176,33 +178,49 @@ namespace Presentacion.Kuup.Controllers
                     usuario.CveDeEstatus = 1;
                     if (usuario.Insert())
                     {
-                        envio = new ClsAdicional.EnvioDeCorreos(Registro.Correo, Registro.Asunto, Registro.Mensaje);
-                        ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
-                        if (!String.IsNullOrEmpty(ContenidoPlantilla))
+                        byte PerfilDemo = (from q in ClsPerfiles.getList() where q.NombreDePerfil.ToUpper() == "DEMO" select q.NumeroDePerfil).FirstOrDefault();
+                        ClsUsuariosPerfil AsignaPerfil = new ClsUsuariosPerfil()
                         {
-                            ContenidoPlantilla = ContenidoPlantilla.Replace("#Contenido#", String.Format(Parametro.Where(x => x.NombreDeParametro == "MensajeParaUsuario").Select(y => y.Descripcion).FirstOrDefault(),usuario.NombreDeUsuario,MoCifrado.Descifrado(usuario.PasswordUsuario)));
-                            ContenidoPlantilla = ContenidoPlantilla.Replace("#DeclaratoriaFooter#", Parametro.Where(x => x.NombreDeParametro == "DeclaratoriaFooter").Select(y => y.Descripcion).FirstOrDefault());
-                            ContenidoPlantilla = ContenidoPlantilla.Replace("#DireccionWebEmpresa#", Parametro.Where(x => x.NombreDeParametro == "DireccionWebEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
-                            ContenidoPlantilla = ContenidoPlantilla.Replace("#NombreDeLaEmpresa#", Parametro.Where(x => x.NombreDeParametro == "NombreDeLaEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
-                            ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
-                            envio.Mensaje = ContenidoPlantilla;
-                        }
-                        if (envio.EnviarCorreo(imagen))
+                            NumeroDePerfil = PerfilDemo,
+                            NumeroDeUsuario = usuario.NumeroDeUsuario,
+                            CveDeEstatus = 1
+                        };
+                        if (AsignaPerfil.Insert())
                         {
-                            ViewData["Informacion"] = "Se le ha enviado usuario y contraseña para el acceso a la Demo";
-                        }
-                        else
-                        {
-                            ViewData["Informacion"] = "No fue posible realizar el envió de usuario y contraseña para su acceso a la Demo";
+                            envio = new ClsAdicional.EnvioDeCorreos(Registro.Correo, Registro.Asunto, Registro.Mensaje);
+                            ContenidoPlantilla = envio.PlantillaHtml("EnvioKuup.html");
+                            if (!String.IsNullOrEmpty(ContenidoPlantilla))
+                            {
+                                ContenidoPlantilla = ContenidoPlantilla.Replace("#Contenido#", String.Format(Parametro.Where(x => x.NombreDeParametro == "MensajeParaUsuario").Select(y => y.Descripcion).FirstOrDefault(), usuario.NombreDeUsuario, MoCifrado.Descifrado(usuario.PasswordUsuario)));
+                                ContenidoPlantilla = ContenidoPlantilla.Replace("#DeclaratoriaFooter#", Parametro.Where(x => x.NombreDeParametro == "DeclaratoriaFooter").Select(y => y.Descripcion).FirstOrDefault());
+                                ContenidoPlantilla = ContenidoPlantilla.Replace("#DireccionWebEmpresa#", Parametro.Where(x => x.NombreDeParametro == "DireccionWebEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                                ContenidoPlantilla = ContenidoPlantilla.Replace("#NombreDeLaEmpresa#", Parametro.Where(x => x.NombreDeParametro == "NombreDeLaEmpresa").Select(y => y.ValorDeParametro).FirstOrDefault());
+                                ContenidoPlantilla = ContenidoPlantilla.Replace("#RutaDeLogoParaReportes#", Parametro.Where(x => x.NombreDeParametro == "RutaDeLogoParaReportes").Select(y => y.ValorDeParametro).FirstOrDefault());
+                                envio.Mensaje = ContenidoPlantilla;
+                            }
+                            Resultado = envio.EnviarCorreo(imagen);
+                            if (Resultado.Resultado)
+                            {
+                                ViewData["Informacion"] = "Se le ha enviado usuario y contraseña para el acceso a la Demo";
+                                return View("EnvioDeSolicitud");
+                            }
+                            else
+                            {
+                                ViewData["Informacion"] = "No fue posible realizar el envió de usuario y contraseña para su acceso a la Demo";
+                            }
                         }
                     }
+                }
+                if (!Resultado.Resultado)
+                {
+                    ClsBitacora.GeneraBitacora(NumeroDePantalla, 1, "EnviorCorreo", Resultado.Mensaje);
                 }
             }
             else
             {
                 ViewData["Informacion"] = "Los registros no son válidos para la solicitud";
             }
-            return RedirectToAction("Login", "Account");
+            return View(Registro);
         }
         [HttpGet]
         public ActionResult LoginOut()

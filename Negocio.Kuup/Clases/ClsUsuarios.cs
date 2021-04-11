@@ -162,6 +162,7 @@ namespace Negocio.Kuup.Clases
             db.SaveChanges();
             if ((from q in db.Usuario where q.USU_NUM_USUARIO == Usuario.USU_NUM_USUARIO select q).Count() != 0)
             {
+                this.NumeroDeUsuario = Usuario.USU_NUM_USUARIO;
                 return true;
             }
             return false;

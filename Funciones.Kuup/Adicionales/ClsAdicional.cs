@@ -943,8 +943,9 @@ namespace Funciones.Kuup.Adicionales
                 }
                 return Contenido;
             }
-            public bool EnviarCorreo(Dictionary<String,String> Imagenes = null)
+            public ClsResultado EnviarCorreo(Dictionary<String,String> Imagenes = null)
             {
+                ClsResultado Resultado = new ClsResultado(true, String.Empty);
                 try
                 {
                     List<Parametro> parametros = new List<Parametro>();
@@ -953,12 +954,20 @@ namespace Funciones.Kuup.Adicionales
                     }
                     SmtpClient smtpClient = new SmtpClient();
                     MailMessage mail = new MailMessage();
-                    smtpClient.UseDefaultCredentials = false;
-                    smtpClient.Credentials = new NetworkCredential(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Usuario").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()), MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Password").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
-                    smtpClient.Port = Convert<int>(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Port").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
-                    smtpClient.Host = MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Host").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault());
-
+                    if ((parametros.Where(x => x.PAR_NOM_PARAMETRO == "EsHost").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault() != "SI"))
+                    {
+                        smtpClient.UseDefaultCredentials = false;
+                        smtpClient.Credentials = new NetworkCredential(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Usuario").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()), MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Password").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                        smtpClient.Port = Convert<int>(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Port").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                        smtpClient.Host = MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Host").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault());
+                    }
+                    else
+                    {
+                        smtpClient.Host = "relay-hosting.secureserver.net";
+                        smtpClient.Port = 25;
+                    }
                     mail.From = new MailAddress(MoCifrado.Descifrado(parametros.Where(x => x.PAR_NOM_PARAMETRO == "Form").Select(y => y.PAR_VALOR_PARAMETRO).FirstOrDefault()));
+                    
                     foreach (var item in Para.Split(';'))
                     {
                         if (!String.IsNullOrEmpty(item))
@@ -988,13 +997,17 @@ namespace Funciones.Kuup.Adicionales
                 }
                 catch (SmtpException exm)
                 {
-                    return false;
+                    Resultado.Resultado = false;
+                    Resultado.Mensaje = "Tipo: " + exm.GetType().ToString() + " Mensaje: " + exm.Message;
+                    return Resultado;
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    Resultado.Resultado = false;
+                    Resultado.Mensaje = "Tipo: " + ex.GetType().ToString() + " Mensaje: " + ex.Message;
+                    return Resultado;
                 }
-                return true;
+                return Resultado;
             }
         } 
         #endregion
