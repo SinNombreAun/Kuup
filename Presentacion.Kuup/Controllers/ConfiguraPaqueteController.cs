@@ -117,7 +117,7 @@ namespace Presentacion.Kuup.Controllers
                 CantidadASalir = CantidadASalir,
                 ImporteTotal = Math.Round((PrecioDeProductoPadre + PrecioDeProductoHijo), 2)
             };
-            if (configuraPaquetes.Existe())
+            if (!configuraPaquetes.Existe())
             {
                 if (configuraPaquetes.Insert())
                 {

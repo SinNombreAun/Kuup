@@ -308,7 +308,8 @@
                         $('#' + Elementos_ConfiguraPaquete.PrecioDeProductoHijo).change(function () {
                             SumaPreciosDeProductos();
                         });
-                        $('#' + Elementos_ConfiguraPaquete.GuardaConfiguracion).click(function () {
+                        $('form').off('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion);
+                        $('form').on('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion, () => {
                             let EsCorrecto = true;
                             if ($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val() != '') {
                                 if (isNaN($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val())) {
@@ -354,13 +355,16 @@
                                         CantidadASalir: $('#' + Elementos_ConfiguraPaquete.CantidadASalir).val()
                                     },
                                     success: function (data) {
+                                        debugger
                                         if (data.Resultado) {
+                                            debugger
                                             window.location.href = UrlDetalle + '?NumeroDeProductoPadre=' + $('#' + Elementos_ConfiguraPaquete.NumeroDeProductoPadre).val() + '&NumeroDeProductoHijo=' + $('#' + Elementos_ConfiguraPaquete.NumeroDeProductoHijo).val();
                                         } else {
                                             alertify.error(data.Mensaje);
                                         }
                                     },
                                     error: function () {
+                                        debugger
                                         alertify.error("Ocurrio un error al realizar la consulta del producto");
                                     }
                                 });
@@ -390,7 +394,8 @@
                         $('#' + Elementos_ConfiguraPaquete.PrecioDeProductoHijo).change(function () {
                             SumaPreciosDeProductos();
                         });
-                        $('#' + Elementos_ConfiguraPaquete.GuardaConfiguracion).click(function () {
+                        $('form').off('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion);
+                        $('form').on('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion, () => {
                             let EsCorrecto = true;
                             if ($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val() != '') {
                                 if (isNaN($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val())) {
