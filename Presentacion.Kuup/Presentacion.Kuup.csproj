@@ -287,6 +287,7 @@
     <Content Include="Views\Shared\_LayoutReporte.cshtml" />
     <Content Include="Views\General\TituloReportes.cshtml" />
     <Content Include="Views\Venta\ReporteVenta.cshtml" />
+    <Content Include="Views\VentaTotal\DevolucionCambios.cshtml" />
     <Content Include="Views\Marca\Index.cshtml" />
     <Content Include="Views\Marca\Alta.cshtml" />
     <Content Include="Views\Marca\Detalle.cshtml" />
