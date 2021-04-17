@@ -394,8 +394,8 @@
                         $('#' + Elementos_ConfiguraPaquete.PrecioDeProductoHijo).change(function () {
                             SumaPreciosDeProductos();
                         });
-                        $('form').off('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion);
-                        $('form').on('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion, () => {
+                        $('#configura').off('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion);
+                        $('#configura').on('click', '#' + Elementos_ConfiguraPaquete.GuardaConfiguracion, () => {
                             let EsCorrecto = true;
                             if ($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val() != '') {
                                 if (isNaN($('#' + Elementos_ConfiguraPaquete.PrecioDeProductoPadre).val())) {

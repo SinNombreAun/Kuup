@@ -1,16 +1,11 @@
 ﻿using Funciones.Kuup.Adicionales;
 using Negocio.Kuup.Clases;
 using Presentacion.Kuup.Models;
-using Presentacion.Kuup.Nucleo.Funciones;
 using Presentacion.Kuup.Nucleo.Motores;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using System.Linq.Dynamic;
+using System.Web.Mvc;
 
 namespace Presentacion.Kuup.Controllers
 {
