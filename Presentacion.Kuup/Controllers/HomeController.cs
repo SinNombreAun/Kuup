@@ -48,7 +48,7 @@ namespace Presentacion.Kuup.Controllers
                 foreach (var item in LstMenu)
                 {
                     Informacion = new Dictionary<String, object>();
-                    Informacion.Add("NombreInterno", item.NombreDePantallaInt);
+                    Informacion.Add("NombreInterno", item.UrlInterna);
                     Informacion.Add("NumeroDeMenu", item.NumeroDeMenu);
                     Informacion.Add("NombreDeMenu", item.NombreDeMenu);
                     Informacion.Add("NumeroDePantalla", item.NumeroDePantalla);

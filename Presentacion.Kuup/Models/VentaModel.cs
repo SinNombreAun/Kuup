@@ -19,9 +19,11 @@ namespace Presentacion.Kuup.Models
             this.CantidadDeProducto = Venta.CantidadDeProducto;
             this.PrecioUnitario = Venta.PrecioUnitario;
             this.ImporteDeProducto = Venta.ImporteDeProducto;
+            this.CveDeEstatus = Venta.CveDeEstatus;
             this.NombreDeProducto = Venta.NombreDeProducto;
             this.NombreDeTipoDeProducto = Venta.NombreDeTipoDeProducto;
             this.NombreDeMarca = Venta.NombreDeMarca;
+            this.TextoDeEstatus = Venta.TextoDeEstatus;
         }
         [Required]
         [Display(Name = "Folio De Operacion")]
@@ -80,6 +82,13 @@ namespace Presentacion.Kuup.Models
             set { this.ImporteDeProducto = value; }
         }
         [Required]
+        [Display(Name = "Estatus")]
+        public byte fCveDeEstatus
+        {
+            get { return this.CveDeEstatus; }
+            set { this.CveDeEstatus = value; }
+        }
+        [Required]
         [Display(Name = "Nombre De Producto")]
         public String fNombreDeProducto
         {
@@ -97,6 +106,12 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.NombreDeMarca; }
             set { this.NombreDeMarca = value; }
+        }
+        [Display(Name = "Estatus")]
+        public String fTextoDeEstatus
+        {
+            get { return this.TextoDeEstatus; }
+            set { this.TextoDeEstatus = value; }
         }
     }
 }

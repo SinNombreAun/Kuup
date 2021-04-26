@@ -19,7 +19,7 @@
                 ProductosSelect: 'fProductosSelect',
                 NumeroDeTipoDeProducto: 'fNumeroDeTipoDeProducto',
                 NumeroDeMarca: 'fNumeroDeMarca',
-                Tabla: 'Tabla'
+                Tabla: 'Tabla',
                 NombreDeProductoHijo: 'fNombreDeProductoHijo',
                 NombreDeProductoHijoCambio: 'fNombreDeProductoHijoCambio',
                 BuscaVentaFolio: 'BuscaVentaFolio',
@@ -31,9 +31,9 @@
                 UrlProductoATabla = '',
                 UrlDeleteProducto = '',
                 UrlRegistraVenta = '',
-                UrlObtenMarcaPorTipo = '';
-                UrlBuscaVentaFolio = '';
-            TablaVentas = null;
+                UrlObtenMarcaPorTipo = '',
+                UrlBuscaVentaFolio = '',
+                TablaVentas = null;
             let _Funcionalidad = function (FuncionalidadSet) {
                 if (typeof (FuncionalidadSet) != 'undefined') {
                     Funcionalidad = FuncionalidadSet;
@@ -83,7 +83,6 @@
                     return UrlObtenMarcaPorTipo;
                 }
             }
-            };
             let _UrlBuscaVentaFolio = function (UrlBuscaVentaFolioSet) {
                 if (typeof (UrlBuscaVentaFolioSet) != 'undefined') {
                     UrlBuscaVentaFolio = UrlBuscaVentaFolioSet;
@@ -189,14 +188,17 @@
                         "leftColumns": 2,
                         "rightColumns": 2
                     },
-                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }],
+                    "columnDefs": [{ "targets": [0], "visible": false, "searchable": false }, { "targets": [2], "visible": false, "searchable": false }, { "targets": [3], "visible": false, "searchable": false }],
                     "columns": [
                         { "data": "NumeroDeProducto" },
                         { "data": "CodigoDeBarras" },
+                        { "data": "NumeroDeTipoDeProducto" },
+                        { "data": "NumeroDeMarca" },
                         { "data": "NombreDeProducto" },
                         { "data": "CantidadDeProducto" },
                         { "data": "PrecioUnitario", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
                         { "data": "ImporteDeProducto", "render": $.fn.dataTable.render.number(',', '.', 2, '$') },
+                        { "data": "TextoDeEstatus" },
                         { "defaultContent": "<button type='button' class='btndevolucion btn btn-danger'><i class='far fa-trash-alt'></i></button><button type='button' class='btncambio btn btn-danger'><i class='fa fa-retweet'></i></button>" }
                     ],
                     "paging": false,
@@ -211,16 +213,34 @@
                     if (typeof (data) == 'undefined') {
                         data = table.row($(this).parents('li')).data();
                     }
+                    let TablaRows = TablaVentas.rows().data();
+                    let JsonObj = [];
+                    for (var i = 0; i < TablaRows.rows()[0].length; i++) {
+                        JsonObj.push(TablaVentas.rows(i).data()[0]);
+                    }
+                    let JsonString = '';
+                    if (JsonObj.length != 0) {
+                        JsonString = JSON.stringify(JsonObj);
+                    }
                     let JsonData = '';
                     JsonData = JSON.stringify(data);
                     $.ajax({
                         type: "POST",
                         url: UrlDeleteProducto,
                         async: false,
-                        data: { RegistroCambio: JsonData },
+                        data: { RegistroPrevio: JsonData, RegistrosPrevios: JsonString },
                         success: function (data) {
-                            CreaDialog(Elementos_VentaTotal.CambioDeProducto, 'Cambio de Producto', CargaBotonesCambio(data.MuestraParcial), 400, 500);
-                            if (data.ManejaPaquete) {
+                            CreaDialog(Elementos_VentaTotal.CambioDeProducto, 'Cambio de Producto', CargaBotonesCambio((data.Registro[0].CantidadDeProducto = 1 ? false : true)), 600, 500);
+                            $('#' + Elementos_VentaTotal.CambioDeProducto).dialog('open');
+                            data.Registro.forEach((registro, i) => {
+                                if (i == 0) {
+                                    $('#' + Elementos_VentaTotal.CambioDeProducto + ' #' + Elementos_VentaTotal.NombreDeProducto).append(new Option(registro.NumeroDeProducto + ' / ' + registro.NombreDeProducto, registro.NumeroDeProducto, false, true));
+                                }
+                                if (i == 1) {
+                                    $('#' + Elementos_VentaTotal.CambioDeProducto + ' #' + Elementos_VentaTotal.NombreDeProductoHijo).append(new Option(registro.NumeroDeProducto + ' / ' + registro.NombreDeProducto, registro.NumeroDeProducto, false, true));
+                                }
+                            });
+                            if (data.Registro.length == 2) {
                                 $('#' + Elementos_VentaTotal.NombreDeProductoHijo).show();
                                 $('#' + Elementos_VentaTotal.NombreDeProductoHijoCambio).show();
                             }
@@ -284,17 +304,9 @@
                                 success: function (data) {
                                     if (data.Resultado.Resultado) {
                                         let ImporteTotal = 0;
-                                        for (var i = 0; i < data.Registro.length; i++) {
-                                            TablaVentas.row.add({
-                                                "NumeroDeProducto": data.Registro[i].NumeroDeProducto,
-                                                "CodigoDeBarras": data.Registro[i].CodigoDeBarras,
-                                                "NombreDeProducto": data.Registro[i].NombreDeProducto,
-                                                "CantidadDeProducto": data.Registro[i].CantidadDeProducto,
-                                                "PrecioUnitario": data.Registro[i].PrecioUnitario,
-                                                "ImporteDeProducto": data.Registro[i].ImporteDeProducto
-                                            }).draw();
-                                            ImporteTotal = ImporteTotal + parseFloat(data.Registro[i].ImporteDeProducto);
-                                        }
+                                        TablaVentas.clear().draw();
+                                        TablaVentas.rows.add(data.Registro).draw();
+                                        data.Registro.forEach(registro => ImporteTotal += parseFloat(registro.ImporteDeProducto))
                                         $('#' + Elementos_VentaTotal.ImporteTotal).val(ImporteTotal.toFixed(2));
                                     } else {
                                         alertify.error(data.Resultado.Mensaje);
@@ -520,7 +532,7 @@
                 let Parcial = {
                     id: 'CambioParcial',
                     text: 'Cambio Parcial',
-                    class: 'btn btn-primay',
+                    class: 'btn btn-primary',
                     click: function () {
 
                     }
@@ -528,7 +540,7 @@
                 let Completo = {
                     id: 'CambioCompleto',
                     text: 'Cambio Completo',
-                    class: 'btn btn-primay',
+                    class: 'btn btn-primary',
                     click: function () {
 
                     }
@@ -668,7 +680,7 @@
                     UrlProductoATabla: _UrlProductoATabla,
                     UrlDeleteProducto: _UrlDeleteProducto,
                     UrlRegistraVenta: _UrlRegistraVenta,
-                    UrlObtenMarcaPorTipo: _UrlObtenMarcaPorTipo
+                    UrlObtenMarcaPorTipo: _UrlObtenMarcaPorTipo,
                     UrlBuscaVentaFolio: _UrlBuscaVentaFolio
                 },
                 Inicio: _Inicio
