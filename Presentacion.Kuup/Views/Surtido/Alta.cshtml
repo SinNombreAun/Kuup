@@ -12,6 +12,20 @@
     <div class="row">
         <div class="col">
             <div class="from-group from-group-margin">
+                @Html.Label("fNumeroDeTipoDeProducto", "Tipo de Producto", new { @class = "col-sm col-form-label" })
+                @Html.DropDownList("fNumeroDeTipoDeProducto", (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col">
+            <div class="from-group from-group-margin">
+                @Html.Label("fNumeroDeMarca", "Marca", new { @class = "col-sm col-form-label" })
+                @Html.DropDownList("fNumeroDeMarca", (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="from-group from-group-margin">
                 @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
                 @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
             </div>
@@ -94,7 +108,8 @@
             Funcionalidad: 'ALTA',
             UrlAccion: '@Url.Action("Alta","Surtido")',
             UrlCargaProducto: '@Url.Action("CargaProducto", "Surtido")',
-            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "Surtido")'
+            UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "Surtido")',
+            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo", "Surtido")'
         });
         ClsSurtido.Inicio();
     });

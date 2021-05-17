@@ -298,13 +298,15 @@
                     data: { TipoDeProductoMarca: $('#' + Elementos_AsingaMarca.TipoDeProductoMarca).val(), Origen: Origen },
                     success: function (data) {
                         if (data.Resultado.Resultado) {
+                            debugger
                             TablaSNoAsigandos.clear().draw();
-                            for (var i = 0; i < data.data.length; i++) {
-                                TablaSNoAsigandos.row.add({
-                                    "NumeroMarcaOTipo": data.data[i].NumeroMarcaOTipo,
-                                    "MarcaOTipo": data.data[i].MarcaOTipo
-                                }).draw();
-                            }
+                            TablaSNoAsigandos.rows.add(data.data).draw();
+                            //for (var i = 0; i < data.data.length; i++) {
+                            //    TablaSNoAsigandos.row.add({
+                            //        "NumeroMarcaOTipo": data.data[i].NumeroMarcaOTipo,
+                            //        "MarcaOTipo": data.data[i].MarcaOTipo
+                            //    }).draw();
+                            //}
                         } else {
                             alertify.error(data.Resultado.Mensaje);
                         }

@@ -62,9 +62,9 @@ namespace Presentacion.Kuup.Controllers
             ClsAdicional.ClsResultado Resultado = Opera.InsertSurtidos(ProductosSurtidos);
             return Json(new { Resultado }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult AutoCompleteProducto(String Prefix)
+        public JsonResult AutoCompleteProducto(String Prefix, short NumeroDeTipoDeProducto = 0, short NumeroDeMarca = 0)
         {
-            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix), JsonRequestBehavior.AllowGet);
+            return Json(ClsAdicional.ClsCargaCombo.AutoCompleteProducto(Prefix, NumeroDeTipoDeProducto, NumeroDeMarca), JsonRequestBehavior.AllowGet);
         }
         public JsonResult CargaProducto(String NombreOCodigoDeProducto, short NumeroDeProducto = 0)
         {
@@ -73,15 +73,15 @@ namespace Presentacion.Kuup.Controllers
             ClsProductos Producto = new ClsProductos();
             if (NumeroDeProducto == 0)
             {
-                Productos = (from q in ClsProductos.getList() where q.CodigoDeBarras == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Productos = ClsProductos.getList(String.Format("CodigoDeBarras == \"{0}\" && CveDeEstatus == {1}",NombreOCodigoDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO));
                 if (Productos.Count() == 0)
                 {
-                    Productos = (from q in ClsProductos.getList() where q.NombreDeProducto == NombreOCodigoDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                    Productos = ClsProductos.getList(String.Format("NombreDeProducto == \"{0}\" && CveDeEstatus == {1}", NombreOCodigoDeProducto,(byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO));
                 }
             }
             else
             {
-                Productos = (from q in ClsProductos.getList() where q.NumeroDeProducto == NumeroDeProducto && q.CveDeEstatus == (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO select q).ToList();
+                Productos = ClsProductos.getList(String.Format("NumeroDeProducto == {0} && CveDeEstatus == {1}", NumeroDeProducto, (byte)ClsEnumerables.CveDeEstatusGeneral.ACTIVO));
             }
             if (Productos.Count() == 0)
             {
@@ -98,10 +98,16 @@ namespace Presentacion.Kuup.Controllers
         {
             ViewBag.CveDeAplicaSurtido = ClsAdicional.ClsCargaCombo.CargaComboClave(4,Entidad.CveDeAplicaSurtido.ToString());
             ViewBag.CveDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClave(1, Entidad.CveDeEstatus.ToString());
+            ViewBag.NumeroDeTipoDeProducto = ClsAdicional.ClsCargaCombo.CargaComboTipoDeProducto(String.Empty);
+            ViewBag.NumeroDeMarca = ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(0, String.Empty);
         }
         private void CargaCombosParaTabla()
         {
             ViewBag.TextoDeEstatus = ClsAdicional.ClsCargaCombo.CargaComboClaveParaTabla(1, "TextoDeEstatus");
+        }
+        public JsonResult ObtenMarcaPorTipo(short TipoDeProducto, short Marca = 0)
+        {
+            return Json(ClsAdicional.ClsCargaCombo.CargaComboMarcaPorTipo(TipoDeProducto, Marca.ToString()), JsonRequestBehavior.AllowGet);
         }
     }
 }

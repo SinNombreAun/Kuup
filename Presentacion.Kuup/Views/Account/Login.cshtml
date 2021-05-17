@@ -31,6 +31,12 @@
             <div class="submit-agileits">
                 <input type="submit" value="@Recursos.Textos.Account_Boton_IniciarSecion">
             </div>
+            if (MvcApplication.ObjVersion.NumeroDeVersion.ToUpper().Contains("DEMO"))
+            {
+                <div class="submit-agileits">
+                    @Html.ActionLink("Solicitar Acceso a la Demo","Contacto","Account", null,new { @class = "actionlink" })
+                </div>
+            }
         }
     </div>
 </div>

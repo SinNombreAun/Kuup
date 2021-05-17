@@ -21,12 +21,15 @@
             </div>
         </div>
         <div class="col-sm-12">
-            <button type="button" id="Consulta" class="btn btn-primary">Consultar</button>
-            <br />
-            <br />
-            <button type="button" id="GeneraReporte" class="btn btn-secondary">Generar Reporte</button>
-            <br />
-            <br />
+            @if ((bool)(ViewBag.MuestraBotones))
+            {
+                <button type="button" id="Consulta" class="btn btn-primary">Consultar</button>
+                <br />
+                <br />
+                <button type="button" id="GeneraReporte" class="btn btn-secondary">Generar Reporte</button>
+                <br />
+                <br />
+            }
             <table id="VentasTotales" class="table display nowrap" cellspacing="0" width="100%">
                 <thead class="thead-dark">
                     <tr>

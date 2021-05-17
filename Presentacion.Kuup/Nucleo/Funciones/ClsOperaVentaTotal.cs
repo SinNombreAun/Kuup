@@ -43,7 +43,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             VentasTotales.ImporteCambio = ImporteCambio;
                             if (VentasTotales.Insert())
                             {
-                                var Productos = ClsProductos.getList(listaProductos: (from q in RegistrosDeVentas select q.NumeroDeProducto).ToList());
+                                var Productos = ClsProductos.getList(listaProductos: (from q in RegistrosDeVentas select  q.NumeroDeProducto).ToList());
                                 foreach (var Ventas in RegistrosDeVentas)
                                 {
                                     if (Resultado.Resultado)

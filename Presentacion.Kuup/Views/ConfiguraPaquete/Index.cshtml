@@ -19,6 +19,9 @@
                         <th id="NombreDeProductoHijo" scope="col">Nombre de Producto Hijo</th>
                         <th id="PrecioDeProductoHijo" scope="col">Precio de Producto Hijo</th>
                         <th id="ImporteTotal" scope="col">Importe Total</th>
+                        <th id="NumeroDeProductoPadre" scope="col">Numero de Producto Padre</th>
+                        <th id="NumeroDeProductoHijo" scope="col">Numero de Producto Hijo</th>
+                        <th id="boton"></th>
                     </tr>
                 </thead>
             </table>
@@ -37,7 +40,8 @@
     $(function () {
         ClsConfiguraPaquete = Objeto.Constructor({
             Funcionalidad: 'INDEX',
-            UrlCargaGrid: '@Url.Action("Json", "ConfiguraPaquete")'
+            UrlCargaGrid: '@Url.Action("Json", "ConfiguraPaquete")',
+            UrlDetalle: '@Url.Action("Detalle","ConfiguraPaquete")'
         });
         ClsConfiguraPaquete.Inicio();
     });

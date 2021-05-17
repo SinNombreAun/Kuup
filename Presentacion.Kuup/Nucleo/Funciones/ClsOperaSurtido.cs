@@ -42,7 +42,7 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                             try
                             {
                                 ClsSequence Sequence = new ClsSequence(db.Database);
-                                var Productos = ClsProductos.getList().Where(x => Surtidos.Exists(y => y.NumeroDeProducto == x.NumeroDeProducto)).ToList();
+                                var Productos = ClsProductos.getList(listaProductos: Surtidos.Select(x => x.NumeroDeProducto).ToList());
                                 var ProductosAudit = (from q in db.ProductoAudit select q.PRO_NUM_PRODUCTO).Distinct().ToList();
                                 short FolioDeSurtido = Sequence.SQ_FolioSurtido();
                                 foreach (var Surtido in Surtidos)

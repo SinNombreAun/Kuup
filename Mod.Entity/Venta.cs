@@ -17,11 +17,13 @@ namespace Mod.Entity
         public short VEN_FOLIO_OPERACION { get; set; }
         public short VEN_NUM_PRODUCTO { get; set; }
         public string VEN_CODIGO_BARRAS { get; set; }
+        public short VEN_NUM_TIPO_PRODUCTO { get; set; }
+        public Nullable<short> VEN_NUM_MARCA { get; set; }
         public short VEN_CANT_PRODUCTO { get; set; }
         public decimal VEN_PRECIO_UNITARIO { get; set; }
         public decimal VEN_IMPORTE_PRODUCTO { get; set; }
     
-        public virtual VentaTotal VentaTotal { get; set; }
         public virtual Producto Producto { get; set; }
+        public virtual VentaTotal VentaTotal { get; set; }
     }
 }

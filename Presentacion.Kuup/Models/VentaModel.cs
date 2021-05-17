@@ -14,10 +14,14 @@ namespace Presentacion.Kuup.Models
             this.FolioDeOperacion = Venta.FolioDeOperacion;
             this.NumeroDeProducto = Venta.NumeroDeProducto;
             this.CodigoDeBarras = Venta.CodigoDeBarras;
+            this.NumeroDeTipoDeProducto = Venta.NumeroDeTipoDeProducto;
+            this.NumeroDeMarca = Venta.NumeroDeMarca;
             this.CantidadDeProducto = Venta.CantidadDeProducto;
             this.PrecioUnitario = Venta.PrecioUnitario;
             this.ImporteDeProducto = Venta.ImporteDeProducto;
             this.NombreDeProducto = Venta.NombreDeProducto;
+            this.NombreDeTipoDeProducto = Venta.NombreDeTipoDeProducto;
+            this.NombreDeMarca = Venta.NombreDeMarca;
         }
         [Required]
         [Display(Name = "Folio De Operacion")]
@@ -39,6 +43,20 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.CodigoDeBarras; }
             set { this.CodigoDeBarras = value; }
+        }
+        [Required]
+        [Display(Name = "Tipo de Producto")]
+        public short fNumeroDeTipoDeProducto
+        {
+            get { return this.NumeroDeTipoDeProducto; }
+            set { this.NumeroDeTipoDeProducto = value; }
+        }
+        [Required]
+        [Display(Name = "Marca")]
+        public Nullable<short> fNumeroDeMarca
+        {
+            get { return this.NumeroDeMarca; }
+            set { this.NumeroDeMarca = value; }
         }
         [Required]
         [Display(Name = "Catidad De Producto")]
@@ -67,6 +85,18 @@ namespace Presentacion.Kuup.Models
         {
             get { return this.NombreDeProducto; }
             set { this.NombreDeProducto = value; }
+        }
+        [Display(Name = "Tipo de Producto")]
+        public String fNombreDeTipoDeProducto
+        {
+            get { return this.NombreDeTipoDeProducto; }
+            set { this.NombreDeTipoDeProducto = value; }
+        }
+        [Display(Name = "Marca")]
+        public String fNombreDeMarca
+        {
+            get { return this.NombreDeMarca; }
+            set { this.NombreDeMarca = value; }
         }
     }
 }

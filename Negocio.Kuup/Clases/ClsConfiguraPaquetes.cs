@@ -72,6 +72,24 @@ namespace Negocio.Kuup.Clases
             set { ConfiguraPaquete.CNP_NOM_PRODUCTO_HIJO = value; }
         }
         public ClsConfiguraPaquetes() { }
+        public bool Existe(bool Dependencia = false)
+        {
+            try
+            {
+                using (DBKuupEntities db = new DBKuupEntities())
+                {
+                    if ((from q in db.ConfiguraPaquete where q.CNP_NUM_PRODUCTO_PADRE == ConfiguraPaquete.CNP_NUM_PRODUCTO_PADRE && q.CNP_NUM_PRODUCTO_HIJO == ConfiguraPaquete.CNP_NUM_PRODUCTO_HIJO select q).Count() != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
         private bool ToInsert(DBKuupEntities db)
         {
             ConfiguraPaquete ConfiguraPaquete = this.ToTable();
@@ -315,7 +333,9 @@ namespace Negocio.Kuup.Clases
                                  CodigoDeBarrasHijo = q.CNP_CODIGO_BARRAS_HIJO,
                                  NombreDeProductoHijo = q.CNP_NOM_PRODUCTO_HIJO,
                                  PrecioDeProductoHijo = q.CNP_PRECIO_PRODUCTO_HIJO,
-                                 ImporteTotal = q.CNP_IMPORTE_TOTAL
+                                 ImporteTotal = q.CNP_IMPORTE_TOTAL,
+                                 NumeroDeProductoPadre = q.CNP_NUM_PRODUCTO_PADRE,
+                                 NumeroDeProductoHijo = q.CNP_NUM_PRODUCTO_HIJO
                              }).AsQueryable();
                 String sql = String.Empty;
                 if (!string.IsNullOrEmpty(RequesDT.Form.GetValues("columns[0][search][value]").FirstOrDefault()))
