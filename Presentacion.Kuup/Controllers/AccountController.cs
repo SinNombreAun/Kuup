@@ -39,7 +39,6 @@ namespace Presentacion.Kuup.Controllers
                     }
                     Account.IP = ClsAdicional.ClsGetHostNameAndIP.GetIPv4Address(Request.UserHostAddress);
                     Account.Terminal = ClsAdicional.ClsGetHostNameAndIP.GetHostName(Request.UserHostAddress);
-                    var eer = MoCifrado.Cifrado(Account.Password);
                     ViewData["Informacion"] = String.Empty;
                     List<ClsUsuarios> lstUsuario = (from q in ClsUsuarios.getList() where q.NombreDeUsuario == Account.NombreDeUsuario && MoCifrado.Descifrado(q.PasswordUsuario) == Account.Password && q.CveDeEstatus == 1 select q).ToList();
                     if (lstUsuario.Count == 1)
