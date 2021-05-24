@@ -280,6 +280,9 @@
                                         $.each(data.Paquetes, function (index, value) {
                                             $('#' + Elementos_VentaTotal.Paquetes).append($('<option></option>').attr('value', value.NumeroDeProductoPadre + '_' + value.NumeroDeProductoHijo).text(value.NombreDeProductoPadre + ' con ' + value.NombreDeProductoHijo));
                                         });
+                                        if (data.Paquetes.length == 1) {
+                                            $('#' + Elementos_VentaTotal.Paquetes).val(data.Paquetes[0].NumeroDeProductoPadre + '_' + data.Paquetes[0].NumeroDeProductoHijo);
+                                        }
                                         DimencionesX = 700;
                                         DimencionesY = 350;
                                         $('#' + Elementos_VentaTotal.Paquetes).parent().parent().show();

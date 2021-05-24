@@ -96,6 +96,9 @@ footer {
     color: white;
     text-align:center;
 }
+footer p {
+    margin-bottom: 0px !important;
+}    
 /*.container-form {
     width: 100%;
     padding-right: 15px;
