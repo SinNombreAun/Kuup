@@ -112,9 +112,11 @@ namespace Presentacion.Kuup.Controllers
                     }
                     Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", ListaPaquetes.FirstOrDefault().NumeroDeProductoPadre, ListaPaquetes.FirstOrDefault().CodigoDeBarrasPadre, CantidadParaMayoreo);
                     List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
+                    bool EsMayoreo = false;
                     if (Mayoreo.Count() != 0)
                     {
                         PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                        EsMayoreo = true;
                     }
                     if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
                     {
@@ -127,8 +129,8 @@ namespace Presentacion.Kuup.Controllers
                                 NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
                                 NumeroDeMarca = venta.NumeroDeMarca,
                                 CantidadDeProducto = venta.CantidadDeProducto,
-                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
-                                PrecioUnitario = PrecioUnitario,
+                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario), 2),
+                                PrecioUnitario = (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario),
                                 NombreDeProducto = venta.NombreDeProducto
                             });
                         }
@@ -158,9 +160,11 @@ namespace Presentacion.Kuup.Controllers
                     }
                     Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", ListaPaquetes.FirstOrDefault().NumeroDeProductoHijo, ListaPaquetes.FirstOrDefault().CodigoDeBarrasHijo, CantidadParaMayoreo);
                     Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
+                    EsMayoreo = false;
                     if (Mayoreo.Count() != 0)
                     {
                         PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                        EsMayoreo = true;
                     }
                     if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
                     {
@@ -173,8 +177,8 @@ namespace Presentacion.Kuup.Controllers
                                 NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
                                 NumeroDeMarca = venta.NumeroDeMarca,
                                 CantidadDeProducto = venta.CantidadDeProducto,
-                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
-                                PrecioUnitario = PrecioUnitario,
+                                ImporteDeProducto = Math.Round(venta.CantidadDeProducto * (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario), 2),
+                                PrecioUnitario = (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario),
                                 NombreDeProducto = venta.NombreDeProducto
                             });
                         }
@@ -208,9 +212,11 @@ namespace Presentacion.Kuup.Controllers
                 }
                 Filtro = String.Format("NumeroDeProducto == {0} && CodigoDeBarras == \"{1}\" && CantidadMinima <= {2} && CantidadMaxima >= {2}", Producto.NumeroDeProducto, Producto.CodigoDeBarras, CantidadParaMayoreo);
                 List<ClsConfiguraMayoreos> Mayoreo = ClsConfiguraMayoreos.getList(Filtro);
+                bool EsMayoreo = false;
                 if (Mayoreo.Count() != 0)
                 {
                     PrecioUnitario = Mayoreo.FirstOrDefault().PrecioDeMayoreo;
+                    EsMayoreo = true;
                 }
                 if (RegistrosPrev.Exists(x => x.NumeroDeTipoDeProducto == Producto.NumeroDeTipoDeProducto && x.NumeroDeMarca == Producto.NumeroDeMarca && x.NumeroDeProducto != Producto.NumeroDeProducto))
                 {
@@ -223,8 +229,8 @@ namespace Presentacion.Kuup.Controllers
                             NumeroDeTipoDeProducto = venta.NumeroDeTipoDeProducto,
                             NumeroDeMarca = venta.NumeroDeMarca,
                             CantidadDeProducto = venta.CantidadDeProducto,
-                            ImporteDeProducto = Math.Round(venta.CantidadDeProducto * PrecioUnitario, 2),
-                            PrecioUnitario = PrecioUnitario,
+                            ImporteDeProducto = Math.Round(venta.CantidadDeProducto * (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario), 2),
+                            PrecioUnitario = (EsMayoreo ? PrecioUnitario : venta.PrecioUnitario),
                             NombreDeProducto = venta.NombreDeProducto
                         });
                     }
