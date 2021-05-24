@@ -19,9 +19,9 @@ namespace Presentacion.Kuup.Nucleo.Clases
         {
             VersionMayor = 1;
             VersionDeCompativilidad = 1;
-            VersionDeCompilado = 3;
+            VersionDeCompilado = 4;
             Complemento = "stable";
-            FechaDeVersion = new DateTime(2021,3,30);
+            FechaDeVersion = new DateTime(2021,5,23);
             NumeroDeVersion = String.Format("{0}.{1}.{2}-{3}",VersionMayor,VersionDeCompativilidad,VersionDeCompilado,Complemento);
             NumeroDeVersionCorta = String.Format("{0}.{1}.{2}", VersionMayor, VersionDeCompativilidad, VersionDeCompilado);
             TextoDeVersion = String.Format("Versión {0}", NumeroDeVersion);
