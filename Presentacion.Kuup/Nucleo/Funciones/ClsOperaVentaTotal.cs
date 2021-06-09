@@ -72,15 +72,20 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                                         {
                                                             if (Cantidad <= Producto.CantidadMinima)
                                                             {
-                                                                AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                                //AvisaCantidad.Add(String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
+                                                                AvisaCantidad.Add(String.Format("{0}-x mensaje en bitacora",(new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3,'0') + "1".PadLeft(3,'0')));
+                                                                ClsBitacora.GeneraBitacora(1, 1, String.Format("RegistroDeVenta-{0}", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0') + "1".PadLeft(3, '0')), String.Format("El producto {0} esta proximo a terminarce Cantidad Actual {1}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal));
                                                             }
                                                         }
                                                     }
                                                     else
                                                     {
                                                         Resultado.Resultado = false;
-                                                        Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
-                                                        AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                                        //Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
+                                                        Resultado.Mensaje = String.Format("{0}-x mensaje en bitacora", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0'), "2".PadLeft(3, '0'));
+                                                        //AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                                        AvisaCantidad.Add(String.Format("{0}-x mensaje en bitacora",(new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3,'0') + "2".PadLeft(3,'0')));
+                                                        ClsBitacora.GeneraBitacora(1, 1, String.Format("RegistroDeVenta-{0}", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0') + "2".PadLeft(3, '0')), String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
                                                         break;
                                                     }
                                                 }
@@ -95,8 +100,11 @@ namespace Presentacion.Kuup.Nucleo.Funciones
                                         else
                                         {
                                             Resultado.Resultado = false;
-                                            Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
-                                            AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                            //Resultado.Mensaje = "Ocurrió un problema al realizar la venta, debido a que no existen productos con la cantidad necesaria para hacer la venta";
+                                            Resultado.Mensaje = String.Format("{0}-x mensaje en bitacora", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0') + "3".PadLeft(3, '0'));
+                                            //AvisaCantidad.Add(String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
+                                            AvisaCantidad.Add(String.Format("{0}-x mensaje en bitacora", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0') + "3".PadLeft(3, '0')));
+                                            ClsBitacora.GeneraBitacora(1, 1, String.Format("RegistroDeVenta-{0}", (new ClsVentasTotales()).NumeroDePantallaKuup.ToString().PadLeft(3, '0') + "3".PadLeft(3, '0')), String.Format("El producto {0} no cuenta con la cantidad a vender Cantidad Actual: {1} Cantidad a Vender: {2}", Producto.NombreDeProducto, Producto.CantidadDeProductoTotal, Ventas.CantidadDeProducto));
                                             break;
                                         }
                                     }
