@@ -22,7 +22,6 @@ namespace Mod.Entity
         public short VEN_CANT_PRODUCTO { get; set; }
         public decimal VEN_PRECIO_UNITARIO { get; set; }
         public decimal VEN_IMPORTE_PRODUCTO { get; set; }
-        public byte VEN_CVE_ESTATUS { get; set; }
     
         public virtual Producto Producto { get; set; }
         public virtual VentaTotal VentaTotal { get; set; }

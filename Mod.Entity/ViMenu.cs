@@ -19,7 +19,6 @@ namespace Mod.Entity
         public byte MEN_NUM_ORDEN { get; set; }
         public string MEN_NOM_MENU { get; set; }
         public short MEN_NUM_PANTALLA { get; set; }
-        public string MEN_URL_INT { get; set; }
         public byte MEN_CVE_ESTATUS { get; set; }
         public string MEN_NOM_PANTALLA { get; set; }
         public string MEN_NOM_PANTALLA_INT { get; set; }

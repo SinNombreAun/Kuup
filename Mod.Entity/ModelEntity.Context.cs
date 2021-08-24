@@ -30,6 +30,7 @@ namespace Mod.Entity
         public virtual DbSet<Agenda> Agenda { get; set; }
         public virtual DbSet<Funcionalidad> Funcionalidad { get; set; }
         public virtual DbSet<FuncionPerfil> FuncionPerfil { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<PantallaPerfil> PantallaPerfil { get; set; }
         public virtual DbSet<Parametro> Parametro { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
@@ -39,6 +40,7 @@ namespace Mod.Entity
         public virtual DbSet<BitacoraCorreo> BitacoraCorreo { get; set; }
         public virtual DbSet<ViAgenda> ViAgenda { get; set; }
         public virtual DbSet<ViBitacoraCorreo> ViBitacoraCorreo { get; set; }
+        public virtual DbSet<ViMenu> ViMenu { get; set; }
         public virtual DbSet<ViPantalla> ViPantalla { get; set; }
         public virtual DbSet<ViPantallaPerfil> ViPantallaPerfil { get; set; }
         public virtual DbSet<ViParametro> ViParametro { get; set; }
@@ -78,8 +80,6 @@ namespace Mod.Entity
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoAudit> ProductoAudit { get; set; }
         public virtual DbSet<ViProducto> ViProducto { get; set; }
-        public virtual DbSet<Menu> Menu { get; set; }
-        public virtual DbSet<ViMenu> ViMenu { get; set; }
         public virtual DbSet<Venta> Venta { get; set; }
         public virtual DbSet<ViVenta> ViVenta { get; set; }
     

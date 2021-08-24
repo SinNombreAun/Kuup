@@ -228,7 +228,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.BitacoraCorreo' no tien
           <Property Name="MEN_NUM_ORDEN" Type="tinyint" Nullable="false" />
           <Property Name="MEN_NOM_MENU" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MEN_NUM_PANTALLA" Type="smallint" Nullable="false" />
-          <Property Name="MEN_URL_INT" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="MEN_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="Pantalla">
@@ -423,7 +422,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.BitacoraCorreo' no tien
           <Property Name="VEN_CANT_PRODUCTO" Type="smallint" Nullable="false" />
           <Property Name="VEN_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="VEN_CVE_ESTATUS" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="VentaTotal">
           <Key>
@@ -688,7 +686,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMenu' no tiene defini
             <PropertyRef Name="MEN_NUM_ORDEN" />
             <PropertyRef Name="MEN_NOM_MENU" />
             <PropertyRef Name="MEN_NUM_PANTALLA" />
-            <PropertyRef Name="MEN_URL_INT" />
             <PropertyRef Name="MEN_CVE_ESTATUS" />
           </Key>
           <Property Name="MEN_NUM_MENU" Type="smallint" Nullable="false" />
@@ -696,7 +693,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViMenu' no tiene defini
           <Property Name="MEN_NUM_ORDEN" Type="tinyint" Nullable="false" />
           <Property Name="MEN_NOM_MENU" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MEN_NUM_PANTALLA" Type="smallint" Nullable="false" />
-          <Property Name="MEN_URL_INT" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="MEN_CVE_ESTATUS" Type="tinyint" Nullable="false" />
           <Property Name="MEN_NOM_PANTALLA" Type="nvarchar" MaxLength="250" />
           <Property Name="MEN_NOM_PANTALLA_INT" Type="nvarchar" MaxLength="25" />
@@ -937,7 +933,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVenta' no tiene defin
             <PropertyRef Name="VEN_CANT_PRODUCTO" />
             <PropertyRef Name="VEN_PRECIO_UNITARIO" />
             <PropertyRef Name="VEN_IMPORTE_PRODUCTO" />
-            <PropertyRef Name="VEN_CVE_ESTATUS" />
             <PropertyRef Name="VEN_NOM_PRODUCTO" />
             <PropertyRef Name="VEN_NOM_TIPO_PRODUCTO" />
           </Key>
@@ -949,11 +944,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVenta' no tiene defin
           <Property Name="VEN_CANT_PRODUCTO" Type="smallint" Nullable="false" />
           <Property Name="VEN_PRECIO_UNITARIO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="numeric" Precision="16" Scale="2" Nullable="false" />
-          <Property Name="VEN_CVE_ESTATUS" Type="tinyint" Nullable="false" />
           <Property Name="VEN_NOM_PRODUCTO" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="VEN_NOM_TIPO_PRODUCTO" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="VEN_NOM_MARCA" Type="nvarchar" MaxLength="100" />
-          <Property Name="VEN_TXT_ESTATUS" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -1424,7 +1417,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
     [ViMenu].[MEN_NUM_ORDEN] AS [MEN_NUM_ORDEN], 
     [ViMenu].[MEN_NOM_MENU] AS [MEN_NOM_MENU], 
     [ViMenu].[MEN_NUM_PANTALLA] AS [MEN_NUM_PANTALLA], 
-    [ViMenu].[MEN_URL_INT] AS [MEN_URL_INT], 
     [ViMenu].[MEN_CVE_ESTATUS] AS [MEN_CVE_ESTATUS], 
     [ViMenu].[MEN_NOM_PANTALLA] AS [MEN_NOM_PANTALLA], 
     [ViMenu].[MEN_NOM_PANTALLA_INT] AS [MEN_NOM_PANTALLA_INT], 
@@ -1579,11 +1571,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
     [ViVenta].[VEN_CANT_PRODUCTO] AS [VEN_CANT_PRODUCTO], 
     [ViVenta].[VEN_PRECIO_UNITARIO] AS [VEN_PRECIO_UNITARIO], 
     [ViVenta].[VEN_IMPORTE_PRODUCTO] AS [VEN_IMPORTE_PRODUCTO], 
-    [ViVenta].[VEN_CVE_ESTATUS] AS [VEN_CVE_ESTATUS], 
     [ViVenta].[VEN_NOM_PRODUCTO] AS [VEN_NOM_PRODUCTO], 
     [ViVenta].[VEN_NOM_TIPO_PRODUCTO] AS [VEN_NOM_TIPO_PRODUCTO], 
-    [ViVenta].[VEN_NOM_MARCA] AS [VEN_NOM_MARCA], 
-    [ViVenta].[VEN_TXT_ESTATUS] AS [VEN_TXT_ESTATUS]
+    [ViVenta].[VEN_NOM_MARCA] AS [VEN_NOM_MARCA]
     FROM [Kuup].[ViVenta] AS [ViVenta]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ViVentaTotal" EntityType="Self.ViVentaTotal" store:Type="Views" store:Schema="Kuup">
@@ -1725,6 +1715,19 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <NavigationProperty Name="Funcionalidad" Relationship="Self.FK_FuncionPerfil_Funcionalidad" FromRole="FuncionPerfil" ToRole="Funcionalidad" />
           <NavigationProperty Name="Perfil" Relationship="Self.FK_FuncionPerfil_Perfil" FromRole="FuncionPerfil" ToRole="Perfil" />
         </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MEN_NUM_MENU" />
+            <PropertyRef Name="MEN_NUM_PADRE" />
+            <PropertyRef Name="MEN_NUM_ORDEN" />
+          </Key>
+          <Property Name="MEN_NUM_MENU" Type="Int16" Nullable="false" />
+          <Property Name="MEN_NUM_PADRE" Type="Int16" Nullable="false" />
+          <Property Name="MEN_NUM_ORDEN" Type="Byte" Nullable="false" />
+          <Property Name="MEN_NOM_MENU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MEN_NUM_PANTALLA" Type="Int16" Nullable="false" />
+          <Property Name="MEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
+        </EntityType>
         <EntityType Name="PantallaPerfil">
           <Key>
             <PropertyRef Name="PAP_NUM_PANTALLA" />
@@ -1865,6 +1868,25 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Name="BIM_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <Property Name="BIM_NOM_PANTALLA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BIM_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViMenu">
+          <Key>
+            <PropertyRef Name="MEN_NUM_MENU" />
+            <PropertyRef Name="MEN_NUM_PADRE" />
+            <PropertyRef Name="MEN_NUM_ORDEN" />
+            <PropertyRef Name="MEN_NOM_MENU" />
+            <PropertyRef Name="MEN_NUM_PANTALLA" />
+            <PropertyRef Name="MEN_CVE_ESTATUS" />
+          </Key>
+          <Property Name="MEN_NUM_MENU" Type="Int16" Nullable="false" />
+          <Property Name="MEN_NUM_PADRE" Type="Int16" Nullable="false" />
+          <Property Name="MEN_NUM_ORDEN" Type="Byte" Nullable="false" />
+          <Property Name="MEN_NOM_MENU" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MEN_NUM_PANTALLA" Type="Int16" Nullable="false" />
+          <Property Name="MEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
+          <Property Name="MEN_NOM_PANTALLA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="MEN_NOM_PANTALLA_INT" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="MEN_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ViPantalla">
           <Key>
@@ -2067,6 +2089,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <EntitySet Name="Agenda" EntityType="Self.Agenda" />
           <EntitySet Name="Funcionalidad" EntityType="Self.Funcionalidad" />
           <EntitySet Name="FuncionPerfil" EntityType="Self.FuncionPerfil" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" />
           <EntitySet Name="PantallaPerfil" EntityType="Self.PantallaPerfil" />
           <EntitySet Name="Parametro" EntityType="Self.Parametro" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" />
@@ -2076,6 +2099,7 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <EntitySet Name="BitacoraCorreo" EntityType="Self.BitacoraCorreo" />
           <EntitySet Name="ViAgenda" EntityType="Self.ViAgenda" />
           <EntitySet Name="ViBitacoraCorreo" EntityType="Self.ViBitacoraCorreo" />
+          <EntitySet Name="ViMenu" EntityType="Self.ViMenu" />
           <EntitySet Name="ViPantalla" EntityType="Self.ViPantalla" />
           <EntitySet Name="ViPantallaPerfil" EntityType="Self.ViPantallaPerfil" />
           <EntitySet Name="ViParametro" EntityType="Self.ViParametro" />
@@ -2187,8 +2211,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Surtido" EntitySet="Surtido" />
           </AssociationSet>
-          <EntitySet Name="Menu" EntityType="DBKuupModel.Menu" />
-          <EntitySet Name="ViMenu" EntityType="DBKuupModel.ViMenu" />
           <EntitySet Name="Venta" EntityType="DBKuupModel.Venta" />
           <AssociationSet Name="FK_Venta_Producto" Association="DBKuupModel.FK_Venta_Producto">
             <End Role="Producto" EntitySet="Producto" />
@@ -2935,41 +2957,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Menu">
-          <Key>
-            <PropertyRef Name="MEN_NUM_MENU" />
-            <PropertyRef Name="MEN_NUM_PADRE" />
-            <PropertyRef Name="MEN_NUM_ORDEN" />
-          </Key>
-          <Property Name="MEN_NUM_MENU" Type="Int16" Nullable="false" />
-          <Property Name="MEN_NUM_PADRE" Type="Int16" Nullable="false" />
-          <Property Name="MEN_NUM_ORDEN" Type="Byte" Nullable="false" />
-          <Property Name="MEN_NOM_MENU" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_NUM_PANTALLA" Type="Int16" Nullable="false" />
-          <Property Name="MEN_URL_INT" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ViMenu">
-          <Key>
-            <PropertyRef Name="MEN_NUM_MENU" />
-            <PropertyRef Name="MEN_NUM_PADRE" />
-            <PropertyRef Name="MEN_NUM_ORDEN" />
-            <PropertyRef Name="MEN_NOM_MENU" />
-            <PropertyRef Name="MEN_NUM_PANTALLA" />
-            <PropertyRef Name="MEN_URL_INT" />
-            <PropertyRef Name="MEN_CVE_ESTATUS" />
-          </Key>
-          <Property Name="MEN_NUM_MENU" Type="Int16" Nullable="false" />
-          <Property Name="MEN_NUM_PADRE" Type="Int16" Nullable="false" />
-          <Property Name="MEN_NUM_ORDEN" Type="Byte" Nullable="false" />
-          <Property Name="MEN_NOM_MENU" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_NUM_PANTALLA" Type="Int16" Nullable="false" />
-          <Property Name="MEN_URL_INT" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
-          <Property Name="MEN_NOM_PANTALLA" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_NOM_PANTALLA_INT" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="MEN_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Venta">
           <Key>
             <PropertyRef Name="VEN_FOLIO_OPERACION" />
@@ -2984,7 +2971,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Name="VEN_CANT_PRODUCTO" Type="Int16" Nullable="false" />
           <Property Name="VEN_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="DBKuupModel.FK_Venta_Producto" FromRole="Venta" ToRole="Producto" />
           <NavigationProperty Name="VentaTotal" Relationship="DBKuupModel.FK_Venta_VentaTotal" FromRole="Venta" ToRole="VentaTotal" />
         </EntityType>
@@ -3023,7 +3009,6 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
             <PropertyRef Name="VEN_CANT_PRODUCTO" />
             <PropertyRef Name="VEN_PRECIO_UNITARIO" />
             <PropertyRef Name="VEN_IMPORTE_PRODUCTO" />
-            <PropertyRef Name="VEN_CVE_ESTATUS" />
             <PropertyRef Name="VEN_NOM_PRODUCTO" />
             <PropertyRef Name="VEN_NOM_TIPO_PRODUCTO" />
           </Key>
@@ -3035,11 +3020,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Name="VEN_CANT_PRODUCTO" Type="Int16" Nullable="false" />
           <Property Name="VEN_PRECIO_UNITARIO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
           <Property Name="VEN_IMPORTE_PRODUCTO" Type="Decimal" Nullable="false" Precision="16" Scale="2" />
-          <Property Name="VEN_CVE_ESTATUS" Type="Byte" Nullable="false" />
           <Property Name="VEN_NOM_PRODUCTO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="VEN_NOM_TIPO_PRODUCTO" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="VEN_NOM_MARCA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="VEN_TXT_ESTATUS" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <ComplexType Name="VentasTotalesDetalle_Result">
           <Property Type="Int16" Name="VET_FOLIO_OPERACION" Nullable="false" />
@@ -3065,11 +3048,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <Property Type="Int16" Name="VEN_CANT_PRODUCTO" Nullable="false" />
           <Property Type="Decimal" Name="VEN_PRECIO_UNITARIO" Nullable="false" Precision="16" Scale="2" />
           <Property Type="Decimal" Name="VEN_IMPORTE_PRODUCTO" Nullable="false" Precision="16" Scale="2" />
-          <Property Type="Byte" Name="VEN_CVE_ESTATUS" Nullable="false" />
           <Property Type="String" Name="VEN_NOM_PRODUCTO" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="VEN_NOM_TIPO_PRODUCTO" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="VEN_NOM_MARCA" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="VEN_TXT_ESTATUS" Nullable="true" MaxLength="150" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3108,6 +3089,18 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
                 <ScalarProperty Name="FUP_NUM_FUNCIONALIDAD" ColumnName="FUP_NUM_FUNCIONALIDAD" />
                 <ScalarProperty Name="FUP_NUM_PERFIL" ColumnName="FUP_NUM_PERFIL" />
                 <ScalarProperty Name="FUP_CVE_ESTATUS" ColumnName="FUP_CVE_ESTATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="DBKuupModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="MEN_NUM_MENU" ColumnName="MEN_NUM_MENU" />
+                <ScalarProperty Name="MEN_NUM_PADRE" ColumnName="MEN_NUM_PADRE" />
+                <ScalarProperty Name="MEN_NUM_ORDEN" ColumnName="MEN_NUM_ORDEN" />
+                <ScalarProperty Name="MEN_NOM_MENU" ColumnName="MEN_NOM_MENU" />
+                <ScalarProperty Name="MEN_NUM_PANTALLA" ColumnName="MEN_NUM_PANTALLA" />
+                <ScalarProperty Name="MEN_CVE_ESTATUS" ColumnName="MEN_CVE_ESTATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3223,6 +3216,21 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
                 <ScalarProperty Name="BIM_CVE_ESTATUS" ColumnName="BIM_CVE_ESTATUS" />
                 <ScalarProperty Name="BIM_NOM_PANTALLA" ColumnName="BIM_NOM_PANTALLA" />
                 <ScalarProperty Name="BIM_TXT_ESTATUS" ColumnName="BIM_TXT_ESTATUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViMenu">
+            <EntityTypeMapping TypeName="DBKuupModel.ViMenu">
+              <MappingFragment StoreEntitySet="ViMenu">
+                <ScalarProperty Name="MEN_NUM_MENU" ColumnName="MEN_NUM_MENU" />
+                <ScalarProperty Name="MEN_NUM_PADRE" ColumnName="MEN_NUM_PADRE" />
+                <ScalarProperty Name="MEN_NUM_ORDEN" ColumnName="MEN_NUM_ORDEN" />
+                <ScalarProperty Name="MEN_NOM_MENU" ColumnName="MEN_NOM_MENU" />
+                <ScalarProperty Name="MEN_NUM_PANTALLA" ColumnName="MEN_NUM_PANTALLA" />
+                <ScalarProperty Name="MEN_CVE_ESTATUS" ColumnName="MEN_CVE_ESTATUS" />
+                <ScalarProperty Name="MEN_NOM_PANTALLA" ColumnName="MEN_NOM_PANTALLA" />
+                <ScalarProperty Name="MEN_NOM_PANTALLA_INT" ColumnName="MEN_NOM_PANTALLA_INT" />
+                <ScalarProperty Name="MEN_TXT_ESTATUS" ColumnName="MEN_TXT_ESTATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3825,39 +3833,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Menu">
-            <EntityTypeMapping TypeName="DBKuupModel.Menu">
-              <MappingFragment StoreEntitySet="Menu">
-                <ScalarProperty Name="MEN_CVE_ESTATUS" ColumnName="MEN_CVE_ESTATUS" />
-                <ScalarProperty Name="MEN_URL_INT" ColumnName="MEN_URL_INT" />
-                <ScalarProperty Name="MEN_NUM_PANTALLA" ColumnName="MEN_NUM_PANTALLA" />
-                <ScalarProperty Name="MEN_NOM_MENU" ColumnName="MEN_NOM_MENU" />
-                <ScalarProperty Name="MEN_NUM_ORDEN" ColumnName="MEN_NUM_ORDEN" />
-                <ScalarProperty Name="MEN_NUM_PADRE" ColumnName="MEN_NUM_PADRE" />
-                <ScalarProperty Name="MEN_NUM_MENU" ColumnName="MEN_NUM_MENU" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ViMenu">
-            <EntityTypeMapping TypeName="DBKuupModel.ViMenu">
-              <MappingFragment StoreEntitySet="ViMenu">
-                <ScalarProperty Name="MEN_TXT_ESTATUS" ColumnName="MEN_TXT_ESTATUS" />
-                <ScalarProperty Name="MEN_NOM_PANTALLA_INT" ColumnName="MEN_NOM_PANTALLA_INT" />
-                <ScalarProperty Name="MEN_NOM_PANTALLA" ColumnName="MEN_NOM_PANTALLA" />
-                <ScalarProperty Name="MEN_CVE_ESTATUS" ColumnName="MEN_CVE_ESTATUS" />
-                <ScalarProperty Name="MEN_URL_INT" ColumnName="MEN_URL_INT" />
-                <ScalarProperty Name="MEN_NUM_PANTALLA" ColumnName="MEN_NUM_PANTALLA" />
-                <ScalarProperty Name="MEN_NOM_MENU" ColumnName="MEN_NOM_MENU" />
-                <ScalarProperty Name="MEN_NUM_ORDEN" ColumnName="MEN_NUM_ORDEN" />
-                <ScalarProperty Name="MEN_NUM_PADRE" ColumnName="MEN_NUM_PADRE" />
-                <ScalarProperty Name="MEN_NUM_MENU" ColumnName="MEN_NUM_MENU" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Venta">
             <EntityTypeMapping TypeName="DBKuupModel.Venta">
               <MappingFragment StoreEntitySet="Venta">
-                <ScalarProperty Name="VEN_CVE_ESTATUS" ColumnName="VEN_CVE_ESTATUS" />
                 <ScalarProperty Name="VEN_IMPORTE_PRODUCTO" ColumnName="VEN_IMPORTE_PRODUCTO" />
                 <ScalarProperty Name="VEN_PRECIO_UNITARIO" ColumnName="VEN_PRECIO_UNITARIO" />
                 <ScalarProperty Name="VEN_CANT_PRODUCTO" ColumnName="VEN_CANT_PRODUCTO" />
@@ -3872,11 +3850,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
           <EntitySetMapping Name="ViVenta">
             <EntityTypeMapping TypeName="DBKuupModel.ViVenta">
               <MappingFragment StoreEntitySet="ViVenta">
-                <ScalarProperty Name="VEN_TXT_ESTATUS" ColumnName="VEN_TXT_ESTATUS" />
                 <ScalarProperty Name="VEN_NOM_MARCA" ColumnName="VEN_NOM_MARCA" />
                 <ScalarProperty Name="VEN_NOM_TIPO_PRODUCTO" ColumnName="VEN_NOM_TIPO_PRODUCTO" />
                 <ScalarProperty Name="VEN_NOM_PRODUCTO" ColumnName="VEN_NOM_PRODUCTO" />
-                <ScalarProperty Name="VEN_CVE_ESTATUS" ColumnName="VEN_CVE_ESTATUS" />
                 <ScalarProperty Name="VEN_IMPORTE_PRODUCTO" ColumnName="VEN_IMPORTE_PRODUCTO" />
                 <ScalarProperty Name="VEN_PRECIO_UNITARIO" ColumnName="VEN_PRECIO_UNITARIO" />
                 <ScalarProperty Name="VEN_CANT_PRODUCTO" ColumnName="VEN_CANT_PRODUCTO" />
@@ -3914,11 +3890,9 @@ advertencia 6002: La tabla o vista 'KUUP_DESARROLLO.Kuup.ViVentaTotal' no tiene 
                 <ScalarProperty Name="VEN_CANT_PRODUCTO" ColumnName="VEN_CANT_PRODUCTO" />
                 <ScalarProperty Name="VEN_PRECIO_UNITARIO" ColumnName="VEN_PRECIO_UNITARIO" />
                 <ScalarProperty Name="VEN_IMPORTE_PRODUCTO" ColumnName="VEN_IMPORTE_PRODUCTO" />
-                <ScalarProperty Name="VEN_CVE_ESTATUS" ColumnName="VEN_CVE_ESTATUS" />
                 <ScalarProperty Name="VEN_NOM_PRODUCTO" ColumnName="VEN_NOM_PRODUCTO" />
                 <ScalarProperty Name="VEN_NOM_TIPO_PRODUCTO" ColumnName="VEN_NOM_TIPO_PRODUCTO" />
                 <ScalarProperty Name="VEN_NOM_MARCA" ColumnName="VEN_NOM_MARCA" />
-                <ScalarProperty Name="VEN_TXT_ESTATUS" ColumnName="VEN_TXT_ESTATUS" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -47,11 +47,6 @@ namespace Negocio.Kuup.Clases
             get { return Menu.MEN_NUM_PANTALLA; }
             set { Menu.MEN_NUM_PANTALLA = value; }
         }
-        public String UrlInterna
-        {
-            get { return Menu.MEN_URL_INT; }
-            set { Menu.MEN_URL_INT = value; }
-        }
         public byte CveDeEstatus
         {
             get { return Menu.MEN_CVE_ESTATUS; }
@@ -79,7 +74,6 @@ namespace Negocio.Kuup.Clases
             NumeroDeOrden = Registro.MEN_NUM_ORDEN;
             NombreDeMenu = Registro.MEN_NOM_MENU;
             NumeroDePantalla = Registro.MEN_NUM_PANTALLA;
-            UrlInterna = Registro.MEN_URL_INT;
             CveDeEstatus = Registro.MEN_CVE_ESTATUS;
             NombreDePantalla = Registro.MEN_NOM_PANTALLA;
             NombreDePantallaInt = Registro.MEN_NOM_PANTALLA_INT;
@@ -92,7 +86,6 @@ namespace Negocio.Kuup.Clases
             NumeroDeOrden = Registro.MEN_NUM_ORDEN;
             NombreDeMenu = Registro.MEN_NOM_MENU;
             NumeroDePantalla = Registro.MEN_NUM_PANTALLA;
-            UrlInterna = Registro.MEN_URL_INT;
             CveDeEstatus = Registro.MEN_CVE_ESTATUS;
         }
         private bool ToInsert(DBKuupEntities db)
@@ -199,7 +192,6 @@ namespace Negocio.Kuup.Clases
             Tabla.MEN_NUM_ORDEN = this.NumeroDeOrden;
             Tabla.MEN_NOM_MENU = this.NombreDeMenu;
             Tabla.MEN_NUM_PANTALLA = this.NumeroDePantalla;
-            Tabla.MEN_URL_INT = this.UrlInterna;
             Tabla.MEN_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
@@ -219,7 +211,6 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeOrden = q.MEN_NUM_ORDEN,
                                     NombreDeMenu = q.MEN_NOM_MENU,
                                     NumeroDePantalla = q.MEN_NUM_PANTALLA,
-                                    UrlInterna = q.MEN_URL_INT,
                                     CveDeEstatus = q.MEN_CVE_ESTATUS,
                                     NombreDePantalla = q.MEN_NOM_PANTALLA,
                                     NombreDePantallaInt = q.MEN_NOM_PANTALLA_INT,
@@ -236,7 +227,6 @@ namespace Negocio.Kuup.Clases
                                     NumeroDeOrden = q.MEN_NUM_ORDEN,
                                     NombreDeMenu = q.MEN_NOM_MENU,
                                     NumeroDePantalla = q.MEN_NUM_PANTALLA,
-                                    UrlInterna = q.MEN_URL_INT,
                                     CveDeEstatus = q.MEN_CVE_ESTATUS
                                 }).ToList();
                     }
