@@ -60,6 +60,11 @@ namespace Negocio.Kuup.Clases
             get { return Venta.VEN_IMPORTE_PRODUCTO; }
             set { Venta.VEN_IMPORTE_PRODUCTO = value; }
         }
+        public byte CveDeEstatus
+        {
+            get { return Venta.VEN_CVE_ESTATUS; }
+            set { Venta.VEN_CVE_ESTATUS = value; }
+        }
         public String NombreDeProducto
         {
             get { return Venta.VEN_NOM_PRODUCTO; }
@@ -74,6 +79,11 @@ namespace Negocio.Kuup.Clases
         {
             get { return Venta.VEN_NOM_MARCA; }
             set { Venta.VEN_NOM_MARCA = value; }
+        }
+        public String TextoDeEstatus
+        {
+            get { return Venta.VEN_TXT_ESTATUS; }
+            set { Venta.VEN_TXT_ESTATUS = value; }
         }
         public ClsVentas() { }
         private bool ToInsert(DBKuupEntities db)
@@ -183,6 +193,7 @@ namespace Negocio.Kuup.Clases
             Tabla.VEN_CANT_PRODUCTO = this.CantidadDeProducto;
             Tabla.VEN_PRECIO_UNITARIO = this.PrecioUnitario;
             Tabla.VEN_IMPORTE_PRODUCTO = this.ImporteDeProducto;
+            Tabla.VEN_CVE_ESTATUS = this.CveDeEstatus;
             return Tabla;
         }
         public static List<ClsVentas> getList(String filtro = "", bool EsVista = true)
@@ -206,7 +217,8 @@ namespace Negocio.Kuup.Clases
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
                                     NombreDeProducto = q.VEN_NOM_PRODUCTO,
                                     NombreDeTipoDeProducto = q.VEN_NOM_TIPO_PRODUCTO,
-                                    NombreDeMarca = q.VEN_NOM_MARCA
+                                    NombreDeMarca = q.VEN_NOM_MARCA,
+                                    TextoDeEstatus = q.VEN_TXT_ESTATUS
                                 }).AsQueryable();
                         if (!String.IsNullOrEmpty(filtro))
                         {
@@ -227,6 +239,7 @@ namespace Negocio.Kuup.Clases
                                     CantidadDeProducto = q.VEN_CANT_PRODUCTO,
                                     PrecioUnitario = q.VEN_PRECIO_UNITARIO,
                                     ImporteDeProducto = q.VEN_IMPORTE_PRODUCTO,
+                                    CveDeEstatus = q.VEN_CVE_ESTATUS
                                 }).AsQueryable();
                         if (!String.IsNullOrEmpty(filtro))
                         {
