@@ -6,28 +6,16 @@
     String TextoComboRequerido = Recursos.Textos.General_SELECCIONE;
 }
 <script src="~/Scripts/VentaTotal/ClsVentaTotal.js"></script>
-<h2 class="TituloPagina">VENTA <i class="fas fa-cart-arrow-down"></i></h2>
+<h2 class="TituloPagina">DEVOLUCIONES Y CAMBIOS DE VENTA <i class="fas fa-cart-arrow-down"></i></h2>
 <div class="container">
     <div class="row">
         <div class="col">
             <div class="from-group from-group-margin">
-                @Html.Label("fNumeroDeTipoDeProducto", "Tipo de Producto", new { @class = "col-sm col-form-label" })
-                @Html.DropDownList("fNumeroDeTipoDeProducto", (IEnumerable<SelectListItem>)ViewBag.NumeroDeTipoDeProducto, TextoComboRequerido, new { @class = "form-control" })
+                @Html.Label("fFolioDeVenta", "Folio de Venta", new { @class = "col-sm col-form-label" })
+                @Html.TextBox("fFolioDeVenta", null, new { @class = "form-control" })
             </div>
-        </div>
-        <div class="col">
-            <div class="from-group from-group-margin">
-                @Html.Label("fNumeroDeMarca", "Marca", new { @class = "col-sm col-form-label" })
-                @Html.DropDownList("fNumeroDeMarca", (IEnumerable<SelectListItem>)ViewBag.NumeroDeMarca, TextoComboRequerido, new { @class = "form-control" })
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="from-group from-group-margin">
-                @Html.Label("fCodigoONombreDeProducto", "Codigo de Barras o Nombre", new { @class = "col-sm col-form-label" })
-                @Html.TextBox("fCodigoONombreDeProducto", null, new { @class = "form-control" })
-            </div>
+            <button type="button" id="BuscaVentaFolio" class="btn btn-primary">Buscar Venta</button>
+            <br />
         </div>
         <div class="col">
             <div class="from-group from-group-margin">
@@ -52,6 +40,7 @@
                         <th scope="col">Cantidad de Producto</th>
                         <th scope="col">Precio Unitario</th>
                         <th scope="col">Importe de Producto</th>
+                        <th scope="col">Estatus</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -65,6 +54,7 @@
                         <th scope="col">Cantidad de Producto</th>
                         <th scope="col">Precio Unitario</th>
                         <th scope="col">Importe de Producto</th>
+                        <th scope="col">Estatus</th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -138,17 +128,51 @@
         </div>
     </fieldset>
 </div>
+<div id="CambioDeProducto" class="Oculto">
+    <fieldset>
+        <div class="from-group from-group-margin">
+            <label form="fNombreDeProducto" class="col-sm-5 col-form-label">Nombre de Producto</label>
+            <select id="fNombreDeProducto" class="form-control" disabled readonly="readonly">
+                <option value="">@TextoComboRequerido</option>
+            </select>
+        </div>
+        <div class="from-group from-group-margin Oculto">
+            <label form="fNombreDeProductoHijo" class="col-sm-5 col-form-label">Producto de Paquete</label>
+            <select id="fNombreDeProductoHijo" class="form-control">
+                <option value="">@TextoComboRequerido</option>
+            </select>
+        </div>
+        <hr class="my-4">
+        <div class="from-group from-group-margin">
+            <label from="fCodigoONombreDeProducto" class="col-sm-5 col-form-label">Codigo de Barras o Nombre</label>
+            <input type="text" class="form-control" id="fCodigoONombreDeProducto" />
+        </div>
+        <div class="from-group from-group-margin Oculto">
+            <label form="fNombreDeProductoCambio" class="col-sm-5 col-form-label">Nombre de Producto</label>
+            <select id="fNombreDeProductoCambio" class="form-control">
+                <option value="">@TextoComboRequerido</option>
+            </select>
+        </div>
+        <div class="from-group from-group-margin Oculto">
+            <label form="fNombreDeProductoHijoCambio" class="col-sm-5 col-form-label">Producto de Paquete</label>
+            <select id="fNombreDeProductoHijoCambio" class="form-control">
+                <option value="">@TextoComboRequerido</option>
+            </select>
+        </div>
+    </fieldset>
+</div>
 <script type="text/javascript">
     let ClsVentaTotal;
     $(function () {
         ClsVentaTotal = Objeto.Constructor({
-            Funcionalidad: 'INDEX',
+            Funcionalidad: 'CAMBIODEVOLUCION',
             UrlAutoCompleteProducto: '@Url.Action("AutoCompleteProducto", "VentaTotal")',
             UrlCargaProducto: '@Url.Action("CargaProducto","VentaTotal")',
-            UrlProductoATabla: '@Url.Action("ProductoParaTablaV2", "VentaTotal")',
+            UrlProductoATabla: '@Url.Action("ProductoParaTablaV2","VentaTotal")',
             UrlDeleteProducto: '@Url.Action("DeleteDeProducto","VentaTotal")',
             UrlRegistraVenta: '@Url.Action("RegistraVentaTotal", "VentaTotal")',
-            UrlObtenMarcaPorTipo: '@Url.Action("ObtenMarcaPorTipo", "VentaTotal")'
+            UrlBuscaVentaFolio: '@Url.Action("BuscarVentaPorFolio","VentaTotal")',
+            UrlCambioDeProducto: '@Url.Action("CambioDeProducto","VentaTotal")'
         });
         ClsVentaTotal.Inicio();
     });
