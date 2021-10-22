@@ -20,8 +20,7 @@ namespace Presentacion.Kuup.Controllers
         {
             MoSesion.LimpiaSesion();
             AccountModel Account = new AccountModel();
-            return RedirectToAction("Vencimiento", "Account", new { NumeroDeUsuario = 11 });
-            //return View(Account);
+            return View(Account);
         }
         [HttpPost]
         public ActionResult Login(AccountModel Account)
