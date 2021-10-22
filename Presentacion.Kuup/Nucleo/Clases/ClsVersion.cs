@@ -19,10 +19,10 @@ namespace Presentacion.Kuup.Nucleo.Clases
         {
             VersionMayor = 1;
             VersionDeCompativilidad = 1;
-            VersionDeCompilado = 5;
+            VersionDeCompilado = 6;
             Complemento = "stable";
-            FechaDeVersion = new DateTime(2021,6,9);
-            NumeroDeVersion = String.Format("{0}.{1}.{2}-{3}",VersionMayor,VersionDeCompativilidad,VersionDeCompilado,Complemento);
+            FechaDeVersion = new DateTime(2021,10,21);
+            NumeroDeVersion = String.Format("{0}.{1}.{2}-{3}", VersionMayor, VersionDeCompativilidad, VersionDeCompilado, Complemento);
             NumeroDeVersionCorta = String.Format("{0}.{1}.{2}", VersionMayor, VersionDeCompativilidad, VersionDeCompilado);
             TextoDeVersion = String.Format("Versión {0}", NumeroDeVersion);
         }
