@@ -34,6 +34,7 @@ body {
 .jumbotron-notfund {
     background: #080f19;
     opacity: 65%;
+    color: white;
 }
 
 .from-group-margin {
@@ -99,6 +100,10 @@ footer {
 footer p {
     margin-bottom: 0px !important;
 }    
+#mensajeVencimiento{
+    text-align: justify;
+    width: 300px;
+}
 /*.container-form {
     width: 100%;
     padding-right: 15px;

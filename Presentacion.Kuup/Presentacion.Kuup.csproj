@@ -301,6 +301,7 @@
     <Content Include="Views\ConfiguraPaquete\Detalle.cshtml" />
     <Content Include="Views\Account\Contacto.cshtml" />
     <Content Include="Views\Account\EnvioDeSolicitud.cshtml" />
+    <Content Include="Views\Account\Vencimiento.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

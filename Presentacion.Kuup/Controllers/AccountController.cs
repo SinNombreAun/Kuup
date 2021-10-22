@@ -20,7 +20,8 @@ namespace Presentacion.Kuup.Controllers
         {
             MoSesion.LimpiaSesion();
             AccountModel Account = new AccountModel();
-            return View(Account);
+            return RedirectToAction("Vencimiento", "Account", new { NumeroDeUsuario = 11 });
+            //return View(Account);
         }
         [HttpPost]
         public ActionResult Login(AccountModel Account)
@@ -43,6 +44,17 @@ namespace Presentacion.Kuup.Controllers
                     List<ClsUsuarios> lstUsuario = (from q in ClsUsuarios.getList() where q.NombreDeUsuario == Account.NombreDeUsuario && MoCifrado.Descifrado(q.PasswordUsuario) == Account.Password && q.CveDeEstatus == 1 select q).ToList();
                     if (lstUsuario.Count == 1)
                     {
+                        if (!MoSesion.Demo)
+                        {
+                            List<ClsParametros> ParametroV = (from q in ClsParametros.getList() where q.NombreDeParametro == "FechaVencimientoKuup" select q).ToList();
+                            if (ParametroV.Count() != 0)
+                            {
+                                if (DateTime.Now.ToString("") == ParametroV.FirstOrDefault().ValorDeParametro)
+                                {
+                                    return RedirectToAction("Vencimiento", "Account", new { lstUsuario.FirstOrDefault().NumeroDeUsuario });
+                                }
+                            }
+                        }
                         List<ClsParametros> Parametro = (from q in ClsParametros.getList() where q.NombreDeParametro == "ValidaIP" select q).ToList();
                         if (Parametro.Count() == 1)
                         {
@@ -233,6 +245,27 @@ namespace Presentacion.Kuup.Controllers
             }
             MoSesion.LimpiaSesion();
             return RedirectToAction("Login", "Account");
+        }
+        [HttpGet]
+        public ActionResult Vencimiento(int NumeroDeUsuario = 0)
+        {
+            if (NumeroDeUsuario != 0)
+            {
+                List<ClsUsuarios> lstUsuario = (from q in ClsUsuarios.getList() where q.NumeroDeUsuario == NumeroDeUsuario select q).ToList();
+                if (lstUsuario.Count() != 0)
+                {
+                    ViewData["NombreDeUsuario"] = (lstUsuario.FirstOrDefault().NombreDePersona + " " + lstUsuario.FirstOrDefault().ApellidoPaterno + " " + lstUsuario.FirstOrDefault().ApellidoMaterno).Trim();
+                }
+                else
+                {
+                    ViewData["NombreDeUsuario"] = String.Empty;
+                }
+            }
+            else
+            {
+                ViewData["NombreDeUsuario"] = String.Empty;
+            }
+            return View();
         }
     }
     public class Contacto

@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "Renueva tu licencia";
+    String Complemento = "Lamentablemente, ";
+    if (!string.IsNullOrEmpty(ViewData["NombreDeUsuario"].ToString()))
+    {
+        Complemento = "Estimado(a) " + ViewData["NombreDeUsuario"].ToString() + " lamentablemente, ";
+    }
+}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <link href="~/Content/Styles/Site/Site.css" rel="stylesheet" />
+    <link href="~/Content/Librerias/Bootstrap/Themes/Solar/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Styles/Account/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="~/Content/Librerias/JQuery/JQuery-3.5.1.slim.js"></script>
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.js"></script>
+    <br />
+    <script src="~/Content/Librerias/Bootstrap/bootstrap.bundle.js"></script>
+    <h2 class="TituloPagina">VENCIMIENTO DE LICENCIA KUUP <i class="fa fa-archive"></i></h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component margin404">
+                    <div class="jumbotron jumbotron-notfund">
+                        <div class="row">
+                            <div class="col">
+                                <img src="@Url.Content("~/Content/Imagenes/Kuup/logo.png")" style="width: 200px;"></img>
+                            </div>
+                            <div class="col">
+                                <div id="mensajeVencimiento">
+                                    <h3>Renueve tu licencia</h3>
+                                    <p>@Complemento &ensp; su licencia ha expirado.</p>
+                                    <p>Puede renovar su licencia en cualquier momento.</p>
+                                    <p>Si se contrató a través de una de nuestras tarifas para organizaciones, pida a su representante que se ponga en contacto para que le ayude a renovar.</p>
+                                    <p>Gracias.</p>
+                                </div>
+                            </div>
+                            <div class="col" style="text-align: end;">
+                                <img src="@Url.Content("~/Content/Imagenes/Kuup/logoKuup.png")" style="width: 200px;"></img>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <footer><p>@MvcApplication.ObjVersion.TextoDeVersion <br /> &copy; @Html.Raw(Recursos.Textos.Kuup_Aplicacion)</p></footer>
+</body>
+</html>
