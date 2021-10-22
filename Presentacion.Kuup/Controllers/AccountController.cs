@@ -48,7 +48,7 @@ namespace Presentacion.Kuup.Controllers
                             List<ClsParametros> ParametroV = (from q in ClsParametros.getList() where q.NombreDeParametro == "FechaVencimientoKuup" select q).ToList();
                             if (ParametroV.Count() != 0)
                             {
-                                if (DateTime.Now.ToString("") == ParametroV.FirstOrDefault().ValorDeParametro)
+                                if (DateTime.Now.ToString("yyyy-MM-dd") == ParametroV.FirstOrDefault().ValorDeParametro)
                                 {
                                     return RedirectToAction("Vencimiento", "Account", new { lstUsuario.FirstOrDefault().NumeroDeUsuario });
                                 }
